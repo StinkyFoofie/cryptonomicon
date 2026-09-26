@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Video Game Cryptonomicon</title>
+    
+    <!-- ==========================================
+         SECTION 1: CONFIGURATION BLOCK
+         Keep this cleanly at the top (Lines 1-25)
+         ========================================== -->
+    <script>
+        window.APP_CONFIG = {
+            // Add your RAWG API Key here (from rawg.io)
+            RAWG_API_KEY: "db9f18921e714a36bb784e65b5fd424b",
+            
+            // Add your Firebase Web App Configuration here
+            FIREBASE_CONFIG: {
+                apiKey: "AIzaSyCk9HvlsACbj-XsH8hAS0rqXSXPYbBN7vk",
+                authDomain: "video-game-cryptonomicon.firebaseapp.com",
+                projectId: "video-game-cryptonomicon",
+                storageBucket: "video-game-cryptonomicon.firebasestorage.app",
+                messagingSenderId: "63649233927",
+                appId: "1:63649233927:web:c2717ba5797c3cf4243ea2"
+            },
+            
+            // Option B: Single Document Database Architecture
+            DB_COLLECTION: "nomicon",
+            DB_DOCUMENT: "collection"
+        };
+    </script>
+    <!-- Firebase SDK Imports -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        window.firebaseModules = { initializeApp, getFirestore, doc, setDoc, getDoc };
+    </script>
+
+    <!-- ==========================================
+         SECTION 2: STYLING ENGINE
+         ========================================== -->
+    <style>
+        :root {
+            /* Theme: Dark (Default) */
+            --bg-color: #121212;
+            --surface-color: #1e1e1e;
+            --text-primary: #ffffff;
+            --text-secondary: #aaaaaa;
+            --accent-color: #bb86fc;
+            --danger-color: #cf6679;
+            --border-radius: 12px;
+            --spacing: 16px;
+        }
+
+        /* Basic Theme Overrides */
+        [data-theme="light"] {
+            --bg-color: #f5f5f5;
+            --surface-color: #ffffff;
+            --text-primary: #121212;
+            --text-secondary: #555555;
+            --accent-color: #6200ee;
+        }
+        [data-theme="amoled"] {
+            --bg-color: #000000;
+            --surface-color: #0a0a0a;
+            --accent-color: #03dac6;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-primary); transition: background-color 0.3s; }
+
+        /* Header */
+        header { display: flex; justify-content: space-between; align-items: center; padding: var(--spacing); background-color: var(--surface-color); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .header-actions button { background: var(--accent-color); color: #fff; border: none; padding: 8px 16px; border-radius: 20px; font-weight: bold; cursor: pointer; margin-left: 8px; }
+        .header-actions button.icon-btn { padding: 8px; border-radius: 50%; }
+
+        /* Grid/List Layout */
+        main { padding: var(--spacing); }
+        .grid-view { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--spacing); }
+        .list-view { display: flex; flex-direction: column; gap: 12px; }
+
+        /* Game Card */
+        .game-card { background-color: var(--surface-color); border-radius: var(--border-radius); overflow: hidden; cursor: pointer; transition: transform 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .game-card:hover { transform: translateY(-4px); }
+        .game-card img { width: 100%; height: 200px; object-fit: cover; }
+        .list-view .game-card { display: flex; height: 100px; }
+        .list-view .game-card img { width: 100px; height: 100px; }
+        .card-info { padding: 12px; flex: 1; }
+        .card-title { font-weight: bold; font-size: 1rem; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .card-meta { font-size: 0.8rem; color: var(--text-secondary); }
+
+        /* Modals & Dialogs */
+        dialog { margin: auto; background: var(--surface-color); color: var(--text-primary); border: none; border-radius: var(--border-radius); width: 90%; max-width: 500px; padding: var(--spacing); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        dialog::backdrop { background: rgba(0,0,0,0.7); backdrop-filter: blur(3px); }
+        .dialog-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .close-btn { background: none; color: var(--text-primary); border: none; font-size: 1.5rem; cursor: pointer; }
+        
+        /* Forms & Inputs */
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 4px; }
+        input, select, textarea { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--text-secondary); background: var(--bg-color); color: var(--text-primary); }
+        .btn-primary { background: var(--accent-color); color: #fff; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+
+        /* RAWG Autocomplete */
+        .autocomplete-results { max-height: 150px; overflow-y: auto; background: var(--bg-color); border-radius: 8px; margin-top: 4px; }
+        .autocomplete-item { padding: 10px; border-bottom: 1px solid var(--surface-color); cursor: pointer; display: flex; align-items: center; gap: 10px; }
+        .autocomplete-item img { width: 40px; height: 40px; border-radius: 4px; object-fit: cover; }
+        .autocomplete-item:hover { background: var(--surface-color); }
+
+        /* Toasts */
+        #toast-container { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; display: flex; flex-direction: column; gap: 8px; }
+        .toast { background: var(--accent-color); color: #fff; padding: 10px 20px; border-radius: 20px; font-size: 0.9rem; animation: slideUp 0.3s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <!-- ==========================================
+         SECTION 3: HTML MARKUP & UI COMPONENTS
+         ========================================== -->
+    <header>
+        <h2>Cryptonomicon</h2>
+        <div class="header-actions">
+            <span id="sync-status" style="font-size: 0.8rem; color: var(--text-secondary); margin-right: 8px;">Offline</span>
+            <button id="toggle-view-btn" class="icon-btn">▦</button>
+            <button id="settings-btn" class="icon-btn">⚙</button>
+            <button id="add-game-btn">+ Add</button>
+        </div>
+    </header>
+
+    <main id="app-grid" class="grid-view">
+        <!-- Game cards rendered here via JS -->
+    </main>
+
+    <!-- Add/Edit Game Modal -->
+    <dialog id="game-modal">
+        <div class="dialog-header">
+            <h3 id="modal-title">Add Game</h3>
+            <button class="close-btn" id="close-modal-btn">×</button>
+        </div>
+        <form id="game-form">
+            <input type="hidden" id="game-id">
+            <input type="hidden" id="game-cover">
+            
+            <div class="form-group">
+                <label>Title (Search RAWG)</label>
+                <input type="text" id="game-title" placeholder="Enter game title..." autocomplete="off">
+                <div id="autocomplete-container" class="autocomplete-results"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Platform</label>
+                <select id="game-platform">
+                    <option value="PC">PC</option>
+                    <option value="PS5">PlayStation 5</option>
+                    <option value="Switch">Nintendo Switch</option>
+                    <option value="Xbox Series X">Xbox Series X</option>
+                    <option value="Retro">Retro / Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Format</label>
+                <select id="game-format">
+                    <option value="Digital">Digital</option>
+                    <option value="Physical">Physical</option>
+                    <option value="Subscription">Subscription</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Status</label>
+                <select id="game-status">
+                    <option value="Backlog">Backlog</option>
+                    <option value="Playing">Playing</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Abandoned">Abandoned</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Rating (1-5)</label>
+                <input type="number" id="game-rating" min="0" max="5" step="0.5">
+            </div>
+
+            <button type="submit" class="btn-primary">Save Game</button>
+        </form>
+    </dialog>
+
+    <!-- Settings Drawer (Modal) -->
+    <dialog id="settings-modal">
+        <div class="dialog-header">
+            <h3>Settings</h3>
+            <button class="close-btn" id="close-settings-btn">×</button>
+        </div>
+        <div class="form-group">
+            <label>Theme</label>
+            <select id="theme-selector">
+                <option value="dark">Dark Theme</option>
+                <option value="light">Light Theme</option>
+                <option value="amoled">AMOLED Pitch Black</option>
+            </select>
+        </div>
+        <button id="force-sync-btn" class="btn-primary" style="margin-top:20px;">Force Cloud Sync</button>
+    </dialog>
+
+    <div id="toast-container"></div>
+
+    <!-- ==========================================
+         SECTION 4: APPLICATION LOGIC
+         ========================================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- State Management ---
+            let games = JSON.parse(localStorage.getItem('cryptonomicon_data')) || [];
+            let isOnline = navigator.onLine;
+            let currentView = 'grid-view';
+            let firebaseApp, db;
+
+            // --- DOM Elements ---
+            const appGrid = document.getElementById('app-grid');
+            const addBtn = document.getElementById('add-game-btn');
+            const toggleViewBtn = document.getElementById('toggle-view-btn');
+            const settingsBtn = document.getElementById('settings-btn');
+            const syncStatus = document.getElementById('sync-status');
+            
+            const gameModal = document.getElementById('game-modal');
+            const closeGameModalBtn = document.getElementById('close-modal-btn');
+            const gameForm = document.getElementById('game-form');
+            const autocompleteContainer = document.getElementById('autocomplete-container');
+            const titleInput = document.getElementById('game-title');
+            
+            const settingsModal = document.getElementById('settings-modal');
+            const closeSettingsBtn = document.getElementById('close-settings-btn');
+            const themeSelector = document.getElementById('theme-selector');
+            const forceSyncBtn = document.getElementById('force-sync-btn');
+
+            // --- Initialization & Firebase Setup ---
+            const initFirebase = () => {
+                if (window.firebaseModules && window.APP_CONFIG.FIREBASE_CONFIG.apiKey !== "YOUR_API_KEY") {
+                    try {
+                        firebaseApp = window.firebaseModules.initializeApp(window.APP_CONFIG.FIREBASE_CONFIG);
+                        db = window.firebaseModules.getFirestore(firebaseApp);
+                        pullFromCloud();
+                    } catch (e) {
+                        showToast("Firebase init failed. Using LocalStorage.", true);
+                    }
+                } else {
+                    syncStatus.innerText = "Local Only";
+                }
+            };
+            setTimeout(initFirebase, 500); // Allow module time to load
+
+            // --- Database Sync Engine (Option B: Single Document) ---
+            const saveLocal = () => {
+                localStorage.setItem('cryptonomicon_data', JSON.stringify(games));
+                renderGames();
+            };
+
+            const pushToCloud = async () => {
+                if (!db || !navigator.onLine) {
+                    syncStatus.innerText = "Saved Locally";
+                    return;
+                }
+                syncStatus.innerText = "Syncing...";
+                try {
+                    const docRef = window.firebaseModules.doc(db, window.APP_CONFIG.DB_COLLECTION, window.APP_CONFIG.DB_DOCUMENT);
+                    await window.firebaseModules.setDoc(docRef, { games: games }, { merge: true });
+                    syncStatus.innerText = "Cloud Synced";
+                } catch (error) {
+                    showToast("Cloud sync failed. Saved locally.", true);
+                    syncStatus.innerText = "Local Only";
+                }
+            };
+
+            const pullFromCloud = async () => {
+                if (!db || !navigator.onLine) return;
+                try {
+                    const docRef = window.firebaseModules.doc(db, window.APP_CONFIG.DB_COLLECTION, window.APP_CONFIG.DB_DOCUMENT);
+                    const docSnap = await window.firebaseModules.getDoc(docRef);
+                    if (docSnap.exists() && docSnap.data().games) {
+                        games = docSnap.data().games;
+                        saveLocal();
+                        syncStatus.innerText = "Cloud Synced";
+                    }
+                } catch (error) {
+                    console.error("Error pulling data:", error);
+                }
+            };
+
+            const saveGameData = () => {
+                saveLocal();
+                pushToCloud();
+            };
+
+            // --- RAWG API Integration ---
+            let searchTimeout;
+            titleInput.addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                const query = e.target.value.trim();
+                autocompleteContainer.innerHTML = '';
+                if (query.length < 3 || window.APP_CONFIG.RAWG_API_KEY === "YOUR_RAWG_API_KEY_HERE") return;
+
+                searchTimeout = setTimeout(async () => {
+                    try {
+                        const res = await fetch(`https://api.rawg.io/api/games?search=${query}&key=${window.APP_CONFIG.RAWG_API_KEY}&page_size=5`);
+                        const data = await res.json();
+                        data.results.forEach(game => {
+                            const item = document.createElement('div');
+                            item.className = 'autocomplete-item';
+                            item.innerHTML = `<img src="${game.background_image || ''}" loading="lazy"> <span>${game.name}</span>`;
+                            item.onclick = () => {
+                                titleInput.value = game.name;
+                                document.getElementById('game-cover').value = game.background_image || '';
+                                autocompleteContainer.innerHTML = '';
+                            };
+                            autocompleteContainer.appendChild(item);
+                        });
+                    } catch (err) {
+                        console.error("RAWG search failed");
+                    }
+                }, 500);
+            });
+
+            // --- Event Listeners & UI Logic ---
+            addBtn.onclick = () => {
+                gameForm.reset();
+                document.getElementById('game-id').value = Date.now().toString();
+                autocompleteContainer.innerHTML = '';
+                gameModal.showModal();
+            };
+            
+            closeGameModalBtn.onclick = () => gameModal.close();
+            
+            gameForm.onsubmit = (e) => {
+                e.preventDefault();
+                const gameData = {
+                    id: document.getElementById('game-id').value,
+                    title: titleInput.value,
+                    cover: document.getElementById('game-cover').value,
+                    platform: document.getElementById('game-platform').value,
+                    format: document.getElementById('game-format').value,
+                    status: document.getElementById('game-status').value,
+                    rating: document.getElementById('game-rating').value,
+                    updatedAt: Date.now()
+                };
+
+                const existingIndex = games.findIndex(g => g.id === gameData.id);
+                if (existingIndex > -1) games[existingIndex] = gameData;
+                else games.push(gameData);
+
+                saveGameData();
+                gameModal.close();
+                showToast(`${gameData.title} saved successfully`);
+            };
+
+            toggleViewBtn.onclick = () => {
+                currentView = currentView === 'grid-view' ? 'list-view' : 'grid-view';
+                appGrid.className = currentView;
+                toggleViewBtn.innerText = currentView === 'grid-view' ? '▦' : '☰';
+            };
+
+            settingsBtn.onclick = () => settingsModal.showModal();
+            closeSettingsBtn.onclick = () => settingsModal.close();
+            
+            themeSelector.onchange = (e) => {
+                document.documentElement.setAttribute('data-theme', e.target.value);
+                localStorage.setItem('cryptonomicon_theme', e.target.value);
+            };
+            
+            forceSyncBtn.onclick = () => { pushToCloud(); settingsModal.close(); };
+
+            // --- Render Logic ---
+            const renderGames = () => {
+                appGrid.innerHTML = '';
+                games.sort((a, b) => b.updatedAt - a.updatedAt).forEach(game => {
+                    const card = document.createElement('div');
+                    card.className = 'game-card';
+                    card.innerHTML = `
+                        <img src="${game.cover || 'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22><rect width=%22100%22 height=%22100%22 fill=%22%23333%22/></svg>'}" loading="lazy" alt="Cover">
+                        <div class="card-info">
+                            <div class="card-title">${game.title}</div>
+                            <div class="card-meta">${game.platform} • ${game.status}</div>
+                        </div>
+                    `;
+                    card.onclick = () => editGame(game);
+                    appGrid.appendChild(card);
+                });
+            };
+
+            const editGame = (game) => {
+                document.getElementById('game-id').value = game.id;
+                titleInput.value = game.title;
+                document.getElementById('game-cover').value = game.cover || '';
+                document.getElementById('game-platform').value = game.platform;
+                document.getElementById('game-format').value = game.format;
+                document.getElementById('game-status').value = game.status;
+                document.getElementById('game-rating').value = game.rating || '';
+                gameModal.showModal();
+            };
+
+            // --- Toast Notifications ---
+            window.showToast = (message, isError = false) => {
+                const toast = document.createElement('div');
+                toast.className = 'toast';
+                if (isError) toast.style.backgroundColor = 'var(--danger-color)';
+                toast.innerText = message;
+                document.getElementById('toast-container').appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
+            };
+
+            // Initialize app state
+            const savedTheme = localStorage.getItem('cryptonomicon_theme') || 'dark';
+            themeSelector.value = savedTheme;
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            renderGames();
+
+            window.addEventListener('online', () => { syncStatus.innerText = "Online"; pushToCloud(); });
+            window.addEventListener('offline', () => syncStatus.innerText = "Offline");
+        });
+    </script>
+</body>
+</html>

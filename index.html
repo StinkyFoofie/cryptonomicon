@@ -23,8 +23,9 @@ window.CONFIG = {
   DEFAULT_CURRENCY: "USD",
 
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
+  APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.17",
+  APP_VERSION: "0.18",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 Check RAWG",
@@ -97,7 +98,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>VGnomicon v0.17</title>
+<title>VGnomicon v0.18</title>
 <link rel="icon" type="image/svg+xml" href="./Favi%20Dsk%20SVG%20512%20v1.svg">
 <link rel="apple-touch-icon" href="./Favi%20iP%20PNG%201024%20v1.png">
 <link rel="apple-touch-icon" sizes="180x180" href="./Favi%20iP%20PNG%201024%20v1.png">
@@ -144,10 +145,11 @@ window.CONFIG = {
     --shadow: 0 0 15px rgba(255, 0, 85, 0.35); --font-main: 'Press Start 2P', 'Courier New', monospace; --font-heading: 'Press Start 2P', monospace;
     --radius: 2px; --scrollbar-thumb: #ffcc00; --scrollbar-track: #101025;
   }
-  /* v0.17 Retro Arcade Layout Normalization */
-  [data-theme="retro-arcade"] .grid-view .card-title { font-size: 10px; line-height: 1.4; text-align: center; }
-  [data-theme="retro-arcade"] .grid-view .card-meta { font-size: 9px; justify-content: center; }
+  /* Retro Arcade Layout Normalization */
+  [data-theme="retro-arcade"] .grid-view .card-meta { font-size: 9px; }
   [data-theme="retro-arcade"] .grid-view .badge { font-size: 8px; padding: 0 5px; height: 20px; }
+  /* v0.18 Retro Arcade Non-Completed Status Pill Overrides */
+  [data-theme="retro-arcade"] .game-card:not(.completed-glow) .card-footer-right .badge { background: #101025 !important; border: 1px solid #ffcc00 !important; color: #ffcc00 !important; }
   
   [data-theme="retro-arcade"] input, [data-theme="retro-arcade"] select, [data-theme="retro-arcade"] textarea, [data-theme="retro-arcade"] button, [data-theme="retro-arcade"] .custom-select-trigger, [data-theme="retro-arcade"] .custom-option { font-size: 11px; text-align: center; }
   [data-theme="retro-arcade"] .custom-option { padding: 12px; }
@@ -174,6 +176,9 @@ window.CONFIG = {
     --shadow: 0 0 18px rgba(0, 232, 248, 0.25); --font-main: 'Share Tech Mono', 'JetBrains Mono', monospace; --font-heading: 'Share Tech Mono', monospace;
     --radius: 0px; --scrollbar-thumb: #fcee09; --scrollbar-track: #0e1420;
   }
+  /* v0.18 Cyberpunk Rating Contrast Separation */
+  [data-theme="cyberpunk"] .rating-val-wrap { color: #00e8f8 !important; text-shadow: 0 0 5px rgba(0,232,248,0.4); }
+
   /* --- 7. GOTHIC CRIMSON --- */
   [data-theme="gothic-crimson"] {
     --bg-base: #0c0809; --bg-surface: #171012; --bg-surface-hover: #24191d; --bg-input: #120b0d; --bg-placeholder: #2c161a; --bg-backdrop: rgba(12, 8, 9, 0.85);
@@ -233,7 +238,8 @@ window.CONFIG = {
   .custom-options-container { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); z-index: 10000; overflow-y: auto; display: none; flex-direction: column; max-height: 250px;}
   .custom-select-wrapper.open .custom-options-container { display: flex; }
   
-  .custom-options-container[data-select-id="f-platform"], .custom-options-container[data-select-id="filter-platform"] { max-height: 190px; }
+  /* v0.18 Viewport Clamp Adjustments */
+  .custom-options-container[data-select-id="f-platform"], .custom-options-container[data-select-id="filter-platform"] { max-height: 182px; }
   .custom-options-container[data-select-id="f-format"], .custom-options-container[data-select-id="f-status"], .custom-options-container[data-select-id="filter-status"], .custom-options-container[data-select-id="f-currency"] { max-height: none; overflow-y: visible; }
   
   .custom-option { padding: 10px 12px; cursor: pointer; color: var(--text-main); font-family: var(--font-main); font-size: 14px; border-bottom: 1px solid var(--border); }
@@ -290,16 +296,17 @@ window.CONFIG = {
   .empty-state { text-align: center; padding: 60px 20px; font-size: 24px; color: var(--text-muted); font-family: var(--font-heading); animation: float 3s ease-in-out infinite; }
   .empty-state-emoji { display: inline-block; animation: bounce-emoji 2s infinite ease-in-out; }
   
-  /* Grid & Cards */
+  /* v0.18 Universal Grid Card Centering */
   .grid-view { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
   .game-card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; display: flex; flex-direction: column; position: relative;}
   .game-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--border-hover); }
   .card-cover { width: 100%; aspect-ratio: 3/4; object-fit: cover; background: var(--bg-placeholder); }
   .card-details { padding: 12px; display: flex; flex-direction: column; gap: 6px; flex: 1;}
-  .card-title { font-weight: bold; font-family: var(--font-heading); font-size: 16px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; }
-  .card-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); align-items: center;}
   
-  /* v0.17 Optical Star Baseline Lock */
+  .grid-view .card-title { text-align: center; font-weight: bold; font-family: var(--font-heading); font-size: 16px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; }
+  .grid-view .card-meta { justify-content: center; width: 100%; display: flex; font-size: 12px; color: var(--text-muted); align-items: center;}
+  
+  /* Optical Star Baseline Lock */
   .rating-val-wrap { display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; gap: 4px;}
   [data-theme="retro-arcade"] .retro-star { position: relative; top: -2px; font-size: 1.6em; line-height: 1; vertical-align: middle; display: inline-flex; align-items: center; justify-content: center;}
   
@@ -315,8 +322,11 @@ window.CONFIG = {
   .list-view { display: flex; flex-direction: column; gap: 10px; }
   .list-view .game-card { flex-direction: row; height: 60px; align-items: center; padding-right: 15px;}
   .list-view .card-cover { width: 45px; height: 60px; border-right: 1px solid var(--border); margin-right: 15px; aspect-ratio: auto; }
+  
+  /* Reset Card Title & Meta specifically for List View */
   .list-view .card-details { flex-direction: row; align-items: center; justify-content: space-between; padding: 0; width: 100%; gap: 15px; }
-  .list-view .card-title { flex: 1; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .list-view .card-title { flex: 1; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left; }
+  .list-view .card-meta { justify-content: flex-start; width: auto; }
   
   .list-view .card-footer { display: flex; flex-direction: row; align-items: center; justify-content: flex-end; gap: 8px; width: auto; margin-top: 0; flex-shrink: 0; }
   .list-view .card-footer-left { flex-direction: row; align-items: center; gap: 8px; }
@@ -386,7 +396,7 @@ window.CONFIG = {
   .chip { background: var(--bg-input); border: 1px solid var(--border); padding: 4px 10px; border-radius: 12px; font-size: 12px; cursor: pointer; transition: all 0.2s; }
   .chip:hover { background: var(--bg-surface-hover); border-color: var(--accent); }
   
-  /* v0.17 Storage Meter Border 2px */
+  /* Storage Meter */
   .storage-meter { background: var(--bg-base); height: 12px; border-radius: 6px; overflow: hidden; margin-top: 5px; border: 2px solid var(--border); }
   .storage-fill { background: var(--accent); height: 100%; width: 0%; transition: width 0.3s; }
 
@@ -469,7 +479,7 @@ window.CONFIG = {
     <img src="./Logo%20SVG%20v1.svg" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.17</span>
+      <span id="ui-app-version">v0.18</span>
     </div>
   </a>
   <div class="header-actions">
@@ -710,7 +720,6 @@ window.CONFIG = {
     </div>
     <div class="modal-body" id="modal-settings-body">
       
-      <!-- v0.17 Unnumbered Sections -->
       <div class="settings-block">
         <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">Firebase Sync Targets</h3>
         <span style="font-size:12px; color:var(--text-muted); display:block;">
@@ -746,12 +755,13 @@ window.CONFIG = {
         </div>
       </div>
       
+      <!-- v0.18 Architecture Config String -->
       <div class="settings-block">
         <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">About</h3>
         <p style="font-size:12px; color:var(--text-muted); line-height:1.4;">
           Product: <strong id="s-appname-read"></strong><br>
           Version: <strong id="s-appver-read"></strong><br>
-          Architecture: Single-File Offline PWA
+          Architecture: <strong id="s-apparch-read"></strong>
         </p>
       </div>
 
@@ -775,7 +785,7 @@ window.CONFIG = {
   </div>
 </div>
 
-<!-- v0.17 Clear Cache In-App Confirmation Modal (Rule 6 Compliance) -->
+<!-- Clear Cache In-App Confirmation Modal (Rule 6 Compliance) -->
 <div class="modal-overlay" id="modal-confirm-cache" style="z-index: 2000;">
   <div class="modal-content" style="max-width: 350px;">
     <div class="modal-header">
@@ -1026,6 +1036,8 @@ window.CONFIG = {
     
     document.getElementById('s-appname-read').innerText = C.APP_NAME;
     document.getElementById('s-appver-read').innerText = `v${C.APP_VERSION}`;
+    document.getElementById('s-apparch-read').innerText = C.APP_ARCHITECTURE; // v0.18 Bold Arch
+    
     els.mConfirmBody.innerText = C.MESSAGES.CONFIRM_DELETE;
     els.mConfirmCacheBody.innerText = C.MESSAGES.CACHE_CONFIRM;
     
@@ -1113,7 +1125,6 @@ window.CONFIG = {
     els.btnCancelDel.onclick = () => els.mDelete.classList.remove('active');
     els.btnConfirmDel.onclick = deleteGame;
 
-    // v0.17 Clear Cache Custom Modal Flow
     els.btnClearCache.onclick = () => { els.mConfirmCache.classList.add('active'); };
     els.btnCancelClearCache.onclick = () => { els.mConfirmCache.classList.remove('active'); };
     els.btnConfirmClearCache.onclick = () => {
@@ -1561,8 +1572,11 @@ window.CONFIG = {
     let count = 0;
     const isRetro = document.body.getAttribute('data-theme') === 'retro-arcade';
     const isCyberpunk = document.body.getAttribute('data-theme') === 'cyberpunk';
+    
+    // v0.18 Default A-Z Alphabetical Title Sorting
+    const gamesList = Object.values(games).sort((a, b) => a.title.localeCompare(b.title));
 
-    Object.values(games).forEach(g => {
+    gamesList.forEach(g => {
       if(q && !g.title.toLowerCase().includes(q) && !(g.genres||"").toLowerCase().includes(q)) return;
       if(fS && g.status !== fS) return;
       if(fP && g.plat !== fP) return;
@@ -1592,7 +1606,7 @@ window.CONFIG = {
       card.className = `game-card ${isCompleted ? 'completed-glow' : ''}`;
       card.onclick = () => openGameModal(g.id);
       
-      const ratingDisp = (g.rating && parseFloat(g.rating) > 0) ? `<span class="rating-val-wrap" style="color:var(--accent); font-weight:bold;"><span class="${isRetro ? 'retro-star' : ''}">★</span><span>${parseFloat(g.rating).toFixed(1)}</span></span>` : `<span style="color:var(--text-muted); display:inline-flex; align-items:center;">${C.UNRATED_LABEL}</span>`;
+      const ratingDisp = (g.rating && parseFloat(g.rating) > 0) ? `<span class="rating-val-wrap" style="font-weight:bold;"><span class="${isRetro ? 'retro-star' : ''}">★</span><span>${parseFloat(g.rating).toFixed(1)}</span></span>` : `<span style="color:var(--text-muted); display:inline-flex; align-items:center;">${C.UNRATED_LABEL}</span>`;
       
       let compBadge = `<span class="badge" style="background:var(--border);">${g.status}</span>`;
       if (isCompleted) {
@@ -1613,7 +1627,7 @@ window.CONFIG = {
         <img src="${g.url || ''}" class="card-cover" loading="lazy">
         <div class="card-details">
           <div class="card-title">${g.title}</div>
-          <div class="card-meta">
+          <div class="card-meta" style="color:var(--accent);">
             ${ratingDisp}
           </div>
           <div class="card-footer">
@@ -1816,12 +1830,21 @@ window.CONFIG = {
          
          fireParticleExplosion();
          
+         // v0.18 Custom Platform Pill Matcher for Winner Card
+         let platColor = "var(--bg-input)";
+         let platText = "var(--text-badge)";
+         let platBorder = "var(--border)";
+         const p = pick.plat || "";
+         if (p.includes("PS")) { platColor = "#003791"; platText = "#ffffff"; platBorder = "rgba(255,255,255,0.2)"; }
+         else if (p.includes("Xbox")) { platColor = "#107C10"; platText = "#ffffff"; platBorder = "rgba(255,255,255,0.2)"; }
+         else if (p === "NES" || p === "Nintendo 64" || p === "SNES" || p.includes("Switch")) { platColor = "#E60012"; platText = "#ffffff"; platBorder = "rgba(255,255,255,0.2)"; }
+
          els.randomRes.innerHTML = `
             <div class="game-card" style="margin:0 auto; transform:scale(1.05); pointer-events:none; border:1px solid var(--accent); box-shadow: 0 0 20px var(--accent), 0 0 40px rgba(0,0,0,0.5);">
               <img src="${pick.url || ''}" class="card-cover">
-              <div class="card-details">
-                <div class="card-title">${pick.title}</div>
-                <div class="badge" style="align-self:center; margin-top:10px;">${pick.plat || ''}</div>
+              <div class="card-details" style="padding:15px; align-items:center;">
+                <div class="card-title" style="display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; text-overflow:ellipsis; line-height:1.3; font-size:15px; text-align:center; word-break:break-word;">${pick.title}</div>
+                <div class="badge" style="margin-top:12px; background:${platColor}; color:${platText}; border:1px solid ${platBorder}; box-shadow: 0 2px 6px rgba(0,0,0,0.5); height:26px; padding: 0 12px; font-size:12px; border-radius:4px;">${pick.plat || ''}</div>
               </div>
             </div>
             <div style="font-size:24px; margin-top:20px; color:var(--accent); font-weight:bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">🎉 Winner! 🎉</div>

@@ -24,7 +24,7 @@ window.CONFIG = {
 
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.16",
+  APP_VERSION: "0.17",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 Check RAWG",
@@ -45,6 +45,7 @@ window.CONFIG = {
   MESSAGES: {
     ACHIEVEMENT_ERROR: "⚠️ Earned achievements cannot exceed total! Please check your numbers.",
     ACHIEVEMENT_NEGATIVE: "⚠️ Achievement values cannot be negative numbers!",
+    CACHE_AUDITED: "Local cache verified and up to date! 💾",
     CACHE_CLEARED: "Local cache cleared.",
     CACHE_CONFIRM: "Clear local cache? (Unsynced cloud data will be lost!)",
     CONFIRM_DELETE: "Are you sure you want to permanently delete this game? This action cannot be undone.",
@@ -96,7 +97,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>VGnomicon v0.16</title>
+<title>VGnomicon v0.17</title>
 <link rel="icon" type="image/svg+xml" href="./Favi%20Dsk%20SVG%20512%20v1.svg">
 <link rel="apple-touch-icon" href="./Favi%20iP%20PNG%201024%20v1.png">
 <link rel="apple-touch-icon" sizes="180x180" href="./Favi%20iP%20PNG%201024%20v1.png">
@@ -143,12 +144,9 @@ window.CONFIG = {
     --shadow: 0 0 15px rgba(255, 0, 85, 0.35); --font-main: 'Press Start 2P', 'Courier New', monospace; --font-heading: 'Press Start 2P', monospace;
     --radius: 2px; --scrollbar-thumb: #ffcc00; --scrollbar-track: #101025;
   }
-  /* v0.16 Retro Arcade Geometry & Pill Spacing Remaster */
+  /* v0.17 Retro Arcade Layout Normalization */
   [data-theme="retro-arcade"] .grid-view .card-title { font-size: 10px; line-height: 1.4; text-align: center; }
   [data-theme="retro-arcade"] .grid-view .card-meta { font-size: 9px; justify-content: center; }
-  [data-theme="retro-arcade"] .grid-view .card-footer { align-items: center; }
-  [data-theme="retro-arcade"] .grid-view .card-footer-left { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; width: 100%; align-items: center;}
-  [data-theme="retro-arcade"] .grid-view .card-footer-right { justify-content: center; width: 100%; margin-top: 4px; }
   [data-theme="retro-arcade"] .grid-view .badge { font-size: 8px; padding: 0 5px; height: 20px; }
   
   [data-theme="retro-arcade"] input, [data-theme="retro-arcade"] select, [data-theme="retro-arcade"] textarea, [data-theme="retro-arcade"] button, [data-theme="retro-arcade"] .custom-select-trigger, [data-theme="retro-arcade"] .custom-option { font-size: 11px; text-align: center; }
@@ -301,9 +299,9 @@ window.CONFIG = {
   .card-title { font-weight: bold; font-family: var(--font-heading); font-size: 16px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; }
   .card-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); align-items: center;}
   
-  /* v0.16 Center-Line Rating Alignment & Star Scaler */
+  /* v0.17 Optical Star Baseline Lock */
   .rating-val-wrap { display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; gap: 4px;}
-  .retro-star { font-size: 1.8em; line-height: 1; vertical-align: middle; display: inline-flex; align-items: center; justify-content: center;}
+  [data-theme="retro-arcade"] .retro-star { position: relative; top: -2px; font-size: 1.6em; line-height: 1; vertical-align: middle; display: inline-flex; align-items: center; justify-content: center;}
   
   .card-footer { display: flex; justify-content: space-between; align-items: flex-end; width: 100%; margin-top: auto; }
   .card-footer-left { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
@@ -328,8 +326,7 @@ window.CONFIG = {
   .modal-overlay.active { display: flex; }
   .modal-content { background: var(--bg-surface); width: 100%; max-width: 700px; max-height: 90vh; border-radius: var(--radius); display: flex; flex-direction: column; box-shadow: 0 0 25px var(--accent), var(--shadow); border: 1px solid var(--accent); overflow: hidden; position: relative;}
   
-  /* v0.16 Modal Header Centering */
-  #modal-theme .modal-header, #modal-settings .modal-header { justify-content: center; position: relative; }
+  #modal-theme .modal-header, #modal-settings .modal-header, #modal-confirm-cache .modal-header { justify-content: center; position: relative; }
   #modal-theme .modal-header .close-btn, #modal-settings .modal-header .close-btn { position: absolute; right: 20px; }
   
   .modal-header { padding: 15px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); z-index: 2;}
@@ -338,7 +335,6 @@ window.CONFIG = {
   .close-btn { background: none; border: none; font-size: 20px; color: var(--text-muted); padding: 0; width: auto; }
   .close-btn:hover { color: var(--text-main); }
   
-  /* v0.16 Settings Outer Border Hierarchy (3px) vs Inner Field Borders (2px) */
   .settings-block { background: var(--bg-input); padding: 15px; border-radius: var(--radius); border: 3px solid var(--border); }
   .settings-block input, .settings-block select, .settings-block button, .settings-block .custom-select-trigger { border: 2px solid var(--border); }
   .settings-block input:focus, .settings-block select:focus { border-color: var(--border-focus); }
@@ -390,8 +386,8 @@ window.CONFIG = {
   .chip { background: var(--bg-input); border: 1px solid var(--border); padding: 4px 10px; border-radius: 12px; font-size: 12px; cursor: pointer; transition: all 0.2s; }
   .chip:hover { background: var(--bg-surface-hover); border-color: var(--accent); }
   
-  /* Storage Meter */
-  .storage-meter { background: var(--bg-base); height: 12px; border-radius: 6px; overflow: hidden; margin-top: 5px; border: 1px solid var(--border); }
+  /* v0.17 Storage Meter Border 2px */
+  .storage-meter { background: var(--bg-base); height: 12px; border-radius: 6px; overflow: hidden; margin-top: 5px; border: 2px solid var(--border); }
   .storage-fill { background: var(--accent); height: 100%; width: 0%; transition: width 0.3s; }
 
   /* Theme Grid Modal */
@@ -411,7 +407,6 @@ window.CONFIG = {
   /* Full-Screen Specular Disco Beams */
   .dice-scene { width: 100px; height: 100px; perspective: 1200px; margin: 40px auto; position: relative; z-index: 2; transform-style: preserve-3d; }
   
-  /* v0.16 Full-Bleed Infinite Viewport Dimensioning */
   .dice-disco-bg { position: fixed; width: 250vmax; height: 250vmax; top: 50%; left: 50%; transform: translate(-50%, -50%); background: repeating-conic-gradient(from 0deg, var(--accent) 0deg 10deg, transparent 10deg 20deg, var(--accent-hover) 20deg 30deg, transparent 30deg 40deg); opacity: 0; pointer-events: none; z-index: 1; transition: opacity 0.3s; mix-blend-mode: screen; transform-origin: center center;}
   .dice-disco-bg.party { opacity: 0.35; animation: discoSpin 3s linear infinite, discoPulse 0.5s ease-in-out infinite alternate; }
   @keyframes discoSpin { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
@@ -474,7 +469,7 @@ window.CONFIG = {
     <img src="./Logo%20SVG%20v1.svg" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.16</span>
+      <span id="ui-app-version">v0.17</span>
     </div>
   </a>
   <div class="header-actions">
@@ -715,16 +710,16 @@ window.CONFIG = {
     </div>
     <div class="modal-body" id="modal-settings-body">
       
-      <!-- v0.16 Read-Only Collection Path (Input Removed) -->
+      <!-- v0.17 Unnumbered Sections -->
       <div class="settings-block">
-        <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">1. Firebase Sync Targets</h3>
+        <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">Firebase Sync Targets</h3>
         <span style="font-size:12px; color:var(--text-muted); display:block;">
           Collection paths dynamically map to: <strong id="s-db-coll-read" style="color:var(--text-main); font-family:monospace;"></strong>
         </span>
       </div>
 
       <div class="settings-block">
-        <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">2. External APIs</h3>
+        <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">External APIs</h3>
         <div style="display:flex; justify-content: space-between; align-items:center;">
           <span style="font-size:12px; color:var(--text-muted);">RAWG Metadata Database</span>
           <div style="display:flex; align-items:center; gap: 8px;">
@@ -735,7 +730,7 @@ window.CONFIG = {
       </div>
 
       <div class="settings-block">
-        <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">3. Local Cache Usage Tracker</h3>
+        <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">Local Cache Usage Tracker</h3>
         <div class="storage-meter"><div class="storage-fill" id="s-storage-bar-fill"></div></div>
         <span style="font-size:12px; color:var(--text-muted); display:block; margin-top:5px; margin-bottom:15px;" id="s-storage-text">0.00 MB / 5.00 MB used (0%)</span>
         <div style="display:flex; gap:10px;">
@@ -745,14 +740,14 @@ window.CONFIG = {
       </div>
 
       <div class="settings-block">
-        <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">4. Active Library Genres</h3>
+        <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">Active Library Genres</h3>
         <div class="reaction-chips" id="s-genres-cloud">
           <!-- Dynamic tags injected here -->
         </div>
       </div>
       
       <div class="settings-block">
-        <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">5. About</h3>
+        <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">About</h3>
         <p style="font-size:12px; color:var(--text-muted); line-height:1.4;">
           Product: <strong id="s-appname-read"></strong><br>
           Version: <strong id="s-appver-read"></strong><br>
@@ -776,6 +771,22 @@ window.CONFIG = {
     <div class="modal-footer" style="justify-content: flex-end;">
       <button id="btn-cancel-delete">Cancel</button>
       <button class="danger" id="btn-confirm-delete">🗑️ Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- v0.17 Clear Cache In-App Confirmation Modal (Rule 6 Compliance) -->
+<div class="modal-overlay" id="modal-confirm-cache" style="z-index: 2000;">
+  <div class="modal-content" style="max-width: 350px;">
+    <div class="modal-header">
+      <h2 style="color:var(--warning);">⚠️ Clear Cache</h2>
+    </div>
+    <div class="modal-body" id="modal-confirm-cache-body" style="font-weight: 600; color: var(--text-main);">
+      <!-- Injected via window.CONFIG.MESSAGES -->
+    </div>
+    <div class="modal-footer" style="justify-content: flex-end;">
+      <button id="btn-cancel-clear-cache">Cancel</button>
+      <button class="danger" id="btn-confirm-clear-cache">🗑️ Clear Data</button>
     </div>
   </div>
 </div>
@@ -875,6 +886,10 @@ window.CONFIG = {
     mDelete: document.getElementById('modal-confirm-delete'), btnConfirmDel: document.getElementById('btn-confirm-delete'),
     btnCancelDel: document.getElementById('btn-cancel-delete'), mConfirmBody: document.getElementById('modal-confirm-body'),
 
+    // Cache Confirmation Modal
+    mConfirmCache: document.getElementById('modal-confirm-cache'), mConfirmCacheBody: document.getElementById('modal-confirm-cache-body'),
+    btnConfirmClearCache: document.getElementById('btn-confirm-clear-cache'), btnCancelClearCache: document.getElementById('btn-cancel-clear-cache'),
+
     // Schema Inputs
     f: {
       id: document.getElementById('f-id'), title: document.getElementById('f-title'),
@@ -898,7 +913,8 @@ window.CONFIG = {
     mSettings: document.getElementById('modal-settings'), mSetBody: document.getElementById('modal-settings-body'),
     btnSettings: document.getElementById('btn-open-settings'), btnCloseSettings: document.getElementById('btn-close-settings'),
     sGenresCloud: document.getElementById('s-genres-cloud'),
-    btnAuditCache: document.getElementById('btn-audit-cache'), btnAuditRawg: document.getElementById('btn-audit-rawg')
+    btnAuditCache: document.getElementById('btn-audit-cache'), btnAuditRawg: document.getElementById('btn-audit-rawg'),
+    btnClearCache: document.getElementById('btn-clear-cache')
   };
 
   // --- CUSTOM THEMEABLE DROPDOWN ENGINE ---
@@ -1011,8 +1027,8 @@ window.CONFIG = {
     document.getElementById('s-appname-read').innerText = C.APP_NAME;
     document.getElementById('s-appver-read').innerText = `v${C.APP_VERSION}`;
     els.mConfirmBody.innerText = C.MESSAGES.CONFIRM_DELETE;
+    els.mConfirmCacheBody.innerText = C.MESSAGES.CACHE_CONFIRM;
     
-    // v0.16 Dynamic Read-Only Root Collection Display
     const activeDbColl = settings.dbColl || C.DB_COLLECTION;
     document.getElementById('s-db-coll-read').innerText = `${activeDbColl} / {gameId}`;
     
@@ -1063,7 +1079,10 @@ window.CONFIG = {
     els.btnSettings.onclick = () => { els.mSettings.classList.add('active'); els.mSetBody.scrollTop = 0; };
     els.btnCloseSettings.onclick = () => { els.mSettings.classList.remove('active'); };
     
-    els.btnAuditCache.onclick = updateStorageMeter;
+    els.btnAuditCache.onclick = () => {
+        updateStorageMeter();
+        showToast(C.MESSAGES.CACHE_AUDITED);
+    };
     els.btnAuditRawg.onclick = auditRawgConnection;
     els.btnSync.onclick = forceSync;
     
@@ -1093,6 +1112,18 @@ window.CONFIG = {
     els.btnDelPrompt.onclick = (e) => { e.preventDefault(); els.mDelete.classList.add('active'); };
     els.btnCancelDel.onclick = () => els.mDelete.classList.remove('active');
     els.btnConfirmDel.onclick = deleteGame;
+
+    // v0.17 Clear Cache Custom Modal Flow
+    els.btnClearCache.onclick = () => { els.mConfirmCache.classList.add('active'); };
+    els.btnCancelClearCache.onclick = () => { els.mConfirmCache.classList.remove('active'); };
+    els.btnConfirmClearCache.onclick = () => {
+      localStorage.removeItem('vgnomicon_db');
+      localStorage.removeItem('vgnomicon_settings');
+      sessionStorage.removeItem('vgnomicon_session_theme');
+      els.mConfirmCache.classList.remove('active');
+      showToast(C.MESSAGES.CACHE_CLEARED);
+      setTimeout(() => location.reload(), 1500);
+    };
     
     els.fStatus.addEventListener('change', renderLibrary);
     els.fPlatform.addEventListener('change', renderLibrary);
@@ -1664,7 +1695,6 @@ window.CONFIG = {
     };
     els.themeGrid.appendChild(btnRand);
 
-    // v0.16 Strict A-Z Theme sorting (ignoring Surprise Me)
     themesList.sort((a, b) => a.name.localeCompare(b.name)).forEach(t => {
       const btn = document.createElement('button');
       btn.id = `theme-btn-${t.id}`;
@@ -1692,16 +1722,6 @@ window.CONFIG = {
     document.getElementById('s-storage-bar-fill').style.width = `${pct}%`;
   }
 
-  document.getElementById('btn-clear-cache').onclick = () => {
-    if(confirm(C.MESSAGES.CACHE_CONFIRM)) {
-      localStorage.removeItem('vgnomicon_db');
-      localStorage.removeItem('vgnomicon_settings');
-      sessionStorage.removeItem('vgnomicon_session_theme');
-      showToast(C.MESSAGES.CACHE_CLEARED);
-      setTimeout(() => location.reload(), 1000);
-    }
-  };
-  
   function fireParticleExplosion() {
     els.fxCanvas.style.display = 'block';
     const ctx = els.fxCanvas.getContext('2d');

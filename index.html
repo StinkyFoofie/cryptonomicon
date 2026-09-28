@@ -24,7 +24,7 @@ window.CONFIG = {
 
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.14",
+  APP_VERSION: "0.15",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 Check RAWG",
@@ -77,16 +77,16 @@ window.CONFIG = {
     TITLE: "Type Your Favorite Game..."
   },
 
-  // 6. Theme Display Names (v0.14 Layer 1 Expansion)
+  // 6. Theme Display Names
   THEME_NAMES: {
     "modern-dark": "Modern Dark",
     "minimalist-light": "Minimal Light",
     "modern-light": "Modern Light",
     "retro-arcade": "Retro Arcade",
-    "synthwave-sunset": "Synthwave",
+    "synthwave-sunset": "Synthwave Sunset",
     "cyberpunk": "Cyberpunk",
     "gothic-crimson": "Gothic Crimson",
-    "wasteland-terminal": "Terminal",
+    "wasteland-terminal": "Wasteland Terminal",
     "cozy-village": "Cozy Village"
   }
 };
@@ -96,7 +96,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>VGnomicon v0.14</title>
+<title>VGnomicon v0.15</title>
 <link rel="icon" type="image/svg+xml" href="./Favi%20Dsk%20SVG%20512%20v1.svg">
 <link rel="apple-touch-icon" href="./Favi%20iP%20PNG%201024%20v1.png">
 <link rel="apple-touch-icon" sizes="180x180" href="./Favi%20iP%20PNG%201024%20v1.png">
@@ -143,7 +143,14 @@ window.CONFIG = {
     --shadow: 0 0 15px rgba(255, 0, 85, 0.35); --font-main: 'Press Start 2P', 'Courier New', monospace; --font-heading: 'Press Start 2P', monospace;
     --radius: 2px; --scrollbar-thumb: #ffcc00; --scrollbar-track: #101025;
   }
-  /* v0.14 Retro Arcade typography downscaling & centering */
+  /* v0.15 Retro Arcade Grid Typography Clamping & Centering */
+  [data-theme="retro-arcade"] .grid-view .card-title { font-size: 10px; line-height: 1.4; text-align: center; }
+  [data-theme="retro-arcade"] .grid-view .card-meta { font-size: 9px; justify-content: center; }
+  [data-theme="retro-arcade"] .grid-view .card-footer { align-items: center; }
+  [data-theme="retro-arcade"] .grid-view .card-footer-left { align-items: center; width: 100%; justify-content: center;}
+  [data-theme="retro-arcade"] .grid-view .card-footer-right { justify-content: center; width: 100%; margin-top: 4px; }
+  [data-theme="retro-arcade"] .grid-view .card-footer-left .badge { font-size: 9px; }
+  
   [data-theme="retro-arcade"] input, [data-theme="retro-arcade"] select, [data-theme="retro-arcade"] textarea, [data-theme="retro-arcade"] button, [data-theme="retro-arcade"] .custom-select-trigger, [data-theme="retro-arcade"] .custom-option { font-size: 11px; text-align: center; }
   [data-theme="retro-arcade"] .custom-option { padding: 12px; }
   [data-theme="retro-arcade"] .modal-desc-wrapper label, [data-theme="retro-arcade"] .form-group label { font-size: 10px; text-align: center; justify-content: center; }
@@ -165,7 +172,7 @@ window.CONFIG = {
     --text-main: #fcee09; --text-muted: #00e8f8; --text-inverse: #05080f; --text-disabled: #415a77;
     --border: #00e8f8; --border-hover: #fcee09; --border-focus: #ff003c; --accent: #fcee09; --accent-hover: #e0d408;
     --success: #00e8f8; --warning: #ffbe0b; --danger: #ff003c; 
-    --bg-badge: #080c14; --text-badge: #00e8f8; /* v0.14 Contrast fix: cyan on dark badge */
+    --bg-badge: #fcee09; --text-badge: #05080f; 
     --shadow: 0 0 18px rgba(0, 232, 248, 0.25); --font-main: 'Share Tech Mono', 'JetBrains Mono', monospace; --font-heading: 'Share Tech Mono', monospace;
     --radius: 0px; --scrollbar-thumb: #fcee09; --scrollbar-track: #0e1420;
   }
@@ -217,7 +224,7 @@ window.CONFIG = {
   
   /* Custom Themeable Select Engine */
   .custom-select-wrapper { position: relative; width: 100%; }
-  .custom-select-wrapper select { display: none; } /* Hide native select completely */
+  .custom-select-wrapper select { display: none; }
   
   .custom-select-trigger { background: var(--bg-input); color: var(--text-main); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px; font-size: 14px; font-family: var(--font-main); width: 100%; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
   .custom-select-trigger.empty { color: var(--text-disabled); }
@@ -225,9 +232,14 @@ window.CONFIG = {
   .custom-select-wrapper.open .custom-select-trigger { border-color: var(--border-focus); }
   .custom-select-wrapper.open .custom-select-trigger::after { transform: rotate(180deg); }
   
-  /* v0.14 Viewport clamp to 5 options (approx 175px max height) */
-  .custom-options-container { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); z-index: 10000; max-height: 175px; overflow-y: auto; display: none; flex-direction: column; }
+  /* v0.15 Default Clamped Options (can be overridden) */
+  .custom-options-container { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); z-index: 10000; overflow-y: auto; display: none; flex-direction: column; max-height: 250px;}
   .custom-select-wrapper.open .custom-options-container { display: flex; }
+  
+  /* v0.15 Exact 5-Item Clamps for Platform */
+  .custom-options-container[data-select-id="f-platform"], .custom-options-container[data-select-id="filter-platform"] { max-height: 190px; }
+  /* v0.15 Unclamped Short Lists */
+  .custom-options-container[data-select-id="f-format"], .custom-options-container[data-select-id="f-status"], .custom-options-container[data-select-id="filter-status"], .custom-options-container[data-select-id="f-currency"] { max-height: none; overflow-y: visible; }
   
   .custom-option { padding: 10px 12px; cursor: pointer; color: var(--text-main); font-family: var(--font-main); font-size: 14px; border-bottom: 1px solid var(--border); }
   .custom-option:last-child { border-bottom: none; }
@@ -291,8 +303,11 @@ window.CONFIG = {
   .card-details { padding: 12px; display: flex; flex-direction: column; gap: 6px; flex: 1;}
   .card-title { font-weight: bold; font-family: var(--font-heading); font-size: 16px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; }
   .card-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); align-items: center;}
-  /* v0.14 Retro star scale logic handled via custom class */
-  .card-meta .retro-star { font-size: 1.3em; margin-right: 2px; }
+  
+  /* v0.15 Center-Line Rating Alignment */
+  .rating-val-wrap { display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; gap: 4px;}
+  /* v0.15 Retro Arcade Star Scale */
+  .retro-star { font-size: 1.5em; line-height: 1; vertical-align: middle; display: inline-flex; align-items: center; margin-right: 2px;}
   
   .card-footer { display: flex; justify-content: space-between; align-items: flex-end; width: 100%; margin-top: auto; }
   .card-footer-left { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
@@ -316,14 +331,21 @@ window.CONFIG = {
   .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg-backdrop); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 15px; overflow-x: hidden; }
   .modal-overlay.active { display: flex; }
   .modal-content { background: var(--bg-surface); width: 100%; max-width: 700px; max-height: 90vh; border-radius: var(--radius); display: flex; flex-direction: column; box-shadow: 0 0 25px var(--accent), var(--shadow); border: 1px solid var(--accent); overflow: hidden; position: relative;}
+  
+  /* v0.15 Theme Modal Header Centering */
+  #modal-theme .modal-header { justify-content: center; position: relative; }
+  #modal-theme .modal-header .close-btn { position: absolute; right: 20px; }
+  
   .modal-header { padding: 15px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); z-index: 2;}
   .modal-body { padding: 20px; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; gap: 16px; scroll-behavior: smooth; flex: 1; }
   .modal-footer { padding: 15px 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; gap: 10px; background: var(--bg-surface); z-index: 2;}
   .close-btn { background: none; border: none; font-size: 20px; color: var(--text-muted); padding: 0; width: auto; }
   .close-btn:hover { color: var(--text-main); }
   
-  /* v0.14 Settings Modal Thicker Borders */
-  .settings-block { background: var(--bg-input); padding: 15px; border-radius: var(--radius); border: 2px solid var(--border); }
+  /* v0.15 Settings Inner Field Borders (2px) */
+  .settings-block { background: var(--bg-input); padding: 15px; border-radius: var(--radius); border: 1px solid var(--border); }
+  .settings-block input, .settings-block select, .settings-block button, .settings-block .custom-select-trigger { border: 2px solid var(--border); }
+  .settings-block input:focus, .settings-block select:focus { border-color: var(--border-focus); }
 
   /* Fixed Pixel-Locked Height Equalization (187px) */
   .modal-top-section { height: 187px; display: flex; gap: 16px; margin-bottom: 16px; margin-top: 16px; align-items: stretch; }
@@ -353,8 +375,8 @@ window.CONFIG = {
 
   /* Autocomplete */
   .autocomplete-wrapper { position: relative; width: 100%; }
-  /* v0.14 Viewport clamp to 3 search results (~200px max height) */
-  .autocomplete-results { position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); z-index: 9999; max-height: 200px; overflow-y: auto; display: none; box-shadow: var(--shadow); }
+  /* v0.15 Viewport clamp exactly 3 search results (228px) */
+  .autocomplete-results { position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); z-index: 9999; max-height: 228px; overflow-y: auto; display: none; box-shadow: var(--shadow); }
   .ac-item { padding: 10px; display: flex; gap: 10px; align-items: center; cursor: pointer; border-bottom: 1px solid var(--border); }
   .ac-item:hover { background: var(--bg-surface-hover); }
   .ac-item img { width: 40px; height: 55px; object-fit: cover; border-radius: 4px; }
@@ -379,7 +401,8 @@ window.CONFIG = {
 
   /* Theme Grid Modal */
   .theme-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .theme-btn { background: var(--bg-input); border: 2px solid var(--border); padding: 12px; border-radius: var(--radius); font-weight: bold; transition: all 0.2s; word-wrap: break-word; overflow: hidden; }
+  /* v0.15 Centered Theme Button Text */
+  .theme-btn { background: var(--bg-input); border: 2px solid var(--border); padding: 12px; border-radius: var(--radius); font-weight: bold; transition: all 0.2s; word-wrap: break-word; overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; gap: 8px;}
   .theme-btn:hover { border-color: var(--border-hover); background: var(--bg-surface-hover); }
   .theme-btn.active { border-color: var(--accent); color: var(--accent); }
   
@@ -456,7 +479,7 @@ window.CONFIG = {
     <img src="./Logo%20SVG%20v1.svg" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.14</span>
+      <span id="ui-app-version">v0.15</span>
     </div>
   </a>
   <div class="header-actions">
@@ -478,7 +501,7 @@ window.CONFIG = {
 </header>
 
 <div class="control-bar">
-  <select id="filter-status" class="native-hijack">
+  <select id="filter-status" class="native-hijack" data-select-id="filter-status">
     <option value="" disabled selected hidden>All Statuses</option>
     <option value="">(Clear Filter)</option>
     <option value="Abandoned">Abandoned</option>
@@ -487,7 +510,7 @@ window.CONFIG = {
     <option value="Playing">Playing</option>
     <option value="Wishlist">Wishlist</option>
   </select>
-  <select id="filter-platform" class="native-hijack">
+  <select id="filter-platform" class="native-hijack" data-select-id="filter-platform">
     <option value="" disabled selected hidden>All Platforms</option>
     <option value="">(Clear Filter)</option>
     <option value="Mobile">Mobile</option>
@@ -562,7 +585,7 @@ window.CONFIG = {
 
           <div class="form-group">
             <label>Platform *</label>
-            <select id="f-platform" class="native-hijack">
+            <select id="f-platform" class="native-hijack" data-select-id="f-platform">
               <option value="" disabled selected hidden>Select Platform...</option>
               <option value="Mobile">Mobile</option>
               <option value="NES">NES</option>
@@ -582,7 +605,7 @@ window.CONFIG = {
           </div>
           <div class="form-group">
             <label>Media Format</label>
-            <select id="f-format" class="native-hijack">
+            <select id="f-format" class="native-hijack" data-select-id="f-format">
               <option value="" disabled selected hidden>Select Format...</option>
               <option value="Digital">Digital</option>
               <option value="Game Pass">Game Pass</option>
@@ -596,12 +619,12 @@ window.CONFIG = {
             <label>Purchase Price</label>
             <div class="inline-input-group">
               <input type="number" id="f-price" step="0.01" inputmode="decimal" placeholder="0.00" min="0">
-              <select id="f-currency" class="native-hijack"></select>
+              <select id="f-currency" class="native-hijack" data-select-id="f-currency"></select>
             </div>
           </div>
           <div class="form-group">
             <label>Status</label>
-            <select id="f-status" class="native-hijack">
+            <select id="f-status" class="native-hijack" data-select-id="f-status">
               <option value="" disabled selected hidden>Select Title...</option>
               <option value="Abandoned">Abandoned</option>
               <option value="Backlog">Backlog</option>
@@ -797,7 +820,6 @@ window.CONFIG = {
   let db;
   let games = JSON.parse(localStorage.getItem('vgnomicon_db')) || {}; 
   
-  // v0.14 Dynamically mapped themes from Layer 1
   const themesList = Object.keys(C.THEME_NAMES).map(key => ({
     id: key,
     name: C.THEME_NAMES[key]
@@ -885,7 +907,6 @@ window.CONFIG = {
   // --- CUSTOM THEMEABLE DROPDOWN ENGINE ---
   function initializeCustomSelects() {
     document.querySelectorAll('select.native-hijack').forEach(select => {
-      // Prevent double init
       if (select.parentNode.classList.contains('custom-select-wrapper')) return;
       
       const wrapper = document.createElement('div');
@@ -896,7 +917,6 @@ window.CONFIG = {
       const trigger = document.createElement('div');
       trigger.className = 'custom-select-trigger empty';
       
-      // Determine initial text
       let initialText = select.options[0].text;
       if (select.value) {
         const activeOpt = Array.from(select.options).find(o => o.value === select.value);
@@ -907,9 +927,14 @@ window.CONFIG = {
       const optionsContainer = document.createElement('div');
       optionsContainer.className = 'custom-options-container';
       
-      // v0.13 MVP: Prune disabled/hidden placeholders from popup menu
+      if (select.dataset.selectId) {
+         optionsContainer.dataset.selectId = select.dataset.selectId;
+      } else if (select.id) {
+         optionsContainer.dataset.selectId = select.id;
+      }
+      
       Array.from(select.options).forEach((option) => {
-        if (option.disabled || option.hidden) return; // Skip placeholder entries
+        if (option.disabled || option.hidden) return;
 
         const optEl = document.createElement('div');
         optEl.className = 'custom-option';
@@ -923,8 +948,6 @@ window.CONFIG = {
           wrapper.classList.remove('open');
           optionsContainer.querySelectorAll('.custom-option').forEach(o => o.classList.remove('selected'));
           optEl.classList.add('selected');
-          
-          // Dispatch standard change event so form logic catches it
           select.dispatchEvent(new Event('change'));
           e.stopPropagation();
         });
@@ -940,7 +963,6 @@ window.CONFIG = {
           if (w !== wrapper) w.classList.remove('open');
         });
         wrapper.classList.toggle('open');
-        // v0.14 Scroll Reset to top
         if(wrapper.classList.contains('open')) {
             optionsContainer.scrollTop = 0;
         }
@@ -980,7 +1002,6 @@ window.CONFIG = {
 
   // --- 3. INITIALIZATION & UI SETUP ---
   function init() {
-    // Inject Config Placeholders
     els.appTitle.innerText = C.APP_NAME;
     els.appVer.innerText = `v${C.APP_VERSION}`;
     els.search.placeholder = C.SEARCH_PLACEHOLDER;
@@ -994,7 +1015,6 @@ window.CONFIG = {
     document.getElementById('s-appver-read').innerText = `v${C.APP_VERSION}`;
     els.mConfirmBody.innerText = C.MESSAGES.CONFIRM_DELETE;
     
-    // Apply LAYER 1 Placeholders
     els.f.title.placeholder = C.PLACEHOLDERS.TITLE;
     els.f.dateAdd.setAttribute('data-placeholder', C.PLACEHOLDERS.DATE_ADDED);
     els.f.dateComp.setAttribute('data-placeholder', C.PLACEHOLDERS.DATE_COMPLETED);
@@ -1057,18 +1077,15 @@ window.CONFIG = {
     els.btnRandom.onclick = triggerRandomizer;
     els.btnCloseRandom.onclick = () => els.mRandom.classList.remove('active');
 
-    // Autocomplete & Date State Machine
     els.f.title.addEventListener('input', (e) => { 
       debounce(searchRAWG, 300)(); 
       updateHLTBLink(e.target.value); 
       if (e.target.value) promoteStatusAndDate(); 
     });
     
-    // Select logic inheritance
     els.f.plat.addEventListener('change', updatePlatformFields);
     els.f.status.addEventListener('change', handleStatusChange);
 
-    // Empty Date styling updates
     els.f.dateAdd.addEventListener('change', (e) => updateDateClass(e.target));
     els.f.dateComp.addEventListener('change', (e) => updateDateClass(e.target));
 
@@ -1218,7 +1235,6 @@ window.CONFIG = {
     const query = els.f.title.value.trim();
     if(query.length < 3 || C.RAWG_API_KEY === "YOUR_RAWG_API_KEY_HERE") { els.f.rawgRes.style.display = 'none'; return; }
     try {
-      // v0.14 RAWG query limit bump (from 5 to 10)
       const res = await fetch(`https://api.rawg.io/api/games?key=${C.RAWG_API_KEY}&search=${encodeURIComponent(query)}&page_size=10`);
       const data = await res.json();
       renderAutocomplete(data.results);
@@ -1243,7 +1259,6 @@ window.CONFIG = {
       els.f.rawgRes.appendChild(div);
     });
     
-    // v0.14 scroll reset for search autocomplete window
     els.f.rawgRes.scrollTop = 0;
     els.f.rawgRes.style.display = 'block';
   }
@@ -1509,6 +1524,7 @@ window.CONFIG = {
     els.lib.innerHTML = '';
     let count = 0;
     const isRetro = document.body.getAttribute('data-theme') === 'retro-arcade';
+    const isCyberpunk = document.body.getAttribute('data-theme') === 'cyberpunk';
 
     Object.values(games).forEach(g => {
       if(q && !g.title.toLowerCase().includes(q) && !(g.genres||"").toLowerCase().includes(q)) return;
@@ -1540,8 +1556,16 @@ window.CONFIG = {
       card.className = `game-card ${isCompleted ? 'completed-glow' : ''}`;
       card.onclick = () => openGameModal(g.id);
       
-      const ratingDisp = (g.rating && parseFloat(g.rating) > 0) ? `<span style="color:var(--accent); font-weight:bold; display:inline-flex; align-items:center; gap:2px;"><span class="${isRetro ? 'retro-star' : ''}" style="font-size:14px; line-height:1;">★</span> <span>${parseFloat(g.rating).toFixed(1)}</span></span>` : `<span style="color:var(--text-muted); display:inline-flex; align-items:center;">${C.UNRATED_LABEL}</span>`;
-      const compBadge = isCompleted ? `<span class="badge" style="background:var(--accent-completion, var(--accent)); color:var(--text-inverse);">🏆 COMPLETED</span>` : `<span class="badge" style="background:var(--border);">${g.status}</span>`;
+      // v0.15 Enforced inline-flex centering wrapper for star and rating
+      const ratingDisp = (g.rating && parseFloat(g.rating) > 0) ? `<span class="rating-val-wrap" style="color:var(--accent); font-weight:bold;"><span class="${isRetro ? 'retro-star' : ''}">★</span><span>${parseFloat(g.rating).toFixed(1)}</span></span>` : `<span style="color:var(--text-muted); display:inline-flex; align-items:center;">${C.UNRATED_LABEL}</span>`;
+      
+      // v0.15 Cyberpunk high-contrast pill intercept
+      let compBadge = `<span class="badge" style="background:var(--border);">${g.status}</span>`;
+      if (isCompleted) {
+         compBadge = `<span class="badge" style="background:var(--accent-completion, var(--accent)); color:var(--text-inverse);">🏆 COMPLETED</span>`;
+      } else if (isCyberpunk) {
+         compBadge = `<span class="badge" style="background:#080c14; color:#00e8f8; border: 1px solid #00e8f8; box-shadow: 0 0 5px rgba(0,232,248,0.4);">${g.status}</span>`;
+      }
 
       let platColor = "var(--bg-input)";
       let platText = "var(--text-badge)";
@@ -1549,7 +1573,6 @@ window.CONFIG = {
       const p = g.plat || "";
       if (p.includes("PS")) { platColor = "#003791"; platText = "#ffffff"; platBorder = "rgba(255,255,255,0.2)"; }
       else if (p.includes("Xbox")) { platColor = "#107C10"; platText = "#ffffff"; platBorder = "rgba(255,255,255,0.2)"; }
-      // v0.14 Nintendo Red logic
       else if (p === "NES" || p === "Nintendo 64" || p === "SNES" || p.includes("Switch")) { platColor = "#E60012"; platText = "#ffffff"; platBorder = "rgba(255,255,255,0.2)"; }
 
       card.innerHTML = `
@@ -1615,7 +1638,6 @@ window.CONFIG = {
   // --- 8. SETTINGS, THEME & 3D RANDOMIZER FX ---
   function applyTheme(theme) { 
     document.body.setAttribute('data-theme', theme); 
-    // v0.14 Dynamic re-render to catch retro star adjustments
     if(Object.keys(games).length > 0) renderLibrary();
   }
   

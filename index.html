@@ -24,7 +24,7 @@ window.CONFIG = {
 
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.13",
+  APP_VERSION: "0.14",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 Check RAWG",
@@ -75,6 +75,19 @@ window.CONFIG = {
     STATUS: "Select Title...",
     THUMBNAIL: "Select Title...",
     TITLE: "Type Your Favorite Game..."
+  },
+
+  // 6. Theme Display Names (v0.14 Layer 1 Expansion)
+  THEME_NAMES: {
+    "modern-dark": "Modern Dark",
+    "minimalist-light": "Minimal Light",
+    "modern-light": "Modern Light",
+    "retro-arcade": "Retro Arcade",
+    "synthwave-sunset": "Synthwave",
+    "cyberpunk": "Cyberpunk",
+    "gothic-crimson": "Gothic Crimson",
+    "wasteland-terminal": "Terminal",
+    "cozy-village": "Cozy Village"
   }
 };
 </script>
@@ -83,7 +96,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>VGnomicon v0.13</title>
+<title>VGnomicon v0.14</title>
 <link rel="icon" type="image/svg+xml" href="./Favi%20Dsk%20SVG%20512%20v1.svg">
 <link rel="apple-touch-icon" href="./Favi%20iP%20PNG%201024%20v1.png">
 <link rel="apple-touch-icon" sizes="180x180" href="./Favi%20iP%20PNG%201024%20v1.png">
@@ -130,6 +143,12 @@ window.CONFIG = {
     --shadow: 0 0 15px rgba(255, 0, 85, 0.35); --font-main: 'Press Start 2P', 'Courier New', monospace; --font-heading: 'Press Start 2P', monospace;
     --radius: 2px; --scrollbar-thumb: #ffcc00; --scrollbar-track: #101025;
   }
+  /* v0.14 Retro Arcade typography downscaling & centering */
+  [data-theme="retro-arcade"] input, [data-theme="retro-arcade"] select, [data-theme="retro-arcade"] textarea, [data-theme="retro-arcade"] button, [data-theme="retro-arcade"] .custom-select-trigger, [data-theme="retro-arcade"] .custom-option { font-size: 11px; text-align: center; }
+  [data-theme="retro-arcade"] .custom-option { padding: 12px; }
+  [data-theme="retro-arcade"] .modal-desc-wrapper label, [data-theme="retro-arcade"] .form-group label { font-size: 10px; text-align: center; justify-content: center; }
+  [data-theme="retro-arcade"] h2 { font-size: 16px; text-align: center; }
+  
   /* --- 5. SYNTHWAVE SUNSET --- */
   [data-theme="synthwave-sunset"] {
     --bg-base: #0b0c10; --bg-surface: #1a162b; --bg-surface-hover: #282142; --bg-input: #120e20; --bg-placeholder: #322550; --bg-backdrop: rgba(11, 12, 16, 0.85);
@@ -145,7 +164,8 @@ window.CONFIG = {
     --bg-base: #05080f; --bg-surface: #0e1420; --bg-surface-hover: #162032; --bg-input: #080c14; --bg-placeholder: #1b263b; --bg-backdrop: rgba(5, 8, 15, 0.85);
     --text-main: #fcee09; --text-muted: #00e8f8; --text-inverse: #05080f; --text-disabled: #415a77;
     --border: #00e8f8; --border-hover: #fcee09; --border-focus: #ff003c; --accent: #fcee09; --accent-hover: #e0d408;
-    --success: #00e8f8; --warning: #ffbe0b; --danger: #ff003c; --bg-badge: #fcee09; --text-badge: #05080f;
+    --success: #00e8f8; --warning: #ffbe0b; --danger: #ff003c; 
+    --bg-badge: #080c14; --text-badge: #00e8f8; /* v0.14 Contrast fix: cyan on dark badge */
     --shadow: 0 0 18px rgba(0, 232, 248, 0.25); --font-main: 'Share Tech Mono', 'JetBrains Mono', monospace; --font-heading: 'Share Tech Mono', monospace;
     --radius: 0px; --scrollbar-thumb: #fcee09; --scrollbar-track: #0e1420;
   }
@@ -205,7 +225,8 @@ window.CONFIG = {
   .custom-select-wrapper.open .custom-select-trigger { border-color: var(--border-focus); }
   .custom-select-wrapper.open .custom-select-trigger::after { transform: rotate(180deg); }
   
-  .custom-options-container { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); z-index: 10000; max-height: 250px; overflow-y: auto; display: none; flex-direction: column; }
+  /* v0.14 Viewport clamp to 5 options (approx 175px max height) */
+  .custom-options-container { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); z-index: 10000; max-height: 175px; overflow-y: auto; display: none; flex-direction: column; }
   .custom-select-wrapper.open .custom-options-container { display: flex; }
   
   .custom-option { padding: 10px 12px; cursor: pointer; color: var(--text-main); font-family: var(--font-main); font-size: 14px; border-bottom: 1px solid var(--border); }
@@ -270,6 +291,8 @@ window.CONFIG = {
   .card-details { padding: 12px; display: flex; flex-direction: column; gap: 6px; flex: 1;}
   .card-title { font-weight: bold; font-family: var(--font-heading); font-size: 16px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; }
   .card-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); align-items: center;}
+  /* v0.14 Retro star scale logic handled via custom class */
+  .card-meta .retro-star { font-size: 1.3em; margin-right: 2px; }
   
   .card-footer { display: flex; justify-content: space-between; align-items: flex-end; width: 100%; margin-top: auto; }
   .card-footer-left { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
@@ -298,6 +321,9 @@ window.CONFIG = {
   .modal-footer { padding: 15px 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; gap: 10px; background: var(--bg-surface); z-index: 2;}
   .close-btn { background: none; border: none; font-size: 20px; color: var(--text-muted); padding: 0; width: auto; }
   .close-btn:hover { color: var(--text-main); }
+  
+  /* v0.14 Settings Modal Thicker Borders */
+  .settings-block { background: var(--bg-input); padding: 15px; border-radius: var(--radius); border: 2px solid var(--border); }
 
   /* Fixed Pixel-Locked Height Equalization (187px) */
   .modal-top-section { height: 187px; display: flex; gap: 16px; margin-bottom: 16px; margin-top: 16px; align-items: stretch; }
@@ -327,7 +353,8 @@ window.CONFIG = {
 
   /* Autocomplete */
   .autocomplete-wrapper { position: relative; width: 100%; }
-  .autocomplete-results { position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); z-index: 9999; max-height: 250px; overflow-y: auto; display: none; box-shadow: var(--shadow); }
+  /* v0.14 Viewport clamp to 3 search results (~200px max height) */
+  .autocomplete-results { position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); z-index: 9999; max-height: 200px; overflow-y: auto; display: none; box-shadow: var(--shadow); }
   .ac-item { padding: 10px; display: flex; gap: 10px; align-items: center; cursor: pointer; border-bottom: 1px solid var(--border); }
   .ac-item:hover { background: var(--bg-surface-hover); }
   .ac-item img { width: 40px; height: 55px; object-fit: cover; border-radius: 4px; }
@@ -429,7 +456,7 @@ window.CONFIG = {
     <img src="./Logo%20SVG%20v1.svg" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.13</span>
+      <span id="ui-app-version">v0.14</span>
     </div>
   </a>
   <div class="header-actions">
@@ -451,7 +478,6 @@ window.CONFIG = {
 </header>
 
 <div class="control-bar">
-  <!-- v0.13 MVP: Removed native HTML5 required attributes from hidden dropdowns -->
   <select id="filter-status" class="native-hijack">
     <option value="" disabled selected hidden>All Statuses</option>
     <option value="">(Clear Filter)</option>
@@ -671,13 +697,13 @@ window.CONFIG = {
     </div>
     <div class="modal-body" id="modal-settings-body">
       
-      <div style="background:var(--bg-input); padding:15px; border-radius:var(--radius); border:1px solid var(--border);">
+      <div class="settings-block">
         <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">1. Firebase Sync Targets</h3>
         <span style="font-size:12px; color:var(--text-muted); display:block; margin-bottom:10px;">Collection paths dynamically map to: <strong style="color:var(--text-main); font-family:monospace;">{Root} / {gameId}</strong></span>
         <div class="form-group"><label>Root Collection</label><input type="text" id="s-db-coll" value="nomicon"></div>
       </div>
 
-      <div style="background:var(--bg-input); padding:15px; border-radius:var(--radius); border:1px solid var(--border);">
+      <div class="settings-block">
         <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">2. External APIs</h3>
         <div style="display:flex; justify-content: space-between; align-items:center;">
           <span style="font-size:12px; color:var(--text-muted);">RAWG Metadata Database</span>
@@ -688,7 +714,7 @@ window.CONFIG = {
         </div>
       </div>
 
-      <div style="background:var(--bg-input); padding:15px; border-radius:var(--radius); border:1px solid var(--border);">
+      <div class="settings-block">
         <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">3. Local Cache Usage Tracker</h3>
         <div class="storage-meter"><div class="storage-fill" id="s-storage-bar-fill"></div></div>
         <span style="font-size:12px; color:var(--text-muted); display:block; margin-top:5px; margin-bottom:15px;" id="s-storage-text">0.00 MB / 5.00 MB used (0%)</span>
@@ -698,14 +724,14 @@ window.CONFIG = {
         </div>
       </div>
 
-      <div style="background:var(--bg-input); padding:15px; border-radius:var(--radius); border:1px solid var(--border);">
+      <div class="settings-block">
         <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">4. Active Library Genres</h3>
         <div class="reaction-chips" id="s-genres-cloud">
           <!-- Dynamic tags injected here -->
         </div>
       </div>
       
-      <div style="background:var(--bg-input); padding:15px; border-radius:var(--radius); border:1px solid var(--border);">
+      <div class="settings-block">
         <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">5. About</h3>
         <p style="font-size:12px; color:var(--text-muted); line-height:1.4;">
           Product: <strong id="s-appname-read"></strong><br>
@@ -771,17 +797,11 @@ window.CONFIG = {
   let db;
   let games = JSON.parse(localStorage.getItem('vgnomicon_db')) || {}; 
   
-  const themesList = [
-    { id: 'cozy-village', name: 'Cozy Village' },
-    { id: 'cyberpunk', name: 'Cyberpunk' },
-    { id: 'gothic-crimson', name: 'Gothic Crimson' },
-    { id: 'minimalist-light', name: 'Minimal Light' },
-    { id: 'modern-dark', name: 'Modern Dark' },
-    { id: 'modern-light', name: 'Modern Light' },
-    { id: 'retro-arcade', name: 'Retro Arcade' },
-    { id: 'synthwave-sunset', name: 'Synthwave' },
-    { id: 'wasteland-terminal', name: 'Terminal' }
-  ];
+  // v0.14 Dynamically mapped themes from Layer 1
+  const themesList = Object.keys(C.THEME_NAMES).map(key => ({
+    id: key,
+    name: C.THEME_NAMES[key]
+  }));
 
   let settings = JSON.parse(localStorage.getItem('vgnomicon_settings')) || { 
     theme: C.DEFAULT_THEME, 
@@ -920,6 +940,10 @@ window.CONFIG = {
           if (w !== wrapper) w.classList.remove('open');
         });
         wrapper.classList.toggle('open');
+        // v0.14 Scroll Reset to top
+        if(wrapper.classList.contains('open')) {
+            optionsContainer.scrollTop = 0;
+        }
         e.stopPropagation();
       });
     });
@@ -1194,7 +1218,8 @@ window.CONFIG = {
     const query = els.f.title.value.trim();
     if(query.length < 3 || C.RAWG_API_KEY === "YOUR_RAWG_API_KEY_HERE") { els.f.rawgRes.style.display = 'none'; return; }
     try {
-      const res = await fetch(`https://api.rawg.io/api/games?key=${C.RAWG_API_KEY}&search=${encodeURIComponent(query)}&page_size=5`);
+      // v0.14 RAWG query limit bump (from 5 to 10)
+      const res = await fetch(`https://api.rawg.io/api/games?key=${C.RAWG_API_KEY}&search=${encodeURIComponent(query)}&page_size=10`);
       const data = await res.json();
       renderAutocomplete(data.results);
     } catch(e) { console.error("RAWG fetch failed", e); }
@@ -1217,6 +1242,9 @@ window.CONFIG = {
       div.onclick = () => populateFromRAWG(g);
       els.f.rawgRes.appendChild(div);
     });
+    
+    // v0.14 scroll reset for search autocomplete window
+    els.f.rawgRes.scrollTop = 0;
     els.f.rawgRes.style.display = 'block';
   }
 
@@ -1360,7 +1388,6 @@ window.CONFIG = {
     updateDateClass(els.f.dateAdd);
     updateDateClass(els.f.dateComp);
     
-    // v0.13 MVP: Synchronized Binding ID
     syncCustomSelect('f-platform');
     syncCustomSelect('f-format');
     syncCustomSelect('f-status');
@@ -1397,7 +1424,6 @@ window.CONFIG = {
   }
 
   function saveGameData() {
-    // v0.13 MVP: Explicit JS Validation replacing fragile native HTML5 checking
     if (!els.f.title.value.trim()) {
       showToast(C.MESSAGES.TITLE_REQUIRED);
       els.f.title.focus();
@@ -1482,6 +1508,7 @@ window.CONFIG = {
     
     els.lib.innerHTML = '';
     let count = 0;
+    const isRetro = document.body.getAttribute('data-theme') === 'retro-arcade';
 
     Object.values(games).forEach(g => {
       if(q && !g.title.toLowerCase().includes(q) && !(g.genres||"").toLowerCase().includes(q)) return;
@@ -1513,14 +1540,17 @@ window.CONFIG = {
       card.className = `game-card ${isCompleted ? 'completed-glow' : ''}`;
       card.onclick = () => openGameModal(g.id);
       
-      const ratingDisp = (g.rating && parseFloat(g.rating) > 0) ? `<span style="color:var(--accent); font-weight:bold; display:inline-flex; align-items:center; gap:2px;"><span style="font-size:14px; line-height:1;">★</span> <span>${parseFloat(g.rating).toFixed(1)}</span></span>` : `<span style="color:var(--text-muted); display:inline-flex; align-items:center;">${C.UNRATED_LABEL}</span>`;
+      const ratingDisp = (g.rating && parseFloat(g.rating) > 0) ? `<span style="color:var(--accent); font-weight:bold; display:inline-flex; align-items:center; gap:2px;"><span class="${isRetro ? 'retro-star' : ''}" style="font-size:14px; line-height:1;">★</span> <span>${parseFloat(g.rating).toFixed(1)}</span></span>` : `<span style="color:var(--text-muted); display:inline-flex; align-items:center;">${C.UNRATED_LABEL}</span>`;
       const compBadge = isCompleted ? `<span class="badge" style="background:var(--accent-completion, var(--accent)); color:var(--text-inverse);">🏆 COMPLETED</span>` : `<span class="badge" style="background:var(--border);">${g.status}</span>`;
 
       let platColor = "var(--bg-input)";
       let platText = "var(--text-badge)";
       let platBorder = "var(--border)";
-      if ((g.plat||"").includes("PS")) { platColor = "#003791"; platText = "#ffffff"; platBorder = "rgba(255,255,255,0.2)"; }
-      else if ((g.plat||"").includes("Xbox")) { platColor = "#107C10"; platText = "#ffffff"; platBorder = "rgba(255,255,255,0.2)"; }
+      const p = g.plat || "";
+      if (p.includes("PS")) { platColor = "#003791"; platText = "#ffffff"; platBorder = "rgba(255,255,255,0.2)"; }
+      else if (p.includes("Xbox")) { platColor = "#107C10"; platText = "#ffffff"; platBorder = "rgba(255,255,255,0.2)"; }
+      // v0.14 Nintendo Red logic
+      else if (p === "NES" || p === "Nintendo 64" || p === "SNES" || p.includes("Switch")) { platColor = "#E60012"; platText = "#ffffff"; platBorder = "rgba(255,255,255,0.2)"; }
 
       card.innerHTML = `
         <img src="${g.url || ''}" class="card-cover" loading="lazy">
@@ -1583,7 +1613,11 @@ window.CONFIG = {
   }
 
   // --- 8. SETTINGS, THEME & 3D RANDOMIZER FX ---
-  function applyTheme(theme) { document.body.setAttribute('data-theme', theme); }
+  function applyTheme(theme) { 
+    document.body.setAttribute('data-theme', theme); 
+    // v0.14 Dynamic re-render to catch retro star adjustments
+    if(Object.keys(games).length > 0) renderLibrary();
+  }
   
   function buildThemeGrid() {
     els.themeGrid.innerHTML = '';

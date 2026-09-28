@@ -24,7 +24,7 @@ window.CONFIG = {
 
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.12",
+  APP_VERSION: "0.13",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 Check RAWG",
@@ -53,13 +53,15 @@ window.CONFIG = {
     DELETED_TOAST: "DELETED - {title}",
     EMPTY_RANDOMIZER: "No games found in your library to roll!",
     NUMERIC_NEGATIVE: "⚠️ Playtime and HLTB values cannot be negative!",
+    PLATFORM_REQUIRED: "⚠️ Platform is required!",
     RAWG_ONLINE: "RAWG API: Online & Connected",
     RAWG_OFFLINE: "RAWG API: Connection Error",
     SAVED_TOAST: "SAVED - {title}",
-    SYNC_SUCCESS: "Library Synced! 🚀"
+    SYNC_SUCCESS: "Library Synced! 🚀",
+    TITLE_REQUIRED: "⚠️ Title is required!"
   },
 
-  // 5. Configurable Blank Field Placeholders (v0.12 MVP)
+  // 5. Configurable Blank Field Placeholders
   PLACEHOLDERS: {
     DATE_ADDED: "Select Title...",
     DATE_COMPLETED: "Select Completed Status...",
@@ -81,7 +83,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>VGnomicon v0.12</title>
+<title>VGnomicon v0.13</title>
 <link rel="icon" type="image/svg+xml" href="./Favi%20Dsk%20SVG%20512%20v1.svg">
 <link rel="apple-touch-icon" href="./Favi%20iP%20PNG%201024%20v1.png">
 <link rel="apple-touch-icon" sizes="180x180" href="./Favi%20iP%20PNG%201024%20v1.png">
@@ -193,7 +195,7 @@ window.CONFIG = {
   button.primary:hover { background: var(--accent-hover); }
   button.danger { background: var(--danger); color: var(--text-inverse); border: none; }
   
-  /* v0.12 MVP: Custom Themeable Select Engine */
+  /* Custom Themeable Select Engine */
   .custom-select-wrapper { position: relative; width: 100%; }
   .custom-select-wrapper select { display: none; } /* Hide native select completely */
   
@@ -243,8 +245,6 @@ window.CONFIG = {
   .spinning { animation: spin 1s linear infinite; }
   
   .control-bar { padding: 10px 20px; display: flex; gap: 10px; background: var(--bg-base); flex-wrap: wrap; border-bottom: 1px solid var(--border); align-items: center;}
-  
-  /* Integrate Custom Select into Control Bar width logic */
   .control-bar .custom-select-wrapper { width: auto; flex: 1; min-width: 130px; }
   .control-bar .custom-select-trigger { padding: 6px 10px; }
   
@@ -299,7 +299,7 @@ window.CONFIG = {
   .close-btn { background: none; border: none; font-size: 20px; color: var(--text-muted); padding: 0; width: auto; }
   .close-btn:hover { color: var(--text-main); }
 
-  /* v0.12 MVP: Fixed Pixel-Locked Height Equalization (187px) */
+  /* Fixed Pixel-Locked Height Equalization (187px) */
   .modal-top-section { height: 187px; display: flex; gap: 16px; margin-bottom: 16px; margin-top: 16px; align-items: stretch; }
   .modal-cover-wrapper { width: 140px; height: 187px; flex-shrink: 0; background: var(--bg-placeholder); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--text-disabled); font-size: 12px; position: relative; }
   .modal-cover-wrapper img { width: 100%; height: 100%; object-fit: cover; display: none; position: absolute; top:0; left:0; }
@@ -364,10 +364,9 @@ window.CONFIG = {
   .anim-glint::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%); transform: rotate(45deg); animation: glint 2s infinite; }
   @keyframes glint { 0% { left: -100%; } 100% { left: 100%; } }
 
-  /* v0.12 MVP: Full-Screen Specular Disco Beams */
+  /* Full-Screen Specular Disco Beams */
   .dice-scene { width: 100px; height: 100px; perspective: 1200px; margin: 40px auto; position: relative; z-index: 2; transform-style: preserve-3d; }
   
-  /* Moved to root of modal, bound to fixed viewport */
   .dice-disco-bg { position: fixed; inset: 0; width: 100vw; height: 100vh; background: repeating-conic-gradient(from 0deg, var(--accent) 0deg 10deg, transparent 10deg 20deg, var(--accent-hover) 20deg 30deg, transparent 30deg 40deg); opacity: 0; pointer-events: none; z-index: 1; transition: opacity 0.3s; mix-blend-mode: screen; transform-origin: center center;}
   .dice-disco-bg.party { opacity: 0.35; animation: discoSpin 3s linear infinite, discoPulse 0.5s ease-in-out infinite alternate; }
   @keyframes discoSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -430,7 +429,7 @@ window.CONFIG = {
     <img src="./Logo%20SVG%20v1.svg" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.12</span>
+      <span id="ui-app-version">v0.13</span>
     </div>
   </a>
   <div class="header-actions">
@@ -452,7 +451,7 @@ window.CONFIG = {
 </header>
 
 <div class="control-bar">
-  <!-- v0.12 MVP: Custom Themeable Dropdown Injection Target -->
+  <!-- v0.13 MVP: Removed native HTML5 required attributes from hidden dropdowns -->
   <select id="filter-status" class="native-hijack">
     <option value="" disabled selected hidden>All Statuses</option>
     <option value="">(Clear Filter)</option>
@@ -537,7 +536,7 @@ window.CONFIG = {
 
           <div class="form-group">
             <label>Platform *</label>
-            <select id="f-platform" class="native-hijack" required>
+            <select id="f-platform" class="native-hijack">
               <option value="" disabled selected hidden>Select Platform...</option>
               <option value="Mobile">Mobile</option>
               <option value="NES">NES</option>
@@ -557,7 +556,7 @@ window.CONFIG = {
           </div>
           <div class="form-group">
             <label>Media Format</label>
-            <select id="f-format" class="native-hijack" required>
+            <select id="f-format" class="native-hijack">
               <option value="" disabled selected hidden>Select Format...</option>
               <option value="Digital">Digital</option>
               <option value="Game Pass">Game Pass</option>
@@ -576,7 +575,7 @@ window.CONFIG = {
           </div>
           <div class="form-group">
             <label>Status</label>
-            <select id="f-status" class="native-hijack" required>
+            <select id="f-status" class="native-hijack">
               <option value="" disabled selected hidden>Select Title...</option>
               <option value="Abandoned">Abandoned</option>
               <option value="Backlog">Backlog</option>
@@ -682,7 +681,6 @@ window.CONFIG = {
         <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">2. External APIs</h3>
         <div style="display:flex; justify-content: space-between; align-items:center;">
           <span style="font-size:12px; color:var(--text-muted);">RAWG Metadata Database</span>
-          <!-- v0.12 MVP: Settings External API Row Re-alignment -->
           <div style="display:flex; align-items:center; gap: 8px;">
             <div class="status-dot dot-yellow" id="modal-rawg-dot"></div>
             <button id="btn-audit-rawg" style="padding:4px 10px; font-size:12px;">🌐 Check RAWG</button>
@@ -864,7 +862,7 @@ window.CONFIG = {
     btnAuditCache: document.getElementById('btn-audit-cache'), btnAuditRawg: document.getElementById('btn-audit-rawg')
   };
 
-  // --- v0.12 MVP: CUSTOM THEMEABLE DROPDOWN ENGINE ---
+  // --- CUSTOM THEMEABLE DROPDOWN ENGINE ---
   function initializeCustomSelects() {
     document.querySelectorAll('select.native-hijack').forEach(select => {
       // Prevent double init
@@ -889,27 +887,28 @@ window.CONFIG = {
       const optionsContainer = document.createElement('div');
       optionsContainer.className = 'custom-options-container';
       
-      Array.from(select.options).forEach((option, index) => {
+      // v0.13 MVP: Prune disabled/hidden placeholders from popup menu
+      Array.from(select.options).forEach((option) => {
+        if (option.disabled || option.hidden) return; // Skip placeholder entries
+
         const optEl = document.createElement('div');
         optEl.className = 'custom-option';
-        if(option.disabled) optEl.classList.add('disabled');
         if(option.value === select.value) optEl.classList.add('selected');
         optEl.innerText = option.text;
         
-        if(!option.disabled) {
-          optEl.addEventListener('click', (e) => {
-            select.value = option.value;
-            trigger.querySelector('span').innerText = option.text;
-            trigger.classList.remove('empty');
-            wrapper.classList.remove('open');
-            optionsContainer.querySelectorAll('.custom-option').forEach(o => o.classList.remove('selected'));
-            optEl.classList.add('selected');
-            
-            // Dispatch standard change event so form logic catches it
-            select.dispatchEvent(new Event('change'));
-            e.stopPropagation();
-          });
-        }
+        optEl.addEventListener('click', (e) => {
+          select.value = option.value;
+          trigger.querySelector('span').innerText = option.text;
+          trigger.classList.remove('empty');
+          wrapper.classList.remove('open');
+          optionsContainer.querySelectorAll('.custom-option').forEach(o => o.classList.remove('selected'));
+          optEl.classList.add('selected');
+          
+          // Dispatch standard change event so form logic catches it
+          select.dispatchEvent(new Event('change'));
+          e.stopPropagation();
+        });
+        
         optionsContainer.appendChild(optEl);
       });
       
@@ -971,7 +970,7 @@ window.CONFIG = {
     document.getElementById('s-appver-read').innerText = `v${C.APP_VERSION}`;
     els.mConfirmBody.innerText = C.MESSAGES.CONFIRM_DELETE;
     
-    // v0.12 MVP: Apply LAYER 1 Placeholders
+    // Apply LAYER 1 Placeholders
     els.f.title.placeholder = C.PLACEHOLDERS.TITLE;
     els.f.dateAdd.setAttribute('data-placeholder', C.PLACEHOLDERS.DATE_ADDED);
     els.f.dateComp.setAttribute('data-placeholder', C.PLACEHOLDERS.DATE_COMPLETED);
@@ -1105,7 +1104,6 @@ window.CONFIG = {
     else els.traySyncDot.classList.add('dot-red');
   }
   
-  // v0.12 MVP: Persistent 4000ms Sync Dot Duration
   function triggerManualSyncDot() {
     setSyncState('🟡');
     els.btnSync.classList.add('spinning');
@@ -1362,7 +1360,8 @@ window.CONFIG = {
     updateDateClass(els.f.dateAdd);
     updateDateClass(els.f.dateComp);
     
-    syncCustomSelect('f-plat');
+    // v0.13 MVP: Synchronized Binding ID
+    syncCustomSelect('f-platform');
     syncCustomSelect('f-format');
     syncCustomSelect('f-status');
     syncCustomSelect('f-currency');
@@ -1398,9 +1397,17 @@ window.CONFIG = {
   }
 
   function saveGameData() {
-    if(!els.form.checkValidity()) { els.form.reportValidity(); return; }
+    // v0.13 MVP: Explicit JS Validation replacing fragile native HTML5 checking
+    if (!els.f.title.value.trim()) {
+      showToast(C.MESSAGES.TITLE_REQUIRED);
+      els.f.title.focus();
+      return;
+    }
+    if (!els.f.plat.value) {
+      showToast(C.MESSAGES.PLATFORM_REQUIRED);
+      return;
+    }
     
-    // v0.12 MVP: Non-Negative Validation
     const numericFields = [els.f.achE, els.f.achT, els.f.playtime, els.f.hltbM, els.f.hltbE, els.f.hltbC];
     for (let input of numericFields) {
       if (input.value && parseFloat(input.value) < 0) {
@@ -1416,7 +1423,6 @@ window.CONFIG = {
         return;
     }
     
-    // v0.12 MVP: Date Validation & Future Guard
     const today = new Date().toISOString().split('T')[0];
     const addDate = els.f.dateAdd.value;
     const compDate = els.f.dateComp.value;
@@ -1582,7 +1588,6 @@ window.CONFIG = {
   function buildThemeGrid() {
     els.themeGrid.innerHTML = '';
     
-    // v0.12 MVP: Dynamic 'Surprise Me' Re-Roll
     const btnRand = document.createElement('button');
     btnRand.className = `theme-btn ${(settings.theme === 'random' || !settings.theme) ? 'active' : ''}`;
     btnRand.innerText = C.BTN_THEME_RANDOM;
@@ -1603,7 +1608,6 @@ window.CONFIG = {
     themesList.forEach(t => {
       const btn = document.createElement('button');
       btn.id = `theme-btn-${t.id}`;
-      // Highlight if this is the active theme (whether set manually or rolled)
       const currentActive = settings.theme === 'random' ? sessionStorage.getItem('vgnomicon_session_theme') : settings.theme;
       btn.className = `theme-btn ${currentActive === t.id ? 'active' : ''}`;
       btn.innerText = t.name;

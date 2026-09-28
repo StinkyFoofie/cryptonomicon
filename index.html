@@ -24,7 +24,7 @@ window.CONFIG = {
 
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.11",
+  APP_VERSION: "0.12",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 Check RAWG",
@@ -39,22 +39,40 @@ window.CONFIG = {
   RATING_LABEL: "Your Rating",
   SEARCH_PLACEHOLDER: "🔍 Search Library...",
   SETTINGS_TITLE: "Settings",
-  TITLE_PLACEHOLDER: "Type Your Favorite Game...",
   UNRATED_LABEL: "No Rating...",
-  VAL_PLACEHOLDER: "Select Title...",
 
-  // 4. Centralized Notification & Error Messages (v0.11 MVP)
+  // 4. Centralized Notification & Error Messages
   MESSAGES: {
     ACHIEVEMENT_ERROR: "⚠️ Earned achievements cannot exceed total! Please check your numbers.",
+    ACHIEVEMENT_NEGATIVE: "⚠️ Achievement values cannot be negative numbers!",
     CACHE_CLEARED: "Local cache cleared.",
     CACHE_CONFIRM: "Clear local cache? (Unsynced cloud data will be lost!)",
     CONFIRM_DELETE: "Are you sure you want to permanently delete this game? This action cannot be undone.",
+    DATE_FUTURE_ERROR: "⚠️ Entered date cannot be in the future! Please enter a valid date.",
+    DATE_INVALID_ERROR: "⚠️ Invalid calendar date entered! Please check your date.",
     DELETED_TOAST: "DELETED - {title}",
     EMPTY_RANDOMIZER: "No games found in your library to roll!",
+    NUMERIC_NEGATIVE: "⚠️ Playtime and HLTB values cannot be negative!",
     RAWG_ONLINE: "RAWG API: Online & Connected",
     RAWG_OFFLINE: "RAWG API: Connection Error",
     SAVED_TOAST: "SAVED - {title}",
     SYNC_SUCCESS: "Library Synced! 🚀"
+  },
+
+  // 5. Configurable Blank Field Placeholders (v0.12 MVP)
+  PLACEHOLDERS: {
+    DATE_ADDED: "Select Title...",
+    DATE_COMPLETED: "Select Completed Status...",
+    DESCRIPTION: "Select Title...",
+    DEVELOPER: "Select Title...",
+    FORMAT: "Select Format...",
+    GENRES: "Select Title...",
+    PLATFORM: "Select Platform...",
+    PUBLISHER: "Select Title...",
+    RAWG_RATING: "Select Title...",
+    STATUS: "Select Title...",
+    THUMBNAIL: "Select Title...",
+    TITLE: "Type Your Favorite Game..."
   }
 };
 </script>
@@ -63,7 +81,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>VGnomicon v0.11</title>
+<title>VGnomicon v0.12</title>
 <link rel="icon" type="image/svg+xml" href="./Favi%20Dsk%20SVG%20512%20v1.svg">
 <link rel="apple-touch-icon" href="./Favi%20iP%20PNG%201024%20v1.png">
 <link rel="apple-touch-icon" sizes="180x180" href="./Favi%20iP%20PNG%201024%20v1.png">
@@ -115,7 +133,7 @@ window.CONFIG = {
     --bg-base: #0b0c10; --bg-surface: #1a162b; --bg-surface-hover: #282142; --bg-input: #120e20; --bg-placeholder: #322550; --bg-backdrop: rgba(11, 12, 16, 0.85);
     --text-main: #66fcf1; --text-muted: #c5a8e0; --text-inverse: #0b0c10; --text-disabled: #5a4b70;
     --border: #ff007f; --border-hover: #00f0ff; --border-focus: #ffe600; --accent: #ff007f; --accent-hover: #e00070;
-    --accent-completion: #00f0ff; /* v0.11 MVP: High-contrast completion glow */
+    --accent-completion: #00f0ff;
     --success: #00f0ff; --warning: #ffe600; --danger: #ff2a6d; --bg-badge: #ff007f; --text-badge: #ffffff;
     --shadow: 0 4px 20px rgba(255, 0, 127, 0.3); --font-main: 'Rajdhani', sans-serif; --font-heading: 'Orbitron', sans-serif;
     --radius: 8px; --scrollbar-thumb: #ff007f; --scrollbar-track: #1a162b;
@@ -134,7 +152,7 @@ window.CONFIG = {
     --bg-base: #0c0809; --bg-surface: #171012; --bg-surface-hover: #24191d; --bg-input: #120b0d; --bg-placeholder: #2c161a; --bg-backdrop: rgba(12, 8, 9, 0.85);
     --text-main: #e8d7c3; --text-muted: #a38f7e; --text-inverse: #0c0809; --text-disabled: #5e4f48;
     --border: #801824; --border-hover: #d4af37; --border-focus: #d4af37; --accent: #991b29; --accent-hover: #b52233;
-    --accent-completion: #d4af37; /* v0.11 MVP: High-contrast completion glow */
+    --accent-completion: #d4af37;
     --success: #4e8054; --warning: #d4af37; --danger: #e61932; --bg-badge: #380d12; --text-badge: #d4af37;
     --shadow: 0 4px 20px rgba(128, 24, 36, 0.35); --font-main: 'Cinzel', Georgia, serif; --font-heading: 'Cinzel', Georgia, serif;
     --radius: 4px; --scrollbar-thumb: #801824; --scrollbar-track: #171012;
@@ -175,23 +193,31 @@ window.CONFIG = {
   button.primary:hover { background: var(--accent-hover); }
   button.danger { background: var(--danger); color: var(--text-inverse); border: none; }
   
-  /* Theme-Aware Select Dropdowns */
-  select {
-    appearance: none; -webkit-appearance: none;
-    background-image: url('data:image/svg+xml;utf8,<svg fill="%23888" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
-    background-repeat: no-repeat; background-position-x: calc(100% - 10px); background-position-y: 50%;
-    padding-right: 30px;
-    background-color: var(--bg-input); color: var(--text-main); border: 1px solid var(--border);
-  }
-  select option { background-color: var(--bg-surface); color: var(--text-main); }
-  select:invalid, select option[value=""] { color: var(--text-disabled); }
+  /* v0.12 MVP: Custom Themeable Select Engine */
+  .custom-select-wrapper { position: relative; width: 100%; }
+  .custom-select-wrapper select { display: none; } /* Hide native select completely */
+  
+  .custom-select-trigger { background: var(--bg-input); color: var(--text-main); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px; font-size: 14px; font-family: var(--font-main); width: 100%; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+  .custom-select-trigger.empty { color: var(--text-disabled); }
+  .custom-select-trigger::after { content: ''; width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid var(--text-muted); transition: transform 0.2s; }
+  .custom-select-wrapper.open .custom-select-trigger { border-color: var(--border-focus); }
+  .custom-select-wrapper.open .custom-select-trigger::after { transform: rotate(180deg); }
+  
+  .custom-options-container { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); z-index: 10000; max-height: 250px; overflow-y: auto; display: none; flex-direction: column; }
+  .custom-select-wrapper.open .custom-options-container { display: flex; }
+  
+  .custom-option { padding: 10px 12px; cursor: pointer; color: var(--text-main); font-family: var(--font-main); font-size: 14px; border-bottom: 1px solid var(--border); }
+  .custom-option:last-child { border-bottom: none; }
+  .custom-option:hover, .custom-option.selected { background: var(--bg-surface-hover); color: var(--accent); }
+  .custom-option.disabled { color: var(--text-disabled); cursor: default; background: var(--bg-surface); }
+  .custom-option.disabled:hover { background: var(--bg-surface); color: var(--text-disabled); }
 
   /* Date Input Placeholder Hack */
   input[type="date"] { position: relative; }
   input[type="date"].empty-date { color: transparent; }
   input[type="date"].empty-date::before { content: attr(data-placeholder); color: var(--text-disabled); position: absolute; left: 10px; pointer-events: none; font-family: var(--font-main); }
 
-  /* v0.11 MVP: Header Brand Horizontal & Baseline Centering */
+  /* Header Brand Horizontal & Baseline Centering */
   header { background: var(--bg-surface); padding: 12px 20px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; border-bottom: 1px solid var(--border); gap: 10px; }
   .brand { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; text-decoration: none; justify-self: flex-start;}
   .brand img { height: 28px; width: auto; aspect-ratio: 2355 / 644; object-fit: contain; }
@@ -217,7 +243,10 @@ window.CONFIG = {
   .spinning { animation: spin 1s linear infinite; }
   
   .control-bar { padding: 10px 20px; display: flex; gap: 10px; background: var(--bg-base); flex-wrap: wrap; border-bottom: 1px solid var(--border); align-items: center;}
-  .control-bar select { padding: 6px 10px; width: auto; flex: 1; min-width: 130px; }
+  
+  /* Integrate Custom Select into Control Bar width logic */
+  .control-bar .custom-select-wrapper { width: auto; flex: 1; min-width: 130px; }
+  .control-bar .custom-select-trigger { padding: 6px 10px; }
   
   .view-toggle { display: inline-flex; background: var(--bg-input); border-radius: 20px; padding: 2px; position: relative; border: 1px solid var(--border); align-items: center; margin: 0 10px;}
   .view-slider { position: absolute; top: 2px; bottom: 2px; left: 2px; width: calc(50% - 2px); background: var(--bg-surface); border-radius: 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.3); transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.25, 1); z-index: 1; border: 1px solid var(--border-hover);}
@@ -246,11 +275,11 @@ window.CONFIG = {
   .card-footer-left { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
   .card-footer-right { display: flex; align-items: center; justify-content: flex-end; }
   
-  /* v0.11 MVP: Standardized Pill Height & Centering */
+  /* Standardized Pill Height & Centering */
   .badge { height: 22px; display: inline-flex; align-items: center; justify-content: center; padding: 0 8px; border-radius: 4px; font-size: 11px; font-weight: bold; white-space: nowrap; box-sizing: border-box; line-height: 1; text-align: center; }
   .game-card.completed-glow { border-color: var(--accent-completion, var(--accent)); box-shadow: 0 0 25px var(--accent-completion, var(--accent)), 0 0 45px rgba(0, 0, 0, 0.5); }
 
-  /* v0.11 MVP: List View Metadata Non-Overlapping Alignment */
+  /* List View Metadata Non-Overlapping Alignment */
   .list-view { display: flex; flex-direction: column; gap: 10px; }
   .list-view .game-card { flex-direction: row; height: 60px; align-items: center; padding-right: 15px;}
   .list-view .card-cover { width: 45px; height: 60px; border-right: 1px solid var(--border); margin-right: 15px; aspect-ratio: auto; }
@@ -270,14 +299,14 @@ window.CONFIG = {
   .close-btn { background: none; border: none; font-size: 20px; color: var(--text-muted); padding: 0; width: auto; }
   .close-btn:hover { color: var(--text-main); }
 
-  /* v0.11 MVP: Side-by-Side Modal Height Stretch */
-  .modal-top-section { display: flex; gap: 16px; margin-bottom: 16px; margin-top: 16px; align-items: stretch; }
-  .modal-cover-wrapper { width: 140px; aspect-ratio: 3/4; flex-shrink: 0; background: var(--bg-placeholder); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--text-disabled); font-size: 12px; position: relative; }
+  /* v0.12 MVP: Fixed Pixel-Locked Height Equalization (187px) */
+  .modal-top-section { height: 187px; display: flex; gap: 16px; margin-bottom: 16px; margin-top: 16px; align-items: stretch; }
+  .modal-cover-wrapper { width: 140px; height: 187px; flex-shrink: 0; background: var(--bg-placeholder); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--text-disabled); font-size: 12px; position: relative; }
   .modal-cover-wrapper img { width: 100%; height: 100%; object-fit: cover; display: none; position: absolute; top:0; left:0; }
   
-  .modal-desc-wrapper { flex: 1; display: flex; flex-direction: column; gap: 5px; height: 100%; min-height: 100%; }
-  .modal-desc-wrapper label { font-size: 12px; color: var(--text-muted); font-weight: 600; font-family: var(--font-heading); text-transform: uppercase; }
-  .modal-desc-wrapper textarea { flex: 1; min-height: 105px; height: 100%; resize: none; }
+  .modal-desc-wrapper { height: 187px; display: flex; flex-direction: column; gap: 5px; flex: 1 1 0; min-height: 0; }
+  .modal-desc-wrapper label { font-size: 12px; color: var(--text-muted); font-weight: 600; font-family: var(--font-heading); text-transform: uppercase; flex-shrink: 0;}
+  .modal-desc-wrapper textarea { flex: 1 1 0; height: 0; min-height: 0; resize: none; margin: 0; box-sizing: border-box; }
 
   /* Forms & Grid */
   .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; }
@@ -289,7 +318,7 @@ window.CONFIG = {
 
   .inline-input-group { display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; }
   .inline-input-group input[type="number"] { width: 100px; }
-  .inline-input-group select { width: 90px; }
+  .inline-input-group .custom-select-wrapper { width: 90px; }
   
   .achievement-group { display: flex; flex-direction: column; align-items: center; gap: 4px; }
   .achievement-group input { width: 100px; text-align: center; }
@@ -335,12 +364,13 @@ window.CONFIG = {
   .anim-glint::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%); transform: rotate(45deg); animation: glint 2s infinite; }
   @keyframes glint { 0% { left: -100%; } 100% { left: 100%; } }
 
-  /* v0.11 MVP: Unbounded 3D Dice Realism & Centered Disco Ball FX */
+  /* v0.12 MVP: Full-Screen Specular Disco Beams */
   .dice-scene { width: 100px; height: 100px; perspective: 1200px; margin: 40px auto; position: relative; z-index: 2; transform-style: preserve-3d; }
   
-  .dice-disco-bg { position: absolute; top: 50%; left: 50%; width: 250vw; height: 250vh; transform: translate(-50%, -50%); background: repeating-conic-gradient(from 0deg, var(--accent) 0deg 10deg, transparent 10deg 20deg, var(--accent-hover) 20deg 30deg, transparent 30deg 40deg); opacity: 0; pointer-events: none; z-index: -1; transition: opacity 0.3s; mix-blend-mode: screen;}
+  /* Moved to root of modal, bound to fixed viewport */
+  .dice-disco-bg { position: fixed; inset: 0; width: 100vw; height: 100vh; background: repeating-conic-gradient(from 0deg, var(--accent) 0deg 10deg, transparent 10deg 20deg, var(--accent-hover) 20deg 30deg, transparent 30deg 40deg); opacity: 0; pointer-events: none; z-index: 1; transition: opacity 0.3s; mix-blend-mode: screen; transform-origin: center center;}
   .dice-disco-bg.party { opacity: 0.35; animation: discoSpin 3s linear infinite, discoPulse 0.5s ease-in-out infinite alternate; }
-  @keyframes discoSpin { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+  @keyframes discoSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
   @keyframes discoPulse { 0% { opacity: 0.2; } 100% { opacity: 0.45; } }
 
   .dice-cube { width: 100%; height: 100%; position: absolute; top:0; left:0; transform-style: preserve-3d; transform: rotateX(-20deg) rotateY(-20deg); }
@@ -381,8 +411,11 @@ window.CONFIG = {
     .header-actions { flex-direction: column; width: 100%; }
     .search-bar { max-width: 100%; }
     .form-grid { grid-template-columns: 1fr; }
-    .modal-top-section { flex-direction: column; align-items: stretch; }
-    .modal-cover-wrapper { width: 140px; margin: 0 auto; }
+    
+    .modal-top-section { flex-direction: column; align-items: stretch; height: auto; }
+    .modal-cover-wrapper { width: 140px; margin: 0 auto; height: 187px; }
+    .modal-desc-wrapper { height: 150px; flex: none; }
+    
     .theme-grid { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
@@ -397,7 +430,7 @@ window.CONFIG = {
     <img src="./Logo%20SVG%20v1.svg" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.11</span>
+      <span id="ui-app-version">v0.12</span>
     </div>
   </a>
   <div class="header-actions">
@@ -419,7 +452,8 @@ window.CONFIG = {
 </header>
 
 <div class="control-bar">
-  <select id="filter-status" required>
+  <!-- v0.12 MVP: Custom Themeable Dropdown Injection Target -->
+  <select id="filter-status" class="native-hijack">
     <option value="" disabled selected hidden>All Statuses</option>
     <option value="">(Clear Filter)</option>
     <option value="Abandoned">Abandoned</option>
@@ -428,7 +462,7 @@ window.CONFIG = {
     <option value="Playing">Playing</option>
     <option value="Wishlist">Wishlist</option>
   </select>
-  <select id="filter-platform" required>
+  <select id="filter-platform" class="native-hijack">
     <option value="" disabled selected hidden>All Platforms</option>
     <option value="">(Clear Filter)</option>
     <option value="Mobile">Mobile</option>
@@ -491,20 +525,20 @@ window.CONFIG = {
           </div>
           <div class="modal-desc-wrapper">
             <label>Description</label>
-            <textarea id="f-desc" readonly disabled placeholder="Auto-filled from RAWG API..."></textarea>
+            <textarea id="f-desc" readonly disabled placeholder="Select Title..."></textarea>
           </div>
         </div>
 
         <div class="form-grid">
-          <div class="form-group"><label>Developer</label><input type="text" id="f-developer"></div>
-          <div class="form-group"><label>Publisher</label><input type="text" id="f-publisher"></div>
+          <div class="form-group"><label>Developer</label><input type="text" id="f-developer" placeholder="Select Title..."></div>
+          <div class="form-group"><label>Publisher</label><input type="text" id="f-publisher" placeholder="Select Title..."></div>
           
-          <div class="form-group full"><label>Genre(s)</label><input type="text" id="f-genres"></div>
+          <div class="form-group full"><label>Genre(s)</label><input type="text" id="f-genres" placeholder="Select Title..."></div>
 
           <div class="form-group">
             <label>Platform *</label>
-            <select id="f-platform" required>
-              <option value="" disabled selected hidden>Select Title...</option>
+            <select id="f-platform" class="native-hijack" required>
+              <option value="" disabled selected hidden>Select Platform...</option>
               <option value="Mobile">Mobile</option>
               <option value="NES">NES</option>
               <option value="Nintendo 64">Nintendo 64</option>
@@ -523,8 +557,8 @@ window.CONFIG = {
           </div>
           <div class="form-group">
             <label>Media Format</label>
-            <select id="f-format" required>
-              <option value="" disabled selected hidden>Select Title...</option>
+            <select id="f-format" class="native-hijack" required>
+              <option value="" disabled selected hidden>Select Format...</option>
               <option value="Digital">Digital</option>
               <option value="Game Pass">Game Pass</option>
               <option value="Physical">Physical</option>
@@ -536,13 +570,13 @@ window.CONFIG = {
           <div class="form-group">
             <label>Purchase Price</label>
             <div class="inline-input-group">
-              <input type="number" id="f-price" step="0.01" inputmode="decimal" placeholder="0.00">
-              <select id="f-currency"></select>
+              <input type="number" id="f-price" step="0.01" inputmode="decimal" placeholder="0.00" min="0">
+              <select id="f-currency" class="native-hijack"></select>
             </div>
           </div>
           <div class="form-group">
             <label>Status</label>
-            <select id="f-status" required>
+            <select id="f-status" class="native-hijack" required>
               <option value="" disabled selected hidden>Select Title...</option>
               <option value="Abandoned">Abandoned</option>
               <option value="Backlog">Backlog</option>
@@ -564,7 +598,7 @@ window.CONFIG = {
           </div>
 
           <div class="form-group"><label>Date Added</label><input type="date" id="f-date-added" readonly data-placeholder="Select Title..." class="empty-date"></div>
-          <div class="form-group"><label>Date Completed</label><input type="date" id="f-date-completed" data-placeholder="Select Title..." class="empty-date"></div>
+          <div class="form-group"><label>Date Completed</label><input type="date" id="f-date-completed" data-placeholder="Select Completed Status..." class="empty-date"></div>
 
           <div class="form-group full" style="border-top:1px dashed var(--border); padding-top:16px; margin-top:0px;">
             <label>
@@ -572,21 +606,21 @@ window.CONFIG = {
               <a href="#" target="_blank" id="hltb-link" style="color:var(--text-muted); text-decoration:none; display:flex; align-items:center; gap:4px; pointer-events:none;">Select Title First</a>
             </label>
           </div>
-          <div class="form-group"><label>Personal Playtime (hrs)</label><input type="number" id="f-playtime" step="0.1" inputmode="decimal"></div>
-          <div class="form-group"><label>HLTB Main Story (hrs)</label><input type="number" id="f-hltb-main" step="0.5"></div>
-          <div class="form-group"><label>HLTB Main + Sides (hrs)</label><input type="number" id="f-hltb-extras" step="0.5"></div>
-          <div class="form-group"><label>HLTB Completionist (hrs)</label><input type="number" id="f-hltb-comp" step="0.5"></div>
+          <div class="form-group"><label>Personal Playtime (hrs)</label><input type="number" id="f-playtime" step="0.1" min="0" inputmode="decimal"></div>
+          <div class="form-group"><label>HLTB Main Story (hrs)</label><input type="number" id="f-hltb-main" step="0.5" min="0"></div>
+          <div class="form-group"><label>HLTB Main + Sides (hrs)</label><input type="number" id="f-hltb-extras" step="0.5" min="0"></div>
+          <div class="form-group"><label>HLTB Completionist (hrs)</label><input type="number" id="f-hltb-comp" step="0.5" min="0"></div>
           
           <div class="form-group full" style="border-top:1px dashed var(--border); padding-top:16px; margin-top:0px;">
             <label id="lbl-achievements">Achievements</label>
             <div class="inline-input-group" style="justify-content: flex-start; gap: 12px;">
               <div class="achievement-group">
-                <input type="number" id="f-ach-earned">
+                <input type="number" id="f-ach-earned" min="0">
                 <span>Earned</span>
               </div>
               <div class="achievement-divider">/</div>
               <div class="achievement-group">
-                <input type="number" id="f-ach-total">
+                <input type="number" id="f-ach-total" min="0">
                 <span>Total</span>
               </div>
             </div>
@@ -648,6 +682,7 @@ window.CONFIG = {
         <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">2. External APIs</h3>
         <div style="display:flex; justify-content: space-between; align-items:center;">
           <span style="font-size:12px; color:var(--text-muted);">RAWG Metadata Database</span>
+          <!-- v0.12 MVP: Settings External API Row Re-alignment -->
           <div style="display:flex; align-items:center; gap: 8px;">
             <div class="status-dot dot-yellow" id="modal-rawg-dot"></div>
             <button id="btn-audit-rawg" style="padding:4px 10px; font-size:12px;">🌐 Check RAWG</button>
@@ -704,9 +739,9 @@ window.CONFIG = {
 <!-- Randomizer Modal w/ 3D Dice & FX Canvas -->
 <div class="modal-overlay" id="modal-randomizer" style="z-index: 1002; overflow: hidden;">
   <canvas id="fx-canvas"></canvas>
+  <div class="dice-disco-bg" id="dice-disco"></div>
   <div class="modal-content" style="max-width: 300px; text-align:center; background: transparent; box-shadow: none; border: none; position: relative; z-index: 2;">
      <div class="dice-scene" id="dice-scene">
-        <div class="dice-disco-bg" id="dice-disco"></div>
         <div class="dice-cube" id="dice-cube">
           <div class="dice-face face-1"><div class="pip p-c"></div></div>
           <div class="dice-face face-2"><div class="pip p-tl"></div><div class="pip p-br"></div></div>
@@ -738,7 +773,6 @@ window.CONFIG = {
   let db;
   let games = JSON.parse(localStorage.getItem('vgnomicon_db')) || {}; 
   
-  // v0.11 MVP: Alphabetized Theme Engine
   const themesList = [
     { id: 'cozy-village', name: 'Cozy Village' },
     { id: 'cyberpunk', name: 'Cyberpunk' },
@@ -830,8 +864,100 @@ window.CONFIG = {
     btnAuditCache: document.getElementById('btn-audit-cache'), btnAuditRawg: document.getElementById('btn-audit-rawg')
   };
 
+  // --- v0.12 MVP: CUSTOM THEMEABLE DROPDOWN ENGINE ---
+  function initializeCustomSelects() {
+    document.querySelectorAll('select.native-hijack').forEach(select => {
+      // Prevent double init
+      if (select.parentNode.classList.contains('custom-select-wrapper')) return;
+      
+      const wrapper = document.createElement('div');
+      wrapper.className = 'custom-select-wrapper';
+      select.parentNode.insertBefore(wrapper, select);
+      wrapper.appendChild(select);
+      
+      const trigger = document.createElement('div');
+      trigger.className = 'custom-select-trigger empty';
+      
+      // Determine initial text
+      let initialText = select.options[0].text;
+      if (select.value) {
+        const activeOpt = Array.from(select.options).find(o => o.value === select.value);
+        if (activeOpt) { initialText = activeOpt.text; trigger.classList.remove('empty'); }
+      }
+      trigger.innerHTML = `<span>${initialText}</span>`;
+      
+      const optionsContainer = document.createElement('div');
+      optionsContainer.className = 'custom-options-container';
+      
+      Array.from(select.options).forEach((option, index) => {
+        const optEl = document.createElement('div');
+        optEl.className = 'custom-option';
+        if(option.disabled) optEl.classList.add('disabled');
+        if(option.value === select.value) optEl.classList.add('selected');
+        optEl.innerText = option.text;
+        
+        if(!option.disabled) {
+          optEl.addEventListener('click', (e) => {
+            select.value = option.value;
+            trigger.querySelector('span').innerText = option.text;
+            trigger.classList.remove('empty');
+            wrapper.classList.remove('open');
+            optionsContainer.querySelectorAll('.custom-option').forEach(o => o.classList.remove('selected'));
+            optEl.classList.add('selected');
+            
+            // Dispatch standard change event so form logic catches it
+            select.dispatchEvent(new Event('change'));
+            e.stopPropagation();
+          });
+        }
+        optionsContainer.appendChild(optEl);
+      });
+      
+      wrapper.appendChild(trigger);
+      wrapper.appendChild(optionsContainer);
+      
+      trigger.addEventListener('click', (e) => {
+        document.querySelectorAll('.custom-select-wrapper').forEach(w => {
+          if (w !== wrapper) w.classList.remove('open');
+        });
+        wrapper.classList.toggle('open');
+        e.stopPropagation();
+      });
+    });
+    
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
+    });
+  }
+
+  function syncCustomSelect(selectId) {
+    const select = document.getElementById(selectId);
+    if(!select) return;
+    const wrapper = select.parentNode;
+    if(!wrapper || !wrapper.classList.contains('custom-select-wrapper')) return;
+    const trigger = wrapper.querySelector('.custom-select-trigger span');
+    const triggerEl = wrapper.querySelector('.custom-select-trigger');
+    const options = wrapper.querySelectorAll('.custom-option');
+    
+    options.forEach(o => o.classList.remove('selected'));
+    
+    if(select.value === "") {
+        trigger.innerText = select.options[0].text;
+        triggerEl.classList.add('empty');
+    } else {
+        const activeOpt = Array.from(select.options).find(o => o.value === select.value);
+        if(activeOpt) {
+            trigger.innerText = activeOpt.text;
+            triggerEl.classList.remove('empty');
+            const targetEl = Array.from(options).find(o => o.innerText === activeOpt.text);
+            if(targetEl) targetEl.classList.add('selected');
+        }
+    }
+  }
+
   // --- 3. INITIALIZATION & UI SETUP ---
   function init() {
+    // Inject Config Placeholders
     els.appTitle.innerText = C.APP_NAME;
     els.appVer.innerText = `v${C.APP_VERSION}`;
     els.search.placeholder = C.SEARCH_PLACEHOLDER;
@@ -844,8 +970,27 @@ window.CONFIG = {
     document.getElementById('s-appname-read').innerText = C.APP_NAME;
     document.getElementById('s-appver-read').innerText = `v${C.APP_VERSION}`;
     els.mConfirmBody.innerText = C.MESSAGES.CONFIRM_DELETE;
+    
+    // v0.12 MVP: Apply LAYER 1 Placeholders
+    els.f.title.placeholder = C.PLACEHOLDERS.TITLE;
+    els.f.dateAdd.setAttribute('data-placeholder', C.PLACEHOLDERS.DATE_ADDED);
+    els.f.dateComp.setAttribute('data-placeholder', C.PLACEHOLDERS.DATE_COMPLETED);
+    els.f.coverText.innerText = C.PLACEHOLDERS.THUMBNAIL;
+    els.f.desc.placeholder = C.PLACEHOLDERS.DESCRIPTION;
+    els.f.dev.placeholder = C.PLACEHOLDERS.DEVELOPER;
+    els.f.pub.placeholder = C.PLACEHOLDERS.PUBLISHER;
+    els.f.genres.placeholder = C.PLACEHOLDERS.GENRES;
+    els.f.rawgScore.placeholder = C.PLACEHOLDERS.RAWG_RATING;
+    
+    els.f.plat.options[0].text = C.PLACEHOLDERS.PLATFORM;
+    els.f.format.options[0].text = C.PLACEHOLDERS.FORMAT;
+    els.f.status.options[0].text = C.PLACEHOLDERS.STATUS;
+    els.fStatus.options[0].text = "All Statuses"; 
+    els.fPlatform.options[0].text = "All Platforms";
+    
     els.f.curr.innerHTML = `<option value="${C.DEFAULT_CURRENCY}">${C.DEFAULT_CURRENCY}</option><option value="CAD">CAD</option>`;
     
+    initializeCustomSelects();
     buildStarWidget();
     document.getElementById('s-db-coll').value = settings.dbColl;
     applyTheme(activeThemeToApply);
@@ -896,9 +1041,8 @@ window.CONFIG = {
       if (e.target.value) promoteStatusAndDate(); 
     });
     
-    // Select styling inheritance
-    els.f.plat.addEventListener('change', (e) => { updatePlatformFields(); e.target.style.color = "var(--text-main)"; });
-    els.f.format.addEventListener('change', (e) => e.target.style.color = "var(--text-main)");
+    // Select logic inheritance
+    els.f.plat.addEventListener('change', updatePlatformFields);
     els.f.status.addEventListener('change', handleStatusChange);
 
     // Empty Date styling updates
@@ -914,21 +1058,9 @@ window.CONFIG = {
     els.btnCancelDel.onclick = () => els.mDelete.classList.remove('active');
     els.btnConfirmDel.onclick = deleteGame;
     
-    els.fStatus.addEventListener('change', (e) => {
-      if(e.target.value === "") e.target.style.color = "var(--text-disabled)";
-      else e.target.style.color = "var(--text-main)";
-      renderLibrary();
-    });
-    els.fPlatform.addEventListener('change', (e) => {
-      if(e.target.value === "") e.target.style.color = "var(--text-disabled)";
-      else e.target.style.color = "var(--text-main)";
-      renderLibrary();
-    });
-    
+    els.fStatus.addEventListener('change', renderLibrary);
+    els.fPlatform.addEventListener('change', renderLibrary);
     els.search.addEventListener('input', renderLibrary);
-    
-    els.fStatus.style.color = "var(--text-disabled)";
-    els.fPlatform.style.color = "var(--text-disabled)";
 
     auditRawgConnection();
     renderLibrary();
@@ -972,26 +1104,28 @@ window.CONFIG = {
     else if(txt.includes('🟡')) els.traySyncDot.classList.add('dot-yellow');
     else els.traySyncDot.classList.add('dot-red');
   }
+  
+  // v0.12 MVP: Persistent 4000ms Sync Dot Duration
+  function triggerManualSyncDot() {
+    setSyncState('🟡');
+    els.btnSync.classList.add('spinning');
+    setTimeout(() => {
+        els.btnSync.classList.remove('spinning');
+        if(navigator.onLine) setSyncState('🟢');
+    }, 4000);
+  }
 
   async function forceSync() {
-    els.btnSync.classList.add('spinning');
-    setSyncState('🟡');
-    const start = Date.now();
-    
+    triggerManualSyncDot();
     if(db && navigator.onLine) {
       try {
         await getDocs(collection(db, settings.dbColl), { source: 'server' });
         lastSyncTime = new Date();
         updateTimestamp();
         updateStorageMeter();
-        setSyncState('🟢');
         showToast(C.MESSAGES.SYNC_SUCCESS);
-      } catch(e) { setSyncState('🔴'); }
-    } else { setSyncState('🔴'); }
-    
-    const elapsed = Date.now() - start;
-    const remaining = Math.max(0, 1000 - elapsed);
-    setTimeout(() => els.btnSync.classList.remove('spinning'), remaining);
+      } catch(e) {}
+    }
   }
 
   function updateTimestamp() {
@@ -1102,7 +1236,7 @@ window.CONFIG = {
     }
     
     els.f.genres.value = (g.genres || []).map(x=>x.name).join(', ');
-    els.f.rawgScore.value = g.rating ? `RAWG: ${g.rating} / 5.0 (Meta: ${g.metacritic||"N/A"})` : C.UNRATED_LABEL;
+    els.f.rawgScore.value = g.rating ? `RAWG: ${g.rating} / 5.0 (Meta: ${g.metacritic||"N/A"})` : C.PLACEHOLDERS.RAWG_RATING;
 
     try {
       const res = await fetch(`https://api.rawg.io/api/games/${g.id}?key=${C.RAWG_API_KEY}`);
@@ -1166,7 +1300,7 @@ window.CONFIG = {
   function promoteStatusAndDate() {
     if(!els.f.status.value) {
         els.f.status.value = "Backlog";
-        els.f.status.style.color = "var(--text-main)";
+        syncCustomSelect('f-status');
     }
     if(!els.f.dateAdd.value) {
         els.f.dateAdd.value = new Date().toISOString().split('T')[0];
@@ -1182,10 +1316,6 @@ window.CONFIG = {
     els.f.rawgRes.style.display = 'none';
     setStars(0);
     updateHLTBLink("");
-    
-    els.f.plat.style.color = "var(--text-disabled)";
-    els.f.format.style.color = "var(--text-disabled)";
-    els.f.status.style.color = "var(--text-disabled)";
     
     els.mGame.classList.add('active');
     els.mGameBody.scrollTop = 0;
@@ -1208,10 +1338,6 @@ window.CONFIG = {
       els.f.url.value = g.url || "";
       els.f.rawgScore.value = g.rawgScore || "";
       
-      if(g.plat) els.f.plat.style.color = "var(--text-main)";
-      if(g.format) els.f.format.style.color = "var(--text-main)";
-      if(els.f.status.value) els.f.status.style.color = "var(--text-main)";
-      
       setStars(parseFloat(g.rating || 0));
       
       if(g.url) {
@@ -1222,16 +1348,6 @@ window.CONFIG = {
       
       els.f.dateAdd.value = g.dateAdd || "";
       els.f.dateComp.value = g.dateComp || "";
-      updateDateClass(els.f.dateAdd);
-      updateDateClass(els.f.dateComp);
-      
-      els.f.playtime.value = g.playtime || "";
-      els.f.hltbM.value = g.hltbM || "";
-      els.f.hltbE.value = g.hltbE || "";
-      els.f.hltbC.value = g.hltbC || "";
-      els.f.notes.value = g.notes || "";
-      els.f.achE.value = g.achE || "";
-      els.f.achT.value = g.achT || "";
     } else {
       els.mGameTitle.innerText = "Add Game";
       els.btnDelPrompt.style.display = "none";
@@ -1241,9 +1357,15 @@ window.CONFIG = {
       els.f.format.value = "";
       els.f.dateAdd.value = "";
       els.f.dateComp.value = "";
-      updateDateClass(els.f.dateAdd);
-      updateDateClass(els.f.dateComp);
     }
+    
+    updateDateClass(els.f.dateAdd);
+    updateDateClass(els.f.dateComp);
+    
+    syncCustomSelect('f-plat');
+    syncCustomSelect('f-format');
+    syncCustomSelect('f-status');
+    syncCustomSelect('f-currency');
     updatePlatformFields();
   }
 
@@ -1269,9 +1391,6 @@ window.CONFIG = {
   }
 
   function handleStatusChange(e) {
-    if(e.target.value === "") e.target.style.color = "var(--text-disabled)";
-    else e.target.style.color = "var(--text-main)";
-      
     if(e.target.value === "Completed" && !els.f.dateComp.value) {
         els.f.dateComp.value = new Date().toISOString().split('T')[0];
         updateDateClass(els.f.dateComp);
@@ -1281,11 +1400,34 @@ window.CONFIG = {
   function saveGameData() {
     if(!els.form.checkValidity()) { els.form.reportValidity(); return; }
     
+    // v0.12 MVP: Non-Negative Validation
+    const numericFields = [els.f.achE, els.f.achT, els.f.playtime, els.f.hltbM, els.f.hltbE, els.f.hltbC];
+    for (let input of numericFields) {
+      if (input.value && parseFloat(input.value) < 0) {
+        showToast(C.MESSAGES.NUMERIC_NEGATIVE);
+        return;
+      }
+    }
+
     const eVal = parseFloat(els.f.achE.value || 0);
     const tVal = parseFloat(els.f.achT.value || 0);
     if (els.f.achE.value && els.f.achT.value && eVal > tVal) {
         showToast(C.MESSAGES.ACHIEVEMENT_ERROR);
         return;
+    }
+    
+    // v0.12 MVP: Date Validation & Future Guard
+    const today = new Date().toISOString().split('T')[0];
+    const addDate = els.f.dateAdd.value;
+    const compDate = els.f.dateComp.value;
+    
+    if (addDate) {
+        if (isNaN(Date.parse(addDate))) { showToast(C.MESSAGES.DATE_INVALID_ERROR); return; }
+        if (addDate > today) { showToast(C.MESSAGES.DATE_FUTURE_ERROR); return; }
+    }
+    if (compDate) {
+        if (isNaN(Date.parse(compDate))) { showToast(C.MESSAGES.DATE_INVALID_ERROR); return; }
+        if (compDate > today) { showToast(C.MESSAGES.DATE_FUTURE_ERROR); return; }
     }
     
     const id = els.f.id.value;
@@ -1306,8 +1448,7 @@ window.CONFIG = {
     
     lastSyncTime = new Date();
     updateTimestamp();
-    els.btnSync.classList.add('spinning');
-    setTimeout(() => els.btnSync.classList.remove('spinning'), 600);
+    triggerManualSyncDot();
     
     els.mGame.classList.remove('active');
     showToast(C.MESSAGES.SAVED_TOAST.replace('{title}', gameData.title));
@@ -1319,6 +1460,9 @@ window.CONFIG = {
     delete games[id];
     removeDocFromCloud(id);
     saveLocalAndRender();
+    
+    triggerManualSyncDot();
+    
     els.mDelete.classList.remove('active');
     els.mGame.classList.remove('active');
     showToast(C.MESSAGES.DELETED_TOAST.replace('{title}', title));
@@ -1342,7 +1486,6 @@ window.CONFIG = {
       let achBadge = "";
       let isCompleted = g.status === "Completed";
       
-      // v0.11 MVP: Badge Stacking & Emoji Cleanup
       if (g.achE || g.achT) {
         const e = g.achE || 0;
         const t = g.achT || 0;
@@ -1439,7 +1582,7 @@ window.CONFIG = {
   function buildThemeGrid() {
     els.themeGrid.innerHTML = '';
     
-    // 1. Inject 'Surprise Me' Button First
+    // v0.12 MVP: Dynamic 'Surprise Me' Re-Roll
     const btnRand = document.createElement('button');
     btnRand.className = `theme-btn ${(settings.theme === 'random' || !settings.theme) ? 'active' : ''}`;
     btnRand.innerText = C.BTN_THEME_RANDOM;
@@ -1447,22 +1590,22 @@ window.CONFIG = {
       settings.theme = 'random';
       localStorage.setItem('vgnomicon_settings', JSON.stringify(settings));
       
-      let sessionTheme = sessionStorage.getItem('vgnomicon_session_theme');
-      if (!sessionTheme) {
-        sessionTheme = themesList[Math.floor(Math.random() * themesList.length)].id;
-        sessionStorage.setItem('vgnomicon_session_theme', sessionTheme);
-      }
-      applyTheme(sessionTheme);
+      const newSessionTheme = themesList[Math.floor(Math.random() * themesList.length)].id;
+      sessionStorage.setItem('vgnomicon_session_theme', newSessionTheme);
+      applyTheme(newSessionTheme);
       
       els.themeGrid.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
-      btnRand.classList.add('active');
+      const newlyRolledBtn = document.getElementById(`theme-btn-${newSessionTheme}`);
+      if(newlyRolledBtn) newlyRolledBtn.classList.add('active');
     };
     els.themeGrid.appendChild(btnRand);
 
-    // 2. Inject Curated Themes (Alphabetized)
     themesList.forEach(t => {
       const btn = document.createElement('button');
-      btn.className = `theme-btn ${settings.theme === t.id ? 'active' : ''}`;
+      btn.id = `theme-btn-${t.id}`;
+      // Highlight if this is the active theme (whether set manually or rolled)
+      const currentActive = settings.theme === 'random' ? sessionStorage.getItem('vgnomicon_session_theme') : settings.theme;
+      btn.className = `theme-btn ${currentActive === t.id ? 'active' : ''}`;
       btn.innerText = t.name;
       btn.onclick = () => {
         settings.theme = t.id;

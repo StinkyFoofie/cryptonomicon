@@ -24,9 +24,11 @@ window.CONFIG = {
 
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.10",
+  APP_VERSION: "0.11",
   BTN_ADD_GAME: "➕ Add Game",
+  BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 Check RAWG",
+  BTN_CLEAR_CACHE: "🗑️ Clear Cache",
   BTN_FORCE_SYNC: "🚀 Sync",
   BTN_RANDOM_GAME: "🎲 Pick Game",
   BTN_THEME: "🎨 Theme",
@@ -37,8 +39,23 @@ window.CONFIG = {
   RATING_LABEL: "Your Rating",
   SEARCH_PLACEHOLDER: "🔍 Search Library...",
   SETTINGS_TITLE: "Settings",
-  SYNC_TOAST_TEXT: "Library Synced! 🚀",
-  UNRATED_LABEL: "No Rating..."
+  TITLE_PLACEHOLDER: "Type Your Favorite Game...",
+  UNRATED_LABEL: "No Rating...",
+  VAL_PLACEHOLDER: "Select Title...",
+
+  // 4. Centralized Notification & Error Messages (v0.11 MVP)
+  MESSAGES: {
+    ACHIEVEMENT_ERROR: "⚠️ Earned achievements cannot exceed total! Please check your numbers.",
+    CACHE_CLEARED: "Local cache cleared.",
+    CACHE_CONFIRM: "Clear local cache? (Unsynced cloud data will be lost!)",
+    CONFIRM_DELETE: "Are you sure you want to permanently delete this game? This action cannot be undone.",
+    DELETED_TOAST: "DELETED - {title}",
+    EMPTY_RANDOMIZER: "No games found in your library to roll!",
+    RAWG_ONLINE: "RAWG API: Online & Connected",
+    RAWG_OFFLINE: "RAWG API: Connection Error",
+    SAVED_TOAST: "SAVED - {title}",
+    SYNC_SUCCESS: "Library Synced! 🚀"
+  }
 };
 </script>
 <!-- ==========================================================================
@@ -46,14 +63,11 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>VGnomicon v0.10</title>
-<!-- v0.10 MVP: URL-Encoded Asset Paths -->
+<title>VGnomicon v0.11</title>
 <link rel="icon" type="image/svg+xml" href="./Favi%20Dsk%20SVG%20512%20v1.svg">
 <link rel="apple-touch-icon" href="./Favi%20iP%20PNG%201024%20v1.png">
 <link rel="apple-touch-icon" sizes="180x180" href="./Favi%20iP%20PNG%201024%20v1.png">
-<!-- v0.10 MVP: Manifest Icons Array Injection -->
 <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiVkdub21pY29uIiwic2hvcnRfbmFtZSI6IlZHbm9taWNvbiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiaWNvbnMiOlt7InNyYyI6Ii4vRmF2aSUyMGlQJTIwUE5HJTIwMTAyNCUyMHYxLnBuZyIsInNpemVzIjoiMTkyeDE5MiB0byAxMDI0eDEwMjQiLCJ0eXBlIjoiaW1hZ2UvcG5nIn1dfQ==">
-<!-- Complete 9-Theme Font Typography Import -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Plus+Jakarta+Sans:wght@400;600;800&family=Press+Start+2P&family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&family=Share+Tech+Mono&family=JetBrains+Mono&family=Cinzel:wght@600&family=VT323&family=Fira+Code&family=Quicksand:wght@500;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
 
 <!-- ==========================================================================
@@ -101,6 +115,7 @@ window.CONFIG = {
     --bg-base: #0b0c10; --bg-surface: #1a162b; --bg-surface-hover: #282142; --bg-input: #120e20; --bg-placeholder: #322550; --bg-backdrop: rgba(11, 12, 16, 0.85);
     --text-main: #66fcf1; --text-muted: #c5a8e0; --text-inverse: #0b0c10; --text-disabled: #5a4b70;
     --border: #ff007f; --border-hover: #00f0ff; --border-focus: #ffe600; --accent: #ff007f; --accent-hover: #e00070;
+    --accent-completion: #00f0ff; /* v0.11 MVP: High-contrast completion glow */
     --success: #00f0ff; --warning: #ffe600; --danger: #ff2a6d; --bg-badge: #ff007f; --text-badge: #ffffff;
     --shadow: 0 4px 20px rgba(255, 0, 127, 0.3); --font-main: 'Rajdhani', sans-serif; --font-heading: 'Orbitron', sans-serif;
     --radius: 8px; --scrollbar-thumb: #ff007f; --scrollbar-track: #1a162b;
@@ -119,6 +134,7 @@ window.CONFIG = {
     --bg-base: #0c0809; --bg-surface: #171012; --bg-surface-hover: #24191d; --bg-input: #120b0d; --bg-placeholder: #2c161a; --bg-backdrop: rgba(12, 8, 9, 0.85);
     --text-main: #e8d7c3; --text-muted: #a38f7e; --text-inverse: #0c0809; --text-disabled: #5e4f48;
     --border: #801824; --border-hover: #d4af37; --border-focus: #d4af37; --accent: #991b29; --accent-hover: #b52233;
+    --accent-completion: #d4af37; /* v0.11 MVP: High-contrast completion glow */
     --success: #4e8054; --warning: #d4af37; --danger: #e61932; --bg-badge: #380d12; --text-badge: #d4af37;
     --shadow: 0 4px 20px rgba(128, 24, 36, 0.35); --font-main: 'Cinzel', Georgia, serif; --font-heading: 'Cinzel', Georgia, serif;
     --radius: 4px; --scrollbar-thumb: #801824; --scrollbar-track: #171012;
@@ -128,7 +144,7 @@ window.CONFIG = {
     --bg-base: #020803; --bg-surface: #041206; --bg-surface-hover: #071f0a; --bg-input: #030d04; --bg-placeholder: #0b2b0f; --bg-backdrop: rgba(2, 8, 3, 0.85);
     --text-main: #33ff33; --text-muted: #1c991c; --text-inverse: #020803; --text-disabled: #0f5210;
     --border: #1c991c; --border-hover: #33ff33; --border-focus: #66ff66; --accent: #33ff33; --accent-hover: #66ff66;
-    --accent-completion: #ffb000; /* v0.10 MVP: Monochromatic contrast token */
+    --accent-completion: #ffb000;
     --success: #33ff33; --warning: #b3ff33; --danger: #ff3333; --bg-badge: #092e0c; --text-badge: #33ff33;
     --shadow: 0 0 16px rgba(51, 255, 51, 0.25); --font-main: 'VT323', 'Fira Code', monospace; --font-heading: 'VT323', monospace;
     --radius: 2px; --scrollbar-thumb: #1c991c; --scrollbar-track: #041206;
@@ -152,6 +168,7 @@ window.CONFIG = {
   /* Inputs & Forms */
   input, select, textarea, button { font-family: var(--font-main); background: var(--bg-input); color: var(--text-main); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px; font-size: 14px; width: 100%; }
   input:focus, select:focus, textarea:focus { border-color: var(--border-focus); outline: none; }
+  input::placeholder, textarea::placeholder { color: var(--text-disabled); opacity: 1; }
   button { cursor: pointer; transition: background 0.2s; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: auto; }
   button:hover { background: var(--bg-surface-hover); }
   button.primary { background: var(--accent); color: var(--text-inverse); border: none; }
@@ -167,22 +184,24 @@ window.CONFIG = {
     background-color: var(--bg-input); color: var(--text-main); border: 1px solid var(--border);
   }
   select option { background-color: var(--bg-surface); color: var(--text-main); }
-  
-  /* v0.10 MVP: Blank Select Muted Contrast */
   select:invalid, select option[value=""] { color: var(--text-disabled); }
 
-  /* v0.10 MVP: Header & Stacked Navigation Branding */
+  /* Date Input Placeholder Hack */
+  input[type="date"] { position: relative; }
+  input[type="date"].empty-date { color: transparent; }
+  input[type="date"].empty-date::before { content: attr(data-placeholder); color: var(--text-disabled); position: absolute; left: 10px; pointer-events: none; font-family: var(--font-main); }
+
+  /* v0.11 MVP: Header Brand Horizontal & Baseline Centering */
   header { background: var(--bg-surface); padding: 12px 20px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; border-bottom: 1px solid var(--border); gap: 10px; }
-  .brand { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-decoration: none; justify-self: flex-start;}
+  .brand { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; text-decoration: none; justify-self: flex-start;}
   .brand img { height: 28px; width: auto; aspect-ratio: 2355 / 644; object-fit: contain; }
-  .brand-text { display: flex; flex-direction: row; align-items: baseline; gap: 6px; line-height: 1; }
+  .brand-text { display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 6px; line-height: 1; }
   .brand h1 { color: var(--accent); font-size: 16px; margin: 0; }
   .brand span { font-size: 11px; color: var(--text-muted); font-family: var(--font-main); font-weight: 600;}
   .header-actions { display: flex; gap: 10px; align-items: center; justify-content: center; justify-self: center;}
   .search-bar { max-width: 300px; min-width: 250px; }
   #btn-add-game { white-space: nowrap; flex-shrink: 0; }
   
-  /* v0.10 MVP: System Tray Reordering & Density Fix */
   .system-tray { display: flex; align-items: center; gap: 12px; font-size: 12px; color: var(--text-muted); justify-self: flex-end;}
   .sync-status { display: flex; align-items: center; gap: 6px; }
   .status-dot { width: 10px; height: 10px; border-radius: 50%; }
@@ -197,7 +216,6 @@ window.CONFIG = {
   @keyframes spin { 100% { transform: rotate(360deg); } }
   .spinning { animation: spin 1s linear infinite; }
   
-  /* Secondary Control Bar & macOS Slider */
   .control-bar { padding: 10px 20px; display: flex; gap: 10px; background: var(--bg-base); flex-wrap: wrap; border-bottom: 1px solid var(--border); align-items: center;}
   .control-bar select { padding: 6px 10px; width: auto; flex: 1; min-width: 130px; }
   
@@ -215,7 +233,7 @@ window.CONFIG = {
   .empty-state { text-align: center; padding: 60px 20px; font-size: 24px; color: var(--text-muted); font-family: var(--font-heading); animation: float 3s ease-in-out infinite; }
   .empty-state-emoji { display: inline-block; animation: bounce-emoji 2s infinite ease-in-out; }
   
-  /* v0.10 MVP: Grid Cards, Badges & Achievement Stacking */
+  /* Grid & Cards */
   .grid-view { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
   .game-card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; display: flex; flex-direction: column; position: relative;}
   .game-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--border-hover); }
@@ -228,19 +246,17 @@ window.CONFIG = {
   .card-footer-left { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
   .card-footer-right { display: flex; align-items: center; justify-content: flex-end; }
   
-  .badge { background: var(--bg-badge); color: var(--text-badge); padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; white-space: nowrap;}
-  
-  /* v0.10 MVP: Amplified Glow & Terminal Cyan Support */
+  /* v0.11 MVP: Standardized Pill Height & Centering */
+  .badge { height: 22px; display: inline-flex; align-items: center; justify-content: center; padding: 0 8px; border-radius: 4px; font-size: 11px; font-weight: bold; white-space: nowrap; box-sizing: border-box; line-height: 1; text-align: center; }
   .game-card.completed-glow { border-color: var(--accent-completion, var(--accent)); box-shadow: 0 0 25px var(--accent-completion, var(--accent)), 0 0 45px rgba(0, 0, 0, 0.5); }
 
-  /* v0.10 MVP: List View Overrides (Non-Overlapping Flex Lock) */
+  /* v0.11 MVP: List View Metadata Non-Overlapping Alignment */
   .list-view { display: flex; flex-direction: column; gap: 10px; }
   .list-view .game-card { flex-direction: row; height: 60px; align-items: center; padding-right: 15px;}
   .list-view .card-cover { width: 45px; height: 60px; border-right: 1px solid var(--border); margin-right: 15px; aspect-ratio: auto; }
   .list-view .card-details { flex-direction: row; align-items: center; justify-content: space-between; padding: 0; width: 100%; gap: 15px; }
   .list-view .card-title { flex: 1; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   
-  /* Flex-locked right side so pills never wrap */
   .list-view .card-footer { display: flex; flex-direction: row; align-items: center; justify-content: flex-end; gap: 8px; width: auto; margin-top: 0; flex-shrink: 0; }
   .list-view .card-footer-left { flex-direction: row; align-items: center; gap: 8px; }
 
@@ -254,14 +270,14 @@ window.CONFIG = {
   .close-btn { background: none; border: none; font-size: 20px; color: var(--text-muted); padding: 0; width: auto; }
   .close-btn:hover { color: var(--text-main); }
 
-  /* Side-by-Side Modal Layout (v0.10 MVP: Height Stretching & Label Polish) */
+  /* v0.11 MVP: Side-by-Side Modal Height Stretch */
   .modal-top-section { display: flex; gap: 16px; margin-bottom: 16px; margin-top: 16px; align-items: stretch; }
   .modal-cover-wrapper { width: 140px; aspect-ratio: 3/4; flex-shrink: 0; background: var(--bg-placeholder); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--text-disabled); font-size: 12px; position: relative; }
   .modal-cover-wrapper img { width: 100%; height: 100%; object-fit: cover; display: none; position: absolute; top:0; left:0; }
   
-  .modal-desc-wrapper { flex: 1; display: flex; flex-direction: column; gap: 5px; height: 100%; }
+  .modal-desc-wrapper { flex: 1; display: flex; flex-direction: column; gap: 5px; height: 100%; min-height: 100%; }
   .modal-desc-wrapper label { font-size: 12px; color: var(--text-muted); font-weight: 600; font-family: var(--font-heading); text-transform: uppercase; }
-  .modal-desc-wrapper textarea { flex: 1; min-height: 100%; resize: none; }
+  .modal-desc-wrapper textarea { flex: 1; min-height: 105px; height: 100%; resize: none; }
 
   /* Forms & Grid */
   .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; }
@@ -269,7 +285,6 @@ window.CONFIG = {
   .form-group.full { grid-column: 1 / -1; }
   .form-group label { font-size: 12px; color: var(--text-muted); font-weight: 600; font-family: var(--font-heading); text-transform: uppercase; display:flex; justify-content: space-between;}
   
-  /* v0.10 MVP: RAWG Score Text High-Contrast */
   #f-rawg-score { color: var(--text-main); font-weight: 600; }
 
   .inline-input-group { display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; }
@@ -320,15 +335,15 @@ window.CONFIG = {
   .anim-glint::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%); transform: rotate(45deg); animation: glint 2s infinite; }
   @keyframes glint { 0% { left: -100%; } 100% { left: 100%; } }
 
-  /* v0.10 MVP: 3D Dice Pips, Tumble Physics, Isolation & Disco FX */
-  .dice-scene { width: 100px; height: 100px; perspective: 1000px; margin: 40px auto; position: relative; z-index: 2; transform-style: preserve-3d; contain: paint;}
+  /* v0.11 MVP: Unbounded 3D Dice Realism & Centered Disco Ball FX */
+  .dice-scene { width: 100px; height: 100px; perspective: 1200px; margin: 40px auto; position: relative; z-index: 2; transform-style: preserve-3d; }
   
-  .dice-disco-bg { position: absolute; top: -150%; left: -150%; width: 400%; height: 400%; background: radial-gradient(circle, var(--accent) 5%, transparent 60%); opacity: 0; pointer-events: none; z-index: 1; transition: opacity 0.3s; }
-  .dice-disco-bg.party { opacity: 0.35; animation: discoSpin 2s linear infinite, discoPulse 0.5s ease-in-out infinite alternate; }
-  @keyframes discoSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-  @keyframes discoPulse { 0% { opacity: 0.2; transform: scale(0.9); } 100% { opacity: 0.5; transform: scale(1.1); } }
+  .dice-disco-bg { position: absolute; top: 50%; left: 50%; width: 250vw; height: 250vh; transform: translate(-50%, -50%); background: repeating-conic-gradient(from 0deg, var(--accent) 0deg 10deg, transparent 10deg 20deg, var(--accent-hover) 20deg 30deg, transparent 30deg 40deg); opacity: 0; pointer-events: none; z-index: -1; transition: opacity 0.3s; mix-blend-mode: screen;}
+  .dice-disco-bg.party { opacity: 0.35; animation: discoSpin 3s linear infinite, discoPulse 0.5s ease-in-out infinite alternate; }
+  @keyframes discoSpin { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+  @keyframes discoPulse { 0% { opacity: 0.2; } 100% { opacity: 0.45; } }
 
-  .dice-cube { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transform: rotateX(-20deg) rotateY(-20deg); }
+  .dice-cube { width: 100%; height: 100%; position: absolute; top:0; left:0; transform-style: preserve-3d; transform: rotateX(-20deg) rotateY(-20deg); }
   .dice-cube.tumbling { animation: spinCube 0.5s linear infinite; }
   .dice-cube.settling { transition: transform 1.2s cubic-bezier(0.2, 0.9, 0.3, 1); }
   @keyframes spinCube { 0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); } 100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); } }
@@ -382,11 +397,11 @@ window.CONFIG = {
     <img src="./Logo%20SVG%20v1.svg" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.10</span>
+      <span id="ui-app-version">v0.11</span>
     </div>
   </a>
   <div class="header-actions">
-    <input type="text" id="global-search" class="search-bar" placeholder="🔍 Search library...">
+    <input type="text" id="global-search" class="search-bar" placeholder="🔍 Search Library...">
     <button class="primary" id="btn-add-game">➕ Add Game</button>
   </div>
   <div class="system-tray">
@@ -465,14 +480,13 @@ window.CONFIG = {
         
         <div class="form-group autocomplete-wrapper">
           <label>Title * (Sorted Newest-to-Oldest)</label>
-          <input type="text" id="f-title" placeholder="Start typing..." required autocomplete="off">
+          <input type="text" id="f-title" placeholder="Type Your Favorite Game..." required autocomplete="off">
           <div class="autocomplete-results" id="rawg-results"></div>
         </div>
         
-        <!-- v0.10 MVP: Modal Top Section Stretch Alignment -->
         <div class="modal-top-section">
           <div class="modal-cover-wrapper">
-            <span id="cover-preview-text">Live Thumbnail</span>
+            <span id="cover-preview-text">Select Title...</span>
             <img id="cover-preview-img" src="" alt="Cover" loading="lazy">
           </div>
           <div class="modal-desc-wrapper">
@@ -490,7 +504,7 @@ window.CONFIG = {
           <div class="form-group">
             <label>Platform *</label>
             <select id="f-platform" required>
-              <option value="" disabled selected hidden>Platform...</option>
+              <option value="" disabled selected hidden>Select Title...</option>
               <option value="Mobile">Mobile</option>
               <option value="NES">NES</option>
               <option value="Nintendo 64">Nintendo 64</option>
@@ -510,7 +524,7 @@ window.CONFIG = {
           <div class="form-group">
             <label>Media Format</label>
             <select id="f-format" required>
-              <option value="" disabled selected hidden>Format...</option>
+              <option value="" disabled selected hidden>Select Title...</option>
               <option value="Digital">Digital</option>
               <option value="Game Pass">Game Pass</option>
               <option value="Physical">Physical</option>
@@ -528,9 +542,10 @@ window.CONFIG = {
           </div>
           <div class="form-group">
             <label>Status</label>
-            <select id="f-status">
+            <select id="f-status" required>
+              <option value="" disabled selected hidden>Select Title...</option>
               <option value="Abandoned">Abandoned</option>
-              <option value="Backlog" selected>Backlog</option>
+              <option value="Backlog">Backlog</option>
               <option value="Completed">Completed</option>
               <option value="Playing">Playing</option>
               <option value="Wishlist">Wishlist</option>
@@ -545,11 +560,11 @@ window.CONFIG = {
           </div>
           <div class="form-group">
             <label>RAWG Rating</label>
-            <input type="text" id="f-rawg-score" readonly disabled style="background:var(--bg-base);" placeholder="Select Title">
+            <input type="text" id="f-rawg-score" readonly disabled style="background:var(--bg-base);" placeholder="Select Title...">
           </div>
 
-          <div class="form-group"><label>Date Added</label><input type="date" id="f-date-added"></div>
-          <div class="form-group"><label>Date Completed</label><input type="date" id="f-date-completed"></div>
+          <div class="form-group"><label>Date Added</label><input type="date" id="f-date-added" readonly data-placeholder="Select Title..." class="empty-date"></div>
+          <div class="form-group"><label>Date Completed</label><input type="date" id="f-date-completed" data-placeholder="Select Title..." class="empty-date"></div>
 
           <div class="form-group full" style="border-top:1px dashed var(--border); padding-top:16px; margin-top:0px;">
             <label>
@@ -632,11 +647,11 @@ window.CONFIG = {
       <div style="background:var(--bg-input); padding:15px; border-radius:var(--radius); border:1px solid var(--border);">
         <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">2. External APIs</h3>
         <div style="display:flex; justify-content: space-between; align-items:center;">
+          <span style="font-size:12px; color:var(--text-muted);">RAWG Metadata Database</span>
           <div style="display:flex; align-items:center; gap: 8px;">
-            <span style="font-size:12px; color:var(--text-muted);">RAWG Metadata Database</span>
             <div class="status-dot dot-yellow" id="modal-rawg-dot"></div>
+            <button id="btn-audit-rawg" style="padding:4px 10px; font-size:12px;">🌐 Check RAWG</button>
           </div>
-          <button id="btn-audit-rawg" style="padding:4px 10px; font-size:12px;">🌐 Check RAWG</button>
         </div>
       </div>
 
@@ -676,8 +691,8 @@ window.CONFIG = {
     <div class="modal-header">
       <h2 style="color:var(--danger);">Confirm Deletion</h2>
     </div>
-    <div class="modal-body">
-      Are you sure you want to permanently delete this game? This action cannot be undone.
+    <div class="modal-body" id="modal-confirm-body">
+      <!-- Injected via window.CONFIG.MESSAGES -->
     </div>
     <div class="modal-footer" style="justify-content: flex-end;">
       <button id="btn-cancel-delete">Cancel</button>
@@ -689,9 +704,9 @@ window.CONFIG = {
 <!-- Randomizer Modal w/ 3D Dice & FX Canvas -->
 <div class="modal-overlay" id="modal-randomizer" style="z-index: 1002; overflow: hidden;">
   <canvas id="fx-canvas"></canvas>
-  <div class="dice-disco-bg" id="dice-disco"></div>
   <div class="modal-content" style="max-width: 300px; text-align:center; background: transparent; box-shadow: none; border: none; position: relative; z-index: 2;">
      <div class="dice-scene" id="dice-scene">
+        <div class="dice-disco-bg" id="dice-disco"></div>
         <div class="dice-cube" id="dice-cube">
           <div class="dice-face face-1"><div class="pip p-c"></div></div>
           <div class="dice-face face-2"><div class="pip p-tl"></div><div class="pip p-br"></div></div>
@@ -723,13 +738,17 @@ window.CONFIG = {
   let db;
   let games = JSON.parse(localStorage.getItem('vgnomicon_db')) || {}; 
   
-  // v0.10 MVP: "Surprise Me" Theme Engine
+  // v0.11 MVP: Alphabetized Theme Engine
   const themesList = [
-    { id: 'modern-dark', name: 'Modern Dark' }, { id: 'minimalist-light', name: 'Minimal Light' },
-    { id: 'modern-light', name: 'Modern Light' }, { id: 'retro-arcade', name: 'Retro Arcade' },
-    { id: 'synthwave-sunset', name: 'Synthwave' }, { id: 'cyberpunk', name: 'Cyberpunk' },
-    { id: 'gothic-crimson', name: 'Gothic Crimson' }, { id: 'wasteland-terminal', name: 'Terminal' },
-    { id: 'cozy-village', name: 'Cozy Village' }
+    { id: 'cozy-village', name: 'Cozy Village' },
+    { id: 'cyberpunk', name: 'Cyberpunk' },
+    { id: 'gothic-crimson', name: 'Gothic Crimson' },
+    { id: 'minimalist-light', name: 'Minimal Light' },
+    { id: 'modern-dark', name: 'Modern Dark' },
+    { id: 'modern-light', name: 'Modern Light' },
+    { id: 'retro-arcade', name: 'Retro Arcade' },
+    { id: 'synthwave-sunset', name: 'Synthwave' },
+    { id: 'wasteland-terminal', name: 'Terminal' }
   ];
 
   let settings = JSON.parse(localStorage.getItem('vgnomicon_settings')) || { 
@@ -737,7 +756,6 @@ window.CONFIG = {
     dbColl: C.DB_COLLECTION
   };
   
-  // Resolve Theme Logic
   let activeThemeToApply = settings.theme;
   if (settings.theme === 'random' || !settings.theme) {
     let sessionTheme = sessionStorage.getItem('vgnomicon_session_theme');
@@ -784,7 +802,7 @@ window.CONFIG = {
     
     // Delete Confirmation Modal
     mDelete: document.getElementById('modal-confirm-delete'), btnConfirmDel: document.getElementById('btn-confirm-delete'),
-    btnCancelDel: document.getElementById('btn-cancel-delete'),
+    btnCancelDel: document.getElementById('btn-cancel-delete'), mConfirmBody: document.getElementById('modal-confirm-body'),
 
     // Schema Inputs
     f: {
@@ -825,6 +843,7 @@ window.CONFIG = {
     
     document.getElementById('s-appname-read').innerText = C.APP_NAME;
     document.getElementById('s-appver-read').innerText = `v${C.APP_VERSION}`;
+    els.mConfirmBody.innerText = C.MESSAGES.CONFIRM_DELETE;
     els.f.curr.innerHTML = `<option value="${C.DEFAULT_CURRENCY}">${C.DEFAULT_CURRENCY}</option><option value="CAD">CAD</option>`;
     
     buildStarWidget();
@@ -870,9 +889,21 @@ window.CONFIG = {
     els.btnRandom.onclick = triggerRandomizer;
     els.btnCloseRandom.onclick = () => els.mRandom.classList.remove('active');
 
-    els.f.title.addEventListener('input', (e) => { debounce(searchRAWG, 300)(); updateHLTBLink(e.target.value); });
-    els.f.plat.addEventListener('change', updatePlatformFields);
+    // Autocomplete & Date State Machine
+    els.f.title.addEventListener('input', (e) => { 
+      debounce(searchRAWG, 300)(); 
+      updateHLTBLink(e.target.value); 
+      if (e.target.value) promoteStatusAndDate(); 
+    });
+    
+    // Select styling inheritance
+    els.f.plat.addEventListener('change', (e) => { updatePlatformFields(); e.target.style.color = "var(--text-main)"; });
+    els.f.format.addEventListener('change', (e) => e.target.style.color = "var(--text-main)");
     els.f.status.addEventListener('change', handleStatusChange);
+
+    // Empty Date styling updates
+    els.f.dateAdd.addEventListener('change', (e) => updateDateClass(e.target));
+    els.f.dateComp.addEventListener('change', (e) => updateDateClass(e.target));
 
     document.querySelectorAll('.chip').forEach(chip => {
       chip.onclick = () => { els.f.notes.value += (els.f.notes.value ? "\n" : "") + chip.innerText + " "; };
@@ -883,7 +914,6 @@ window.CONFIG = {
     els.btnCancelDel.onclick = () => els.mDelete.classList.remove('active');
     els.btnConfirmDel.onclick = deleteGame;
     
-    // v0.10 MVP: Blank Select Dropdown Logic
     els.fStatus.addEventListener('change', (e) => {
       if(e.target.value === "") e.target.style.color = "var(--text-disabled)";
       else e.target.style.color = "var(--text-main)";
@@ -895,12 +925,8 @@ window.CONFIG = {
       renderLibrary();
     });
     
-    els.f.plat.addEventListener('change', (e) => e.target.style.color = "var(--text-main)");
-    els.f.format.addEventListener('change', (e) => e.target.style.color = "var(--text-main)");
-
     els.search.addEventListener('input', renderLibrary);
     
-    // Initial color state for filters
     els.fStatus.style.color = "var(--text-disabled)";
     els.fPlatform.style.color = "var(--text-disabled)";
 
@@ -959,7 +985,7 @@ window.CONFIG = {
         updateTimestamp();
         updateStorageMeter();
         setSyncState('🟢');
-        showToast(C.SYNC_TOAST_TEXT);
+        showToast(C.MESSAGES.SYNC_SUCCESS);
       } catch(e) { setSyncState('🔴'); }
     } else { setSyncState('🔴'); }
     
@@ -1011,7 +1037,7 @@ window.CONFIG = {
       const res = await fetch(`https://api.rawg.io/api/games?key=${C.RAWG_API_KEY}&page_size=1`);
       if(res.ok) {
         setRawgState('🟢');
-        if(els.mSettings.classList.contains('active')) showToast("RAWG API: Online & Connected");
+        if(els.mSettings.classList.contains('active')) showToast(C.MESSAGES.RAWG_ONLINE);
       } else {
         setRawgState('🔴');
       }
@@ -1066,6 +1092,7 @@ window.CONFIG = {
     els.f.rawgRes.style.display = 'none';
     els.f.title.value = g.name;
     updateHLTBLink(g.name);
+    promoteStatusAndDate();
     
     els.f.url.value = g.background_image || "";
     if(g.background_image) {
@@ -1075,7 +1102,7 @@ window.CONFIG = {
     }
     
     els.f.genres.value = (g.genres || []).map(x=>x.name).join(', ');
-    els.f.rawgScore.value = g.rating ? `RAWG: ${g.rating} / 5.0 (Meta: ${g.metacritic||"N/A"})` : "N/A";
+    els.f.rawgScore.value = g.rating ? `RAWG: ${g.rating} / 5.0 (Meta: ${g.metacritic||"N/A"})` : C.UNRATED_LABEL;
 
     try {
       const res = await fetch(`https://api.rawg.io/api/games/${g.id}?key=${C.RAWG_API_KEY}`);
@@ -1105,7 +1132,7 @@ window.CONFIG = {
     
     const display = document.createElement('span');
     display.id = 'star-display-text';
-    display.style = 'font-size:13px; color:var(--text-muted); font-weight:bold; margin-left:8px;';
+    display.style = 'font-size:13px; color:var(--text-muted); font-weight:bold; margin-left:8px; display:inline-flex; align-items:center; line-height:1;';
     
     widget.addEventListener('click', (e) => {
       if(e.target.classList.contains('star-half')) {
@@ -1131,6 +1158,22 @@ window.CONFIG = {
     });
   }
 
+  function updateDateClass(el) {
+    if (el.value) el.classList.remove('empty-date');
+    else el.classList.add('empty-date');
+  }
+
+  function promoteStatusAndDate() {
+    if(!els.f.status.value) {
+        els.f.status.value = "Backlog";
+        els.f.status.style.color = "var(--text-main)";
+    }
+    if(!els.f.dateAdd.value) {
+        els.f.dateAdd.value = new Date().toISOString().split('T')[0];
+        updateDateClass(els.f.dateAdd);
+    }
+  }
+
   function openGameModal(id = null) {
     els.form.reset();
     els.f.coverImg.style.display = 'none';
@@ -1142,6 +1185,7 @@ window.CONFIG = {
     
     els.f.plat.style.color = "var(--text-disabled)";
     els.f.format.style.color = "var(--text-disabled)";
+    els.f.status.style.color = "var(--text-disabled)";
     
     els.mGame.classList.add('active');
     els.mGameBody.scrollTop = 0;
@@ -1166,6 +1210,7 @@ window.CONFIG = {
       
       if(g.plat) els.f.plat.style.color = "var(--text-main)";
       if(g.format) els.f.format.style.color = "var(--text-main)";
+      if(els.f.status.value) els.f.status.style.color = "var(--text-main)";
       
       setStars(parseFloat(g.rating || 0));
       
@@ -1177,6 +1222,9 @@ window.CONFIG = {
       
       els.f.dateAdd.value = g.dateAdd || "";
       els.f.dateComp.value = g.dateComp || "";
+      updateDateClass(els.f.dateAdd);
+      updateDateClass(els.f.dateComp);
+      
       els.f.playtime.value = g.playtime || "";
       els.f.hltbM.value = g.hltbM || "";
       els.f.hltbE.value = g.hltbE || "";
@@ -1188,10 +1236,13 @@ window.CONFIG = {
       els.mGameTitle.innerText = "Add Game";
       els.btnDelPrompt.style.display = "none";
       els.f.id.value = crypto.randomUUID();
-      els.f.dateAdd.value = new Date().toISOString().split('T')[0];
-      els.f.status.value = "Backlog";
+      els.f.status.value = "";
       els.f.plat.value = "";
       els.f.format.value = "";
+      els.f.dateAdd.value = "";
+      els.f.dateComp.value = "";
+      updateDateClass(els.f.dateAdd);
+      updateDateClass(els.f.dateComp);
     }
     updatePlatformFields();
   }
@@ -1217,12 +1268,26 @@ window.CONFIG = {
     else els.f.lblAch.innerText = "Achievements";
   }
 
-  function handleStatusChange() {
-    if(els.f.status.value === "Completed" && !els.f.dateComp.value) els.f.dateComp.value = new Date().toISOString().split('T')[0];
+  function handleStatusChange(e) {
+    if(e.target.value === "") e.target.style.color = "var(--text-disabled)";
+    else e.target.style.color = "var(--text-main)";
+      
+    if(e.target.value === "Completed" && !els.f.dateComp.value) {
+        els.f.dateComp.value = new Date().toISOString().split('T')[0];
+        updateDateClass(els.f.dateComp);
+    }
   }
 
   function saveGameData() {
     if(!els.form.checkValidity()) { els.form.reportValidity(); return; }
+    
+    const eVal = parseFloat(els.f.achE.value || 0);
+    const tVal = parseFloat(els.f.achT.value || 0);
+    if (els.f.achE.value && els.f.achT.value && eVal > tVal) {
+        showToast(C.MESSAGES.ACHIEVEMENT_ERROR);
+        return;
+    }
+    
     const id = els.f.id.value;
     
     const gameData = {
@@ -1245,7 +1310,7 @@ window.CONFIG = {
     setTimeout(() => els.btnSync.classList.remove('spinning'), 600);
     
     els.mGame.classList.remove('active');
-    showToast(`SAVED - ${gameData.title}`);
+    showToast(C.MESSAGES.SAVED_TOAST.replace('{title}', gameData.title));
   }
 
   function deleteGame() {
@@ -1256,7 +1321,7 @@ window.CONFIG = {
     saveLocalAndRender();
     els.mDelete.classList.remove('active');
     els.mGame.classList.remove('active');
-    showToast(`DELETED - ${title}`);
+    showToast(C.MESSAGES.DELETED_TOAST.replace('{title}', title));
   }
 
   // --- 7. RENDERING & UI TOASTS ---
@@ -1277,21 +1342,21 @@ window.CONFIG = {
       let achBadge = "";
       let isCompleted = g.status === "Completed";
       
-      // v0.10 MVP: Gamerscore / Trophy Badge Stacking
+      // v0.11 MVP: Badge Stacking & Emoji Cleanup
       if (g.achE || g.achT) {
         const e = g.achE || 0;
         const t = g.achT || 0;
         const isMaxed = parseFloat(e) >= parseFloat(t) && parseFloat(t) > 0;
         
         if((g.plat||"").includes("PS")) {
-          achBadge = `<span class="badge ${isMaxed ? 'anim-glint' : ''}" style="background:transparent; color:var(--text-muted); border: 1px solid var(--border); margin-top:2px;">🏆 ${e}/${t}</span>`;
-          if (isMaxed) achBadge = `<span class="badge anim-glint" style="background:#003791; color:#fff; border: 1px solid rgba(255,255,255,0.2); margin-top:2px;">🏆 PLATINUM</span>`;
+          achBadge = `<span class="badge ${isMaxed ? 'anim-glint' : ''}" style="background:transparent; color:var(--text-muted); border: 1px solid var(--border);">🏆 ${e}/${t}</span>`;
+          if (isMaxed) achBadge = `<span class="badge anim-glint" style="background:#003791; color:#fff; border: 1px solid rgba(255,255,255,0.2);">🏆 PLATINUM</span>`;
         } else if((g.plat||"").includes("Xbox")) {
-          achBadge = `<span class="badge ${isMaxed ? 'anim-glint' : ''}" style="background:transparent; color:var(--text-muted); border: 1px solid var(--border); margin-top:2px;">🎮 ${e}/${t}G</span>`;
-          if (isMaxed) achBadge = `<span class="badge anim-glint" style="background:#107C10; color:#fff; border: 1px solid rgba(255,255,255,0.2); transform:scale(1.05); margin-top:2px;">🎮 ${e}G</span>`;
+          achBadge = `<span class="badge ${isMaxed ? 'anim-glint' : ''}" style="background:transparent; color:var(--text-muted); border: 1px solid var(--border);">${e}/${t}G</span>`;
+          if (isMaxed) achBadge = `<span class="badge anim-glint" style="background:#107C10; color:#fff; border: 1px solid rgba(255,255,255,0.2);">${e}G</span>`;
         } else {
-          achBadge = `<span class="badge ${isMaxed ? 'anim-glint' : ''}" style="background:transparent; color:var(--text-muted); border: 1px solid var(--border); margin-top:2px;">🏅 ${e}/${t}</span>`;
-          if (isMaxed) achBadge = `<span class="badge anim-glint" style="background:#C69C6D; color:#000; border: 1px solid rgba(0,0,0,0.2); margin-top:2px;">✨ 100%</span>`;
+          achBadge = `<span class="badge ${isMaxed ? 'anim-glint' : ''}" style="background:transparent; color:var(--text-muted); border: 1px solid var(--border);">🏅 ${e}/${t}</span>`;
+          if (isMaxed) achBadge = `<span class="badge anim-glint" style="background:#C69C6D; color:#000; border: 1px solid rgba(0,0,0,0.2);">✨ 100%</span>`;
         }
       }
 
@@ -1299,10 +1364,9 @@ window.CONFIG = {
       card.className = `game-card ${isCompleted ? 'completed-glow' : ''}`;
       card.onclick = () => openGameModal(g.id);
       
-      const ratingDisp = (g.rating && parseFloat(g.rating) > 0) ? `<span style="color:var(--accent); font-weight:bold;">★ ${parseFloat(g.rating).toFixed(1)}</span>` : `<span style="color:var(--text-muted);">${C.UNRATED_LABEL}</span>`;
+      const ratingDisp = (g.rating && parseFloat(g.rating) > 0) ? `<span style="color:var(--accent); font-weight:bold; display:inline-flex; align-items:center; gap:2px;"><span style="font-size:14px; line-height:1;">★</span> <span>${parseFloat(g.rating).toFixed(1)}</span></span>` : `<span style="color:var(--text-muted); display:inline-flex; align-items:center;">${C.UNRATED_LABEL}</span>`;
       const compBadge = isCompleted ? `<span class="badge" style="background:var(--accent-completion, var(--accent)); color:var(--text-inverse);">🏆 COMPLETED</span>` : `<span class="badge" style="background:var(--border);">${g.status}</span>`;
 
-      // Brand Pill Theme Contrast
       let platColor = "var(--bg-input)";
       let platText = "var(--text-badge)";
       let platBorder = "var(--border)";
@@ -1395,7 +1459,7 @@ window.CONFIG = {
     };
     els.themeGrid.appendChild(btnRand);
 
-    // 2. Inject Curated Themes
+    // 2. Inject Curated Themes (Alphabetized)
     themesList.forEach(t => {
       const btn = document.createElement('button');
       btn.className = `theme-btn ${settings.theme === t.id ? 'active' : ''}`;
@@ -1422,11 +1486,12 @@ window.CONFIG = {
   }
 
   document.getElementById('btn-clear-cache').onclick = () => {
-    if(confirm("Clear local cache? (Unsynced cloud data will be lost!)")) {
+    if(confirm(C.MESSAGES.CACHE_CONFIRM)) {
       localStorage.removeItem('vgnomicon_db');
       localStorage.removeItem('vgnomicon_settings');
       sessionStorage.removeItem('vgnomicon_session_theme');
-      location.reload();
+      showToast(C.MESSAGES.CACHE_CLEARED);
+      setTimeout(() => location.reload(), 1000);
     }
   };
   
@@ -1485,7 +1550,7 @@ window.CONFIG = {
   
   function triggerRandomizer() {
     const keys = Object.keys(games);
-    if(keys.length === 0) { showToast(C.EMPTY_STATE_TEXT); return; }
+    if(keys.length === 0) { showToast(C.MESSAGES.EMPTY_RANDOMIZER); return; }
     
     els.mRandom.classList.add('active');
     els.diceCube.parentElement.style.display = 'block';
@@ -1544,4 +1609,4 @@ window.CONFIG = {
   init();
 </script>
 </body>
-</html>```
+</html>

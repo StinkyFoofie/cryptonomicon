@@ -25,7 +25,7 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.20",
+  APP_VERSION: "0.21",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 Check RAWG",
@@ -90,6 +90,13 @@ window.CONFIG = {
     "gothic-crimson": "Gothic Crimson",
     "wasteland-terminal": "Wasteland Terminal",
     "cozy-village": "Cozy Village"
+  },
+  
+  // 7. Companion Brand Assets (Keep image files flat in the same directory as index.html!)
+  ASSETS: {
+    FAVICON_DESKTOP: "Favi Dsk SVG 512 v1.svg",
+    FAVICON_MOBILE: "Favi iP PNG 1024 v1.png",
+    LOGO_BRAND: "Logo SVG v1.svg"
   }
 };
 </script>
@@ -98,10 +105,11 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>VGnomicon v0.20</title>
-<link rel="icon" type="image/svg+xml" href="./Favi%20Dsk%20SVG%20512%20v1.svg">
-<link rel="apple-touch-icon" href="./Favi%20iP%20PNG%201024%20v1.png">
-<link rel="apple-touch-icon" sizes="180x180" href="./Favi%20iP%20PNG%201024%20v1.png">
+<title id="html-title">VGnomicon v0.21</title>
+<!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
+<link id="favicon-desktop" rel="icon">
+<link id="favicon-mobile-1" rel="apple-touch-icon">
+<link id="favicon-mobile-2" rel="apple-touch-icon" sizes="180x180">
 <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiVkdub21pY29uIiwic2hvcnRfbmFtZSI6IlZHbm9taWNvbiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiaWNvbnMiOlt7InNyYyI6Ii4vRmF2aSUyMGlQJTIwUE5HJTIwMTAyNCUyMHYxLnBuZyIsInNpemVzIjoiMTkyeDE5MiB0byAxMDI0eDEwMjQiLCJ0eXBlIjoiaW1hZ2UvcG5nIn1dfQ==">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Plus+Jakarta+Sans:wght@400;600;800&family=Press+Start+2P&family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&family=Share+Tech+Mono&family=JetBrains+Mono&family=Cinzel:wght@600&family=VT323&family=Fira+Code&family=Quicksand:wght@500;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
 
@@ -145,28 +153,22 @@ window.CONFIG = {
     --shadow: 0 0 15px rgba(255, 0, 85, 0.35); --font-main: 'Press Start 2P', 'Courier New', monospace; --font-heading: 'Press Start 2P', monospace;
     --radius: 2px; --scrollbar-thumb: #ffcc00; --scrollbar-track: #101025;
   }
-  /* Retro Arcade Layout Normalization & v0.20 Alignment Fixes */
+  /* Retro Arcade Layout Normalization & Universal Optical Snapping */
   [data-theme="retro-arcade"] .grid-view .card-title { font-size: 10px; }
   [data-theme="retro-arcade"] .grid-view .card-meta { font-size: 9px; }
   [data-theme="retro-arcade"] .grid-view .badge { font-size: 8px; padding: 0 5px; height: 20px; }
   [data-theme="retro-arcade"] .game-card:not(.completed-glow) .card-footer-right .badge { background: #101025 !important; border: 1px solid #ffcc00 !important; color: #ffcc00 !important; }
-  
   [data-theme="retro-arcade"] input, [data-theme="retro-arcade"] select, [data-theme="retro-arcade"] textarea, [data-theme="retro-arcade"] button, [data-theme="retro-arcade"] .custom-select-trigger, [data-theme="retro-arcade"] .custom-option { font-size: 11px; text-align: center; }
   [data-theme="retro-arcade"] .custom-option { padding: 12px; }
   [data-theme="retro-arcade"] .modal-desc-wrapper label, [data-theme="retro-arcade"] .form-group label { font-size: 10px; text-align: center; justify-content: center; }
   [data-theme="retro-arcade"] h2 { font-size: 16px; text-align: center; }
-
-  /* Retro Arcade Close '✕' Visibility & Sizing (Item 3) */
-  [data-theme="retro-arcade"] .close-btn { font-size: 20px !important; font-weight: bold; line-height: 1; display: inline-flex; align-items: center; justify-content: center; }
-
-  /* Retro Arcade Settings Collection Inline Alignment (Item 4) */
   [data-theme="retro-arcade"] .settings-coll-row { display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; text-align: center; width: 100%; }
-
-  /* Retro Arcade Global Emoji & Text Optical Snapping (Item 9) */
-  [data-theme="retro-arcade"] button, [data-theme="retro-arcade"] .btn, [data-theme="retro-arcade"] .slider-btn, [data-theme="retro-arcade"] .custom-select-trigger {
-    display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; gap: 6px;
-  }
   
+  /* v0.21 Scoped Optical Nudges for Press Start 2P Geometry Warp */
+  [data-theme="retro-arcade"] .retro-star { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; font-size: 1.4em; position: relative; top: -3px; line-height: 1;}
+  /* Only apply optical emoji nudging to elements explicitly containing emojis in Retro Arcade */
+  [data-theme="retro-arcade"] .emoji-nudge { position: relative; top: -1px; }
+
   /* --- 5. SYNTHWAVE SUNSET --- */
   [data-theme="synthwave-sunset"] {
     --bg-base: #0b0c10; --bg-surface: #1a162b; --bg-surface-hover: #282142; --bg-input: #120e20; --bg-placeholder: #322550; --bg-backdrop: rgba(11, 12, 16, 0.85);
@@ -177,11 +179,7 @@ window.CONFIG = {
     --shadow: 0 4px 20px rgba(255, 0, 127, 0.3); --font-main: 'Rajdhani', sans-serif; --font-heading: 'Orbitron', sans-serif;
     --radius: 8px; --scrollbar-thumb: #ff007f; --scrollbar-track: #1a162b;
   }
-  /* Synthwave Sunset Container Query Title Sizing (Item 8) */
-  [data-theme="synthwave-sunset"] .grid-view .card-title { font-size: 15px; }
-  @container (max-width: 170px) { [data-theme="synthwave-sunset"] .grid-view .card-title { font-size: 13px; } }
-  @container (max-width: 150px) { [data-theme="synthwave-sunset"] .grid-view .card-title { font-size: 11.5px; } }
-
+  
   /* --- 6. CYBERPUNK --- */
   [data-theme="cyberpunk"] {
     --bg-base: #05080f; --bg-surface: #0e1420; --bg-surface-hover: #162032; --bg-input: #080c14; --bg-placeholder: #1b263b; --bg-backdrop: rgba(5, 8, 15, 0.85);
@@ -204,6 +202,7 @@ window.CONFIG = {
     --shadow: 0 4px 20px rgba(128, 24, 36, 0.35); --font-main: 'Cinzel', Georgia, serif; --font-heading: 'Cinzel', Georgia, serif;
     --radius: 4px; --scrollbar-thumb: #801824; --scrollbar-track: #171012;
   }
+  
   /* --- 8. WASTELAND TERMINAL --- */
   [data-theme="wasteland-terminal"] {
     --bg-base: #020803; --bg-surface: #041206; --bg-surface-hover: #071f0a; --bg-input: #030d04; --bg-placeholder: #0b2b0f; --bg-backdrop: rgba(2, 8, 3, 0.85);
@@ -214,6 +213,7 @@ window.CONFIG = {
     --shadow: 0 0 16px rgba(51, 255, 51, 0.25); --font-main: 'VT323', 'Fira Code', monospace; --font-heading: 'VT323', monospace;
     --radius: 2px; --scrollbar-thumb: #1c991c; --scrollbar-track: #041206;
   }
+  
   /* --- 9. COZY VILLAGE --- */
   [data-theme="cozy-village"] {
     --bg-base: #f5f0eb; --bg-surface: #fffdfa; --bg-surface-hover: #ede6dd; --bg-input: #faf7f2; --bg-placeholder: #e4dcd3; --bg-backdrop: rgba(245, 240, 235, 0.85);
@@ -230,11 +230,15 @@ window.CONFIG = {
   body { background-color: var(--bg-base); color: var(--text-main); font-family: var(--font-main); -webkit-font-smoothing: antialiased; }
   h1, h2, h3, h4, h5 { font-family: var(--font-heading); }
   
-  /* Inputs & Forms (Item 9 Universal Optical Centering) */
+  /* Inputs & Forms (v0.21 Global-First Optical Centering) */
   input, select, textarea, button { font-family: var(--font-main); background: var(--bg-input); color: var(--text-main); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px; font-size: 14px; width: 100%; }
   input:focus, select:focus, textarea:focus { border-color: var(--border-focus); outline: none; }
   input::placeholder, textarea::placeholder { color: var(--text-disabled); opacity: 1; }
-  button { cursor: pointer; transition: background 0.2s; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: auto; line-height: 1; vertical-align: middle; }
+  
+  /* v0.21 Universal Inline-Flex Optical Anchor */
+  .optical-align { display: inline-flex; align-items: center; justify-content: center; gap: 6px; line-height: 1; vertical-align: middle; }
+  
+  button { cursor: pointer; transition: background 0.2s; font-weight: 600; width: auto; display: inline-flex; align-items: center; justify-content: center; gap: 8px; line-height: 1; vertical-align: middle; }
   button:hover { background: var(--bg-surface-hover); }
   button.primary { background: var(--accent); color: var(--text-inverse); border: none; }
   button.primary:hover { background: var(--accent-hover); }
@@ -250,10 +254,10 @@ window.CONFIG = {
   .custom-select-wrapper.open .custom-select-trigger { border-color: var(--border-focus); }
   .custom-select-wrapper.open .custom-select-trigger::after { transform: rotate(180deg); }
   
+  /* v0.21 Pixel-Perfect Dropdown Clamps */
   .custom-options-container { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); z-index: 10000; overflow-y: auto; display: none; flex-direction: column; max-height: 250px;}
   .custom-select-wrapper.open .custom-options-container { display: flex; }
-  
-  .custom-options-container[data-select-id="f-platform"], .custom-options-container[data-select-id="filter-platform"] { max-height: 182px; }
+  .custom-options-container[data-select-id="f-platform"], .custom-options-container[data-select-id="filter-platform"] { max-height: 195px; } /* Exactly 5 options */
   .custom-options-container[data-select-id="f-format"], .custom-options-container[data-select-id="f-status"], .custom-options-container[data-select-id="filter-status"], .custom-options-container[data-select-id="f-currency"] { max-height: none; overflow-y: visible; }
   
   .custom-option { padding: 10px 12px; cursor: pointer; color: var(--text-main); font-family: var(--font-main); font-size: 14px; border-bottom: 1px solid var(--border); }
@@ -317,23 +321,40 @@ window.CONFIG = {
   .card-cover { width: 100%; aspect-ratio: 3/4; object-fit: cover; background: var(--bg-placeholder); }
   .card-details { padding: 12px; display: flex; flex-direction: column; gap: 6px; flex: 1;}
   
-  /* Adaptive Typography Container */
+  /* v0.21 Universal 2-Line Truncation Prevention (Global First Mechanism) */
   .card-details-text-container { container-type: inline-size; width: 100%; }
   .grid-view .card-title { text-align: center; font-weight: bold; font-family: var(--font-heading); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; font-size: 16px; line-height: 1.3;}
   
-  @container (max-width: 170px) { .grid-view .card-title { font-size: 14px; } }
-  @container (max-width: 150px) { .grid-view .card-title { font-size: 13px; } }
+  /* Smooth Fallbacks */
+  @container (max-width: 250px) { .grid-view .card-title { font-size: 15px; } }
+  @container (max-width: 200px) { .grid-view .card-title { font-size: 14px; } }
+  @container (max-width: 170px) { .grid-view .card-title { font-size: 13px; } }
+  @container (max-width: 150px) { .grid-view .card-title { font-size: 12px; } }
   
-  /* Retro Arcade Adaptive Typography Overrides (Item 6 Deeper Clamps) */
+  /* Long-String Dynamic Step-Down Classes */
+  .grid-view .card-title.title-long { font-size: 14px; }
+  @container (max-width: 250px) { .grid-view .card-title.title-long { font-size: 13.5px; } }
+  @container (max-width: 200px) { .grid-view .card-title.title-long { font-size: 13px; } }
+  @container (max-width: 170px) { .grid-view .card-title.title-long { font-size: 12px; } }
+  
+  /* Synthwave Sunset Overrides */
+  [data-theme="synthwave-sunset"] .grid-view .card-title.title-long { font-size: 13px; }
+  @container (max-width: 200px) { [data-theme="synthwave-sunset"] .grid-view .card-title.title-long { font-size: 12px; } }
+  @container (max-width: 170px) { [data-theme="synthwave-sunset"] .grid-view .card-title.title-long { font-size: 11px; } }
+
+  /* Retro Arcade Overrides */
   [data-theme="retro-arcade"] .grid-view .card-title { font-size: 10px; line-height: 1.3;}
+  @container (max-width: 200px) { [data-theme="retro-arcade"] .grid-view .card-title { font-size: 9px; line-height: 1.25; } }
   @container (max-width: 170px) { [data-theme="retro-arcade"] .grid-view .card-title { font-size: 8.5px; line-height: 1.25; } }
   @container (max-width: 150px) { [data-theme="retro-arcade"] .grid-view .card-title { font-size: 7.5px; line-height: 1.2; } }
   
+  [data-theme="retro-arcade"] .grid-view .card-title.title-long { font-size: 9px; line-height: 1.25; }
+  @container (max-width: 250px) { [data-theme="retro-arcade"] .grid-view .card-title.title-long { font-size: 8.5px; } }
+  @container (max-width: 200px) { [data-theme="retro-arcade"] .grid-view .card-title.title-long { font-size: 8px; } }
+  @container (max-width: 170px) { [data-theme="retro-arcade"] .grid-view .card-title.title-long { font-size: 7.5px; } }
+
   .grid-view .card-meta { justify-content: center; width: 100%; display: flex; font-size: 12px; color: var(--text-muted); align-items: center;}
-  
-  /* Optical Star Baseline Lock & Centering (Items 7 & 9) */
   .rating-val-wrap { display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; gap: 4px;}
-  [data-theme="retro-arcade"] .retro-star { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; font-size: 1.4em; position: relative; top: -3px; line-height: 1;}
   
   .card-footer { display: flex; justify-content: space-between; align-items: flex-end; width: 100%; margin-top: auto; }
   .card-footer-left { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
@@ -362,13 +383,18 @@ window.CONFIG = {
   .modal-content { background: var(--bg-surface); width: 100%; max-width: 700px; max-height: 90vh; border-radius: var(--radius); display: flex; flex-direction: column; box-shadow: 0 0 25px var(--accent), var(--shadow); border: 1px solid var(--accent); overflow: hidden; position: relative;}
   
   #modal-theme .modal-header, #modal-settings .modal-header, #modal-confirm-cache .modal-header { justify-content: center; position: relative; }
-  #modal-theme .modal-header .close-btn, #modal-settings .modal-header .close-btn { position: absolute; right: 20px; }
-  
   .modal-header { padding: 15px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); z-index: 2;}
-  .modal-body { padding: 20px; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; gap: 16px; scroll-behavior: smooth; flex: 1; }
-  .modal-footer { padding: 15px 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; gap: 10px; background: var(--bg-surface); z-index: 2;}
+  
+  /* v0.21 Increased Close Button Specificity for Universal Retention */
+  .modal-header .close-btn { position: absolute; right: 20px; background: none; border: none; font-size: 20px !important; font-weight: bold; color: var(--text-muted); padding: 0; width: auto; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; z-index: 10; }
+  .modal-header .close-btn:hover { color: var(--text-main); }
+  
+  /* In-app fallback for non-absolute closes if added later */
   .close-btn { background: none; border: none; font-size: 20px; color: var(--text-muted); padding: 0; width: auto; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; }
   .close-btn:hover { color: var(--text-main); }
+  
+  .modal-body { padding: 20px; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; gap: 16px; scroll-behavior: smooth; flex: 1; }
+  .modal-footer { padding: 15px 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; gap: 10px; background: var(--bg-surface); z-index: 2;}
   
   .settings-block { background: var(--bg-input); padding: 15px; border-radius: var(--radius); border: 3px solid var(--border); }
   .settings-block input, .settings-block select, .settings-block button, .settings-block .custom-select-trigger { border: 2px solid var(--border); }
@@ -502,15 +528,16 @@ window.CONFIG = {
      ========================================================================== -->
 <header>
   <a href="#" class="brand" aria-label="VGnomicon Home">
-    <img src="./Logo%20SVG%20v1.svg" alt="VGnomicon Logo" onerror="this.style.display='none';">
+    <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.20</span>
+      <span id="ui-app-version">v0.21</span>
     </div>
   </a>
   <div class="header-actions">
     <input type="text" id="global-search" class="search-bar" placeholder="🔍 Search Library...">
-    <button class="primary" id="btn-add-game">➕ Add Game</button>
+    <!-- Notice how these use global span wrappers for centering text and emojis -->
+    <button class="primary" id="btn-add-game"><span class="optical-align"><span class="emoji-nudge">➕</span><span>Add Game</span></span></button>
   </div>
   <div class="system-tray">
     <div class="tray-time-stacked">
@@ -520,9 +547,9 @@ window.CONFIG = {
     <div class="sync-status" title="Cloud Sync Status">
       <div class="status-dot dot-yellow" id="tray-sync-dot"></div>
     </div>
-    <button id="btn-force-sync" title="Force Sync">🚀 Sync</button>
-    <button id="btn-open-theme" title="Theme">🎨 Theme</button>
-    <button id="btn-open-settings" title="Settings">⚙️ Settings</button>
+    <button id="btn-force-sync" title="Force Sync"><span class="optical-align"><span class="emoji-nudge">🚀</span><span>Sync</span></span></button>
+    <button id="btn-open-theme" title="Theme"><span class="optical-align"><span class="emoji-nudge">🎨</span><span>Theme</span></span></button>
+    <button id="btn-open-settings" title="Settings"><span class="optical-align"><span class="emoji-nudge">⚙️</span><span>Settings</span></span></button>
   </div>
 </header>
 
@@ -557,17 +584,17 @@ window.CONFIG = {
   
   <div class="view-toggle" id="view-toggle">
     <div class="view-slider"></div>
-    <button class="view-btn active" id="btn-grid-view">🔲 Grid</button>
-    <button class="view-btn" id="btn-list-view">☰ List</button>
+    <button class="view-btn active" id="btn-grid-view"><span class="optical-align"><span class="emoji-nudge">🔲</span><span>Grid</span></span></button>
+    <button class="view-btn" id="btn-list-view"><span class="optical-align"><span class="emoji-nudge">☰</span><span>List</span></span></button>
   </div>
 
-  <button id="btn-random-game" style="margin-left:auto;">🎲 Pick Game</button>
+  <button id="btn-random-game" style="margin-left:auto;"><span class="optical-align"><span class="emoji-nudge">🎲</span><span>Pick Game</span></span></button>
 </div>
 
 <main>
   <div id="empty-state" class="empty-state">
     <span id="empty-text">Library is empty</span>
-    <div class="empty-state-emoji">😭😭😭😭😭😭😭</div>
+    <div class="empty-state-emoji emoji-nudge">😭😭😭😭😭😭😭</div>
   </div>
   <div id="library-container" class="grid-view">
     <!-- Game cards injected via JS -->
@@ -703,11 +730,11 @@ window.CONFIG = {
           <div class="form-group full" style="border-top:1px dashed var(--border); padding-top:16px; margin-top:0px;">
             <label>Notes / Personal Review</label>
             <div class="reaction-chips" id="reaction-chips">
-              <span class="chip">🔥 Must Play</span>
-              <span class="chip">🏆 Masterpiece</span>
-              <span class="chip">💤 Overrated</span>
-              <span class="chip">💀 Brutal</span>
-              <span class="chip">✨ Cozy</span>
+              <span class="chip"><span class="optical-align"><span class="emoji-nudge">🔥</span><span>Must Play</span></span></span>
+              <span class="chip"><span class="optical-align"><span class="emoji-nudge">🏆</span><span>Masterpiece</span></span></span>
+              <span class="chip"><span class="optical-align"><span class="emoji-nudge">💤</span><span>Overrated</span></span></span>
+              <span class="chip"><span class="optical-align"><span class="emoji-nudge">💀</span><span>Brutal</span></span></span>
+              <span class="chip"><span class="optical-align"><span class="emoji-nudge">✨</span><span>Cozy</span></span></span>
             </div>
             <textarea id="f-notes" rows="4" maxlength="2000" placeholder="Emojis and thoughts here..."></textarea>
           </div>
@@ -715,10 +742,10 @@ window.CONFIG = {
       </form>
     </div>
     <div class="modal-footer">
-      <button class="danger" id="btn-delete-prompt" style="display:none;">🗑️ Delete</button>
+      <button class="danger" id="btn-delete-prompt" style="display:none;"><span class="optical-align"><span class="emoji-nudge">🗑️</span><span>Delete</span></span></button>
       <div style="margin-left:auto; display:flex; gap:10px;">
         <button id="btn-cancel-game">Cancel</button>
-        <button class="primary" id="btn-save-game" form="game-form">💾 Save</button>
+        <button class="primary" id="btn-save-game" form="game-form"><span class="optical-align"><span class="emoji-nudge">💾</span><span>Save</span></span></button>
       </div>
     </div>
   </div>
@@ -728,7 +755,7 @@ window.CONFIG = {
 <div class="modal-overlay" id="modal-theme">
   <div class="modal-content" style="max-width: 580px;">
     <div class="modal-header">
-      <h2>🎨 Select Theme</h2>
+      <h2><span class="optical-align"><span class="emoji-nudge">🎨</span><span>Select Theme</span></span></h2>
       <button class="close-btn" id="btn-close-theme">✕</button>
     </div>
     <div class="modal-body theme-grid" id="theme-grid-container">
@@ -760,7 +787,7 @@ window.CONFIG = {
           <span style="font-size:12px; color:var(--text-muted);">RAWG Metadata Database</span>
           <div style="display:flex; align-items:center; gap: 8px;">
             <div class="status-dot dot-yellow" id="modal-rawg-dot"></div>
-            <button id="btn-audit-rawg" style="padding:4px 10px; font-size:12px;">🌐 Check RAWG</button>
+            <button id="btn-audit-rawg" style="padding:4px 10px; font-size:12px;"><span class="optical-align"><span class="emoji-nudge">🌐</span><span>Check RAWG</span></span></button>
           </div>
         </div>
       </div>
@@ -770,8 +797,8 @@ window.CONFIG = {
         <div class="storage-meter"><div class="storage-fill" id="s-storage-bar-fill"></div></div>
         <span style="font-size:12px; color:var(--text-muted); display:block; margin-top:5px; margin-bottom:15px;" id="s-storage-text">0.00 MB / 5.00 MB used (0%)</span>
         <div style="display:flex; gap:10px;">
-          <button id="btn-audit-cache" style="flex:1;">🔄 Check Local Cache</button>
-          <button class="danger" id="btn-clear-cache" style="flex:1;">🗑️ Clear Cache</button>
+          <button id="btn-audit-cache" style="flex:1;"><span class="optical-align"><span class="emoji-nudge">🔄</span><span>Check Local Cache</span></span></button>
+          <button class="danger" id="btn-clear-cache" style="flex:1;"><span class="optical-align"><span class="emoji-nudge">🗑️</span><span>Clear Cache</span></span></button>
         </div>
       </div>
 
@@ -806,23 +833,23 @@ window.CONFIG = {
     </div>
     <div class="modal-footer" style="justify-content: flex-end;">
       <button id="btn-cancel-delete">Cancel</button>
-      <button class="danger" id="btn-confirm-delete">🗑️ Delete</button>
+      <button class="danger" id="btn-confirm-delete"><span class="optical-align"><span class="emoji-nudge">🗑️</span><span>Delete</span></span></button>
     </div>
   </div>
 </div>
 
-<!-- Clear Cache In-App Confirmation Modal (Rule 6 Compliance) -->
+<!-- Clear Cache In-App Confirmation Modal -->
 <div class="modal-overlay" id="modal-confirm-cache" style="z-index: 2000;">
   <div class="modal-content" style="max-width: 350px;">
     <div class="modal-header">
-      <h2 style="color:var(--warning);">⚠️ Clear Cache</h2>
+      <h2 style="color:var(--warning);"><span class="optical-align"><span class="emoji-nudge">⚠️</span><span>Clear Cache</span></span></h2>
     </div>
     <div class="modal-body" id="modal-confirm-cache-body" style="font-weight: 600; color: var(--text-main);">
       <!-- Injected via window.CONFIG.MESSAGES -->
     </div>
     <div class="modal-footer" style="justify-content: flex-end;">
       <button id="btn-cancel-clear-cache">Cancel</button>
-      <button class="danger" id="btn-confirm-clear-cache">🗑️ Clear Data</button>
+      <button class="danger" id="btn-confirm-clear-cache"><span class="optical-align"><span class="emoji-nudge">🗑️</span><span>Clear Data</span></span></button>
     </div>
   </div>
 </div>
@@ -952,6 +979,37 @@ window.CONFIG = {
     btnAuditCache: document.getElementById('btn-audit-cache'), btnAuditRawg: document.getElementById('btn-audit-rawg'),
     btnClearCache: document.getElementById('btn-clear-cache')
   };
+  
+  // --- v0.21 DYNAMIC ASSET ENGINE ---
+  function applyDynamicAssets() {
+    if(!C.ASSETS) return;
+    
+    const getMime = (path) => {
+      if(!path) return '';
+      const lower = path.toLowerCase();
+      if(lower.endsWith('.svg')) return 'image/svg+xml';
+      if(lower.endsWith('.png')) return 'image/png';
+      return '';
+    };
+
+    if(C.ASSETS.FAVICON_DESKTOP) {
+      const el = document.getElementById('favicon-desktop');
+      if(el) { el.href = `./${C.ASSETS.FAVICON_DESKTOP}`; el.type = getMime(C.ASSETS.FAVICON_DESKTOP); }
+    }
+    
+    if(C.ASSETS.FAVICON_MOBILE) {
+      const el1 = document.getElementById('favicon-mobile-1');
+      const el2 = document.getElementById('favicon-mobile-2');
+      const mime = getMime(C.ASSETS.FAVICON_MOBILE);
+      if(el1) { el1.href = `./${C.ASSETS.FAVICON_MOBILE}`; if(mime) el1.type = mime; }
+      if(el2) { el2.href = `./${C.ASSETS.FAVICON_MOBILE}`; if(mime) el2.type = mime; }
+    }
+    
+    if(C.ASSETS.LOGO_BRAND) {
+      const img = document.getElementById('brand-logo-img');
+      if(img) img.src = `./${C.ASSETS.LOGO_BRAND}`;
+    }
+  }
 
   // --- CUSTOM THEMEABLE DROPDOWN ENGINE ---
   function initializeCustomSelects() {
@@ -1051,19 +1109,30 @@ window.CONFIG = {
 
   // --- 3. INITIALIZATION & UI SETUP ---
   function init() {
+    applyDynamicAssets();
+    document.getElementById('html-title').innerText = `${C.APP_NAME} v${C.APP_VERSION}`;
     els.appTitle.innerText = C.APP_NAME;
     els.appVer.innerText = `v${C.APP_VERSION}`;
     els.search.placeholder = C.SEARCH_PLACEHOLDER;
-    els.btnAdd.innerText = C.BTN_ADD_GAME;
-    els.btnSync.innerHTML = `🚀 ${C.BTN_FORCE_SYNC}`;
-    els.btnTheme.innerHTML = `🎨 Theme`;
-    els.btnRandom.innerText = C.BTN_RANDOM_GAME;
     document.getElementById('ui-settings-title').innerText = C.SETTINGS_TITLE;
     
     document.getElementById('s-appname-read').innerText = C.APP_NAME;
     document.getElementById('s-appver-read').innerText = `v${C.APP_VERSION}`;
     document.getElementById('s-apparch-read').innerText = C.APP_ARCHITECTURE;
     
+    // v0.21 Replace plain text mapping with Optical Align Wrappers dynamically for config-driven strings
+    const injectAlign = (emoji, text) => `<span class="optical-align"><span class="emoji-nudge">${emoji}</span><span>${text}</span></span>`;
+    
+    // Deconstruct config strings assuming format "EMOJI TEXT" if applicable
+    const splitEmoji = (str) => {
+      const match = str.match(/^([\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic})\s*(.*)$/u);
+      return match ? injectAlign(match[1], match[2]) : str;
+    };
+    
+    els.btnAdd.innerHTML = splitEmoji(C.BTN_ADD_GAME);
+    els.btnSync.innerHTML = splitEmoji(C.BTN_FORCE_SYNC);
+    els.btnTheme.innerHTML = splitEmoji(C.BTN_THEME);
+    els.btnRandom.innerHTML = splitEmoji(C.BTN_RANDOM_GAME);
     els.mConfirmBody.innerText = C.MESSAGES.CONFIRM_DELETE;
     els.mConfirmCacheBody.innerText = C.MESSAGES.CACHE_CONFIRM;
     
@@ -1119,7 +1188,7 @@ window.CONFIG = {
     
     els.btnAuditCache.onclick = () => {
         updateStorageMeter();
-        showToast(C.MESSAGES.CACHE_AUDITED);
+        showToast(splitEmoji(C.MESSAGES.CACHE_AUDITED));
     };
     els.btnAuditRawg.onclick = auditRawgConnection;
     els.btnSync.onclick = forceSync;
@@ -1158,7 +1227,7 @@ window.CONFIG = {
       localStorage.removeItem('vgnomicon_settings');
       sessionStorage.removeItem('vgnomicon_session_theme');
       els.mConfirmCache.classList.remove('active');
-      showToast(C.MESSAGES.CACHE_CLEARED);
+      showToast(splitEmoji(C.MESSAGES.CACHE_CLEARED));
       setTimeout(() => location.reload(), 1500);
     };
     
@@ -1484,14 +1553,17 @@ window.CONFIG = {
   }
 
   function updateHLTBLink(title) { 
+    const injectAlign = (emoji, text) => `<span class="optical-align"><span class="emoji-nudge">${emoji}</span><span>${text}</span></span>`;
     if(title) {
       els.hltbLink.href = `https://howlongtobeat.com/?q=${encodeURIComponent(title)}`;
-      els.hltbLink.innerHTML = "🔗 Look up on HLTB";
+      els.hltbLink.innerHTML = injectAlign("🔗", "Look up on HLTB");
       els.hltbLink.style.color = "var(--accent)";
       els.hltbLink.style.pointerEvents = "auto";
     } else {
       els.hltbLink.href = "#";
-      els.hltbLink.innerHTML = C.HLTB_WARNING_TEXT;
+      // Split the warning text cleanly
+      const match = C.HLTB_WARNING_TEXT.match(/^([\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic})\s*(.*)$/u);
+      els.hltbLink.innerHTML = match ? injectAlign(match[1], match[2]) : C.HLTB_WARNING_TEXT;
       els.hltbLink.style.color = "var(--warning)";
       els.hltbLink.style.pointerEvents = "none";
     }
@@ -1610,20 +1682,22 @@ window.CONFIG = {
       let achBadge = "";
       let isCompleted = g.status === "Completed";
       
+      const injectAlign = (emoji, text) => `<span class="optical-align"><span class="emoji-nudge">${emoji}</span><span>${text}</span></span>`;
+      
       if (g.achE || g.achT) {
         const e = g.achE || 0;
         const t = g.achT || 0;
         const isMaxed = parseFloat(e) >= parseFloat(t) && parseFloat(t) > 0;
         
         if((g.plat||"").includes("PS")) {
-          achBadge = `<span class="badge ${isMaxed ? 'anim-glint' : ''}" style="background:transparent; color:var(--text-muted); border: 1px solid var(--border);">🏆 ${e}/${t}</span>`;
-          if (isMaxed) achBadge = `<span class="badge anim-glint" style="background:#003791; color:#fff; border: 1px solid rgba(255,255,255,0.2);">🏆 PLATINUM</span>`;
+          achBadge = `<span class="badge ${isMaxed ? 'anim-glint' : ''}" style="background:transparent; color:var(--text-muted); border: 1px solid var(--border);">${injectAlign("🏆", `${e}/${t}`)}</span>`;
+          if (isMaxed) achBadge = `<span class="badge anim-glint" style="background:#003791; color:#fff; border: 1px solid rgba(255,255,255,0.2);">${injectAlign("🏆", "PLATINUM")}</span>`;
         } else if((g.plat||"").includes("Xbox")) {
           achBadge = `<span class="badge ${isMaxed ? 'anim-glint' : ''}" style="background:transparent; color:var(--text-muted); border: 1px solid var(--border);">${e}/${t}G</span>`;
           if (isMaxed) achBadge = `<span class="badge anim-glint" style="background:#107C10; color:#fff; border: 1px solid rgba(255,255,255,0.2);">${e}G</span>`;
         } else {
-          achBadge = `<span class="badge ${isMaxed ? 'anim-glint' : ''}" style="background:transparent; color:var(--text-muted); border: 1px solid var(--border);">🏅 ${e}/${t}</span>`;
-          if (isMaxed) achBadge = `<span class="badge anim-glint" style="background:#C69C6D; color:#000; border: 1px solid rgba(0,0,0,0.2);">✨ 100%</span>`;
+          achBadge = `<span class="badge ${isMaxed ? 'anim-glint' : ''}" style="background:transparent; color:var(--text-muted); border: 1px solid var(--border);">${injectAlign("🏅", `${e}/${t}`)}</span>`;
+          if (isMaxed) achBadge = `<span class="badge anim-glint" style="background:#C69C6D; color:#000; border: 1px solid rgba(0,0,0,0.2);">${injectAlign("✨", "100%")}</span>`;
         }
       }
 
@@ -1635,7 +1709,7 @@ window.CONFIG = {
       
       let compBadge = `<span class="badge" style="background:var(--border);">${g.status}</span>`;
       if (isCompleted) {
-         compBadge = `<span class="badge" style="background:var(--accent-completion, var(--accent)); color:var(--text-inverse);">🏆 COMPLETED</span>`;
+         compBadge = `<span class="badge" style="background:var(--accent-completion, var(--accent)); color:var(--text-inverse);">${injectAlign("🏆", "COMPLETED")}</span>`;
       } else if (isCyberpunk) {
          compBadge = `<span class="badge" style="background:#080c14; color:#00e8f8; border: 1px solid #00e8f8; box-shadow: 0 0 5px rgba(0,232,248,0.4);">${g.status}</span>`;
       }
@@ -1647,12 +1721,15 @@ window.CONFIG = {
       if (p.includes("PS")) { platColor = "#003791"; platText = "#ffffff"; platBorder = "rgba(255,255,255,0.2)"; }
       else if (p.includes("Xbox")) { platColor = "#107C10"; platText = "#ffffff"; platBorder = "rgba(255,255,255,0.2)"; }
       else if (p === "NES" || p === "Nintendo 64" || p === "SNES" || p.includes("Switch")) { platColor = "#E60012"; platText = "#ffffff"; platBorder = "rgba(255,255,255,0.2)"; }
+      
+      // v0.21 Add `title-long` class for container query font step-downs
+      const titleClass = g.title.length > 25 ? "card-title title-long" : "card-title";
 
       card.innerHTML = `
         <img src="${g.url || ''}" class="card-cover" loading="lazy">
         <div class="card-details">
           <div class="card-details-text-container">
-            <div class="card-title">${g.title}</div>
+            <div class="${titleClass}">${g.title}</div>
           </div>
           <div class="card-meta" style="color:var(--accent);">
             ${ratingDisp}
@@ -1674,10 +1751,15 @@ window.CONFIG = {
     if (count === 0) {
       els.empty.style.display = 'block';
       if (q) {
-        els.emptyText.innerText = C.EMPTY_SEARCH_TEXT.replace(/🤣/g, '');
+        // v0.21 Safe optical split for empty state emojis
+        const match = C.EMPTY_SEARCH_TEXT.match(/^(.*?)([\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic})+$/u);
+        const text = match ? match[1].trim() : C.EMPTY_SEARCH_TEXT.replace(/🤣/g, '').trim();
+        els.emptyText.innerText = text;
         els.empty.querySelector('.empty-state-emoji').innerText = '🤣🤣🤣🤣🤣🤣🤣';
       } else {
-        els.emptyText.innerText = C.EMPTY_STATE_TEXT.replace(/😭/g, '');
+        const match = C.EMPTY_STATE_TEXT.match(/^(.*?)([\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic})+$/u);
+        const text = match ? match[1].trim() : C.EMPTY_STATE_TEXT.replace(/😭/g, '').trim();
+        els.emptyText.innerText = text;
         els.empty.querySelector('.empty-state-emoji').innerText = '😭😭😭😭😭😭😭';
       }
     } else {
@@ -1705,7 +1787,19 @@ window.CONFIG = {
   }
 
   function showToast(msg) {
-    els.toast.innerText = msg;
+    const injectAlign = (emoji, text) => `<span class="optical-align"><span class="emoji-nudge">${emoji}</span><span>${text}</span></span>`;
+    const match = msg.match(/^([\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic})\s*(.*)$/u);
+    // If it ends with an emoji (e.g. Sync Success 🚀)
+    const matchEnd = msg.match(/^(.*?)\s*([\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic})$/u);
+    
+    if(match) {
+        els.toast.innerHTML = injectAlign(match[1], match[2]);
+    } else if (matchEnd) {
+        els.toast.innerHTML = injectAlign(matchEnd[2], matchEnd[1]);
+    } else {
+        els.toast.innerText = msg;
+    }
+    
     els.toast.classList.add('show');
     setTimeout(() => els.toast.classList.remove('show'), 4000);
   }
@@ -1719,9 +1813,12 @@ window.CONFIG = {
   function buildThemeGrid() {
     els.themeGrid.innerHTML = '';
     
+    const injectAlign = (emoji, text) => `<span class="optical-align"><span class="emoji-nudge">${emoji}</span><span>${text}</span></span>`;
+    const matchRand = C.BTN_THEME_RANDOM.match(/^([\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic})\s*(.*)$/u);
+    
     const btnRand = document.createElement('button');
     btnRand.className = `theme-btn ${(settings.theme === 'random' || !settings.theme) ? 'active' : ''}`;
-    btnRand.innerText = C.BTN_THEME_RANDOM;
+    btnRand.innerHTML = matchRand ? injectAlign(matchRand[1], matchRand[2]) : C.BTN_THEME_RANDOM;
     btnRand.onclick = () => {
       settings.theme = 'random';
       localStorage.setItem('vgnomicon_settings', JSON.stringify(settings));
@@ -1865,18 +1962,21 @@ window.CONFIG = {
          else if (p.includes("Xbox")) { platColor = "#107C10"; platText = "#ffffff"; platBorder = "rgba(255,255,255,0.2)"; }
          else if (p === "NES" || p === "Nintendo 64" || p === "SNES" || p.includes("Switch")) { platColor = "#E60012"; platText = "#ffffff"; platBorder = "rgba(255,255,255,0.2)"; }
 
+         const injectAlign = (emoji, text) => `<span class="optical-align"><span class="emoji-nudge">${emoji}</span><span>${text}</span></span>`;
+         const titleClass = pick.title.length > 25 ? "card-title title-long" : "card-title";
+
          els.randomRes.innerHTML = `
             <div class="game-card" style="margin:0 auto; transform:scale(1.05); pointer-events:none; border:1px solid var(--accent); box-shadow: 0 0 20px var(--accent), 0 0 40px rgba(0,0,0,0.5);">
               <img src="${pick.url || ''}" class="card-cover">
               <div class="card-details" style="padding:15px; align-items:center; container-type: inline-size; width: 100%;">
-                <div class="card-title" style="display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; text-overflow:ellipsis; line-height:1.3; text-align:center; word-break:break-word; font-size: 20px; font-weight: bold;">${pick.title}</div>
+                <div class="${titleClass}" style="display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; text-overflow:ellipsis; line-height:1.3; text-align:center; word-break:break-word; font-size: 20px; font-weight: bold;">${pick.title}</div>
                 <div class="badge" style="margin-top:12px; background:${platColor}; color:${platText}; border:1px solid ${platBorder}; box-shadow: 0 2px 6px rgba(0,0,0,0.5); height:26px; padding: 0 12px; font-size:12px; border-radius:4px;">${pick.plat || ''}</div>
               </div>
             </div>
-            <div style="font-size:24px; margin-top:20px; color:var(--accent); font-weight:bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">🎉 Winner! 🎉</div>
+            <div style="font-size:24px; margin-top:20px; color:var(--accent); font-weight:bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">${injectAlign("🎉", "Winner! 🎉")}</div>
          `;
          
-         /* Adaptive Step-Down Clamp for Winner Card (Items 2 & 5) */
+         /* v0.21 Adaptive Step-Down Clamp for Winner Card */
          const winnerTitle = els.randomRes.querySelector('.card-title');
          const isRetroArcade = document.body.getAttribute('data-theme') === 'retro-arcade';
          

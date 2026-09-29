@@ -25,7 +25,7 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.19",
+  APP_VERSION: "0.20",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 Check RAWG",
@@ -33,7 +33,7 @@ window.CONFIG = {
   BTN_FORCE_SYNC: "🚀 Sync",
   BTN_RANDOM_GAME: "🎲 Pick Game",
   BTN_THEME: "🎨 Theme",
-  BTN_THEME_RANDOM: "🎲 Surprise Me",
+  BTN_THEME_RANDOM: "🎲 Surprise Me!",
   EMPTY_SEARCH_TEXT: "YOU DON'T OWN THIS GAME! 🤣🤣🤣🤣🤣🤣🤣",
   EMPTY_STATE_TEXT: "LIBRARY IS EMPTY! 😭😭😭😭😭😭😭",
   HLTB_WARNING_TEXT: "⚠️ Select Title First",
@@ -98,7 +98,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>VGnomicon v0.19</title>
+<title>VGnomicon v0.20</title>
 <link rel="icon" type="image/svg+xml" href="./Favi%20Dsk%20SVG%20512%20v1.svg">
 <link rel="apple-touch-icon" href="./Favi%20iP%20PNG%201024%20v1.png">
 <link rel="apple-touch-icon" sizes="180x180" href="./Favi%20iP%20PNG%201024%20v1.png">
@@ -145,7 +145,7 @@ window.CONFIG = {
     --shadow: 0 0 15px rgba(255, 0, 85, 0.35); --font-main: 'Press Start 2P', 'Courier New', monospace; --font-heading: 'Press Start 2P', monospace;
     --radius: 2px; --scrollbar-thumb: #ffcc00; --scrollbar-track: #101025;
   }
-  /* Retro Arcade Layout Normalization */
+  /* Retro Arcade Layout Normalization & v0.20 Alignment Fixes */
   [data-theme="retro-arcade"] .grid-view .card-title { font-size: 10px; }
   [data-theme="retro-arcade"] .grid-view .card-meta { font-size: 9px; }
   [data-theme="retro-arcade"] .grid-view .badge { font-size: 8px; padding: 0 5px; height: 20px; }
@@ -155,6 +155,17 @@ window.CONFIG = {
   [data-theme="retro-arcade"] .custom-option { padding: 12px; }
   [data-theme="retro-arcade"] .modal-desc-wrapper label, [data-theme="retro-arcade"] .form-group label { font-size: 10px; text-align: center; justify-content: center; }
   [data-theme="retro-arcade"] h2 { font-size: 16px; text-align: center; }
+
+  /* Retro Arcade Close '✕' Visibility & Sizing (Item 3) */
+  [data-theme="retro-arcade"] .close-btn { font-size: 20px !important; font-weight: bold; line-height: 1; display: inline-flex; align-items: center; justify-content: center; }
+
+  /* Retro Arcade Settings Collection Inline Alignment (Item 4) */
+  [data-theme="retro-arcade"] .settings-coll-row { display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; text-align: center; width: 100%; }
+
+  /* Retro Arcade Global Emoji & Text Optical Snapping (Item 9) */
+  [data-theme="retro-arcade"] button, [data-theme="retro-arcade"] .btn, [data-theme="retro-arcade"] .slider-btn, [data-theme="retro-arcade"] .custom-select-trigger {
+    display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; gap: 6px;
+  }
   
   /* --- 5. SYNTHWAVE SUNSET --- */
   [data-theme="synthwave-sunset"] {
@@ -166,6 +177,11 @@ window.CONFIG = {
     --shadow: 0 4px 20px rgba(255, 0, 127, 0.3); --font-main: 'Rajdhani', sans-serif; --font-heading: 'Orbitron', sans-serif;
     --radius: 8px; --scrollbar-thumb: #ff007f; --scrollbar-track: #1a162b;
   }
+  /* Synthwave Sunset Container Query Title Sizing (Item 8) */
+  [data-theme="synthwave-sunset"] .grid-view .card-title { font-size: 15px; }
+  @container (max-width: 170px) { [data-theme="synthwave-sunset"] .grid-view .card-title { font-size: 13px; } }
+  @container (max-width: 150px) { [data-theme="synthwave-sunset"] .grid-view .card-title { font-size: 11.5px; } }
+
   /* --- 6. CYBERPUNK --- */
   [data-theme="cyberpunk"] {
     --bg-base: #05080f; --bg-surface: #0e1420; --bg-surface-hover: #162032; --bg-input: #080c14; --bg-placeholder: #1b263b; --bg-backdrop: rgba(5, 8, 15, 0.85);
@@ -214,11 +230,11 @@ window.CONFIG = {
   body { background-color: var(--bg-base); color: var(--text-main); font-family: var(--font-main); -webkit-font-smoothing: antialiased; }
   h1, h2, h3, h4, h5 { font-family: var(--font-heading); }
   
-  /* Inputs & Forms */
+  /* Inputs & Forms (Item 9 Universal Optical Centering) */
   input, select, textarea, button { font-family: var(--font-main); background: var(--bg-input); color: var(--text-main); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px; font-size: 14px; width: 100%; }
   input:focus, select:focus, textarea:focus { border-color: var(--border-focus); outline: none; }
   input::placeholder, textarea::placeholder { color: var(--text-disabled); opacity: 1; }
-  button { cursor: pointer; transition: background 0.2s; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: auto; }
+  button { cursor: pointer; transition: background 0.2s; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: auto; line-height: 1; vertical-align: middle; }
   button:hover { background: var(--bg-surface-hover); }
   button.primary { background: var(--accent); color: var(--text-inverse); border: none; }
   button.primary:hover { background: var(--accent-hover); }
@@ -228,7 +244,7 @@ window.CONFIG = {
   .custom-select-wrapper { position: relative; width: 100%; }
   .custom-select-wrapper select { display: none; }
   
-  .custom-select-trigger { background: var(--bg-input); color: var(--text-main); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px; font-size: 14px; font-family: var(--font-main); width: 100%; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+  .custom-select-trigger { background: var(--bg-input); color: var(--text-main); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px; font-size: 14px; font-family: var(--font-main); width: 100%; cursor: pointer; display: inline-flex; justify-content: space-between; align-items: center; user-select: none; line-height: 1; vertical-align: middle; }
   .custom-select-trigger.empty { color: var(--text-disabled); }
   .custom-select-trigger::after { content: ''; width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid var(--text-muted); transition: transform 0.2s; }
   .custom-select-wrapper.open .custom-select-trigger { border-color: var(--border-focus); }
@@ -270,7 +286,7 @@ window.CONFIG = {
   .dot-red { background: var(--danger); }
   .tray-time-stacked { display: flex; flex-direction: column; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 10px; line-height: 1.2; }
   
-  .system-tray button { background: transparent; border: none; color: var(--text-muted); padding: 6px 10px; border-radius: var(--radius); transition: all 0.2s; }
+  .system-tray button { background: transparent; border: none; color: var(--text-muted); padding: 6px 10px; border-radius: var(--radius); transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; }
   .system-tray button:hover { color: var(--accent); background: var(--bg-surface-hover); }
   
   @keyframes spin { 100% { transform: rotate(360deg); } }
@@ -280,10 +296,10 @@ window.CONFIG = {
   .control-bar .custom-select-wrapper { width: auto; flex: 1; min-width: 130px; }
   .control-bar .custom-select-trigger { padding: 6px 10px; }
   
-  .view-toggle { display: inline-flex; background: var(--bg-input); border-radius: 20px; padding: 2px; position: relative; border: 1px solid var(--border); align-items: center; margin: 0 10px;}
+  .view-toggle { display: inline-flex; background: var(--bg-input); border-radius: 20px; padding: 2px; position: relative; border: 1px solid var(--border); align-items: center; margin: 0 10px; line-height: 1;}
   .view-slider { position: absolute; top: 2px; bottom: 2px; left: 2px; width: calc(50% - 2px); background: var(--bg-surface); border-radius: 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.3); transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.25, 1); z-index: 1; border: 1px solid var(--border-hover);}
   .view-toggle.list-active .view-slider { transform: translateX(100%); }
-  .view-btn { position: relative; z-index: 2; background: transparent; border: none; padding: 4px 14px; font-size: 13px; color: var(--text-muted); font-weight: 600; cursor: pointer; }
+  .view-btn { position: relative; z-index: 2; background: transparent; border: none; padding: 4px 14px; font-size: 13px; color: var(--text-muted); font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle;}
   .view-toggle:not(.list-active) #btn-grid-view { color: var(--text-main); }
   .view-toggle.list-active #btn-list-view { color: var(--text-main); }
 
@@ -301,22 +317,21 @@ window.CONFIG = {
   .card-cover { width: 100%; aspect-ratio: 3/4; object-fit: cover; background: var(--bg-placeholder); }
   .card-details { padding: 12px; display: flex; flex-direction: column; gap: 6px; flex: 1;}
   
-  /* v0.19 Adaptive Typography Container (container-type inline-size) */
+  /* Adaptive Typography Container */
   .card-details-text-container { container-type: inline-size; width: 100%; }
   .grid-view .card-title { text-align: center; font-weight: bold; font-family: var(--font-heading); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; font-size: 16px; line-height: 1.3;}
   
-  /* Container Query: Gracefully scale text down on extremely narrow columns to prevent word breaking/truncation */
   @container (max-width: 170px) { .grid-view .card-title { font-size: 14px; } }
   @container (max-width: 150px) { .grid-view .card-title { font-size: 13px; } }
   
-  /* Specific Retro Arcade Adaptive Typography overrides */
-  [data-theme="retro-arcade"] .grid-view .card-title { font-size: 10px; line-height: 1.4;}
-  @container (max-width: 170px) { [data-theme="retro-arcade"] .grid-view .card-title { font-size: 9px; } }
-  @container (max-width: 150px) { [data-theme="retro-arcade"] .grid-view .card-title { font-size: 8px; } }
+  /* Retro Arcade Adaptive Typography Overrides (Item 6 Deeper Clamps) */
+  [data-theme="retro-arcade"] .grid-view .card-title { font-size: 10px; line-height: 1.3;}
+  @container (max-width: 170px) { [data-theme="retro-arcade"] .grid-view .card-title { font-size: 8.5px; line-height: 1.25; } }
+  @container (max-width: 150px) { [data-theme="retro-arcade"] .grid-view .card-title { font-size: 7.5px; line-height: 1.2; } }
   
   .grid-view .card-meta { justify-content: center; width: 100%; display: flex; font-size: 12px; color: var(--text-muted); align-items: center;}
   
-  /* v0.19 Optical Star Baseline Lock (Up-scaled and strictly centered) */
+  /* Optical Star Baseline Lock & Centering (Items 7 & 9) */
   .rating-val-wrap { display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; gap: 4px;}
   [data-theme="retro-arcade"] .retro-star { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; font-size: 1.4em; position: relative; top: -3px; line-height: 1;}
   
@@ -325,18 +340,17 @@ window.CONFIG = {
   .card-footer-right { display: flex; align-items: center; justify-content: flex-end; }
   
   /* Standardized Pill Height & Centering */
-  .badge { height: 22px; display: inline-flex; align-items: center; justify-content: center; padding: 0 8px; border-radius: 4px; font-size: 11px; font-weight: bold; white-space: nowrap; box-sizing: border-box; line-height: 1; text-align: center; }
+  .badge { height: 22px; display: inline-flex; align-items: center; justify-content: center; padding: 0 8px; border-radius: 4px; font-size: 11px; font-weight: bold; white-space: nowrap; box-sizing: border-box; line-height: 1; text-align: center; vertical-align: middle; }
   .game-card.completed-glow { border-color: var(--accent-completion, var(--accent)); box-shadow: 0 0 25px var(--accent-completion, var(--accent)), 0 0 45px rgba(0, 0, 0, 0.5); }
 
-  /* List View Metadata Non-Overlapping Alignment */
+  /* List View Metadata Non-Overlapping Alignment & Bold Weight (Item 1) */
   .list-view { display: flex; flex-direction: column; gap: 10px; }
   .list-view .game-card { flex-direction: row; height: 60px; align-items: center; padding-right: 15px;}
   .list-view .card-cover { width: 45px; height: 60px; border-right: 1px solid var(--border); margin-right: 15px; aspect-ratio: auto; }
   
-  /* Reset Card Title & Meta specifically for List View */
   .list-view .card-details { flex-direction: row; align-items: center; justify-content: space-between; padding: 0; width: 100%; gap: 15px; }
   .list-view .card-details-text-container { flex: 1; min-width: 0; }
-  .list-view .card-title { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left; }
+  .list-view .card-title { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left; font-weight: bold; font-family: var(--font-heading); }
   .list-view .card-meta { justify-content: flex-start; width: auto; flex-shrink: 0;}
   
   .list-view .card-footer { display: flex; flex-direction: row; align-items: center; justify-content: flex-end; gap: 8px; width: auto; margin-top: 0; flex-shrink: 0; }
@@ -353,12 +367,13 @@ window.CONFIG = {
   .modal-header { padding: 15px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); z-index: 2;}
   .modal-body { padding: 20px; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; gap: 16px; scroll-behavior: smooth; flex: 1; }
   .modal-footer { padding: 15px 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; gap: 10px; background: var(--bg-surface); z-index: 2;}
-  .close-btn { background: none; border: none; font-size: 20px; color: var(--text-muted); padding: 0; width: auto; }
+  .close-btn { background: none; border: none; font-size: 20px; color: var(--text-muted); padding: 0; width: auto; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; }
   .close-btn:hover { color: var(--text-main); }
   
   .settings-block { background: var(--bg-input); padding: 15px; border-radius: var(--radius); border: 3px solid var(--border); }
   .settings-block input, .settings-block select, .settings-block button, .settings-block .custom-select-trigger { border: 2px solid var(--border); }
   .settings-block input:focus, .settings-block select:focus { border-color: var(--border-focus); }
+  .settings-coll-row { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; line-height: 1.4; font-size: 12px; color: var(--text-muted); }
 
   /* Fixed Pixel-Locked Height Equalization (187px) */
   .modal-top-section { height: 187px; display: flex; gap: 16px; margin-bottom: 16px; margin-top: 16px; align-items: stretch; }
@@ -404,7 +419,7 @@ window.CONFIG = {
   
   /* Chips & Badges */
   .reaction-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 5px; }
-  .chip { background: var(--bg-input); border: 1px solid var(--border); padding: 4px 10px; border-radius: 12px; font-size: 12px; cursor: pointer; transition: all 0.2s; }
+  .chip { background: var(--bg-input); border: 1px solid var(--border); padding: 4px 10px; border-radius: 12px; font-size: 12px; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle;}
   .chip:hover { background: var(--bg-surface-hover); border-color: var(--accent); }
   
   /* Storage Meter */
@@ -413,7 +428,7 @@ window.CONFIG = {
 
   /* Theme Grid Modal */
   .theme-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .theme-btn { background: var(--bg-input); border: 2px solid var(--border); padding: 12px; border-radius: var(--radius); font-weight: bold; transition: all 0.2s; word-wrap: break-word; overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; gap: 8px;}
+  .theme-btn { background: var(--bg-input); border: 2px solid var(--border); padding: 12px; border-radius: var(--radius); font-weight: bold; transition: all 0.2s; word-wrap: break-word; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; text-align: center; gap: 8px; line-height: 1; vertical-align: middle;}
   .theme-btn:hover { border-color: var(--border-hover); background: var(--bg-surface-hover); }
   .theme-btn.active { border-color: var(--accent); color: var(--accent); }
   
@@ -490,7 +505,7 @@ window.CONFIG = {
     <img src="./Logo%20SVG%20v1.svg" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.19</span>
+      <span id="ui-app-version">v0.20</span>
     </div>
   </a>
   <div class="header-actions">
@@ -733,9 +748,10 @@ window.CONFIG = {
       
       <div class="settings-block">
         <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">Firebase Sync Targets</h3>
-        <span style="font-size:12px; color:var(--text-muted); display:block;">
-          Collection paths dynamically map to: <strong id="s-db-coll-read" style="color:var(--text-main); font-family:monospace;"></strong>
-        </span>
+        <div class="settings-coll-row">
+          <span>Collection paths dynamically map to:</span>
+          <strong id="s-db-coll-read" style="color:var(--text-main); font-family:monospace;"></strong>
+        </div>
       </div>
 
       <div class="settings-block">
@@ -1853,17 +1869,25 @@ window.CONFIG = {
             <div class="game-card" style="margin:0 auto; transform:scale(1.05); pointer-events:none; border:1px solid var(--accent); box-shadow: 0 0 20px var(--accent), 0 0 40px rgba(0,0,0,0.5);">
               <img src="${pick.url || ''}" class="card-cover">
               <div class="card-details" style="padding:15px; align-items:center; container-type: inline-size; width: 100%;">
-                <div class="card-title" style="display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; text-overflow:ellipsis; line-height:1.3; text-align:center; word-break:break-word; font-size: 20px;">${pick.title}</div>
+                <div class="card-title" style="display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; text-overflow:ellipsis; line-height:1.3; text-align:center; word-break:break-word; font-size: 20px; font-weight: bold;">${pick.title}</div>
                 <div class="badge" style="margin-top:12px; background:${platColor}; color:${platText}; border:1px solid ${platBorder}; box-shadow: 0 2px 6px rgba(0,0,0,0.5); height:26px; padding: 0 12px; font-size:12px; border-radius:4px;">${pick.plat || ''}</div>
               </div>
             </div>
             <div style="font-size:24px; margin-top:20px; color:var(--accent); font-weight:bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">🎉 Winner! 🎉</div>
          `;
          
-         /* v0.19 Inline Adaptive Clamp for Winner Card */
+         /* Adaptive Step-Down Clamp for Winner Card (Items 2 & 5) */
          const winnerTitle = els.randomRes.querySelector('.card-title');
-         if(pick.title.length > 25) winnerTitle.style.fontSize = '17px';
-         if(pick.title.length > 40) winnerTitle.style.fontSize = '15px';
+         const isRetroArcade = document.body.getAttribute('data-theme') === 'retro-arcade';
+         
+         if (isRetroArcade) {
+           winnerTitle.style.fontSize = '13px';
+           if (pick.title.length > 20) winnerTitle.style.fontSize = '10.5px';
+           if (pick.title.length > 32) winnerTitle.style.fontSize = '9px';
+         } else {
+           if (pick.title.length > 25) winnerTitle.style.fontSize = '17px';
+           if (pick.title.length > 40) winnerTitle.style.fontSize = '15px';
+         }
          
          els.randomRes.style.display = 'block';
          els.btnCloseRandom.style.display = 'inline-block';

@@ -25,7 +25,7 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.22",
+  APP_VERSION: "0.23",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 Check RAWG",
@@ -36,16 +36,13 @@ window.CONFIG = {
   BTN_THEME_RANDOM: "🎲 Surprise Me!",
   EMPTY_SEARCH_TEXT: "YOU DON'T OWN THIS GAME! 🤣🤣🤣🤣🤣🤣🤣",
   EMPTY_STATE_TEXT: "LIBRARY IS EMPTY! 😭😭😭😭😭😭😭",
-  HLTB_WARNING_TEXT: "⚠️ Select Title First",
   RATING_LABEL: "Your Rating",
-  SEARCH_PLACEHOLDER: "🔍 Search Library...",
   SETTINGS_TITLE: "Settings",
-  UNRATED_LABEL: "No Rating...",
   WINNER_BANNER_TEXT: "🎉 Winner! 🎉",
 
   // 4. Centralized Notification & Error Messages
   MESSAGES: {
-    ACHIEVEMENT_ERROR: "⚠️ Earned achievements cannot exceed total! Please check your numbers.",
+    ACHIEVEMENT_ERROR: "⚠️️ Earned achievements cannot exceed total! Please check your numbers.",
     ACHIEVEMENT_NEGATIVE: "⚠️ Achievement values cannot be negative numbers!",
     CACHE_AUDITED: "Local cache verified and up to date! 💾",
     CACHE_CLEARED: "Local cache cleared.",
@@ -64,7 +61,7 @@ window.CONFIG = {
     TITLE_REQUIRED: "⚠️ Title is required!"
   },
 
-  // 5. Configurable Blank Field Placeholders
+  // 5. Configurable Blank Field Placeholders (Strict Alphabetical Order)
   PLACEHOLDERS: {
     DATE_ADDED: "Select Title...",
     DATE_COMPLETED: "Select Completed Status...",
@@ -72,12 +69,15 @@ window.CONFIG = {
     DEVELOPER: "Select Title...",
     FORMAT: "Select Format...",
     GENRES: "Select Title...",
+    HLTB_WARNING_TEXT: "⚠️ Select Title First",
     PLATFORM: "Select Platform...",
     PUBLISHER: "Select Title...",
     RAWG_RATING: "Select Title...",
+    SEARCH_PLACEHOLDER: "🔍 Search Library...",
     STATUS: "Select Title...",
     THUMBNAIL: "Select Title...",
-    TITLE: "Type Your Favorite Game..."
+    TITLE: "Type Your Favorite Game...",
+    UNRATED_LABEL: "No Rating..."
   },
 
   // 6. Theme Display Names
@@ -106,11 +106,12 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.22</title>
+<title id="html-title">VGnomicon v0.23</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
-<link id="favicon-desktop" rel="icon">
-<link id="favicon-mobile-1" rel="apple-touch-icon">
-<link id="favicon-mobile-2" rel="apple-touch-icon" sizes="180x180">
+<!-- v0.23 Fallback href attributes to guarantee static render in desktop browsers -->
+<link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
+<link id="favicon-mobile-1" rel="apple-touch-icon" href="./Favi%20iP%20PNG%201024%20v1.png">
+<link id="favicon-mobile-2" rel="apple-touch-icon" sizes="180x180" href="./Favi%20iP%20PNG%201024%20v1.png">
 <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiVkdub21pY29uIiwic2hvcnRfbmFtZSI6IlZHbm9taWNvbiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiaWNvbnMiOlt7InNyYyI6Ii4vRmF2aSUyMGlQJTIwUE5HJTIwMTAyNCUyMHYxLnBuZyIsInNpemVzIjoiMTkyeDE5MiB0byAxMDI0eDEwMjQiLCJ0eXBlIjoiaW1hZ2UvcG5nIn1dfQ==">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Plus+Jakarta+Sans:wght@400;600;800&family=Press+Start+2P&family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&family=Share+Tech+Mono&family=JetBrains+Mono&family=Cinzel:wght@600&family=VT323&family=Fira+Code&family=Quicksand:wght@500;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
 
@@ -125,7 +126,7 @@ window.CONFIG = {
     --border: #333333; --border-hover: #555555; --border-focus: #4da6ff; --accent: #4da6ff; --accent-hover: #3388ff;
     --success: #00cc66; --warning: #ffaa00; --danger: #ff4444; --bg-badge: #333333; --text-badge: #ffffff;
     --shadow: 0 4px 16px rgba(0, 0, 0, 0.5); --font-main: 'Inter', -apple-system, sans-serif; --font-heading: 'Inter', sans-serif;
-    --radius: 8px; --scrollbar-thumb: #555555; --scrollbar-track: #1e1e1e; --option-height: 39px;
+    --radius: 8px; --scrollbar-thumb: #555555; --scrollbar-track: #1e1e1e;
   }
   /* --- 2. MINIMALIST LIGHT --- */
   [data-theme="minimalist-light"] {
@@ -134,7 +135,7 @@ window.CONFIG = {
     --border: #d2d2d7; --border-hover: #86868b; --border-focus: #0071e3; --accent: #0071e3; --accent-hover: #0056b3;
     --success: #34c759; --warning: #ff9f0a; --danger: #ff3b30; --bg-badge: #e5e5ea; --text-badge: #1d1d1f;
     --shadow: 0 4px 16px rgba(0, 0, 0, 0.08); --font-main: system-ui, -apple-system, sans-serif; --font-heading: system-ui, -apple-system, sans-serif;
-    --radius: 8px; --scrollbar-thumb: #c7c7cc; --scrollbar-track: #f5f5f7; --option-height: 39px;
+    --radius: 8px; --scrollbar-thumb: #c7c7cc; --scrollbar-track: #f5f5f7;
   }
   /* --- 3. MODERN LIGHT --- */
   [data-theme="modern-light"] {
@@ -143,7 +144,7 @@ window.CONFIG = {
     --border: #e2e8f0; --border-hover: #cbd5e1; --border-focus: #2563eb; --accent: #2563eb; --accent-hover: #1d4ed8;
     --success: #10b981; --warning: #f59e0b; --danger: #ef4444; --bg-badge: #e0f2fe; --text-badge: #0369a1;
     --shadow: 0 4px 16px rgba(15, 23, 42, 0.08); --font-main: 'Plus Jakarta Sans', 'Inter', sans-serif; --font-heading: 'Plus Jakarta Sans', sans-serif;
-    --radius: 10px; --scrollbar-thumb: #cbd5e1; --scrollbar-track: #f8fafc; --option-height: 39px;
+    --radius: 10px; --scrollbar-thumb: #cbd5e1; --scrollbar-track: #f8fafc;
   }
   /* --- 4. RETRO ARCADE --- */
   [data-theme="retro-arcade"] {
@@ -152,22 +153,20 @@ window.CONFIG = {
     --border: #ffcc00; --border-hover: #ff0055; --border-focus: #00ffff; --accent: #ff0055; --accent-hover: #ff3377;
     --success: #00ff66; --warning: #ffcc00; --danger: #ff2222; --bg-badge: #ff0055; --text-badge: #ffffff;
     --shadow: 0 0 15px rgba(255, 0, 85, 0.35); --font-main: 'Press Start 2P', 'Courier New', monospace; --font-heading: 'Press Start 2P', monospace;
-    --radius: 2px; --scrollbar-thumb: #ffcc00; --scrollbar-track: #101025; --option-height: 36px;
+    --radius: 2px; --scrollbar-thumb: #ffcc00; --scrollbar-track: #101025;
   }
   /* Retro Arcade Layout Normalization & Universal Optical Snapping */
   [data-theme="retro-arcade"] .grid-view .card-title { font-size: 10px; }
   [data-theme="retro-arcade"] .grid-view .card-meta { font-size: 9px; }
   [data-theme="retro-arcade"] .grid-view .badge { font-size: 8px; padding: 0 5px; height: 20px; }
   [data-theme="retro-arcade"] .game-card:not(.completed-glow) .card-footer-right .badge { background: #101025 !important; border: 1px solid #ffcc00 !important; color: #ffcc00 !important; }
-  [data-theme="retro-arcade"] input, [data-theme="retro-arcade"] select, [data-theme="retro-arcade"] textarea, [data-theme="retro-arcade"] button, [data-theme="retro-arcade"] .custom-select-trigger, [data-theme="retro-arcade"] .custom-option { font-size: 11px; text-align: center; }
-  [data-theme="retro-arcade"] input, [data-theme="retro-arcade"] select, [data-theme="retro-arcade"] textarea { text-align: left; }
+  [data-theme="retro-arcade"] input, [data-theme="retro-arcade"] select, [data-theme="retro-arcade"] textarea, [data-theme="retro-arcade"] button, [data-theme="retro-arcade"] .custom-select-trigger, [data-theme="retro-arcade"] .custom-option { font-size: 11px; text-align: left; }
   [data-theme="retro-arcade"] .custom-option { padding: 12px; }
   [data-theme="retro-arcade"] h2 { font-size: 16px; text-align: center; }
   [data-theme="retro-arcade"] .settings-coll-row { display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; text-align: center; width: 100%; }
   
-  [data-theme="retro-arcade"] .retro-star { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; font-size: 1.4em; position: relative; top: -3px; line-height: 1;}
-  
-  /* v0.22 Global DRY Emoji Nudge for Retro Arcade */
+  /* v0.23 Optical Micro-Compensation for Press Start 2P Extreme Baseline Sag */
+  [data-theme="retro-arcade"] .retro-star { transform: translateY(-1px); display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; font-size: 1.4em;}
   [data-theme="retro-arcade"] .optical-align span:first-child { position: relative; top: -2px; }
   [data-theme="retro-arcade"] .modal-header .close-btn { font-size: 24px !important; padding: 4px; }
 
@@ -179,7 +178,7 @@ window.CONFIG = {
     --accent-completion: #00f0ff;
     --success: #00f0ff; --warning: #ffe600; --danger: #ff2a6d; --bg-badge: #ff007f; --text-badge: #ffffff;
     --shadow: 0 4px 20px rgba(255, 0, 127, 0.3); --font-main: 'Rajdhani', sans-serif; --font-heading: 'Orbitron', sans-serif;
-    --radius: 8px; --scrollbar-thumb: #ff007f; --scrollbar-track: #1a162b; --option-height: 39px;
+    --radius: 8px; --scrollbar-thumb: #ff007f; --scrollbar-track: #1a162b;
   }
   
   /* --- 6. CYBERPUNK --- */
@@ -190,7 +189,7 @@ window.CONFIG = {
     --success: #00e8f8; --warning: #ffbe0b; --danger: #ff003c; 
     --bg-badge: #fcee09; --text-badge: #05080f; 
     --shadow: 0 0 18px rgba(0, 232, 248, 0.25); --font-main: 'Share Tech Mono', 'JetBrains Mono', monospace; --font-heading: 'Share Tech Mono', monospace;
-    --radius: 0px; --scrollbar-thumb: #fcee09; --scrollbar-track: #0e1420; --option-height: 39px;
+    --radius: 0px; --scrollbar-thumb: #fcee09; --scrollbar-track: #0e1420;
   }
   [data-theme="cyberpunk"] .rating-val-wrap { color: #00e8f8 !important; text-shadow: 0 0 5px rgba(0,232,248,0.4); }
 
@@ -202,7 +201,7 @@ window.CONFIG = {
     --accent-completion: #d4af37;
     --success: #4e8054; --warning: #d4af37; --danger: #e61932; --bg-badge: #380d12; --text-badge: #d4af37;
     --shadow: 0 4px 20px rgba(128, 24, 36, 0.35); --font-main: 'Cinzel', Georgia, serif; --font-heading: 'Cinzel', Georgia, serif;
-    --radius: 4px; --scrollbar-thumb: #801824; --scrollbar-track: #171012; --option-height: 39px;
+    --radius: 4px; --scrollbar-thumb: #801824; --scrollbar-track: #171012;
   }
   
   /* --- 8. WASTELAND TERMINAL --- */
@@ -213,7 +212,7 @@ window.CONFIG = {
     --accent-completion: #ffb000;
     --success: #33ff33; --warning: #b3ff33; --danger: #ff3333; --bg-badge: #092e0c; --text-badge: #33ff33;
     --shadow: 0 0 16px rgba(51, 255, 51, 0.25); --font-main: 'VT323', 'Fira Code', monospace; --font-heading: 'VT323', monospace;
-    --radius: 2px; --scrollbar-thumb: #1c991c; --scrollbar-track: #041206; --option-height: 39px;
+    --radius: 2px; --scrollbar-thumb: #1c991c; --scrollbar-track: #041206;
   }
   
   /* --- 9. COZY VILLAGE --- */
@@ -223,10 +222,9 @@ window.CONFIG = {
     --border: #d6c7b8; --border-hover: #8ba888; --border-focus: #6b8e67; --accent: #6b8e67; --accent-hover: #557551;
     --success: #78a874; --warning: #d99a4e; --danger: #c75c5c; --bg-badge: #e2ede0; --text-badge: #4d694a;
     --shadow: 0 4px 14px rgba(74, 62, 53, 0.08); --font-main: 'Nunito', sans-serif; --font-heading: 'Quicksand', sans-serif;
-    --radius: 12px; --scrollbar-thumb: #c2b2a1; --scrollbar-track: #f5f0eb; --option-height: 39px;
+    --radius: 12px; --scrollbar-thumb: #c2b2a1; --scrollbar-track: #f5f0eb;
   }
 
-  /* v0.22 Theme-Aware Scrollbar Styling */
   ::-webkit-scrollbar { width: 8px; height: 8px; }
   ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
   ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: var(--radius); }
@@ -243,7 +241,7 @@ window.CONFIG = {
   input:focus, select:focus, textarea:focus { border-color: var(--border-focus); outline: none; }
   input::placeholder, textarea::placeholder { color: var(--text-disabled); opacity: 1; }
   
-  /* v0.21 Universal Inline-Flex Optical Anchor */
+  /* Universal Inline-Flex Optical Anchor */
   .optical-align { display: inline-flex; align-items: center; justify-content: center; gap: 6px; line-height: 1; vertical-align: middle; }
   
   button { cursor: pointer; transition: background 0.2s; font-weight: 600; width: auto; display: inline-flex; align-items: center; justify-content: center; gap: 8px; line-height: 1; vertical-align: middle; }
@@ -262,13 +260,12 @@ window.CONFIG = {
   .custom-select-wrapper.open .custom-select-trigger { border-color: var(--border-focus); }
   .custom-select-wrapper.open .custom-select-trigger::after { transform: rotate(180deg); }
   
-  /* v0.22 Theme-Dependent Dropdown Height Clamp (5 options) */
-  .custom-options-container { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); z-index: 10000; overflow-y: auto; display: none; flex-direction: column; max-height: 250px;}
+  /* v0.23 Dynamic 5-Item Dropdown Engine Clamp handled in JS */
+  .custom-options-container { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); z-index: 10000; overflow-y: auto; display: none; flex-direction: column;}
   .custom-select-wrapper.open .custom-options-container { display: flex; }
-  .custom-options-container[data-select-id="f-platform"], .custom-options-container[data-select-id="filter-platform"] { max-height: calc(var(--option-height) * 5 + 2px); } /* Exactly 5 options */
   .custom-options-container[data-select-id="f-format"], .custom-options-container[data-select-id="f-status"], .custom-options-container[data-select-id="filter-status"], .custom-options-container[data-select-id="f-currency"] { max-height: none; overflow-y: visible; }
   
-  .custom-option { padding: 10px 12px; cursor: pointer; color: var(--text-main); font-family: var(--font-main); font-size: 14px; border-bottom: 1px solid var(--border); box-sizing: border-box; height: var(--option-height);}
+  .custom-option { padding: 10px 12px; cursor: pointer; color: var(--text-main); font-family: var(--font-main); font-size: 14px; border-bottom: 1px solid var(--border); box-sizing: border-box; }
   .custom-option:last-child { border-bottom: none; }
   .custom-option:hover, .custom-option.selected { background: var(--bg-surface-hover); color: var(--accent); }
   .custom-option.disabled { color: var(--text-disabled); cursor: default; background: var(--bg-surface); }
@@ -329,7 +326,6 @@ window.CONFIG = {
   .card-cover { width: 100%; aspect-ratio: 3/4; object-fit: cover; background: var(--bg-placeholder); }
   .card-details { padding: 12px; display: flex; flex-direction: column; gap: 6px; flex: 1;}
   
-  /* v0.21 Universal 2-Line Truncation Prevention (Global First Mechanism) */
   .card-details-text-container { container-type: inline-size; width: 100%; }
   .grid-view .card-title { text-align: center; font-weight: bold; font-family: var(--font-heading); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; font-size: 16px; line-height: 1.3;}
   
@@ -362,17 +358,20 @@ window.CONFIG = {
   @container (max-width: 170px) { [data-theme="retro-arcade"] .grid-view .card-title.title-long { font-size: 7.5px; } }
 
   .grid-view .card-meta { justify-content: center; width: 100%; display: flex; font-size: 12px; color: var(--text-muted); align-items: center;}
-  .rating-val-wrap { display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; gap: 4px;}
+  
+  /* v0.23 Universal Star and Score Alignment Wrap */
+  .rating-val-wrap { display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; gap: 4px; font-weight: bold;}
   
   .card-footer { display: flex; justify-content: space-between; align-items: flex-end; width: 100%; margin-top: auto; }
-  .card-footer-left { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
-  .card-footer-right { display: flex; align-items: center; justify-content: flex-end; }
   
-  /* Standardized Pill Height & Centering & v0.22 Font Consistency */
-  .badge { height: 22px; display: inline-flex; align-items: center; justify-content: center; padding: 0 8px; border-radius: 4px; font-size: 11px; font-family: var(--font-heading); font-weight: bold; white-space: nowrap; box-sizing: border-box; line-height: 1; text-align: center; vertical-align: middle; }
+  /* v0.23 Universal Badge Collision Avoidance */
+  .card-footer-left { display: flex; flex-direction: row; flex-wrap: wrap; align-items: flex-end; gap: 4px; flex: 1; min-width: 0;}
+  .card-footer-right { display: flex; align-items: flex-end; justify-content: flex-end; padding-left: 4px; flex-shrink: 0;}
+  
+  .badge { height: 22px; display: inline-flex; align-items: center; justify-content: center; padding: 0 8px; border-radius: 4px; font-size: 11px; font-family: var(--font-heading); font-weight: bold; white-space: nowrap; box-sizing: border-box; line-height: 1; text-align: center; vertical-align: middle; max-width: 100%; overflow: hidden; text-overflow: ellipsis;}
   .game-card.completed-glow { border-color: var(--accent-completion, var(--accent)); box-shadow: 0 0 25px var(--accent-completion, var(--accent)), 0 0 45px rgba(0, 0, 0, 0.5); }
 
-  /* List View Metadata Non-Overlapping Alignment & Bold Weight (Item 1) */
+  /* List View */
   .list-view { display: flex; flex-direction: column; gap: 10px; }
   .list-view .game-card { flex-direction: row; height: 60px; align-items: center; padding-right: 15px;}
   .list-view .card-cover { width: 45px; height: 60px; border-right: 1px solid var(--border); margin-right: 15px; aspect-ratio: auto; }
@@ -383,7 +382,7 @@ window.CONFIG = {
   .list-view .card-meta { justify-content: flex-start; width: auto; flex-shrink: 0;}
   
   .list-view .card-footer { display: flex; flex-direction: row; align-items: center; justify-content: flex-end; gap: 8px; width: auto; margin-top: 0; flex-shrink: 0; }
-  .list-view .card-footer-left { flex-direction: row; align-items: center; gap: 8px; }
+  .list-view .card-footer-left { flex-direction: row; flex-wrap: nowrap; align-items: center; gap: 8px; }
 
   /* Modals */
   .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg-backdrop); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 15px; overflow-x: hidden; }
@@ -393,11 +392,9 @@ window.CONFIG = {
   #modal-theme .modal-header, #modal-settings .modal-header, #modal-confirm-cache .modal-header { justify-content: center; position: relative; }
   .modal-header { padding: 15px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); z-index: 2;}
   
-  /* v0.21 Increased Close Button Specificity for Universal Retention */
   .modal-header .close-btn { position: absolute; right: 20px; background: none; border: none; font-size: 20px !important; font-weight: bold; color: var(--text-muted); padding: 0; width: auto; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; z-index: 10; }
   .modal-header .close-btn:hover { color: var(--text-main); }
   
-  /* In-app fallback for non-absolute closes if added later */
   .close-btn { background: none; border: none; font-size: 20px; color: var(--text-muted); padding: 0; width: auto; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; }
   .close-btn:hover { color: var(--text-main); }
   
@@ -539,13 +536,12 @@ window.CONFIG = {
     <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.22</span>
+      <span id="ui-app-version">v0.23</span>
     </div>
   </a>
   <div class="header-actions">
     <input type="text" id="global-search" class="search-bar" placeholder="🔍 Search Library...">
-    <!-- Notice how these use global span wrappers for centering text and emojis -->
-    <button class="primary" id="btn-add-game"><span class="optical-align"><span class="emoji-nudge">➕</span><span>Add Game</span></span></button>
+    <button class="primary" id="btn-add-game"></button>
   </div>
   <div class="system-tray">
     <div class="tray-time-stacked">
@@ -555,9 +551,9 @@ window.CONFIG = {
     <div class="sync-status" title="Cloud Sync Status">
       <div class="status-dot dot-yellow" id="tray-sync-dot"></div>
     </div>
-    <button id="btn-force-sync" title="Force Sync"><span class="optical-align"><span class="emoji-nudge">🚀</span><span>Sync</span></span></button>
-    <button id="btn-open-theme" title="Theme"><span class="optical-align"><span class="emoji-nudge">🎨</span><span>Theme</span></span></button>
-    <button id="btn-open-settings" title="Settings"><span class="optical-align"><span class="emoji-nudge">⚙️</span><span>Settings</span></span></button>
+    <button id="btn-force-sync" title="Force Sync"></button>
+    <button id="btn-open-theme" title="Theme"></button>
+    <button id="btn-open-settings" title="Settings"></button>
   </div>
 </header>
 
@@ -592,17 +588,17 @@ window.CONFIG = {
   
   <div class="view-toggle" id="view-toggle">
     <div class="view-slider"></div>
-    <button class="view-btn active" id="btn-grid-view"><span class="optical-align"><span class="emoji-nudge">🔲</span><span>Grid</span></span></button>
-    <button class="view-btn" id="btn-list-view"><span class="optical-align"><span class="emoji-nudge">☰</span><span>List</span></span></button>
+    <button class="view-btn active" id="btn-grid-view"></button>
+    <button class="view-btn" id="btn-list-view"></button>
   </div>
 
-  <button id="btn-random-game" style="margin-left:auto;"><span class="optical-align"><span class="emoji-nudge">🎲</span><span>Pick Game</span></span></button>
+  <button id="btn-random-game" style="margin-left:auto;"></button>
 </div>
 
 <main>
   <div id="empty-state" class="empty-state">
     <span id="empty-text">Library is empty</span>
-    <div class="empty-state-emoji emoji-nudge">😭😭😭😭😭😭😭</div>
+    <div class="empty-state-emoji">😭😭😭😭😭😭😭</div>
   </div>
   <div id="library-container" class="grid-view">
     <!-- Game cards injected via JS -->
@@ -738,11 +734,7 @@ window.CONFIG = {
           <div class="form-group full" style="border-top:1px dashed var(--border); padding-top:16px; margin-top:0px;">
             <label>Notes / Personal Review</label>
             <div class="reaction-chips" id="reaction-chips">
-              <span class="chip"><span class="optical-align"><span class="emoji-nudge">🔥</span><span>Must Play</span></span></span>
-              <span class="chip"><span class="optical-align"><span class="emoji-nudge">🏆</span><span>Masterpiece</span></span></span>
-              <span class="chip"><span class="optical-align"><span class="emoji-nudge">💤</span><span>Overrated</span></span></span>
-              <span class="chip"><span class="optical-align"><span class="emoji-nudge">💀</span><span>Brutal</span></span></span>
-              <span class="chip"><span class="optical-align"><span class="emoji-nudge">✨</span><span>Cozy</span></span></span>
+              <!-- JS Populated -->
             </div>
             <textarea id="f-notes" rows="4" maxlength="2000" placeholder="Emojis and thoughts here..."></textarea>
           </div>
@@ -750,10 +742,10 @@ window.CONFIG = {
       </form>
     </div>
     <div class="modal-footer">
-      <button class="danger" id="btn-delete-prompt" style="display:none;"><span class="optical-align"><span class="emoji-nudge">🗑️</span><span>Delete</span></span></button>
+      <button class="danger" id="btn-delete-prompt" style="display:none;"></button>
       <div style="margin-left:auto; display:flex; gap:10px;">
         <button id="btn-cancel-game">Cancel</button>
-        <button class="primary" id="btn-save-game" form="game-form"><span class="optical-align"><span class="emoji-nudge">💾</span><span>Save</span></span></button>
+        <button class="primary" id="btn-save-game" form="game-form"></button>
       </div>
     </div>
   </div>
@@ -763,7 +755,7 @@ window.CONFIG = {
 <div class="modal-overlay" id="modal-theme">
   <div class="modal-content" style="max-width: 580px;">
     <div class="modal-header">
-      <h2><span class="optical-align"><span class="emoji-nudge">🎨</span><span>Select Theme</span></span></h2>
+      <h2 id="modal-theme-title">Select Theme</h2>
       <button class="close-btn" id="btn-close-theme">✕</button>
     </div>
     <div class="modal-body theme-grid" id="theme-grid-container">
@@ -795,7 +787,7 @@ window.CONFIG = {
           <span style="font-size:12px; color:var(--text-muted);">RAWG Metadata Database</span>
           <div style="display:flex; align-items:center; gap: 8px;">
             <div class="status-dot dot-yellow" id="modal-rawg-dot"></div>
-            <button id="btn-audit-rawg" style="padding:4px 10px; font-size:12px;"><span class="optical-align"><span class="emoji-nudge">🌐</span><span>Check RAWG</span></span></button>
+            <button id="btn-audit-rawg" style="padding:4px 10px; font-size:12px;"></button>
           </div>
         </div>
       </div>
@@ -805,8 +797,8 @@ window.CONFIG = {
         <div class="storage-meter"><div class="storage-fill" id="s-storage-bar-fill"></div></div>
         <span style="font-size:12px; color:var(--text-muted); display:block; margin-top:5px; margin-bottom:15px;" id="s-storage-text">0.00 MB / 5.00 MB used (0%)</span>
         <div style="display:flex; gap:10px;">
-          <button id="btn-audit-cache" style="flex:1;"><span class="optical-align"><span class="emoji-nudge">🔄</span><span>Check Local Cache</span></span></button>
-          <button class="danger" id="btn-clear-cache" style="flex:1;"><span class="optical-align"><span class="emoji-nudge">🗑️</span><span>Clear Cache</span></span></button>
+          <button id="btn-audit-cache" style="flex:1;"></button>
+          <button class="danger" id="btn-clear-cache" style="flex:1;"></button>
         </div>
       </div>
 
@@ -841,7 +833,7 @@ window.CONFIG = {
     </div>
     <div class="modal-footer" style="justify-content: flex-end;">
       <button id="btn-cancel-delete">Cancel</button>
-      <button class="danger" id="btn-confirm-delete"><span class="optical-align"><span class="emoji-nudge">🗑️</span><span>Delete</span></span></button>
+      <button class="danger" id="btn-confirm-delete"></button>
     </div>
   </div>
 </div>
@@ -850,14 +842,14 @@ window.CONFIG = {
 <div class="modal-overlay" id="modal-confirm-cache" style="z-index: 2000;">
   <div class="modal-content" style="max-width: 350px;">
     <div class="modal-header">
-      <h2 style="color:var(--warning);"><span class="optical-align"><span class="emoji-nudge">⚠️</span><span>Clear Cache</span></span></h2>
+      <h2 style="color:var(--warning);" id="modal-confirm-cache-title"></h2>
     </div>
     <div class="modal-body" id="modal-confirm-cache-body" style="font-weight: 600; color: var(--text-main);">
       <!-- Injected via window.CONFIG.MESSAGES -->
     </div>
     <div class="modal-footer" style="justify-content: flex-end;">
       <button id="btn-cancel-clear-cache">Cancel</button>
-      <button class="danger" id="btn-confirm-clear-cache"><span class="optical-align"><span class="emoji-nudge">🗑️</span><span>Clear Data</span></span></button>
+      <button class="danger" id="btn-confirm-clear-cache"></button>
     </div>
   </div>
 </div>
@@ -1000,24 +992,24 @@ window.CONFIG = {
       return '';
     };
 
+    // v0.23 Hardened Asset Path Resolution Check
     if(C.ASSETS.FAVICON_DESKTOP) {
       const el = document.getElementById('favicon-desktop');
-      if(el) { el.href = `./${C.ASSETS.FAVICON_DESKTOP}`; el.type = getMime(C.ASSETS.FAVICON_DESKTOP); }
+      if(el) { el.setAttribute('href', `./${C.ASSETS.FAVICON_DESKTOP}`); el.type = getMime(C.ASSETS.FAVICON_DESKTOP); }
     }
     
     if(C.ASSETS.FAVICON_MOBILE) {
       const el1 = document.getElementById('favicon-mobile-1');
       const el2 = document.getElementById('favicon-mobile-2');
       const mime = getMime(C.ASSETS.FAVICON_MOBILE);
-      if(el1) { el1.href = `./${C.ASSETS.FAVICON_MOBILE}`; if(mime) el1.type = mime; }
-      if(el2) { el2.href = `./${C.ASSETS.FAVICON_MOBILE}`; if(mime) el2.type = mime; }
+      if(el1) { el1.setAttribute('href', `./${C.ASSETS.FAVICON_MOBILE}`); if(mime) el1.type = mime; }
+      if(el2) { el2.setAttribute('href', `./${C.ASSETS.FAVICON_MOBILE}`); if(mime) el2.type = mime; }
     }
     
     if(C.ASSETS.LOGO_BRAND) {
       const img = document.getElementById('brand-logo-img');
-      // v0.22 App Logo Asset Binding Fix
       if(img) {
-          img.src = `./${C.ASSETS.LOGO_BRAND}`;
+          img.setAttribute('src', `./${C.ASSETS.LOGO_BRAND}`);
           img.style.display = 'block';
       }
     }
@@ -1082,8 +1074,23 @@ window.CONFIG = {
           if (w !== wrapper) w.classList.remove('open');
         });
         wrapper.classList.toggle('open');
+        
+        // v0.23 Dynamic Universal 5-Item Viewport Clamp Engine
         if(wrapper.classList.contains('open')) {
             optionsContainer.scrollTop = 0;
+            
+            // Only clamp the long platform lists mathematically
+            if(optionsContainer.dataset.selectId === "f-platform" || optionsContainer.dataset.selectId === "filter-platform") {
+                const visibleOpts = Array.from(optionsContainer.children);
+                if(visibleOpts.length >= 5) {
+                    let totalHeight = 0;
+                    for(let i = 0; i < 5; i++) {
+                        totalHeight += visibleOpts[i].getBoundingClientRect().height;
+                    }
+                    // Add 2px for top/bottom container borders
+                    optionsContainer.style.maxHeight = `${totalHeight + 2}px`;
+                }
+            }
         }
         e.stopPropagation();
       });
@@ -1132,19 +1139,40 @@ window.CONFIG = {
     document.getElementById('html-title').innerText = `${C.APP_NAME} v${C.APP_VERSION}`;
     els.appTitle.innerText = C.APP_NAME;
     els.appVer.innerText = `v${C.APP_VERSION}`;
-    els.search.placeholder = C.SEARCH_PLACEHOLDER;
+    els.search.placeholder = C.PLACEHOLDERS.SEARCH_PLACEHOLDER;
     document.getElementById('ui-settings-title').innerText = C.SETTINGS_TITLE;
     
     document.getElementById('s-appname-read').innerText = C.APP_NAME;
     document.getElementById('s-appver-read').innerText = `v${C.APP_VERSION}`;
     document.getElementById('s-apparch-read').innerText = C.APP_ARCHITECTURE;
     
+    // Wire up dynamic UI strings
     els.btnAdd.innerHTML = splitEmoji(C.BTN_ADD_GAME);
     els.btnSync.innerHTML = splitEmoji(C.BTN_FORCE_SYNC);
     els.btnTheme.innerHTML = splitEmoji(C.BTN_THEME);
     els.btnRandom.innerHTML = splitEmoji(C.BTN_RANDOM_GAME);
+    
+    document.getElementById('btn-close-game').innerHTML = "✕";
+    document.getElementById('btn-close-theme').innerHTML = "✕";
+    document.getElementById('btn-close-settings').innerHTML = "✕";
+    
     els.mConfirmBody.innerText = C.MESSAGES.CONFIRM_DELETE;
     els.mConfirmCacheBody.innerText = C.MESSAGES.CACHE_CONFIRM;
+    document.getElementById('modal-confirm-cache-title').innerHTML = splitEmoji("⚠️ Clear Cache");
+    document.getElementById('modal-theme-title').innerHTML = splitEmoji("🎨 Select Theme");
+    
+    els.btnSave.innerHTML = splitEmoji("💾 Save");
+    els.btnDelPrompt.innerHTML = splitEmoji("🗑️ Delete");
+    els.btnConfirmDel.innerHTML = splitEmoji("🗑️ Delete");
+    els.btnConfirmClearCache.innerHTML = splitEmoji("🗑️ Clear Data");
+    els.btnAuditCache.innerHTML = splitEmoji(C.BTN_AUDIT_CACHE);
+    els.btnClearCache.innerHTML = splitEmoji(C.BTN_CLEAR_CACHE);
+    els.btnAuditRawg.innerHTML = splitEmoji(C.BTN_CHECK_RAWG);
+    els.btnGrid.innerHTML = splitEmoji("🔲 Grid");
+    els.btnList.innerHTML = splitEmoji("☰ List");
+    
+    const chipNames = ["🔥 Must Play", "🏆 Masterpiece", "💤 Overrated", "💀 Brutal", "✨ Cozy"];
+    document.getElementById('reaction-chips').innerHTML = chipNames.map(c => `<span class="chip">${splitEmoji(c)}</span>`).join('');
     
     const activeDbColl = settings.dbColl || C.DB_COLLECTION;
     document.getElementById('s-db-coll-read').innerText = `${activeDbColl} / {gameId}`;
@@ -1221,8 +1249,12 @@ window.CONFIG = {
     els.f.dateAdd.addEventListener('change', (e) => updateDateClass(e.target));
     els.f.dateComp.addEventListener('change', (e) => updateDateClass(e.target));
 
+    // v0.23 Notes Chip Single-Line Text Injection Fix
     document.querySelectorAll('.chip').forEach(chip => {
-      chip.onclick = () => { els.f.notes.value += (els.f.notes.value ? "\n" : "") + chip.innerText + " "; };
+      chip.onclick = () => { 
+          const cleanText = Array.from(chip.querySelectorAll('span')).map(s => s.innerText.trim()).filter(Boolean).join(' ');
+          els.f.notes.value += (els.f.notes.value ? "\n" : "") + cleanText + " "; 
+      };
     });
 
     els.btnSave.onclick = (e) => { e.preventDefault(); saveGameData(); };
@@ -1474,7 +1506,7 @@ window.CONFIG = {
 
   function setStars(val) {
     currentRating = val;
-    document.getElementById('star-display-text').innerText = val > 0 ? val.toFixed(1) : C.UNRATED_LABEL;
+    document.getElementById('star-display-text').innerText = val > 0 ? val.toFixed(1) : C.PLACEHOLDERS.UNRATED_LABEL;
     const stars = els.f.ratingContainer.querySelectorAll('.star');
     stars.forEach((s, idx) => {
       const starVal = idx + 1;
@@ -1542,13 +1574,14 @@ window.CONFIG = {
       els.f.dateAdd.value = g.dateAdd || "";
       els.f.dateComp.value = g.dateComp || "";
       
-      // v0.22 Edit Binding Fixes for Playtime, HLTB, and Achievements
+      // v0.23 Global Form Hydration fixes for Textareas and Numbers
       els.f.playtime.value = g.playtime || "";
       els.f.hltbM.value = g.hltbM || "";
       els.f.hltbE.value = g.hltbE || "";
       els.f.hltbC.value = g.hltbC || "";
       els.f.achE.value = g.achE || "";
       els.f.achT.value = g.achT || "";
+      els.f.notes.value = g.notes || "";
       
     } else {
       els.mGameTitle.innerText = "Add Game";
@@ -1579,7 +1612,7 @@ window.CONFIG = {
       els.hltbLink.style.pointerEvents = "auto";
     } else {
       els.hltbLink.href = "#";
-      els.hltbLink.innerHTML = splitEmoji(C.HLTB_WARNING_TEXT);
+      els.hltbLink.innerHTML = splitEmoji(C.PLACEHOLDERS.HLTB_WARNING_TEXT);
       els.hltbLink.style.color = "var(--warning)";
       els.hltbLink.style.pointerEvents = "none";
     }
@@ -1698,20 +1731,31 @@ window.CONFIG = {
       let achBadge = "";
       let isCompleted = g.status === "Completed";
       
+      // v0.23 Global Platform Palette Binding for Base, Badges, and Ratios
+      let platColor = "#6b21a8"; // Royal Purple (Non-Big 3)
+      let platText = "#ffffff";
+      let platBorder = "rgba(255,255,255,0.2)";
+      const p = g.plat || "";
+      if (p.includes("PS")) { platColor = "#003791"; }
+      else if (p.includes("Xbox")) { platColor = "#107C10"; }
+      else if (p === "NES" || p === "Nintendo 64" || p === "SNES" || p.includes("Switch")) { platColor = "#E60012"; }
+      
       if (g.achE || g.achT) {
         const e = g.achE || 0;
         const t = g.achT || 0;
         const isMaxed = parseFloat(e) >= parseFloat(t) && parseFloat(t) > 0;
         
+        // v0.23 Apply precise platform colors to ratio pills instead of transparent
         if((g.plat||"").includes("PS")) {
-          achBadge = `<span class="badge ${isMaxed ? 'anim-glint' : ''}" style="background:transparent; color:var(--text-muted); border: 1px solid var(--border);">${splitEmoji(`🏆 ${e}/${t}`)}</span>`;
-          if (isMaxed) achBadge = `<span class="badge anim-glint" style="background:#003791; color:#fff; border: 1px solid rgba(255,255,255,0.2);">${splitEmoji("🏆 PLATINUM")}</span>`;
+          achBadge = `<span class="badge ${isMaxed ? 'anim-glint' : ''}" style="background:${platColor}; color:${platText}; border:1px solid ${platBorder};">${splitEmoji(`🏆 ${e}/${t}`)}</span>`;
+          if (isMaxed) achBadge = `<span class="badge anim-glint" style="background:${platColor}; color:${platText}; border:1px solid ${platBorder};">${splitEmoji("🏆 PLATINUM")}</span>`;
         } else if((g.plat||"").includes("Xbox")) {
-          achBadge = `<span class="badge ${isMaxed ? 'anim-glint' : ''}" style="background:transparent; color:var(--text-muted); border: 1px solid var(--border);">${e}/${t}G</span>`;
-          if (isMaxed) achBadge = `<span class="badge anim-glint" style="background:#107C10; color:#fff; border: 1px solid rgba(255,255,255,0.2);">${e}G</span>`;
+          achBadge = `<span class="badge ${isMaxed ? 'anim-glint' : ''}" style="background:${platColor}; color:${platText}; border:1px solid ${platBorder};">${e}/${t}G</span>`;
+          if (isMaxed) achBadge = `<span class="badge anim-glint" style="background:${platColor}; color:${platText}; border:1px solid ${platBorder};">${e}G</span>`;
         } else {
-          achBadge = `<span class="badge ${isMaxed ? 'anim-glint' : ''}" style="background:transparent; color:var(--text-muted); border: 1px solid var(--border);">${splitEmoji(`🏅 ${e}/${t}`)}</span>`;
-          if (isMaxed) achBadge = `<span class="badge anim-glint" style="background:#C69C6D; color:#000; border: 1px solid rgba(0,0,0,0.2);">${splitEmoji("✨ 100%")}</span>`;
+          achBadge = `<span class="badge ${isMaxed ? 'anim-glint' : ''}" style="background:${platColor}; color:${platText}; border:1px solid ${platBorder};">${splitEmoji(`🏅 ${e}/${t}`)}</span>`;
+          // PC, Mobile, and Other maxed out badge falls back to the exact Royal Purple platform color.
+          if (isMaxed) achBadge = `<span class="badge anim-glint" style="background:${platColor}; color:${platText}; border:1px solid ${platBorder};">${splitEmoji("✨ 100%")}</span>`;
         }
       }
 
@@ -1719,7 +1763,8 @@ window.CONFIG = {
       card.className = `game-card ${isCompleted ? 'completed-glow' : ''}`;
       card.onclick = () => openGameModal(g.id);
       
-      const ratingDisp = (g.rating && parseFloat(g.rating) > 0) ? `<span class="rating-val-wrap" style="font-weight:bold;"><span class="${isRetro ? 'retro-star' : ''}">★</span><span>${parseFloat(g.rating).toFixed(1)}</span></span>` : `<span style="color:var(--text-muted); display:inline-flex; align-items:center;">${C.UNRATED_LABEL}</span>`;
+      // v0.23 Isolate Star Glyph and Line-Height context for extreme optical baselines
+      const ratingDisp = (g.rating && parseFloat(g.rating) > 0) ? `<span class="rating-val-wrap"><span class="${isRetro ? 'retro-star' : ''}">★</span><span>${parseFloat(g.rating).toFixed(1)}</span></span>` : `<span style="color:var(--text-muted); display:inline-flex; align-items:center;">${C.PLACEHOLDERS.UNRATED_LABEL}</span>`;
       
       let compBadge = `<span class="badge" style="background:var(--border);">${g.status}</span>`;
       if (isCompleted) {
@@ -1728,15 +1773,6 @@ window.CONFIG = {
          compBadge = `<span class="badge" style="background:#080c14; color:#00e8f8; border: 1px solid #00e8f8; box-shadow: 0 0 5px rgba(0,232,248,0.4);">${g.status}</span>`;
       }
 
-      // v0.22 Purple Platform Badges for Non-Big-3 Consoles
-      let platColor = "#6b21a8";
-      let platText = "#ffffff";
-      let platBorder = "rgba(255,255,255,0.2)";
-      const p = g.plat || "";
-      if (p.includes("PS")) { platColor = "#003791"; }
-      else if (p.includes("Xbox")) { platColor = "#107C10"; }
-      else if (p === "NES" || p === "Nintendo 64" || p === "SNES" || p.includes("Switch")) { platColor = "#E60012"; }
-      
       const titleClass = g.title.length > 25 ? "card-title title-long" : "card-title";
 
       card.innerHTML = `
@@ -1800,7 +1836,6 @@ window.CONFIG = {
   }
 
   function showToast(msg) {
-    const injectAlign = (emoji, text) => `<span class="optical-align"><span>${emoji}</span><span>${text}</span></span>`;
     const match = msg.match(/^([\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic})\s*(.*)$/u);
     const matchEnd = msg.match(/^(.*?)\s*([\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic})$/u);
     
@@ -1963,7 +1998,6 @@ window.CONFIG = {
          
          fireParticleExplosion();
          
-         // v0.22 Purple Platform Badges for Non-Big-3 Consoles
          let platColor = "#6b21a8";
          let platText = "#ffffff";
          let platBorder = "rgba(255,255,255,0.2)";

@@ -25,7 +25,7 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.21",
+  APP_VERSION: "0.22",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 Check RAWG",
@@ -41,6 +41,7 @@ window.CONFIG = {
   SEARCH_PLACEHOLDER: "🔍 Search Library...",
   SETTINGS_TITLE: "Settings",
   UNRATED_LABEL: "No Rating...",
+  WINNER_BANNER_TEXT: "🎉 Winner! 🎉",
 
   // 4. Centralized Notification & Error Messages
   MESSAGES: {
@@ -105,7 +106,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.21</title>
+<title id="html-title">VGnomicon v0.22</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <link id="favicon-desktop" rel="icon">
 <link id="favicon-mobile-1" rel="apple-touch-icon">
@@ -124,7 +125,7 @@ window.CONFIG = {
     --border: #333333; --border-hover: #555555; --border-focus: #4da6ff; --accent: #4da6ff; --accent-hover: #3388ff;
     --success: #00cc66; --warning: #ffaa00; --danger: #ff4444; --bg-badge: #333333; --text-badge: #ffffff;
     --shadow: 0 4px 16px rgba(0, 0, 0, 0.5); --font-main: 'Inter', -apple-system, sans-serif; --font-heading: 'Inter', sans-serif;
-    --radius: 8px; --scrollbar-thumb: #555555; --scrollbar-track: #1e1e1e;
+    --radius: 8px; --scrollbar-thumb: #555555; --scrollbar-track: #1e1e1e; --option-height: 39px;
   }
   /* --- 2. MINIMALIST LIGHT --- */
   [data-theme="minimalist-light"] {
@@ -133,7 +134,7 @@ window.CONFIG = {
     --border: #d2d2d7; --border-hover: #86868b; --border-focus: #0071e3; --accent: #0071e3; --accent-hover: #0056b3;
     --success: #34c759; --warning: #ff9f0a; --danger: #ff3b30; --bg-badge: #e5e5ea; --text-badge: #1d1d1f;
     --shadow: 0 4px 16px rgba(0, 0, 0, 0.08); --font-main: system-ui, -apple-system, sans-serif; --font-heading: system-ui, -apple-system, sans-serif;
-    --radius: 8px; --scrollbar-thumb: #c7c7cc; --scrollbar-track: #f5f5f7;
+    --radius: 8px; --scrollbar-thumb: #c7c7cc; --scrollbar-track: #f5f5f7; --option-height: 39px;
   }
   /* --- 3. MODERN LIGHT --- */
   [data-theme="modern-light"] {
@@ -142,7 +143,7 @@ window.CONFIG = {
     --border: #e2e8f0; --border-hover: #cbd5e1; --border-focus: #2563eb; --accent: #2563eb; --accent-hover: #1d4ed8;
     --success: #10b981; --warning: #f59e0b; --danger: #ef4444; --bg-badge: #e0f2fe; --text-badge: #0369a1;
     --shadow: 0 4px 16px rgba(15, 23, 42, 0.08); --font-main: 'Plus Jakarta Sans', 'Inter', sans-serif; --font-heading: 'Plus Jakarta Sans', sans-serif;
-    --radius: 10px; --scrollbar-thumb: #cbd5e1; --scrollbar-track: #f8fafc;
+    --radius: 10px; --scrollbar-thumb: #cbd5e1; --scrollbar-track: #f8fafc; --option-height: 39px;
   }
   /* --- 4. RETRO ARCADE --- */
   [data-theme="retro-arcade"] {
@@ -151,7 +152,7 @@ window.CONFIG = {
     --border: #ffcc00; --border-hover: #ff0055; --border-focus: #00ffff; --accent: #ff0055; --accent-hover: #ff3377;
     --success: #00ff66; --warning: #ffcc00; --danger: #ff2222; --bg-badge: #ff0055; --text-badge: #ffffff;
     --shadow: 0 0 15px rgba(255, 0, 85, 0.35); --font-main: 'Press Start 2P', 'Courier New', monospace; --font-heading: 'Press Start 2P', monospace;
-    --radius: 2px; --scrollbar-thumb: #ffcc00; --scrollbar-track: #101025;
+    --radius: 2px; --scrollbar-thumb: #ffcc00; --scrollbar-track: #101025; --option-height: 36px;
   }
   /* Retro Arcade Layout Normalization & Universal Optical Snapping */
   [data-theme="retro-arcade"] .grid-view .card-title { font-size: 10px; }
@@ -159,15 +160,16 @@ window.CONFIG = {
   [data-theme="retro-arcade"] .grid-view .badge { font-size: 8px; padding: 0 5px; height: 20px; }
   [data-theme="retro-arcade"] .game-card:not(.completed-glow) .card-footer-right .badge { background: #101025 !important; border: 1px solid #ffcc00 !important; color: #ffcc00 !important; }
   [data-theme="retro-arcade"] input, [data-theme="retro-arcade"] select, [data-theme="retro-arcade"] textarea, [data-theme="retro-arcade"] button, [data-theme="retro-arcade"] .custom-select-trigger, [data-theme="retro-arcade"] .custom-option { font-size: 11px; text-align: center; }
+  [data-theme="retro-arcade"] input, [data-theme="retro-arcade"] select, [data-theme="retro-arcade"] textarea { text-align: left; }
   [data-theme="retro-arcade"] .custom-option { padding: 12px; }
-  [data-theme="retro-arcade"] .modal-desc-wrapper label, [data-theme="retro-arcade"] .form-group label { font-size: 10px; text-align: center; justify-content: center; }
   [data-theme="retro-arcade"] h2 { font-size: 16px; text-align: center; }
   [data-theme="retro-arcade"] .settings-coll-row { display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; text-align: center; width: 100%; }
   
-  /* v0.21 Scoped Optical Nudges for Press Start 2P Geometry Warp */
   [data-theme="retro-arcade"] .retro-star { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; font-size: 1.4em; position: relative; top: -3px; line-height: 1;}
-  /* Only apply optical emoji nudging to elements explicitly containing emojis in Retro Arcade */
-  [data-theme="retro-arcade"] .emoji-nudge { position: relative; top: -1px; }
+  
+  /* v0.22 Global DRY Emoji Nudge for Retro Arcade */
+  [data-theme="retro-arcade"] .optical-align span:first-child { position: relative; top: -2px; }
+  [data-theme="retro-arcade"] .modal-header .close-btn { font-size: 24px !important; padding: 4px; }
 
   /* --- 5. SYNTHWAVE SUNSET --- */
   [data-theme="synthwave-sunset"] {
@@ -177,7 +179,7 @@ window.CONFIG = {
     --accent-completion: #00f0ff;
     --success: #00f0ff; --warning: #ffe600; --danger: #ff2a6d; --bg-badge: #ff007f; --text-badge: #ffffff;
     --shadow: 0 4px 20px rgba(255, 0, 127, 0.3); --font-main: 'Rajdhani', sans-serif; --font-heading: 'Orbitron', sans-serif;
-    --radius: 8px; --scrollbar-thumb: #ff007f; --scrollbar-track: #1a162b;
+    --radius: 8px; --scrollbar-thumb: #ff007f; --scrollbar-track: #1a162b; --option-height: 39px;
   }
   
   /* --- 6. CYBERPUNK --- */
@@ -188,7 +190,7 @@ window.CONFIG = {
     --success: #00e8f8; --warning: #ffbe0b; --danger: #ff003c; 
     --bg-badge: #fcee09; --text-badge: #05080f; 
     --shadow: 0 0 18px rgba(0, 232, 248, 0.25); --font-main: 'Share Tech Mono', 'JetBrains Mono', monospace; --font-heading: 'Share Tech Mono', monospace;
-    --radius: 0px; --scrollbar-thumb: #fcee09; --scrollbar-track: #0e1420;
+    --radius: 0px; --scrollbar-thumb: #fcee09; --scrollbar-track: #0e1420; --option-height: 39px;
   }
   [data-theme="cyberpunk"] .rating-val-wrap { color: #00e8f8 !important; text-shadow: 0 0 5px rgba(0,232,248,0.4); }
 
@@ -200,7 +202,7 @@ window.CONFIG = {
     --accent-completion: #d4af37;
     --success: #4e8054; --warning: #d4af37; --danger: #e61932; --bg-badge: #380d12; --text-badge: #d4af37;
     --shadow: 0 4px 20px rgba(128, 24, 36, 0.35); --font-main: 'Cinzel', Georgia, serif; --font-heading: 'Cinzel', Georgia, serif;
-    --radius: 4px; --scrollbar-thumb: #801824; --scrollbar-track: #171012;
+    --radius: 4px; --scrollbar-thumb: #801824; --scrollbar-track: #171012; --option-height: 39px;
   }
   
   /* --- 8. WASTELAND TERMINAL --- */
@@ -211,7 +213,7 @@ window.CONFIG = {
     --accent-completion: #ffb000;
     --success: #33ff33; --warning: #b3ff33; --danger: #ff3333; --bg-badge: #092e0c; --text-badge: #33ff33;
     --shadow: 0 0 16px rgba(51, 255, 51, 0.25); --font-main: 'VT323', 'Fira Code', monospace; --font-heading: 'VT323', monospace;
-    --radius: 2px; --scrollbar-thumb: #1c991c; --scrollbar-track: #041206;
+    --radius: 2px; --scrollbar-thumb: #1c991c; --scrollbar-track: #041206; --option-height: 39px;
   }
   
   /* --- 9. COZY VILLAGE --- */
@@ -221,8 +223,14 @@ window.CONFIG = {
     --border: #d6c7b8; --border-hover: #8ba888; --border-focus: #6b8e67; --accent: #6b8e67; --accent-hover: #557551;
     --success: #78a874; --warning: #d99a4e; --danger: #c75c5c; --bg-badge: #e2ede0; --text-badge: #4d694a;
     --shadow: 0 4px 14px rgba(74, 62, 53, 0.08); --font-main: 'Nunito', sans-serif; --font-heading: 'Quicksand', sans-serif;
-    --radius: 12px; --scrollbar-thumb: #c2b2a1; --scrollbar-track: #f5f0eb;
+    --radius: 12px; --scrollbar-thumb: #c2b2a1; --scrollbar-track: #f5f0eb; --option-height: 39px;
   }
+
+  /* v0.22 Theme-Aware Scrollbar Styling */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+  ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: var(--radius); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--border-hover); }
 
   /* Core Layout & Reset */
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -254,13 +262,13 @@ window.CONFIG = {
   .custom-select-wrapper.open .custom-select-trigger { border-color: var(--border-focus); }
   .custom-select-wrapper.open .custom-select-trigger::after { transform: rotate(180deg); }
   
-  /* v0.21 Pixel-Perfect Dropdown Clamps */
+  /* v0.22 Theme-Dependent Dropdown Height Clamp (5 options) */
   .custom-options-container { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); z-index: 10000; overflow-y: auto; display: none; flex-direction: column; max-height: 250px;}
   .custom-select-wrapper.open .custom-options-container { display: flex; }
-  .custom-options-container[data-select-id="f-platform"], .custom-options-container[data-select-id="filter-platform"] { max-height: 195px; } /* Exactly 5 options */
+  .custom-options-container[data-select-id="f-platform"], .custom-options-container[data-select-id="filter-platform"] { max-height: calc(var(--option-height) * 5 + 2px); } /* Exactly 5 options */
   .custom-options-container[data-select-id="f-format"], .custom-options-container[data-select-id="f-status"], .custom-options-container[data-select-id="filter-status"], .custom-options-container[data-select-id="f-currency"] { max-height: none; overflow-y: visible; }
   
-  .custom-option { padding: 10px 12px; cursor: pointer; color: var(--text-main); font-family: var(--font-main); font-size: 14px; border-bottom: 1px solid var(--border); }
+  .custom-option { padding: 10px 12px; cursor: pointer; color: var(--text-main); font-family: var(--font-main); font-size: 14px; border-bottom: 1px solid var(--border); box-sizing: border-box; height: var(--option-height);}
   .custom-option:last-child { border-bottom: none; }
   .custom-option:hover, .custom-option.selected { background: var(--bg-surface-hover); color: var(--accent); }
   .custom-option.disabled { color: var(--text-disabled); cursor: default; background: var(--bg-surface); }
@@ -360,8 +368,8 @@ window.CONFIG = {
   .card-footer-left { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
   .card-footer-right { display: flex; align-items: center; justify-content: flex-end; }
   
-  /* Standardized Pill Height & Centering */
-  .badge { height: 22px; display: inline-flex; align-items: center; justify-content: center; padding: 0 8px; border-radius: 4px; font-size: 11px; font-weight: bold; white-space: nowrap; box-sizing: border-box; line-height: 1; text-align: center; vertical-align: middle; }
+  /* Standardized Pill Height & Centering & v0.22 Font Consistency */
+  .badge { height: 22px; display: inline-flex; align-items: center; justify-content: center; padding: 0 8px; border-radius: 4px; font-size: 11px; font-family: var(--font-heading); font-weight: bold; white-space: nowrap; box-sizing: border-box; line-height: 1; text-align: center; vertical-align: middle; }
   .game-card.completed-glow { border-color: var(--accent-completion, var(--accent)); box-shadow: 0 0 25px var(--accent-completion, var(--accent)), 0 0 45px rgba(0, 0, 0, 0.5); }
 
   /* List View Metadata Non-Overlapping Alignment & Bold Weight (Item 1) */
@@ -445,7 +453,7 @@ window.CONFIG = {
   
   /* Chips & Badges */
   .reaction-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 5px; }
-  .chip { background: var(--bg-input); border: 1px solid var(--border); padding: 4px 10px; border-radius: 12px; font-size: 12px; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle;}
+  .chip { background: var(--bg-input); border: 1px solid var(--border); padding: 4px 10px; border-radius: 12px; font-size: 12px; font-family: var(--font-heading); cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle;}
   .chip:hover { background: var(--bg-surface-hover); border-color: var(--accent); }
   
   /* Storage Meter */
@@ -531,7 +539,7 @@ window.CONFIG = {
     <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.21</span>
+      <span id="ui-app-version">v0.22</span>
     </div>
   </a>
   <div class="header-actions">
@@ -1007,7 +1015,11 @@ window.CONFIG = {
     
     if(C.ASSETS.LOGO_BRAND) {
       const img = document.getElementById('brand-logo-img');
-      if(img) img.src = `./${C.ASSETS.LOGO_BRAND}`;
+      // v0.22 App Logo Asset Binding Fix
+      if(img) {
+          img.src = `./${C.ASSETS.LOGO_BRAND}`;
+          img.style.display = 'block';
+      }
     }
   }
 
@@ -1108,6 +1120,13 @@ window.CONFIG = {
   }
 
   // --- 3. INITIALIZATION & UI SETUP ---
+  // v0.21 Config-Driven Strings Optical Align Parser
+  const injectAlign = (emoji, text) => `<span class="optical-align"><span>${emoji}</span><span>${text}</span></span>`;
+  const splitEmoji = (str) => {
+    const match = str.match(/^([\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic})\s*(.*)$/u);
+    return match ? injectAlign(match[1], match[2]) : str;
+  };
+  
   function init() {
     applyDynamicAssets();
     document.getElementById('html-title').innerText = `${C.APP_NAME} v${C.APP_VERSION}`;
@@ -1119,15 +1138,6 @@ window.CONFIG = {
     document.getElementById('s-appname-read').innerText = C.APP_NAME;
     document.getElementById('s-appver-read').innerText = `v${C.APP_VERSION}`;
     document.getElementById('s-apparch-read').innerText = C.APP_ARCHITECTURE;
-    
-    // v0.21 Replace plain text mapping with Optical Align Wrappers dynamically for config-driven strings
-    const injectAlign = (emoji, text) => `<span class="optical-align"><span class="emoji-nudge">${emoji}</span><span>${text}</span></span>`;
-    
-    // Deconstruct config strings assuming format "EMOJI TEXT" if applicable
-    const splitEmoji = (str) => {
-      const match = str.match(/^([\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic})\s*(.*)$/u);
-      return match ? injectAlign(match[1], match[2]) : str;
-    };
     
     els.btnAdd.innerHTML = splitEmoji(C.BTN_ADD_GAME);
     els.btnSync.innerHTML = splitEmoji(C.BTN_FORCE_SYNC);
@@ -1531,6 +1541,15 @@ window.CONFIG = {
       
       els.f.dateAdd.value = g.dateAdd || "";
       els.f.dateComp.value = g.dateComp || "";
+      
+      // v0.22 Edit Binding Fixes for Playtime, HLTB, and Achievements
+      els.f.playtime.value = g.playtime || "";
+      els.f.hltbM.value = g.hltbM || "";
+      els.f.hltbE.value = g.hltbE || "";
+      els.f.hltbC.value = g.hltbC || "";
+      els.f.achE.value = g.achE || "";
+      els.f.achT.value = g.achT || "";
+      
     } else {
       els.mGameTitle.innerText = "Add Game";
       els.btnDelPrompt.style.display = "none";
@@ -1553,17 +1572,14 @@ window.CONFIG = {
   }
 
   function updateHLTBLink(title) { 
-    const injectAlign = (emoji, text) => `<span class="optical-align"><span class="emoji-nudge">${emoji}</span><span>${text}</span></span>`;
     if(title) {
       els.hltbLink.href = `https://howlongtobeat.com/?q=${encodeURIComponent(title)}`;
-      els.hltbLink.innerHTML = injectAlign("🔗", "Look up on HLTB");
+      els.hltbLink.innerHTML = splitEmoji("🔗 Look up on HLTB");
       els.hltbLink.style.color = "var(--accent)";
       els.hltbLink.style.pointerEvents = "auto";
     } else {
       els.hltbLink.href = "#";
-      // Split the warning text cleanly
-      const match = C.HLTB_WARNING_TEXT.match(/^([\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic})\s*(.*)$/u);
-      els.hltbLink.innerHTML = match ? injectAlign(match[1], match[2]) : C.HLTB_WARNING_TEXT;
+      els.hltbLink.innerHTML = splitEmoji(C.HLTB_WARNING_TEXT);
       els.hltbLink.style.color = "var(--warning)";
       els.hltbLink.style.pointerEvents = "none";
     }
@@ -1682,22 +1698,20 @@ window.CONFIG = {
       let achBadge = "";
       let isCompleted = g.status === "Completed";
       
-      const injectAlign = (emoji, text) => `<span class="optical-align"><span class="emoji-nudge">${emoji}</span><span>${text}</span></span>`;
-      
       if (g.achE || g.achT) {
         const e = g.achE || 0;
         const t = g.achT || 0;
         const isMaxed = parseFloat(e) >= parseFloat(t) && parseFloat(t) > 0;
         
         if((g.plat||"").includes("PS")) {
-          achBadge = `<span class="badge ${isMaxed ? 'anim-glint' : ''}" style="background:transparent; color:var(--text-muted); border: 1px solid var(--border);">${injectAlign("🏆", `${e}/${t}`)}</span>`;
-          if (isMaxed) achBadge = `<span class="badge anim-glint" style="background:#003791; color:#fff; border: 1px solid rgba(255,255,255,0.2);">${injectAlign("🏆", "PLATINUM")}</span>`;
+          achBadge = `<span class="badge ${isMaxed ? 'anim-glint' : ''}" style="background:transparent; color:var(--text-muted); border: 1px solid var(--border);">${splitEmoji(`🏆 ${e}/${t}`)}</span>`;
+          if (isMaxed) achBadge = `<span class="badge anim-glint" style="background:#003791; color:#fff; border: 1px solid rgba(255,255,255,0.2);">${splitEmoji("🏆 PLATINUM")}</span>`;
         } else if((g.plat||"").includes("Xbox")) {
           achBadge = `<span class="badge ${isMaxed ? 'anim-glint' : ''}" style="background:transparent; color:var(--text-muted); border: 1px solid var(--border);">${e}/${t}G</span>`;
           if (isMaxed) achBadge = `<span class="badge anim-glint" style="background:#107C10; color:#fff; border: 1px solid rgba(255,255,255,0.2);">${e}G</span>`;
         } else {
-          achBadge = `<span class="badge ${isMaxed ? 'anim-glint' : ''}" style="background:transparent; color:var(--text-muted); border: 1px solid var(--border);">${injectAlign("🏅", `${e}/${t}`)}</span>`;
-          if (isMaxed) achBadge = `<span class="badge anim-glint" style="background:#C69C6D; color:#000; border: 1px solid rgba(0,0,0,0.2);">${injectAlign("✨", "100%")}</span>`;
+          achBadge = `<span class="badge ${isMaxed ? 'anim-glint' : ''}" style="background:transparent; color:var(--text-muted); border: 1px solid var(--border);">${splitEmoji(`🏅 ${e}/${t}`)}</span>`;
+          if (isMaxed) achBadge = `<span class="badge anim-glint" style="background:#C69C6D; color:#000; border: 1px solid rgba(0,0,0,0.2);">${splitEmoji("✨ 100%")}</span>`;
         }
       }
 
@@ -1709,20 +1723,20 @@ window.CONFIG = {
       
       let compBadge = `<span class="badge" style="background:var(--border);">${g.status}</span>`;
       if (isCompleted) {
-         compBadge = `<span class="badge" style="background:var(--accent-completion, var(--accent)); color:var(--text-inverse);">${injectAlign("🏆", "COMPLETED")}</span>`;
+         compBadge = `<span class="badge" style="background:var(--accent-completion, var(--accent)); color:var(--text-inverse);">${splitEmoji("🏆 COMPLETED")}</span>`;
       } else if (isCyberpunk) {
          compBadge = `<span class="badge" style="background:#080c14; color:#00e8f8; border: 1px solid #00e8f8; box-shadow: 0 0 5px rgba(0,232,248,0.4);">${g.status}</span>`;
       }
 
-      let platColor = "var(--bg-input)";
-      let platText = "var(--text-badge)";
-      let platBorder = "var(--border)";
+      // v0.22 Purple Platform Badges for Non-Big-3 Consoles
+      let platColor = "#6b21a8";
+      let platText = "#ffffff";
+      let platBorder = "rgba(255,255,255,0.2)";
       const p = g.plat || "";
-      if (p.includes("PS")) { platColor = "#003791"; platText = "#ffffff"; platBorder = "rgba(255,255,255,0.2)"; }
-      else if (p.includes("Xbox")) { platColor = "#107C10"; platText = "#ffffff"; platBorder = "rgba(255,255,255,0.2)"; }
-      else if (p === "NES" || p === "Nintendo 64" || p === "SNES" || p.includes("Switch")) { platColor = "#E60012"; platText = "#ffffff"; platBorder = "rgba(255,255,255,0.2)"; }
+      if (p.includes("PS")) { platColor = "#003791"; }
+      else if (p.includes("Xbox")) { platColor = "#107C10"; }
+      else if (p === "NES" || p === "Nintendo 64" || p === "SNES" || p.includes("Switch")) { platColor = "#E60012"; }
       
-      // v0.21 Add `title-long` class for container query font step-downs
       const titleClass = g.title.length > 25 ? "card-title title-long" : "card-title";
 
       card.innerHTML = `
@@ -1751,7 +1765,6 @@ window.CONFIG = {
     if (count === 0) {
       els.empty.style.display = 'block';
       if (q) {
-        // v0.21 Safe optical split for empty state emojis
         const match = C.EMPTY_SEARCH_TEXT.match(/^(.*?)([\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic})+$/u);
         const text = match ? match[1].trim() : C.EMPTY_SEARCH_TEXT.replace(/🤣/g, '').trim();
         els.emptyText.innerText = text;
@@ -1787,9 +1800,8 @@ window.CONFIG = {
   }
 
   function showToast(msg) {
-    const injectAlign = (emoji, text) => `<span class="optical-align"><span class="emoji-nudge">${emoji}</span><span>${text}</span></span>`;
+    const injectAlign = (emoji, text) => `<span class="optical-align"><span>${emoji}</span><span>${text}</span></span>`;
     const match = msg.match(/^([\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic})\s*(.*)$/u);
-    // If it ends with an emoji (e.g. Sync Success 🚀)
     const matchEnd = msg.match(/^(.*?)\s*([\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic})$/u);
     
     if(match) {
@@ -1813,12 +1825,9 @@ window.CONFIG = {
   function buildThemeGrid() {
     els.themeGrid.innerHTML = '';
     
-    const injectAlign = (emoji, text) => `<span class="optical-align"><span class="emoji-nudge">${emoji}</span><span>${text}</span></span>`;
-    const matchRand = C.BTN_THEME_RANDOM.match(/^([\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic})\s*(.*)$/u);
-    
     const btnRand = document.createElement('button');
     btnRand.className = `theme-btn ${(settings.theme === 'random' || !settings.theme) ? 'active' : ''}`;
-    btnRand.innerHTML = matchRand ? injectAlign(matchRand[1], matchRand[2]) : C.BTN_THEME_RANDOM;
+    btnRand.innerHTML = splitEmoji(C.BTN_THEME_RANDOM);
     btnRand.onclick = () => {
       settings.theme = 'random';
       localStorage.setItem('vgnomicon_settings', JSON.stringify(settings));
@@ -1954,15 +1963,15 @@ window.CONFIG = {
          
          fireParticleExplosion();
          
-         let platColor = "var(--bg-input)";
-         let platText = "var(--text-badge)";
-         let platBorder = "var(--border)";
+         // v0.22 Purple Platform Badges for Non-Big-3 Consoles
+         let platColor = "#6b21a8";
+         let platText = "#ffffff";
+         let platBorder = "rgba(255,255,255,0.2)";
          const p = pick.plat || "";
-         if (p.includes("PS")) { platColor = "#003791"; platText = "#ffffff"; platBorder = "rgba(255,255,255,0.2)"; }
-         else if (p.includes("Xbox")) { platColor = "#107C10"; platText = "#ffffff"; platBorder = "rgba(255,255,255,0.2)"; }
-         else if (p === "NES" || p === "Nintendo 64" || p === "SNES" || p.includes("Switch")) { platColor = "#E60012"; platText = "#ffffff"; platBorder = "rgba(255,255,255,0.2)"; }
+         if (p.includes("PS")) { platColor = "#003791"; }
+         else if (p.includes("Xbox")) { platColor = "#107C10"; }
+         else if (p === "NES" || p === "Nintendo 64" || p === "SNES" || p.includes("Switch")) { platColor = "#E60012"; }
 
-         const injectAlign = (emoji, text) => `<span class="optical-align"><span class="emoji-nudge">${emoji}</span><span>${text}</span></span>`;
          const titleClass = pick.title.length > 25 ? "card-title title-long" : "card-title";
 
          els.randomRes.innerHTML = `
@@ -1973,10 +1982,9 @@ window.CONFIG = {
                 <div class="badge" style="margin-top:12px; background:${platColor}; color:${platText}; border:1px solid ${platBorder}; box-shadow: 0 2px 6px rgba(0,0,0,0.5); height:26px; padding: 0 12px; font-size:12px; border-radius:4px;">${pick.plat || ''}</div>
               </div>
             </div>
-            <div style="font-size:24px; margin-top:20px; color:var(--accent); font-weight:bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">${injectAlign("🎉", "Winner! 🎉")}</div>
+            <div style="font-size:24px; margin-top:20px; color:var(--accent); font-weight:bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">${splitEmoji(C.WINNER_BANNER_TEXT)}</div>
          `;
          
-         /* v0.21 Adaptive Step-Down Clamp for Winner Card */
          const winnerTitle = els.randomRes.querySelector('.card-title');
          const isRetroArcade = document.body.getAttribute('data-theme') === 'retro-arcade';
          

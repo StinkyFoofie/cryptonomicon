@@ -26,10 +26,11 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.32",
+  APP_VERSION: "0.33",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 RAWG Check",
+  BTN_CHECK_STEAMGRID: "🌐 SteamGridDB Check",
   BTN_CLEAR_CACHE: "🗑️ Clear Cache",
   BTN_FORCE_SYNC: "🚀 Sync",
   BTN_RANDOM_GAME: "🎲 Pick Game",
@@ -62,7 +63,9 @@ window.CONFIG = {
     RAWG_REFRESH_ERROR: "⚠️ RAWG: No metadata found or connection failed!",
     RAWG_REFRESH_SUCCESS: "RAWG metadata refreshed! 🔄",
     SAVED_TOAST: "SAVED - {title}",
-    SYNC_SUCCESS: "Library Synced like PANTS! 🚀",
+    STEAMGRID_OFFLINE: "⚠️ SteamGridDB API: Connection Error",
+    STEAMGRID_ONLINE: "SteamGridDB API: Online & Connected",
+    SYNC_SUCCESS: "Library Synced like SHIRTS! 🚀",
     TITLE_REQUIRED: "⚠️ Title is required!"
   },
 
@@ -112,7 +115,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.32</title>
+<title id="html-title">VGnomicon v0.33</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -201,8 +204,7 @@ window.CONFIG = {
   /* Retro Arcade Scoped Row 2 Clamp & Gutter Lock */
   [data-theme="retro-arcade"] .grid-view .card-footer-row-2 .badge { font-size: 8.5px !important; padding: 0 4px !important; letter-spacing: -0.04em !important; }
   [data-theme="retro-arcade"] .winner-emoji-box { transform: translateY(-4px); }
-  [data-theme="retro-arcade"] .system-tray button { font-size: 14px; }
-  /* v0.31 Diff #8: Retro Arcade List View Rating Proportional Scale */
+  [data-theme="retro-arcade"] .system-tray button { font-size: 15.5px; }
   [data-theme="retro-arcade"] .list-view .card-meta { font-size: 8.5px !important; }
 
   /* --- 5. SYNTHWAVE SUNSET --- */
@@ -249,7 +251,6 @@ window.CONFIG = {
     --shadow: 0 0 16px rgba(51, 255, 51, 0.25); --font-main: 'VT323', 'Fira Code', monospace; --font-heading: 'VT323', monospace;
     --radius: 2px; --scrollbar-thumb: #1c991c; --scrollbar-track: #041206;
   }
-  /* v0.31 Diff #6: Wasteland Terminal CRT Typography Remaster */
   [data-theme="wasteland-terminal"] body { font-size: 18px; }
   [data-theme="wasteland-terminal"] input, [data-theme="wasteland-terminal"] select, [data-theme="wasteland-terminal"] textarea, [data-theme="wasteland-terminal"] button, [data-theme="wasteland-terminal"] .custom-select-trigger, [data-theme="wasteland-terminal"] .custom-option { font-size: 18px; }
   [data-theme="wasteland-terminal"] .grid-view .card-title { font-size: 21px; }
@@ -334,7 +335,7 @@ window.CONFIG = {
   .search-bar { max-width: 300px; min-width: 250px; }
   #btn-add-game { white-space: nowrap; flex-shrink: 0; }
   
-  /* v0.32 Diffs #1 & #2: System Tray Typography Prominence & Gear Spacing */
+  /* v0.33 Diff #5: System Tray Typography Prominence Step-Up */
   .system-tray { display: flex; align-items: center; gap: 10px; color: var(--text-muted); justify-self: flex-end;}
   .sync-status { display: flex; align-items: center; gap: 6px; }
   .status-dot { width: 10px; height: 10px; border-radius: 50%; }
@@ -343,11 +344,12 @@ window.CONFIG = {
   .dot-red { background: var(--danger); }
   .tray-time-stacked { display: flex; flex-direction: column; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 1.2; }
   
-  .system-tray button { background: transparent; border: none; color: var(--text-muted); padding: 6px 12px; font-size: 14px; font-weight: 600; border-radius: var(--radius); transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; }
+  .system-tray button { background: transparent; border: none; color: var(--text-muted); padding: 6px 12px; font-size: 15.5px; font-weight: 600; border-radius: var(--radius); transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; }
   .system-tray button:hover { color: var(--accent); background: var(--bg-surface-hover); }
   
+  /* v0.33 Diff #2: Settings Gear Unicode Spacing & Scale */
   #btn-open-settings .optical-align { gap: 3px !important; }
-  #btn-open-settings .optical-align > span:first-child { margin-right: -2px; }
+  #btn-open-settings .optical-align > span:first-child { font-size: 19px; margin-right: -2px; }
 
   /* Harmonic 800ms Spin Period for Perfect 360° Landings */
   @keyframes spin { 100% { transform: rotate(360deg); } }
@@ -357,7 +359,6 @@ window.CONFIG = {
   .control-bar .custom-select-wrapper { width: auto; flex: 1; min-width: 130px; }
   .control-bar .custom-select-trigger { padding: 6px 10px; }
   
-  /* v0.31 Diff #7: View Slider Glyph Midline Calibration */
   .view-toggle { display: inline-grid; grid-template-columns: 1fr 1fr; background: var(--bg-input); border-radius: 20px; padding: 2px; position: relative; border: 1px solid var(--border); align-items: center; margin: 0 10px; line-height: 1; overflow: hidden; width: 184px; box-sizing: border-box; }
   .view-slider { position: absolute; top: 2px; bottom: 2px; left: 2px; width: calc(50% - 2px); background: var(--bg-surface); border-radius: 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.3); transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1; border: 1px solid var(--border-hover); pointer-events: none; }
   .view-toggle.list-active .view-slider { transform: translateX(100%); }
@@ -451,10 +452,19 @@ window.CONFIG = {
     .grid-view .card-footer .badge { font-size: 8.5px; padding: 0 4px; height: 22px; }
   }
 
-  /* List View - Landscape 16:9 Aspect Ratio */
+  /* v0.33 Diff #3: List View Right Border Removal & Fade Gradient Mask */
   .list-view { display: flex; flex-direction: column; gap: 10px; }
   .list-view .game-card { flex-direction: row; height: 60px; align-items: center; padding-right: 15px;}
-  .list-view .card-cover { width: calc(60px * 16 / 9); height: 60px; border-right: 1px solid var(--border); margin-right: 15px; aspect-ratio: 16/9; object-fit: cover; }
+  .list-view .card-cover { 
+    width: calc(60px * 16 / 9); 
+    height: 60px; 
+    border-right: none; 
+    margin-right: 12px; 
+    aspect-ratio: 16/9; 
+    object-fit: cover; 
+    -webkit-mask-image: linear-gradient(to right, black 66%, transparent 100%);
+    mask-image: linear-gradient(to right, black 66%, transparent 100%);
+  }
   
   .list-view .card-details { flex-direction: row; align-items: center; justify-content: space-between; padding: 0; width: 100%; gap: 15px; }
   .list-view .card-details-text-container { flex: 1; min-width: 0; }
@@ -480,7 +490,8 @@ window.CONFIG = {
   .close-btn { background: none; border: none; font-size: 20px; color: var(--text-muted); padding: 0; width: auto; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; }
   .close-btn:hover { color: var(--text-main); }
   
-  .modal-body { padding: 20px; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; gap: 16px; scroll-behavior: smooth; flex: 1; overscroll-behavior: contain;}
+  /* v0.33 Diff #7: Modal Instant Top-Snap */
+  .modal-body { padding: 20px; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; gap: 16px; flex: 1; overscroll-behavior: contain;}
   .modal-footer { padding: 15px 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; gap: 10px; background: var(--bg-surface); z-index: 2;}
   
   .settings-block { background: var(--bg-input); padding: 15px; border-radius: var(--radius); border: 3px solid var(--border); }
@@ -589,7 +600,6 @@ window.CONFIG = {
   
   .winner-banner-wrap { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; text-align: center; }
   .winner-emoji-box { display: inline-flex; align-items: center; justify-content: center; width: 1.5rem; flex-shrink: 0; line-height: 1; }
-  /* v0.31 Diff #9: Right-Side Optical Gap Lock for Winner Banner */
   .winner-emoji-box:last-child { transform: translateX(-4px); }
   [data-theme="retro-arcade"] .winner-banner-wrap { font-size: 14px; }
 
@@ -626,7 +636,7 @@ window.CONFIG = {
     <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.32</span>
+      <span id="ui-app-version">v0.33</span>
     </div>
   </a>
   <div class="header-actions">
@@ -885,12 +895,23 @@ window.CONFIG = {
 
       <div class="settings-block">
         <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">External APIs</h3>
-        <div style="display:flex; justify-content: space-between; align-items:center;">
+        
+        <!-- RAWG Row -->
+        <div style="display:flex; justify-content: space-between; align-items:center; margin-bottom: 12px;">
           <div style="display:flex; align-items:center; gap: 8px;">
             <div class="status-dot dot-yellow" id="modal-rawg-dot"></div>
             <span style="font-size:12px; color:var(--text-muted); font-weight:600;">RAWG Metadata Database</span>
           </div>
           <button id="btn-audit-rawg" style="padding:4px 10px; font-size:12px;"></button>
+        </div>
+        
+        <!-- v0.33 Feature #4: SteamGridDB Row -->
+        <div style="display:flex; justify-content: space-between; align-items:center;">
+          <div style="display:flex; align-items:center; gap: 8px;">
+            <div class="status-dot dot-yellow" id="modal-steamgrid-dot"></div>
+            <span style="font-size:12px; color:var(--text-muted); font-weight:600;">SteamGridDB Artwork</span>
+          </div>
+          <button id="btn-audit-steamgrid" style="padding:4px 10px; font-size:12px;"></button>
         </div>
       </div>
 
@@ -1026,6 +1047,7 @@ window.CONFIG = {
     trayDate: document.getElementById('tray-date'), trayTime: document.getElementById('tray-time'), 
     traySyncDot: document.getElementById('tray-sync-dot'), 
     modalRawgDot: document.getElementById('modal-rawg-dot'),
+    modalSteamGridDot: document.getElementById('modal-steamgrid-dot'),
     modalGameRawgDot: document.getElementById('modal-game-rawg-dot'),
     lblRawgStatusText: document.getElementById('lbl-rawg-status-text'),
     btnSync: document.getElementById('btn-force-sync'), btnTheme: document.getElementById('btn-open-theme'),
@@ -1084,6 +1106,7 @@ window.CONFIG = {
     btnSettings: document.getElementById('btn-open-settings'), btnCloseSettings: document.getElementById('btn-close-settings'),
     sGenresCloud: document.getElementById('s-genres-cloud'),
     btnAuditCache: document.getElementById('btn-audit-cache'), btnAuditRawg: document.getElementById('btn-audit-rawg'),
+    btnAuditSteamGrid: document.getElementById('btn-audit-steamgrid'),
     btnClearCache: document.getElementById('btn-clear-cache')
   };
   
@@ -1296,6 +1319,7 @@ window.CONFIG = {
     els.btnAuditCache.innerHTML = splitEmoji(C.BTN_AUDIT_CACHE);
     els.btnClearCache.innerHTML = splitEmoji(C.BTN_CLEAR_CACHE);
     els.btnAuditRawg.innerHTML = splitEmoji(C.BTN_CHECK_RAWG);
+    els.btnAuditSteamGrid.innerHTML = splitEmoji(C.BTN_CHECK_STEAMGRID || "🌐 SteamGridDB Check");
     els.btnGrid.innerHTML = splitEmoji("🔲 Grid");
     els.btnList.innerHTML = splitEmoji("☰ List");
     els.btnCloseRandom.innerHTML = splitEmoji(C.BTN_WINNER_CONFIRM || "Awesome!");
@@ -1381,13 +1405,21 @@ window.CONFIG = {
     els.btnAuditRawg.onclick = async () => {
       els.btnAuditRawg.classList.add('spinning');
       const spinStart = Date.now();
-      const HARMONIC_SPIN = 3200;
       await auditRawgConnection(false);
       const elapsed = Date.now() - spinStart;
-      const remaining = Math.max(0, HARMONIC_SPIN - elapsed);
-      setTimeout(() => {
-        els.btnAuditRawg.classList.remove('spinning');
-      }, remaining);
+      const quantizedSpin = Math.max(3200, Math.ceil(elapsed / 800) * 800);
+      const remaining = Math.max(0, quantizedSpin - elapsed);
+      setTimeout(() => els.btnAuditRawg.classList.remove('spinning'), remaining);
+    };
+
+    els.btnAuditSteamGrid.onclick = async () => {
+      els.btnAuditSteamGrid.classList.add('spinning');
+      const spinStart = Date.now();
+      await auditSteamGridConnection(false);
+      const elapsed = Date.now() - spinStart;
+      const quantizedSpin = Math.max(3200, Math.ceil(elapsed / 800) * 800);
+      const remaining = Math.max(0, quantizedSpin - elapsed);
+      setTimeout(() => els.btnAuditSteamGrid.classList.remove('spinning'), remaining);
     };
     
     els.btnSync.onclick = forceSync;
@@ -1457,7 +1489,6 @@ window.CONFIG = {
       
       els.btnRefreshRawg.classList.add('spinning');
       const spinStart = Date.now();
-      const HARMONIC_SPIN = 3200;
 
       try {
         const res = await fetch(`https://api.rawg.io/api/games?key=${apiKey}&search=${encodeURIComponent(query)}&page_size=1`);
@@ -1517,10 +1548,9 @@ window.CONFIG = {
         showToast(splitEmoji(C.MESSAGES.RAWG_REFRESH_ERROR));
       } finally {
         const elapsed = Date.now() - spinStart;
-        const remaining = Math.max(0, HARMONIC_SPIN - elapsed);
-        setTimeout(() => {
-          els.btnRefreshRawg.classList.remove('spinning');
-        }, remaining);
+        const quantizedSpin = Math.max(3200, Math.ceil(elapsed / 800) * 800);
+        const remaining = Math.max(0, quantizedSpin - elapsed);
+        setTimeout(() => els.btnRefreshRawg.classList.remove('spinning'), remaining);
       }
     };
 
@@ -1540,6 +1570,7 @@ window.CONFIG = {
     els.search.addEventListener('input', renderLibrary);
 
     auditRawgConnection(true);
+    auditSteamGridConnection(true);
     renderLibrary();
   }
 
@@ -1584,32 +1615,48 @@ window.CONFIG = {
     else els.traySyncDot.classList.add('dot-red');
   }
 
-  // v0.32 Quantized 800ms Spin Harmonization for Long Syncs
-  async function forceSync() {
-    setSyncState('🟡');
+  // v0.33 Defect #6: Universal Harmonic Sync Engine
+  async function triggerHarmonicSync(operationPromise, successToastMsg) {
     els.btnSync.classList.add('spinning');
+    setSyncState('🟡');
     const startTime = Date.now();
+    
+    let isSuccess = false;
     try {
+      await operationPromise;
       if (db && navigator.onLine) {
-        const activeDbColl = settings.dbColl || C.DB_COLLECTION;
-        await getDocs(collection(db, activeDbColl), { source: 'server' });
         lastSyncTime = new Date();
         updateTimestamp();
         updateStorageMeter();
+        setSyncState('🟢');
+        isSuccess = true;
+      } else {
+        setSyncState('🔴');
       }
-      setSyncState('🟢');
-      showToast(C.MESSAGES.SYNC_SUCCESS);
     } catch(e) {
-      console.error("Force sync failed:", e);
+      console.warn("Harmonic sync caught error:", e);
       setSyncState('🔴');
     } finally {
       const elapsed = Date.now() - startTime;
       const quantizedSpin = Math.max(3200, Math.ceil(elapsed / 800) * 800);
       const remaining = Math.max(0, quantizedSpin - elapsed);
-      setTimeout(() => {
-        els.btnSync.classList.remove('spinning');
-      }, remaining);
+      
+      if (isSuccess && successToastMsg) {
+         showToast(successToastMsg);
+      }
+      
+      setTimeout(() => els.btnSync.classList.remove('spinning'), remaining);
     }
+  }
+
+  function forceSync() {
+    if (!db || !navigator.onLine) {
+      showToast("Cannot sync: offline or detached.");
+      return;
+    }
+    const activeDbColl = settings.dbColl || C.DB_COLLECTION;
+    const fetchPromise = getDocs(collection(db, activeDbColl), { source: 'server' });
+    triggerHarmonicSync(fetchPromise, C.MESSAGES.SYNC_SUCCESS);
   }
 
   function updateTimestamp() {
@@ -1627,28 +1674,14 @@ window.CONFIG = {
 
   async function pushDocToCloud(id, data) {
     if(!db) return;
-    try { 
-        setSyncState('🟡');
-        const activeDbColl = settings.dbColl || C.DB_COLLECTION;
-        await setDoc(doc(db, activeDbColl, id), data); 
-        setSyncState('🟢');
-    } catch(e) { 
-        console.warn("Queued locally", e);
-        setSyncState('🔴');
-    }
+    const activeDbColl = settings.dbColl || C.DB_COLLECTION;
+    await setDoc(doc(db, activeDbColl, id), data); 
   }
   
   async function removeDocFromCloud(id) {
     if(!db) return;
-    try { 
-        setSyncState('🟡');
-        const activeDbColl = settings.dbColl || C.DB_COLLECTION;
-        await deleteDoc(doc(db, activeDbColl, id)); 
-        setSyncState('🟢');
-    } catch(e) { 
-        console.warn("Queued locally", e);
-        setSyncState('🔴');
-    }
+    const activeDbColl = settings.dbColl || C.DB_COLLECTION;
+    await deleteDoc(doc(db, activeDbColl, id)); 
   }
 
   function saveLocalAndRender() {
@@ -1666,6 +1699,14 @@ window.CONFIG = {
       else if(state === '🟡') dot.classList.add('dot-yellow');
       else dot.classList.add('dot-red');
     });
+  }
+
+  function setSteamGridState(state) {
+    if (!els.modalSteamGridDot) return;
+    els.modalSteamGridDot.className = 'status-dot';
+    if(state === '🟢') els.modalSteamGridDot.classList.add('dot-green');
+    else if(state === '🟡') els.modalSteamGridDot.classList.add('dot-yellow');
+    else els.modalSteamGridDot.classList.add('dot-red');
   }
 
   async function auditRawgConnection(silent = false) {
@@ -1689,28 +1730,69 @@ window.CONFIG = {
         setRawgState('🟢');
         if(!silent) showToast(C.MESSAGES.RAWG_ONLINE);
       } else {
-        console.warn(`RAWG Audit failed with status: ${res.status} ${res.statusText}`);
+        console.warn(`RAWG Audit failed with status: ${res.status}`);
         setRawgState('🔴');
         if(!silent) showToast(C.MESSAGES.RAWG_OFFLINE);
       }
     } catch(e) {
-      console.warn(`RAWG Audit connection error or timeout:`, e);
+      console.warn(`RAWG Audit connection error:`, e);
       setRawgState('🔴');
       if(!silent) showToast(C.MESSAGES.RAWG_OFFLINE);
     }
   }
 
+  async function auditSteamGridConnection(silent = false) {
+    setSteamGridState('🟡');
+    const apiKey = getSteamGridKey();
+    
+    if (!apiKey || apiKey === "YOUR_STEAMGRIDDB_API_KEY_HERE") {
+        setSteamGridState('🔴');
+        if(!silent) showToast(C.MESSAGES.STEAMGRID_OFFLINE);
+        return;
+    }
+    
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 4000);
+    
+    try {
+      const corsProxy = 'https://corsproxy.io/?';
+      const targetUrl = encodeURIComponent(`https://www.steamgriddb.com/api/v2/search/autocomplete/mario`);
+      const res = await fetch(`${corsProxy}${targetUrl}`, {
+        headers: { Authorization: `Bearer ${apiKey}` },
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
+      
+      if(res.ok) {
+        setSteamGridState('🟢');
+        if(!silent) showToast(C.MESSAGES.STEAMGRID_ONLINE);
+      } else {
+        console.warn(`SteamGridDB Audit failed with status: ${res.status}`);
+        setSteamGridState('🔴');
+        if(!silent) showToast(C.MESSAGES.STEAMGRID_OFFLINE);
+      }
+    } catch(e) {
+      console.warn(`SteamGridDB Audit connection error:`, e);
+      setSteamGridState('🔴');
+      if(!silent) showToast(C.MESSAGES.STEAMGRID_OFFLINE);
+    }
+  }
+
+  // v0.33 Feature #1: Client-Side CORS Proxy Fetch for SteamGridDB
   async function fetchSteamGridCover(gameName, apiKey) {
     if (!apiKey || apiKey === "YOUR_STEAMGRIDDB_API_KEY_HERE") return null;
+    const corsProxy = 'https://corsproxy.io/?';
     try {
-      const searchRes = await fetch(`https://www.steamgriddb.com/api/v2/search/autocomplete/${encodeURIComponent(gameName)}`, {
+      const searchTarget = encodeURIComponent(`https://www.steamgriddb.com/api/v2/search/autocomplete/${encodeURIComponent(gameName)}`);
+      const searchRes = await fetch(`${corsProxy}${searchTarget}`, {
         headers: { Authorization: `Bearer ${apiKey}` }
       });
       const searchData = await searchRes.json();
       if (!searchData.success || !searchData.data || searchData.data.length === 0) return null;
       
       const gameId = searchData.data[0].id;
-      const gridRes = await fetch(`https://www.steamgriddb.com/api/v2/grids/game/${gameId}?dimensions=600x900`, {
+      const gridTarget = encodeURIComponent(`https://www.steamgriddb.com/api/v2/grids/game/${gameId}?dimensions=600x900`);
+      const gridRes = await fetch(`${corsProxy}${gridTarget}`, {
         headers: { Authorization: `Bearer ${apiKey}` }
       });
       const gridData = await gridRes.json();
@@ -1913,7 +1995,9 @@ window.CONFIG = {
     
     els.mGame.classList.add('active');
     toggleModalScrollLock(true);
-    els.mGameBody.scrollTop = 0;
+    
+    // v0.33 Diff #7: Add Game Modal Opening Instant Top-Snap
+    els.mGameBody.scrollTo({ top: 0, behavior: 'instant' });
     
     auditRawgConnection(true);
 
@@ -2065,28 +2149,31 @@ window.CONFIG = {
     };
 
     games[id] = gameData;
-    pushDocToCloud(id, gameData); 
-    saveLocalAndRender();         
     
-    lastSyncTime = new Date();
-    updateTimestamp();
+    const cloudOp = pushDocToCloud(id, gameData); 
+    saveLocalAndRender();         
     
     els.mGame.classList.remove('active');
     toggleModalScrollLock(false);
-    showToast(C.MESSAGES.SAVED_TOAST.replace('{title}', gameData.title));
+    
+    const toastMsg = C.MESSAGES.SAVED_TOAST.replace('{title}', gameData.title);
+    triggerHarmonicSync(cloudOp, toastMsg);
   }
 
   function deleteGame() {
     const id = els.f.id.value;
     const title = games[id].title;
     delete games[id];
-    removeDocFromCloud(id);
+    
+    const cloudOp = removeDocFromCloud(id);
     saveLocalAndRender();
     
     els.mDelete.classList.remove('active');
     els.mGame.classList.remove('active');
     toggleModalScrollLock(false);
-    showToast(C.MESSAGES.DELETED_TOAST.replace('{title}', title));
+    
+    const toastMsg = C.MESSAGES.DELETED_TOAST.replace('{title}', title);
+    triggerHarmonicSync(cloudOp, toastMsg);
   }
 
   // --- 7. RENDERING & UI TOASTS ---

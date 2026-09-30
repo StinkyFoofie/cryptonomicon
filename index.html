@@ -161,7 +161,7 @@ window.CONFIG = {
   /* Retro Arcade Layout Normalization & Universal Optical Snapping */
   [data-theme="retro-arcade"] .grid-view .card-title { font-size: 10px; }
   [data-theme="retro-arcade"] .grid-view .card-meta { font-size: 9px; }
-  [data-theme="retro-arcade"] .game-card:not(.completed-glow) .card-footer-row-1 .badge, [data-theme="retro-arcade"] .game-card:not(.completed-glow) .card-footer-row-2 .badge { background: #101025 !important; border: 1px solid #ffcc00 !important; color: #ffcc00 !important; }
+  [data-theme="retro-arcade"] .game-card:not(.completed-glow) .status-col .badge { background: #101025 !important; border: 1px solid #ffcc00 !important; color: #ffcc00 !important; }
   [data-theme="retro-arcade"] input, [data-theme="retro-arcade"] select, [data-theme="retro-arcade"] textarea, [data-theme="retro-arcade"] button, [data-theme="retro-arcade"] .custom-select-trigger, [data-theme="retro-arcade"] .custom-option { font-size: 11px; text-align: left; }
   [data-theme="retro-arcade"] .custom-option { padding: 12px; }
   [data-theme="retro-arcade"] h2 { font-size: 16px; text-align: center; }
@@ -383,26 +383,30 @@ window.CONFIG = {
   /* v0.24 Hardened Universal Star and Score Alignment Wrap */
   .rating-val-wrap { display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; gap: 4px; font-weight: bold;}
   
-  /* v0.25 2-Row Deterministic Card Footer Layout */
-  .card-footer { display: flex; flex-direction: column; gap: 6px; width: 100%; margin-top: auto; }
-  .card-footer-row-1 { display: flex; justify-content: flex-start; align-items: center; width: 100%; }
-  .card-footer-row-2 { display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 100%; }
-  .card-footer-row-2 .trophy-col { display: flex; justify-content: flex-start; align-items: center; }
-  .card-footer-row-2 .status-col { display: flex; justify-content: flex-end; align-items: center; }
+  /* v0.25 2-Row Deterministic Card Footer Layout (Scoped strictly to Grid View) */
+  .grid-view .card-footer { display: flex; flex-direction: column; gap: 6px; width: 100%; margin-top: auto; }
+  .grid-view .card-footer-row-1 { display: flex; justify-content: flex-start; align-items: center; width: 100%; }
+  .grid-view .card-footer-row-2 { display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 100%; }
+  .grid-view .card-footer-row-2 .trophy-col { display: flex; justify-content: flex-start; align-items: center; }
+  .grid-view .card-footer-row-2 .status-col { display: flex; justify-content: flex-end; align-items: center; }
   
   /* v0.25 Zero-Ellipsis Baseline with Restored Glint Containment */
   .badge { height: 22px; display: inline-flex; align-items: center; justify-content: center; padding: 0 8px; border-radius: 4px; font-size: 11px; font-family: var(--font-heading); font-weight: bold; white-space: nowrap; box-sizing: border-box; line-height: 1; text-align: center; vertical-align: middle; }
+  .badge.anim-glint { position: relative !important; overflow: hidden !important; }
+  .anim-glint::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%); transform: rotate(45deg); animation: glint 2s infinite; }
+  @keyframes glint { 0% { left: -100%; } 100% { left: 100%; } }
+
   .game-card.completed-glow { border-color: var(--accent-completion, var(--accent)); box-shadow: 0 0 25px var(--accent-completion, var(--accent)), 0 0 45px rgba(0, 0, 0, 0.5); }
 
   /* v0.24 Adaptive Container Query Step-Downs for Compact Columns */
   @container (max-width: 220px) {
-    .card-footer .badge { font-size: 9.5px; padding: 0 5px; height: 20px; }
+    .grid-view .card-footer .badge { font-size: 9.5px; padding: 0 5px; height: 20px; }
   }
   @container (max-width: 185px) {
-    .card-footer .badge { font-size: 8.5px; padding: 0 4px; height: 19px; }
+    .grid-view .card-footer .badge { font-size: 8.5px; padding: 0 4px; height: 19px; }
   }
 
-  /* List View */
+  /* List View (Canonical Single-Row Flex Flow Preserved) */
   .list-view { display: flex; flex-direction: column; gap: 10px; }
   .list-view .game-card { flex-direction: row; height: 60px; align-items: center; padding-right: 15px;}
   .list-view .card-cover { width: 45px; height: 60px; border-right: 1px solid var(--border); margin-right: 15px; aspect-ratio: auto; }
@@ -413,7 +417,9 @@ window.CONFIG = {
   .list-view .card-meta { justify-content: flex-start; width: auto; flex-shrink: 0;}
   
   .list-view .card-footer { display: flex; flex-direction: row; align-items: center; justify-content: flex-end; gap: 8px; width: auto; margin-top: 0; flex-shrink: 0; }
-  .list-view .card-footer-row-1, .list-view .card-footer-row-2 { width: auto; }
+  .list-view .card-footer-row-1, .list-view .card-footer-row-2 { display: inline-flex; align-items: center; width: auto; }
+  .list-view .card-footer-row-2 { gap: 8px; }
+  .list-view .card-footer-row-2 .trophy-col, .list-view .card-footer-row-2 .status-col { display: inline-flex; align-items: center; }
 
   /* Modals */
   .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg-backdrop); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 15px; overflow-x: hidden; }
@@ -500,10 +506,6 @@ window.CONFIG = {
   /* Dynamic Expanding Toasts */
   .toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: var(--bg-surface); border: 1px solid var(--accent); color: var(--text-main); padding: 12px 24px; border-radius: 30px; box-shadow: var(--shadow); font-weight: bold; z-index: 10000; transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); width: max-content; max-width: 90vw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .toast.show { top: 20px; }
-  
-  .anim-glint { position: relative !important; overflow: hidden !important; }
-  .anim-glint::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%); transform: rotate(45deg); animation: glint 2s infinite; }
-  @keyframes glint { 0% { left: -100%; } 100% { left: 100%; } }
 
   /* Full-Screen Specular Disco Beams */
   .dice-scene { width: 100px; height: 100px; perspective: 1200px; margin: 40px auto; position: relative; z-index: 2; transform-style: preserve-3d; }
@@ -587,7 +589,6 @@ window.CONFIG = {
     </div>
     <button id="btn-force-sync" title="Force Sync"></button>
     <button id="btn-open-theme" title="Theme"></button>
-    <!-- v0.25 Defect Fix: Hardcoded default fallback markup for settings button -->
     <button id="btn-open-settings" title="Settings">
       <span class="optical-align"><span>⚙️</span><span>Settings</span></span>
     </button>
@@ -674,12 +675,12 @@ window.CONFIG = {
           </div>
         </div>
 
-        <div class="form-group"><label>Developer</label><input type="text" id="f-developer" placeholder="Select Title..."></div>
-        <div class="form-group"><label>Publisher</label><input type="text" id="f-publisher" placeholder="Select Title..."></div>
-          
-        <div class="form-group full"><label>Genre(s)</label><input type="text" id="f-genres" placeholder="Select Title..."></div>
-
         <div class="form-grid">
+          <div class="form-group"><label>Developer</label><input type="text" id="f-developer" placeholder="Select Title..."></div>
+          <div class="form-group"><label>Publisher</label><input type="text" id="f-publisher" placeholder="Select Title..."></div>
+          
+          <div class="form-group full"><label>Genre(s)</label><input type="text" id="f-genres" placeholder="Select Title..."></div>
+
           <div class="form-group">
             <label>Platform *</label>
             <select id="f-platform" class="native-hijack" data-select-id="f-platform">
@@ -990,8 +991,8 @@ window.CONFIG = {
     mDelete: document.getElementById('modal-confirm-delete'), btnConfirmDel: document.getElementById('btn-confirm-delete'),
     btnCancelDel: document.getElementById('btn-cancel-delete'), mConfirmBody: document.getElementById('modal-confirm-body'),
 
-    // Cache Confirmation Modal
-    mConfirmCache: document.getElementById('modal-confirm-cache'), mConfirmCacheBody: document.getElementById('modal-confirm-clear-cache'),
+    // Cache Confirmation Modal (Surgically Verified to Match Layer 4 Markup)
+    mConfirmCache: document.getElementById('modal-confirm-cache'), mConfirmCacheBody: document.getElementById('modal-confirm-cache-body'),
     btnConfirmClearCache: document.getElementById('btn-confirm-clear-cache'), btnCancelClearCache: document.getElementById('btn-cancel-clear-cache'),
 
     // Schema Inputs
@@ -1571,7 +1572,7 @@ window.CONFIG = {
     if (isFuture) {
       els.f.rawgScore.value = C.PLACEHOLDERS.NOT_RELEASED_LABEL || "🚀 Not yet released!";
     } else if (g.rating && parseFloat(g.rating) > 0) {
-      els.f.rawgScore.value = `RAWG: ${g.rating} / 5.0 (Meta: ${g.metacritic || "N/A"})`;
+      els.f.rawgScore.value = `RAWG: ${g.rating} / 5.0 (Meta: ${match ? (match.metacritic || "N/A") : (g.metacritic || "N/A")})`;
     } else {
       els.f.rawgScore.value = "Unrated";
     }

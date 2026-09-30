@@ -25,7 +25,7 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.28",
+  APP_VERSION: "0.29",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 Check RAWG",
@@ -35,6 +35,7 @@ window.CONFIG = {
   BTN_SETTINGS: "⚙️ Settings",
   BTN_THEME: "🎨 Theme",
   BTN_THEME_RANDOM: "🎲 Surprise Me!",
+  BTN_WINNER_CONFIRM: "Awesome!",
   EMPTY_SEARCH_TEXT: "YOU DON'T OWN THIS GAME! 🤣🤣🤣🤣🤣🤣🤣",
   EMPTY_STATE_TEXT: "LIBRARY IS EMPTY! 😭😭😭😭😭😭😭",
   RATING_LABEL: "Your Rating",
@@ -110,7 +111,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.28</title>
+<title id="html-title">VGnomicon v0.29</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -161,6 +162,7 @@ window.CONFIG = {
   }
   /* Retro Arcade Layout Normalization & Universal Optical Snapping */
   [data-theme="retro-arcade"] .grid-view .card-title { font-size: 10px; }
+  [data-theme="retro-arcade"] .list-view .card-title { font-size: 11px; }
   [data-theme="retro-arcade"] .grid-view .card-meta { font-size: 9px; }
   [data-theme="retro-arcade"] .game-card:not(.completed-glow) .status-col .badge { background: #101025 !important; border: 1px solid #ffcc00 !important; color: #ffcc00 !important; }
   
@@ -180,7 +182,7 @@ window.CONFIG = {
     height: 16px;
   }
   
-  /* v0.25/v0.26 Retro Arcade Inline SVG Mathematical Star (Surgically Calibrated) */
+  /* Retro Arcade Inline SVG Mathematical Star */
   .retro-star-svg {
     display: inline-block;
     width: 11px;
@@ -194,6 +196,10 @@ window.CONFIG = {
 
   [data-theme="retro-arcade"] .optical-align span:first-child { position: relative; top: -2px; }
   [data-theme="retro-arcade"] .modal-header .close-btn { font-size: 24px !important; padding: 4px; }
+  
+  /* v0.29 Surgical Diff #8: Retro Arcade Scoped Row 2 Clamp & Gutter Lock */
+  [data-theme="retro-arcade"] .grid-view .card-footer-row-2 .badge { font-size: 8.5px !important; padding: 0 4px !important; letter-spacing: -0.04em !important; }
+  [data-theme="retro-arcade"] .winner-emoji-box { transform: translateY(-2px); }
 
   /* --- 5. SYNTHWAVE SUNSET --- */
   [data-theme="synthwave-sunset"] {
@@ -265,7 +271,7 @@ window.CONFIG = {
   
   h1, h2, h3, h4, h5 { font-family: var(--font-heading); }
   
-  /* Inputs & Forms (v0.21 Global-First Optical Centering) */
+  /* Inputs & Forms */
   input, select, textarea, button { font-family: var(--font-main); background: var(--bg-input); color: var(--text-main); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px; font-size: 14px; width: 100%; }
   input:focus, select:focus, textarea:focus { border-color: var(--border-focus); outline: none; }
   input::placeholder, textarea::placeholder { color: var(--text-disabled); opacity: 1; }
@@ -289,7 +295,6 @@ window.CONFIG = {
   .custom-select-wrapper.open .custom-select-trigger { border-color: var(--border-focus); }
   .custom-select-wrapper.open .custom-select-trigger::after { transform: rotate(180deg); }
   
-  /* v0.23 Dynamic 5-Item Dropdown Engine Clamp handled in JS */
   .custom-options-container { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); z-index: 10000; overflow-y: auto; display: none; flex-direction: column;}
   .custom-select-wrapper.open .custom-options-container { display: flex; }
   .custom-options-container[data-select-id="f-format"], .custom-options-container[data-select-id="f-status"], .custom-options-container[data-select-id="filter-status"], .custom-options-container[data-select-id="f-currency"] { max-height: none; overflow-y: visible; }
@@ -327,29 +332,30 @@ window.CONFIG = {
   .system-tray button { background: transparent; border: none; color: var(--text-muted); padding: 6px 10px; border-radius: var(--radius); transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; }
   .system-tray button:hover { color: var(--accent); background: var(--bg-surface-hover); }
   
+  /* v0.29 Surgical Diff #6: Harmonic 800ms Spin Period for Perfect 360° Landings */
   @keyframes spin { 100% { transform: rotate(360deg); } }
-  .spinning { animation: spin 1s linear infinite; }
+  .spinning { animation: spin 0.8s linear infinite; }
   
   .control-bar { padding: 10px 20px; display: flex; gap: 10px; background: var(--bg-base); flex-wrap: wrap; border-bottom: 1px solid var(--border); align-items: center;}
   .control-bar .custom-select-wrapper { width: auto; flex: 1; min-width: 130px; }
   .control-bar .custom-select-trigger { padding: 6px 10px; }
   
-  /* v0.28 Defect #3 & Surgical Diff #6: Non-colliding Layering, Tactile Spring Easing & Optical Baseline Offsets */
+  /* v0.29 Surgical Diff #1 & #2: Flawless View Slider 50/50 Centering & Elevated Optical Baseline */
   .view-toggle { display: inline-grid; grid-template-columns: 1fr 1fr; background: var(--bg-input); border-radius: 20px; padding: 2px; position: relative; border: 1px solid var(--border); align-items: center; margin: 0 10px; line-height: 1; overflow: hidden; width: 184px; box-sizing: border-box; }
   .view-slider { position: absolute; top: 2px; bottom: 2px; left: 2px; width: calc(50% - 2px); background: var(--bg-surface); border-radius: 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.3); transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1; border: 1px solid var(--border-hover); pointer-events: none; }
   .view-toggle.list-active .view-slider { transform: translateX(100%); }
   
-  .view-btn { position: relative; z-index: 2; background: transparent !important; border: none; border-radius: 18px; padding: 4px 8px; font-size: 13px; color: var(--text-muted); font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; width: 100%; box-sizing: border-box; transition: color 0.15s; white-space: nowrap !important; }
+  .view-btn { position: relative; z-index: 2; background: transparent !important; border: none; border-radius: 18px; padding: 4px 0; font-size: 13px; color: var(--text-muted); font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; width: 100%; box-sizing: border-box; transition: color 0.15s; white-space: nowrap !important; text-align: center; }
   .view-toggle:not(.list-active) #btn-list-view:hover { background: rgba(255, 255, 255, 0.08) !important; border-radius: 18px; }
   .view-toggle.list-active #btn-grid-view:hover { background: rgba(255, 255, 255, 0.08) !important; border-radius: 18px; }
   .view-toggle:not(.list-active) #btn-grid-view { color: var(--text-main); }
   .view-toggle.list-active #btn-list-view { color: var(--text-main); }
   
-  /* v0.28 Surgical Diff #6: Midline Optical Calibration */
+  .view-btn .optical-align { justify-content: center; width: 100%; }
   .view-btn .optical-align > span:first-child { display: inline-flex; align-items: center; justify-content: center; width: 16px; flex-shrink: 0; }
-  #btn-list-view .optical-align > span:first-child { transform: translateY(-1.5px); }
+  #btn-list-view .optical-align > span:first-child { transform: translateY(-2.5px); }
   #btn-grid-view .optical-align > span:first-child { transform: translateY(0.5px); }
-  [data-theme="retro-arcade"] #btn-list-view .optical-align > span:first-child { transform: translateY(-2.5px); }
+  [data-theme="retro-arcade"] #btn-list-view .optical-align > span:first-child { transform: translateY(-3.5px); }
 
   /* Library Container & Empty State */
   main { padding: 20px; min-height: calc(100vh - 140px); }
@@ -358,7 +364,7 @@ window.CONFIG = {
   .empty-state { text-align: center; padding: 60px 20px; font-size: 24px; color: var(--text-muted); font-family: var(--font-heading); animation: float 3s ease-in-out infinite; }
   .empty-state-emoji { display: inline-block; animation: bounce-emoji 2s infinite ease-in-out; }
   
-  /* v0.28 Surgical Diff #5: Card Footprint Expansion (minmax 215px) */
+  /* Card Footprint minmax(215px, 1fr) */
   .grid-view { display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 20px; }
   .game-card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; display: flex; flex-direction: column; position: relative;}
   .game-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--border-hover); }
@@ -398,21 +404,20 @@ window.CONFIG = {
 
   .grid-view .card-meta { justify-content: center; width: 100%; display: flex; font-size: 12px; color: var(--text-muted); align-items: center;}
   
-  /* v0.24 Hardened Universal Star and Score Alignment Wrap */
+  /* Universal Star and Score Alignment Wrap */
   .rating-val-wrap { display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; gap: 4px; font-weight: bold;}
   
-  /* 2-Row Deterministic Card Footer Layout (Scoped strictly to Grid View) */
+  /* 2-Row Deterministic Card Footer Layout */
   .grid-view .card-footer { display: flex; flex-direction: column; gap: 6px; width: 100%; margin-top: auto; }
   .grid-view .card-footer-row-1 { display: flex; justify-content: flex-start; align-items: center; width: 100%; }
   .grid-view .card-footer-row-2 { display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 100%; gap: 4px; }
   .grid-view .card-footer-row-2 .trophy-col { display: flex; justify-content: flex-start; align-items: center; min-width: 0; }
   .grid-view .card-footer-row-2 .status-col { display: flex; justify-content: flex-end; align-items: center; min-width: 0; }
   
-  /* v0.28 Surgical Diff #4 & #5: Pill Legibility Restoration & Row 2 Separation */
+  /* Badge Standard (22px height, 11px font) */
   .badge { height: 22px; display: inline-flex; align-items: center; justify-content: center; padding: 0 8px; border-radius: 4px; font-size: 11px; font-family: var(--font-heading); font-weight: bold; white-space: nowrap; box-sizing: border-box; line-height: 22px; text-align: center; vertical-align: middle; }
   
   [data-theme="retro-arcade"] .badge { font-size: 10px; padding: 0 6px; }
-  [data-theme="retro-arcade"] .grid-view .card-footer-row-2 .badge { letter-spacing: -0.04em !important; padding: 0 5px !important; }
   [data-theme="synthwave-sunset"] .badge { font-size: 10px; padding: 0 6px; }
 
   .badge.anim-glint { position: relative !important; overflow: hidden !important; }
@@ -421,7 +426,7 @@ window.CONFIG = {
 
   .game-card.completed-glow { border-color: var(--accent-completion, var(--accent)); box-shadow: 0 0 25px var(--accent-completion, var(--accent)), 0 0 45px rgba(0, 0, 0, 0.5); }
 
-  /* Adaptive Container Query Step-Downs for Compact Columns */
+  /* Adaptive Container Query Step-Downs */
   @container (max-width: 220px) {
     .grid-view .card-footer .badge { font-size: 9.5px; padding: 0 5px; height: 22px; }
   }
@@ -429,14 +434,14 @@ window.CONFIG = {
     .grid-view .card-footer .badge { font-size: 8.5px; padding: 0 4px; height: 22px; }
   }
 
-  /* List View (Canonical Single-Row Flex Flow Preserved) */
+  /* List View */
   .list-view { display: flex; flex-direction: column; gap: 10px; }
   .list-view .game-card { flex-direction: row; height: 60px; align-items: center; padding-right: 15px;}
   .list-view .card-cover { width: 45px; height: 60px; border-right: 1px solid var(--border); margin-right: 15px; aspect-ratio: auto; }
   
   .list-view .card-details { flex-direction: row; align-items: center; justify-content: space-between; padding: 0; width: 100%; gap: 15px; }
   .list-view .card-details-text-container { flex: 1; min-width: 0; }
-  .list-view .card-title { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left; font-weight: bold; font-family: var(--font-heading); }
+  .list-view .card-title { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left; font-weight: bold; font-family: var(--font-heading); font-size: 16px; }
   .list-view .card-meta { justify-content: flex-start; width: auto; flex-shrink: 0;}
   
   .list-view .card-footer { display: flex; flex-direction: row; align-items: center; justify-content: flex-end; gap: 8px; width: auto; margin-top: 0; flex-shrink: 0; }
@@ -569,6 +574,9 @@ window.CONFIG = {
   .winner-emoji-box { display: inline-flex; align-items: center; justify-content: center; width: 1.5rem; flex-shrink: 0; line-height: 1; }
   [data-theme="retro-arcade"] .winner-banner-wrap { font-size: 14px; }
 
+  /* v0.29 Surgical Diff #9a: Prominent, Centered, Config-Expandable Winner Button */
+  #btn-close-randomizer { min-width: 140px; width: auto; padding: 10px 24px; font-size: 14px; display: none; margin: 20px auto 0; position: relative; z-index: 2; align-items: center; justify-content: center; }
+
   /* Canvas FX */
   #fx-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 4; display: none;}
 
@@ -599,7 +607,7 @@ window.CONFIG = {
     <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.28</span>
+      <span id="ui-app-version">v0.29</span>
     </div>
   </a>
   <div class="header-actions">
@@ -630,6 +638,7 @@ window.CONFIG = {
     <option value="Backlog">Backlog</option>
     <option value="Completed">Completed</option>
     <option value="Playing">Playing</option>
+    <option value="Preordered">Preordered</option>
     <option value="Wishlist">Wishlist</option>
   </select>
   <select id="filter-platform" class="native-hijack" data-select-id="filter-platform">
@@ -685,7 +694,10 @@ window.CONFIG = {
         <div class="form-group autocomplete-wrapper">
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <label style="margin-bottom:0;">Title * (Sorted Newest-to-Oldest)</label>
-            <button type="button" id="btn-refresh-rawg" class="btn-refresh-rawg" style="display:none;" title="Re-fetch latest metadata from RAWG"></button>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <div class="status-dot dot-yellow" id="modal-game-rawg-dot" title="RAWG API Status"></div>
+              <button type="button" id="btn-refresh-rawg" class="btn-refresh-rawg" style="display:none;" title="Re-fetch latest metadata from RAWG"></button>
+            </div>
           </div>
           <input type="text" id="f-title" placeholder="Type Your Favorite Game..." required autocomplete="off">
           <div class="autocomplete-results" id="rawg-results"></div>
@@ -755,6 +767,7 @@ window.CONFIG = {
               <option value="Backlog">Backlog</option>
               <option value="Completed">Completed</option>
               <option value="Playing">Playing</option>
+              <option value="Preordered">Preordered</option>
               <option value="Wishlist">Wishlist</option>
             </select>
           </div>
@@ -938,7 +951,7 @@ window.CONFIG = {
         </div>
      </div>
      <div class="random-result" id="random-result"></div>
-     <button id="btn-close-randomizer" class="primary" style="margin:20px auto 0; display:none; width: 100px; position:relative; z-index: 2;">Awesome!</button>
+     <button id="btn-close-randomizer" class="primary"></button>
   </div>
 </div>
 
@@ -990,7 +1003,9 @@ window.CONFIG = {
     lib: document.getElementById('library-container'), 
     toast: document.getElementById('toast'), 
     trayDate: document.getElementById('tray-date'), trayTime: document.getElementById('tray-time'), 
-    traySyncDot: document.getElementById('tray-sync-dot'), modalRawgDot: document.getElementById('modal-rawg-dot'),
+    traySyncDot: document.getElementById('tray-sync-dot'), 
+    modalRawgDot: document.getElementById('modal-rawg-dot'),
+    modalGameRawgDot: document.getElementById('modal-game-rawg-dot'),
     btnSync: document.getElementById('btn-force-sync'), btnTheme: document.getElementById('btn-open-theme'),
     
     // Filters & View Toggles
@@ -1261,6 +1276,7 @@ window.CONFIG = {
     els.btnAuditRawg.innerHTML = splitEmoji(C.BTN_CHECK_RAWG);
     els.btnGrid.innerHTML = splitEmoji("🔲 Grid");
     els.btnList.innerHTML = splitEmoji("☰ List");
+    els.btnCloseRandom.innerHTML = splitEmoji(C.BTN_WINNER_CONFIRM || "Awesome!");
     
     const chipNames = ["🔥 Must Play", "🏆 Masterpiece", "💤 Overrated", "💀 Brutal", "✨ Cozy"];
     document.getElementById('reaction-chips').innerHTML = chipNames.map(c => `<span class="chip">${splitEmoji(c)}</span>`).join('');
@@ -1339,10 +1355,9 @@ window.CONFIG = {
         updateStorageMeter();
         showToast(splitEmoji(C.MESSAGES.CACHE_AUDITED));
     };
-    els.btnAuditRawg.onclick = auditRawgConnection;
+    els.btnAuditRawg.onclick = () => auditRawgConnection(false);
     els.btnSync.onclick = forceSync;
     
-    // v0.28 Defect #3: Active state management on slider view toggles
     els.btnGrid.onclick = () => { 
       els.viewToggle.classList.remove('list-active'); 
       els.btnGrid.classList.add('active');
@@ -1398,6 +1413,7 @@ window.CONFIG = {
     els.btnCancelDel.onclick = () => els.mDelete.classList.remove('active');
     els.btnConfirmDel.onclick = deleteGame;
     
+    // v0.29 Surgical Diff #5: Harmonic 3200ms RAWG Refresh Spin Alignment
     els.btnRefreshRawg.onclick = async () => {
       const query = els.f.title.value.trim();
       const apiKey = getRawgKey();
@@ -1405,7 +1421,7 @@ window.CONFIG = {
       
       els.btnRefreshRawg.classList.add('spinning');
       const spinStart = Date.now();
-      const MIN_SPIN_DURATION = 2500;
+      const HARMONIC_SPIN = 3200;
 
       try {
         const res = await fetch(`https://api.rawg.io/api/games?key=${apiKey}&search=${encodeURIComponent(query)}&page_size=1`);
@@ -1456,7 +1472,7 @@ window.CONFIG = {
         showToast(splitEmoji(C.MESSAGES.RAWG_REFRESH_ERROR));
       } finally {
         const elapsed = Date.now() - spinStart;
-        const remaining = Math.max(0, MIN_SPIN_DURATION - elapsed);
+        const remaining = Math.max(0, HARMONIC_SPIN - elapsed);
         setTimeout(() => {
           els.btnRefreshRawg.classList.remove('spinning');
         }, remaining);
@@ -1478,7 +1494,7 @@ window.CONFIG = {
     els.fPlatform.addEventListener('change', renderLibrary);
     els.search.addEventListener('input', renderLibrary);
 
-    auditRawgConnection();
+    auditRawgConnection(true);
     renderLibrary();
   }
 
@@ -1529,15 +1545,15 @@ window.CONFIG = {
     setTimeout(() => {
         els.btnSync.classList.remove('spinning');
         if(navigator.onLine) setSyncState('🟢');
-    }, 4000);
+    }, 3200);
   }
 
-  // v0.28 Defect #2: Atomic Force Sync Orchestration
+  // v0.29 Surgical Diff #3: Harmonic 3200ms Force Sync Spin Alignment
   async function forceSync() {
     setSyncState('🟡');
     els.btnSync.classList.add('spinning');
     const startTime = Date.now();
-    const MIN_SPIN = 2500;
+    const HARMONIC_SPIN = 3200;
     try {
       if (db && navigator.onLine) {
         const activeDbColl = settings.dbColl || C.DB_COLLECTION;
@@ -1553,7 +1569,7 @@ window.CONFIG = {
       setSyncState('🔴');
     } finally {
       const elapsed = Date.now() - startTime;
-      const remaining = Math.max(0, MIN_SPIN - elapsed);
+      const remaining = Math.max(0, HARMONIC_SPIN - elapsed);
       setTimeout(() => {
         els.btnSync.classList.remove('spinning');
       }, remaining);
@@ -1596,14 +1612,19 @@ window.CONFIG = {
   }
 
   // --- 5. RAWG API ---
+  // v0.29 Feature #1: Synchronized Dual Traffic Lights
   function setRawgState(state) {
-    els.modalRawgDot.className = 'status-dot';
-    if(state === '🟢') els.modalRawgDot.classList.add('dot-green');
-    else if(state === '🟡') els.modalRawgDot.classList.add('dot-yellow');
-    else els.modalRawgDot.classList.add('dot-red');
+    const dots = [els.modalRawgDot, els.modalGameRawgDot].filter(Boolean);
+    dots.forEach(dot => {
+      dot.className = 'status-dot';
+      if(state === '🟢') dot.classList.add('dot-green');
+      else if(state === '🟡') dot.classList.add('dot-yellow');
+      else dot.classList.add('dot-red');
+    });
   }
 
-  async function auditRawgConnection() {
+  // v0.29 Feature #1: Silent Background Audit Option
+  async function auditRawgConnection(silent = false) {
     setRawgState('🟡');
     const apiKey = getRawgKey();
     
@@ -1621,7 +1642,7 @@ window.CONFIG = {
       
       if(res.ok) {
         setRawgState('🟢');
-        if(els.mSettings.classList.contains('active')) showToast(C.MESSAGES.RAWG_ONLINE);
+        if(!silent && els.mSettings.classList.contains('active')) showToast(C.MESSAGES.RAWG_ONLINE);
       } else {
         console.warn(`RAWG Audit failed with status: ${res.status} ${res.statusText}`);
         setRawgState('🔴');
@@ -1632,7 +1653,6 @@ window.CONFIG = {
     }
   }
 
-  // v0.28 Defect #1: Encapsulated closure timer
   function debounce(func, delay) {
     let timer;
     return function(...args) {
@@ -1668,7 +1688,9 @@ window.CONFIG = {
     } catch(e) { console.error("RAWG autocomplete fetch failed:", e); }
   }
 
+  // v0.29 Defect #4: Scroll Offset Reset on Render
   function renderAutocomplete(results) {
+    els.f.rawgRes.scrollTop = 0;
     els.f.rawgRes.innerHTML = '';
     if(results.length === 0) { els.f.rawgRes.style.display = 'none'; return; }
     
@@ -1716,7 +1738,7 @@ window.CONFIG = {
     if (isFuture) {
       setVal(els.f.rawgScore, C.PLACEHOLDERS.NOT_RELEASED_LABEL || "🚀 Not yet released!");
     } else if (g.rating && parseFloat(g.rating) > 0) {
-      setVal(els.f.rawgScore, `RAWG: ${g.rating} / 5.0 (Meta: ${g.metacritic || "N/A"})`);
+      setVal(els.f.rawgScore, `RAWG: ${g.rating} / 5.0 (Meta: ${match?.metacritic || g.metacritic || "N/A"})`);
     } else {
       setVal(els.f.rawgScore, "Unrated");
     }
@@ -1813,6 +1835,9 @@ window.CONFIG = {
     els.mGame.classList.add('active');
     toggleModalScrollLock(true);
     els.mGameBody.scrollTop = 0;
+    
+    // v0.29 Feature #1: Silent Background Status Check on Modal Open
+    auditRawgConnection(true);
 
     if(id && games[id]) {
       const g = games[id];
@@ -2106,6 +2131,7 @@ window.CONFIG = {
     if(!els.sGenresCloud.innerHTML) els.sGenresCloud.innerHTML = `<span style="font-size:12px; color:var(--text-muted);">No genres found.</span>`;
   }
 
+  // v0.29 Surgical Diff #6: Harmonic 3200ms Toast Display Window
   function showToast(msg) {
     const match = msg.match(/^([\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic})\s*(.*)$/u);
     const matchEnd = msg.match(/^(.*?)\s*([\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic})$/u);
@@ -2119,7 +2145,7 @@ window.CONFIG = {
     }
     
     els.toast.classList.add('show');
-    setTimeout(() => els.toast.classList.remove('show'), 4000);
+    setTimeout(() => els.toast.classList.remove('show'), 3200);
   }
 
   // --- 8. SETTINGS, THEME & 3D RANDOMIZER FX ---
@@ -2304,7 +2330,7 @@ window.CONFIG = {
          }
          
          els.randomRes.style.display = 'block';
-         els.btnCloseRandom.style.display = 'inline-block';
+         els.btnCloseRandom.style.display = 'inline-flex';
        }, 1200); 
     }, 1500); 
   }

@@ -25,7 +25,7 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.23",
+  APP_VERSION: "0.24",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 Check RAWG",
@@ -54,8 +54,9 @@ window.CONFIG = {
     EMPTY_RANDOMIZER: "No games found in your library to roll!",
     NUMERIC_NEGATIVE: "⚠️ Playtime and HLTB values cannot be negative!",
     PLATFORM_REQUIRED: "⚠️ Platform is required!",
-    RAWG_ONLINE: "RAWG API: Online & Connected",
     RAWG_OFFLINE: "RAWG API: Connection Error",
+    RAWG_ONLINE: "RAWG API: Online & Connected",
+    RAWG_REFRESH_SUCCESS: "RAWG metadata refreshed! 🔄",
     SAVED_TOAST: "SAVED - {title}",
     SYNC_SUCCESS: "Library Synced! 🚀",
     TITLE_REQUIRED: "⚠️ Title is required!"
@@ -70,6 +71,7 @@ window.CONFIG = {
     FORMAT: "Select Format...",
     GENRES: "Select Title...",
     HLTB_WARNING_TEXT: "⚠️ Select Title First",
+    NOT_RELEASED_LABEL: "🚀 Not yet released!",
     PLATFORM: "Select Platform...",
     PUBLISHER: "Select Title...",
     RAWG_RATING: "Select Title...",
@@ -106,9 +108,9 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.23</title>
+<title id="html-title">VGnomicon v0.24</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
-<!-- v0.23 Fallback href attributes to guarantee static render in desktop browsers -->
+<!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
 <link id="favicon-mobile-1" rel="apple-touch-icon" href="./Favi%20iP%20PNG%201024%20v1.png">
 <link id="favicon-mobile-2" rel="apple-touch-icon" sizes="180x180" href="./Favi%20iP%20PNG%201024%20v1.png">
@@ -158,15 +160,31 @@ window.CONFIG = {
   /* Retro Arcade Layout Normalization & Universal Optical Snapping */
   [data-theme="retro-arcade"] .grid-view .card-title { font-size: 10px; }
   [data-theme="retro-arcade"] .grid-view .card-meta { font-size: 9px; }
-  [data-theme="retro-arcade"] .grid-view .badge { font-size: 8px; padding: 0 5px; height: 20px; }
   [data-theme="retro-arcade"] .game-card:not(.completed-glow) .card-footer-right .badge { background: #101025 !important; border: 1px solid #ffcc00 !important; color: #ffcc00 !important; }
   [data-theme="retro-arcade"] input, [data-theme="retro-arcade"] select, [data-theme="retro-arcade"] textarea, [data-theme="retro-arcade"] button, [data-theme="retro-arcade"] .custom-select-trigger, [data-theme="retro-arcade"] .custom-option { font-size: 11px; text-align: left; }
   [data-theme="retro-arcade"] .custom-option { padding: 12px; }
   [data-theme="retro-arcade"] h2 { font-size: 16px; text-align: center; }
   [data-theme="retro-arcade"] .settings-coll-row { display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; text-align: center; width: 100%; }
   
-  /* v0.23 Optical Micro-Compensation for Press Start 2P Extreme Baseline Sag */
-  [data-theme="retro-arcade"] .retro-star { transform: translateY(-1px); display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; font-size: 1.4em;}
+  /* v0.24 Hardened Optical Centering for Press Start 2P Extreme Baseline Sag */
+  [data-theme="retro-arcade"] .rating-val-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    vertical-align: middle;
+    height: 16px;
+  }
+  [data-theme="retro-arcade"] .retro-star { 
+    transform: translateY(1px); /* Sub-pixel alignment nudge into numeral baseline */
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    line-height: 1; 
+    vertical-align: middle; 
+    font-size: 11px; 
+    margin-right: 4px;
+  }
   [data-theme="retro-arcade"] .optical-align span:first-child { position: relative; top: -2px; }
   [data-theme="retro-arcade"] .modal-header .close-btn { font-size: 24px !important; padding: 4px; }
 
@@ -359,17 +377,26 @@ window.CONFIG = {
 
   .grid-view .card-meta { justify-content: center; width: 100%; display: flex; font-size: 12px; color: var(--text-muted); align-items: center;}
   
-  /* v0.23 Universal Star and Score Alignment Wrap */
+  /* v0.24 Hardened Universal Star and Score Alignment Wrap */
   .rating-val-wrap { display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; gap: 4px; font-weight: bold;}
   
-  .card-footer { display: flex; justify-content: space-between; align-items: flex-end; width: 100%; margin-top: auto; }
+  /* v0.24 Single-Row Deterministic Card Footer Layout */
+  .card-footer { display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 100%; margin-top: auto; gap: 4px; }
+  .card-footer-left { display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center; gap: 4px; flex: 1 1 auto; min-width: 0; }
+  .card-footer-right { display: flex; align-items: center; justify-content: flex-end; padding-left: 2px; flex-shrink: 0;}
   
-  /* v0.23 Universal Badge Collision Avoidance */
-  .card-footer-left { display: flex; flex-direction: row; flex-wrap: wrap; align-items: flex-end; gap: 4px; flex: 1; min-width: 0;}
-  .card-footer-right { display: flex; align-items: flex-end; justify-content: flex-end; padding-left: 4px; flex-shrink: 0;}
-  
-  .badge { height: 22px; display: inline-flex; align-items: center; justify-content: center; padding: 0 8px; border-radius: 4px; font-size: 11px; font-family: var(--font-heading); font-weight: bold; white-space: nowrap; box-sizing: border-box; line-height: 1; text-align: center; vertical-align: middle; max-width: 100%; overflow: hidden; text-overflow: ellipsis;}
+  /* v0.24 Zero-Ellipsis Baseline */
+  .badge { height: 22px; display: inline-flex; align-items: center; justify-content: center; padding: 0 8px; border-radius: 4px; font-size: 11px; font-family: var(--font-heading); font-weight: bold; white-space: nowrap; box-sizing: border-box; line-height: 1; text-align: center; vertical-align: middle; overflow: visible !important; text-overflow: clip !important;}
   .game-card.completed-glow { border-color: var(--accent-completion, var(--accent)); box-shadow: 0 0 25px var(--accent-completion, var(--accent)), 0 0 45px rgba(0, 0, 0, 0.5); }
+
+  /* v0.24 Adaptive Container Query Step-Downs for Compact Columns */
+  @container (max-width: 220px) {
+    .card-footer .badge { font-size: 9.5px; padding: 0 5px; height: 20px; }
+    .card-footer-left { gap: 3px; }
+  }
+  @container (max-width: 185px) {
+    .card-footer .badge { font-size: 8.5px; padding: 0 4px; height: 19px; }
+  }
 
   /* List View */
   .list-view { display: flex; flex-direction: column; gap: 10px; }
@@ -432,12 +459,15 @@ window.CONFIG = {
   .achievement-group span { font-size: 11px; color: var(--text-muted); font-weight: 600; }
   .achievement-divider { font-size: 18px; color: var(--text-muted); display: flex; align-items: flex-start; margin-top: 5px; }
 
-  /* Autocomplete */
+  /* Autocomplete & Post-Release Refresh */
   .autocomplete-wrapper { position: relative; width: 100%; }
   .autocomplete-results { position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); z-index: 9999; max-height: 228px; overflow-y: auto; display: none; box-shadow: var(--shadow); }
   .ac-item { padding: 10px; display: flex; gap: 10px; align-items: center; cursor: pointer; border-bottom: 1px solid var(--border); }
   .ac-item:hover { background: var(--bg-surface-hover); }
   .ac-item img { width: 40px; height: 55px; object-fit: cover; border-radius: 4px; }
+  
+  .btn-refresh-rawg { background: var(--bg-input); border: 1px solid var(--border); color: var(--accent); padding: 3px 8px; font-size: 11px; border-radius: var(--radius); cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: all 0.2s; height: 22px;}
+  .btn-refresh-rawg:hover { background: var(--bg-surface-hover); border-color: var(--accent); }
   
   /* Star Rating Widget */
   .rating-container { display: flex; align-items: center; gap: 4px; height: 42px;}
@@ -536,7 +566,7 @@ window.CONFIG = {
     <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.23</span>
+      <span id="ui-app-version">v0.24</span>
     </div>
   </a>
   <div class="header-actions">
@@ -553,7 +583,7 @@ window.CONFIG = {
     </div>
     <button id="btn-force-sync" title="Force Sync"></button>
     <button id="btn-open-theme" title="Theme"></button>
-    <button id="btn-open-settings" title="Settings"></button>
+    <button id="btn-open-settings" title="Settings">⚙️</button>
   </div>
 </header>
 
@@ -618,7 +648,10 @@ window.CONFIG = {
         <input type="hidden" id="f-cover-url">
         
         <div class="form-group autocomplete-wrapper">
-          <label>Title * (Sorted Newest-to-Oldest)</label>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <label style="margin-bottom:0;">Title * (Sorted Newest-to-Oldest)</label>
+            <button type="button" id="btn-refresh-rawg" class="btn-refresh-rawg" style="display:none;" title="Re-fetch latest metadata from RAWG"></button>
+          </div>
           <input type="text" id="f-title" placeholder="Type Your Favorite Game..." required autocomplete="off">
           <div class="autocomplete-results" id="rawg-results"></div>
         </div>
@@ -944,6 +977,7 @@ window.CONFIG = {
     mGameTitle: document.getElementById('modal-game-title'), form: document.getElementById('game-form'),
     btnSave: document.getElementById('btn-save-game'), btnCancel: document.getElementById('btn-cancel-game'),
     btnDelPrompt: document.getElementById('btn-delete-prompt'), hltbLink: document.getElementById('hltb-link'),
+    btnRefreshRawg: document.getElementById('btn-refresh-rawg'),
     
     // Delete Confirmation Modal
     mDelete: document.getElementById('modal-confirm-delete'), btnConfirmDel: document.getElementById('btn-confirm-delete'),
@@ -1151,6 +1185,12 @@ window.CONFIG = {
     els.btnSync.innerHTML = splitEmoji(C.BTN_FORCE_SYNC);
     els.btnTheme.innerHTML = splitEmoji(C.BTN_THEME);
     els.btnRandom.innerHTML = splitEmoji(C.BTN_RANDOM_GAME);
+    els.btnRefreshRawg.innerHTML = splitEmoji("🔄 Refresh RAWG");
+    
+    // v0.24 Defensive HTML Hydration Guard for Layer 4 Settings Button
+    if (els.btnSettings && !els.btnSettings.innerHTML.trim()) {
+      els.btnSettings.innerHTML = splitEmoji("⚙️");
+    }
     
     document.getElementById('btn-close-game').innerHTML = "✕";
     document.getElementById('btn-close-theme').innerHTML = "✕";
@@ -1249,11 +1289,14 @@ window.CONFIG = {
     els.f.dateAdd.addEventListener('change', (e) => updateDateClass(e.target));
     els.f.dateComp.addEventListener('change', (e) => updateDateClass(e.target));
 
-    // v0.23 Notes Chip Single-Line Text Injection Fix
+    // v0.24 Notes Chip Single-Line Text Injection Fix & Double-Fire Guard
     document.querySelectorAll('.chip').forEach(chip => {
-      chip.onclick = () => { 
-          const cleanText = Array.from(chip.querySelectorAll('span')).map(s => s.innerText.trim()).filter(Boolean).join(' ');
-          els.f.notes.value += (els.f.notes.value ? "\n" : "") + cleanText + " "; 
+      chip.onclick = (e) => { 
+          e.stopPropagation();
+          const cleanText = e.currentTarget.textContent.replace(/\s+/g, ' ').trim();
+          if (!cleanText) return;
+          const existing = els.f.notes.value.trim();
+          els.f.notes.value = existing ? `${existing} ${cleanText} ` : `${cleanText} `;
       };
     });
 
@@ -1261,6 +1304,49 @@ window.CONFIG = {
     els.btnDelPrompt.onclick = (e) => { e.preventDefault(); els.mDelete.classList.add('active'); };
     els.btnCancelDel.onclick = () => els.mDelete.classList.remove('active');
     els.btnConfirmDel.onclick = deleteGame;
+    
+    // v0.24 Post-Release RAWG Metadata Refresh Workflow
+    els.btnRefreshRawg.onclick = async () => {
+      const query = els.f.title.value.trim();
+      if (!query || C.RAWG_API_KEY === "YOUR_RAWG_API_KEY_HERE") return;
+      
+      els.btnRefreshRawg.classList.add('spinning');
+      try {
+        const res = await fetch(`https://api.rawg.io/api/games?key=${C.RAWG_API_KEY}&search=${encodeURIComponent(query)}&page_size=1`);
+        const data = await res.json();
+        if (data.results && data.results.length > 0) {
+          const match = data.results[0];
+          
+          els.f.url.value = match.background_image || els.f.url.value;
+          if (match.background_image) {
+            els.f.coverImg.src = match.background_image;
+            els.f.coverImg.style.display = 'block';
+            els.f.coverText.style.display = 'none';
+          }
+          
+          const relDate = match.released ? new Date(match.released) : null;
+          const isFut = relDate && relDate > new Date();
+          if (isFut) {
+            els.f.rawgScore.value = C.PLACEHOLDERS.NOT_RELEASED_LABEL || "🚀 Not yet released!";
+          } else if (match.rating && parseFloat(match.rating) > 0) {
+            els.f.rawgScore.value = `RAWG: ${match.rating} / 5.0 (Meta: ${match.metacritic || "N/A"})`;
+          }
+          
+          const detRes = await fetch(`https://api.rawg.io/api/games/${match.id}?key=${C.RAWG_API_KEY}`);
+          const det = await detRes.json();
+          if (det.description_raw) els.f.desc.value = det.description_raw;
+          if (det.developers && det.developers.length) els.f.dev.value = det.developers.map(x => x.name).join(', ');
+          if (det.publishers && det.publishers.length) els.f.pub.value = det.publishers.map(x => x.name).join(', ');
+          if (det.genres && det.genres.length) els.f.genres.value = det.genres.map(x => x.name).join(', ');
+          
+          showToast(splitEmoji(C.MESSAGES.RAWG_REFRESH_SUCCESS || "RAWG metadata refreshed! 🔄"));
+        }
+      } catch (err) {
+        console.error("Refresh RAWG failed:", err);
+      } finally {
+        els.btnRefreshRawg.classList.remove('spinning');
+      }
+    };
 
     els.btnClearCache.onclick = () => { els.mConfirmCache.classList.add('active'); };
     els.btnCancelClearCache.onclick = () => { els.mConfirmCache.classList.remove('active'); };
@@ -1461,7 +1547,18 @@ window.CONFIG = {
     }
     
     els.f.genres.value = (g.genres || []).map(x=>x.name).join(', ');
-    els.f.rawgScore.value = g.rating ? `RAWG: ${g.rating} / 5.0 (Meta: ${g.metacritic||"N/A"})` : C.PLACEHOLDERS.RAWG_RATING;
+    
+    // v0.24 Unreleased Status Guard
+    const releaseDate = g.released ? new Date(g.released) : null;
+    const isFuture = releaseDate && releaseDate > new Date();
+
+    if (isFuture) {
+      els.f.rawgScore.value = C.PLACEHOLDERS.NOT_RELEASED_LABEL || "🚀 Not yet released!";
+    } else if (g.rating && parseFloat(g.rating) > 0) {
+      els.f.rawgScore.value = `RAWG: ${g.rating} / 5.0 (Meta: ${g.metacritic || "N/A"})`;
+    } else {
+      els.f.rawgScore.value = "Unrated";
+    }
 
     try {
       const res = await fetch(`https://api.rawg.io/api/games/${g.id}?key=${C.RAWG_API_KEY}`);
@@ -1549,6 +1646,8 @@ window.CONFIG = {
       const g = games[id];
       els.mGameTitle.innerText = "Edit Game";
       els.btnDelPrompt.style.display = "block";
+      els.btnRefreshRawg.style.display = "inline-flex"; // v0.24 Display Refresh button on edit
+      
       els.f.id.value = id;
       els.f.title.value = g.title || "";
       updateHLTBLink(g.title);
@@ -1574,7 +1673,6 @@ window.CONFIG = {
       els.f.dateAdd.value = g.dateAdd || "";
       els.f.dateComp.value = g.dateComp || "";
       
-      // v0.23 Global Form Hydration fixes for Textareas and Numbers
       els.f.playtime.value = g.playtime || "";
       els.f.hltbM.value = g.hltbM || "";
       els.f.hltbE.value = g.hltbE || "";
@@ -1586,6 +1684,7 @@ window.CONFIG = {
     } else {
       els.mGameTitle.innerText = "Add Game";
       els.btnDelPrompt.style.display = "none";
+      els.btnRefreshRawg.style.display = "none"; // Hide refresh button on new entry
       els.f.id.value = crypto.randomUUID();
       els.f.status.value = "";
       els.f.plat.value = "";
@@ -1731,7 +1830,6 @@ window.CONFIG = {
       let achBadge = "";
       let isCompleted = g.status === "Completed";
       
-      // v0.23 Global Platform Palette Binding for Base, Badges, and Ratios
       let platColor = "#6b21a8"; // Royal Purple (Non-Big 3)
       let platText = "#ffffff";
       let platBorder = "rgba(255,255,255,0.2)";
@@ -1745,7 +1843,6 @@ window.CONFIG = {
         const t = g.achT || 0;
         const isMaxed = parseFloat(e) >= parseFloat(t) && parseFloat(t) > 0;
         
-        // v0.23 Apply precise platform colors to ratio pills instead of transparent
         if((g.plat||"").includes("PS")) {
           achBadge = `<span class="badge ${isMaxed ? 'anim-glint' : ''}" style="background:${platColor}; color:${platText}; border:1px solid ${platBorder};">${splitEmoji(`🏆 ${e}/${t}`)}</span>`;
           if (isMaxed) achBadge = `<span class="badge anim-glint" style="background:${platColor}; color:${platText}; border:1px solid ${platBorder};">${splitEmoji("🏆 PLATINUM")}</span>`;
@@ -1754,7 +1851,6 @@ window.CONFIG = {
           if (isMaxed) achBadge = `<span class="badge anim-glint" style="background:${platColor}; color:${platText}; border:1px solid ${platBorder};">${e}G</span>`;
         } else {
           achBadge = `<span class="badge ${isMaxed ? 'anim-glint' : ''}" style="background:${platColor}; color:${platText}; border:1px solid ${platBorder};">${splitEmoji(`🏅 ${e}/${t}`)}</span>`;
-          // PC, Mobile, and Other maxed out badge falls back to the exact Royal Purple platform color.
           if (isMaxed) achBadge = `<span class="badge anim-glint" style="background:${platColor}; color:${platText}; border:1px solid ${platBorder};">${splitEmoji("✨ 100%")}</span>`;
         }
       }
@@ -1763,7 +1859,6 @@ window.CONFIG = {
       card.className = `game-card ${isCompleted ? 'completed-glow' : ''}`;
       card.onclick = () => openGameModal(g.id);
       
-      // v0.23 Isolate Star Glyph and Line-Height context for extreme optical baselines
       const ratingDisp = (g.rating && parseFloat(g.rating) > 0) ? `<span class="rating-val-wrap"><span class="${isRetro ? 'retro-star' : ''}">★</span><span>${parseFloat(g.rating).toFixed(1)}</span></span>` : `<span style="color:var(--text-muted); display:inline-flex; align-items:center;">${C.PLACEHOLDERS.UNRATED_LABEL}</span>`;
       
       let compBadge = `<span class="badge" style="background:var(--border);">${g.status}</span>`;

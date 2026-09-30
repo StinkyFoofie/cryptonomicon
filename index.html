@@ -25,13 +25,14 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.24",
+  APP_VERSION: "0.25",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 Check RAWG",
   BTN_CLEAR_CACHE: "🗑️ Clear Cache",
   BTN_FORCE_SYNC: "🚀 Sync",
   BTN_RANDOM_GAME: "🎲 Pick Game",
+  BTN_SETTINGS: "⚙️ Settings",
   BTN_THEME: "🎨 Theme",
   BTN_THEME_RANDOM: "🎲 Surprise Me!",
   EMPTY_SEARCH_TEXT: "YOU DON'T OWN THIS GAME! 🤣🤣🤣🤣🤣🤣🤣",
@@ -42,7 +43,7 @@ window.CONFIG = {
 
   // 4. Centralized Notification & Error Messages
   MESSAGES: {
-    ACHIEVEMENT_ERROR: "⚠️️ Earned achievements cannot exceed total! Please check your numbers.",
+    ACHIEVEMENT_ERROR: "⚠ Earned achievements cannot exceed total! Please check your numbers.",
     ACHIEVEMENT_NEGATIVE: "⚠️ Achievement values cannot be negative numbers!",
     CACHE_AUDITED: "Local cache verified and up to date! 💾",
     CACHE_CLEARED: "Local cache cleared.",
@@ -108,7 +109,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.24</title>
+<title id="html-title">VGnomicon v0.25</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -160,7 +161,7 @@ window.CONFIG = {
   /* Retro Arcade Layout Normalization & Universal Optical Snapping */
   [data-theme="retro-arcade"] .grid-view .card-title { font-size: 10px; }
   [data-theme="retro-arcade"] .grid-view .card-meta { font-size: 9px; }
-  [data-theme="retro-arcade"] .game-card:not(.completed-glow) .card-footer-right .badge { background: #101025 !important; border: 1px solid #ffcc00 !important; color: #ffcc00 !important; }
+  [data-theme="retro-arcade"] .game-card:not(.completed-glow) .card-footer-row-1 .badge, [data-theme="retro-arcade"] .game-card:not(.completed-glow) .card-footer-row-2 .badge { background: #101025 !important; border: 1px solid #ffcc00 !important; color: #ffcc00 !important; }
   [data-theme="retro-arcade"] input, [data-theme="retro-arcade"] select, [data-theme="retro-arcade"] textarea, [data-theme="retro-arcade"] button, [data-theme="retro-arcade"] .custom-select-trigger, [data-theme="retro-arcade"] .custom-option { font-size: 11px; text-align: left; }
   [data-theme="retro-arcade"] .custom-option { padding: 12px; }
   [data-theme="retro-arcade"] h2 { font-size: 16px; text-align: center; }
@@ -175,16 +176,18 @@ window.CONFIG = {
     vertical-align: middle;
     height: 16px;
   }
-  [data-theme="retro-arcade"] .retro-star { 
-    transform: translateY(1px); /* Sub-pixel alignment nudge into numeral baseline */
-    display: inline-flex; 
-    align-items: center; 
-    justify-content: center; 
-    line-height: 1; 
-    vertical-align: middle; 
-    font-size: 11px; 
+  
+  /* v0.25 Retro Arcade Inline SVG Mathematical Star */
+  .retro-star-svg {
+    display: inline-block;
+    width: 11px;
+    height: 11px;
+    vertical-align: middle;
+    fill: currentColor;
     margin-right: 4px;
+    flex-shrink: 0;
   }
+
   [data-theme="retro-arcade"] .optical-align span:first-child { position: relative; top: -2px; }
   [data-theme="retro-arcade"] .modal-header .close-btn { font-size: 24px !important; padding: 4px; }
 
@@ -380,19 +383,20 @@ window.CONFIG = {
   /* v0.24 Hardened Universal Star and Score Alignment Wrap */
   .rating-val-wrap { display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; gap: 4px; font-weight: bold;}
   
-  /* v0.24 Single-Row Deterministic Card Footer Layout */
-  .card-footer { display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 100%; margin-top: auto; gap: 4px; }
-  .card-footer-left { display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center; gap: 4px; flex: 1 1 auto; min-width: 0; }
-  .card-footer-right { display: flex; align-items: center; justify-content: flex-end; padding-left: 2px; flex-shrink: 0;}
+  /* v0.25 2-Row Deterministic Card Footer Layout */
+  .card-footer { display: flex; flex-direction: column; gap: 6px; width: 100%; margin-top: auto; }
+  .card-footer-row-1 { display: flex; justify-content: flex-start; align-items: center; width: 100%; }
+  .card-footer-row-2 { display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 100%; }
+  .card-footer-row-2 .trophy-col { display: flex; justify-content: flex-start; align-items: center; }
+  .card-footer-row-2 .status-col { display: flex; justify-content: flex-end; align-items: center; }
   
-  /* v0.24 Zero-Ellipsis Baseline */
-  .badge { height: 22px; display: inline-flex; align-items: center; justify-content: center; padding: 0 8px; border-radius: 4px; font-size: 11px; font-family: var(--font-heading); font-weight: bold; white-space: nowrap; box-sizing: border-box; line-height: 1; text-align: center; vertical-align: middle; overflow: visible !important; text-overflow: clip !important;}
+  /* v0.25 Zero-Ellipsis Baseline with Restored Glint Containment */
+  .badge { height: 22px; display: inline-flex; align-items: center; justify-content: center; padding: 0 8px; border-radius: 4px; font-size: 11px; font-family: var(--font-heading); font-weight: bold; white-space: nowrap; box-sizing: border-box; line-height: 1; text-align: center; vertical-align: middle; }
   .game-card.completed-glow { border-color: var(--accent-completion, var(--accent)); box-shadow: 0 0 25px var(--accent-completion, var(--accent)), 0 0 45px rgba(0, 0, 0, 0.5); }
 
   /* v0.24 Adaptive Container Query Step-Downs for Compact Columns */
   @container (max-width: 220px) {
     .card-footer .badge { font-size: 9.5px; padding: 0 5px; height: 20px; }
-    .card-footer-left { gap: 3px; }
   }
   @container (max-width: 185px) {
     .card-footer .badge { font-size: 8.5px; padding: 0 4px; height: 19px; }
@@ -409,7 +413,7 @@ window.CONFIG = {
   .list-view .card-meta { justify-content: flex-start; width: auto; flex-shrink: 0;}
   
   .list-view .card-footer { display: flex; flex-direction: row; align-items: center; justify-content: flex-end; gap: 8px; width: auto; margin-top: 0; flex-shrink: 0; }
-  .list-view .card-footer-left { flex-direction: row; flex-wrap: nowrap; align-items: center; gap: 8px; }
+  .list-view .card-footer-row-1, .list-view .card-footer-row-2 { width: auto; }
 
   /* Modals */
   .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg-backdrop); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 15px; overflow-x: hidden; }
@@ -497,7 +501,7 @@ window.CONFIG = {
   .toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: var(--bg-surface); border: 1px solid var(--accent); color: var(--text-main); padding: 12px 24px; border-radius: 30px; box-shadow: var(--shadow); font-weight: bold; z-index: 10000; transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); width: max-content; max-width: 90vw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .toast.show { top: 20px; }
   
-  .anim-glint { position: relative; overflow: hidden; }
+  .anim-glint { position: relative !important; overflow: hidden !important; }
   .anim-glint::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%); transform: rotate(45deg); animation: glint 2s infinite; }
   @keyframes glint { 0% { left: -100%; } 100% { left: 100%; } }
 
@@ -566,7 +570,7 @@ window.CONFIG = {
     <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.24</span>
+      <span id="ui-app-version">v0.25</span>
     </div>
   </a>
   <div class="header-actions">
@@ -583,7 +587,10 @@ window.CONFIG = {
     </div>
     <button id="btn-force-sync" title="Force Sync"></button>
     <button id="btn-open-theme" title="Theme"></button>
-    <button id="btn-open-settings" title="Settings">⚙️</button>
+    <!-- v0.25 Defect Fix: Hardcoded default fallback markup for settings button -->
+    <button id="btn-open-settings" title="Settings">
+      <span class="optical-align"><span>⚙️</span><span>Settings</span></span>
+    </button>
   </div>
 </header>
 
@@ -667,12 +674,12 @@ window.CONFIG = {
           </div>
         </div>
 
-        <div class="form-grid">
-          <div class="form-group"><label>Developer</label><input type="text" id="f-developer" placeholder="Select Title..."></div>
-          <div class="form-group"><label>Publisher</label><input type="text" id="f-publisher" placeholder="Select Title..."></div>
+        <div class="form-group"><label>Developer</label><input type="text" id="f-developer" placeholder="Select Title..."></div>
+        <div class="form-group"><label>Publisher</label><input type="text" id="f-publisher" placeholder="Select Title..."></div>
           
-          <div class="form-group full"><label>Genre(s)</label><input type="text" id="f-genres" placeholder="Select Title..."></div>
+        <div class="form-group full"><label>Genre(s)</label><input type="text" id="f-genres" placeholder="Select Title..."></div>
 
+        <div class="form-grid">
           <div class="form-group">
             <label>Platform *</label>
             <select id="f-platform" class="native-hijack" data-select-id="f-platform">
@@ -984,7 +991,7 @@ window.CONFIG = {
     btnCancelDel: document.getElementById('btn-cancel-delete'), mConfirmBody: document.getElementById('modal-confirm-body'),
 
     // Cache Confirmation Modal
-    mConfirmCache: document.getElementById('modal-confirm-cache'), mConfirmCacheBody: document.getElementById('modal-confirm-cache-body'),
+    mConfirmCache: document.getElementById('modal-confirm-cache'), mConfirmCacheBody: document.getElementById('modal-confirm-clear-cache'),
     btnConfirmClearCache: document.getElementById('btn-confirm-clear-cache'), btnCancelClearCache: document.getElementById('btn-cancel-clear-cache'),
 
     // Schema Inputs
@@ -1187,9 +1194,9 @@ window.CONFIG = {
     els.btnRandom.innerHTML = splitEmoji(C.BTN_RANDOM_GAME);
     els.btnRefreshRawg.innerHTML = splitEmoji("🔄 Refresh RAWG");
     
-    // v0.24 Defensive HTML Hydration Guard for Layer 4 Settings Button
-    if (els.btnSettings && !els.btnSettings.innerHTML.trim()) {
-      els.btnSettings.innerHTML = splitEmoji("⚙️");
+    // v0.25 Defect Fix: Hydrate Settings Button Label
+    if (els.btnSettings) {
+      els.btnSettings.innerHTML = splitEmoji(C.BTN_SETTINGS || "⚙️ Settings");
     }
     
     document.getElementById('btn-close-game').innerHTML = "✕";
@@ -1289,14 +1296,16 @@ window.CONFIG = {
     els.f.dateAdd.addEventListener('change', (e) => updateDateClass(e.target));
     els.f.dateComp.addEventListener('change', (e) => updateDateClass(e.target));
 
-    // v0.24 Notes Chip Single-Line Text Injection Fix & Double-Fire Guard
+    // v0.25 Notes Chip Single-Line Text Space Injection
     document.querySelectorAll('.chip').forEach(chip => {
       chip.onclick = (e) => { 
           e.stopPropagation();
-          const cleanText = e.currentTarget.textContent.replace(/\s+/g, ' ').trim();
-          if (!cleanText) return;
-          const existing = els.f.notes.value.trim();
-          els.f.notes.value = existing ? `${existing} ${cleanText} ` : `${cleanText} `;
+          const spans = Array.from(chip.querySelectorAll('span')).map(s => s.innerText.trim()).filter(Boolean);
+          let chipText = spans.length >= 2 ? `${spans[0]} ${spans[1]}` : chip.textContent.replace(/\s+/g, ' ').trim();
+          if (!chipText) return;
+          
+          const currentNotes = els.f.notes.value.trim();
+          els.f.notes.value = currentNotes ? `${currentNotes} ${chipText} ` : `${chipText} `;
       };
     });
 
@@ -1305,12 +1314,15 @@ window.CONFIG = {
     els.btnCancelDel.onclick = () => els.mDelete.classList.remove('active');
     els.btnConfirmDel.onclick = deleteGame;
     
-    // v0.24 Post-Release RAWG Metadata Refresh Workflow
+    // v0.25 Post-Release RAWG Metadata Refresh Workflow with Spin Duration Lock
     els.btnRefreshRawg.onclick = async () => {
       const query = els.f.title.value.trim();
       if (!query || C.RAWG_API_KEY === "YOUR_RAWG_API_KEY_HERE") return;
       
       els.btnRefreshRawg.classList.add('spinning');
+      const spinStart = Date.now();
+      const MIN_SPIN_DURATION = 2500;
+
       try {
         const res = await fetch(`https://api.rawg.io/api/games?key=${C.RAWG_API_KEY}&search=${encodeURIComponent(query)}&page_size=1`);
         const data = await res.json();
@@ -1344,7 +1356,11 @@ window.CONFIG = {
       } catch (err) {
         console.error("Refresh RAWG failed:", err);
       } finally {
-        els.btnRefreshRawg.classList.remove('spinning');
+        const elapsed = Date.now() - spinStart;
+        const remaining = Math.max(0, MIN_SPIN_DURATION - elapsed);
+        setTimeout(() => {
+          els.btnRefreshRawg.classList.remove('spinning');
+        }, remaining);
       }
     };
 
@@ -1646,7 +1662,7 @@ window.CONFIG = {
       const g = games[id];
       els.mGameTitle.innerText = "Edit Game";
       els.btnDelPrompt.style.display = "block";
-      els.btnRefreshRawg.style.display = "inline-flex"; // v0.24 Display Refresh button on edit
+      els.btnRefreshRawg.style.display = "inline-flex"; 
       
       els.f.id.value = id;
       els.f.title.value = g.title || "";
@@ -1684,7 +1700,7 @@ window.CONFIG = {
     } else {
       els.mGameTitle.innerText = "Add Game";
       els.btnDelPrompt.style.display = "none";
-      els.btnRefreshRawg.style.display = "none"; // Hide refresh button on new entry
+      els.btnRefreshRawg.style.display = "none"; 
       els.f.id.value = crypto.randomUUID();
       els.f.status.value = "";
       els.f.plat.value = "";
@@ -1859,7 +1875,10 @@ window.CONFIG = {
       card.className = `game-card ${isCompleted ? 'completed-glow' : ''}`;
       card.onclick = () => openGameModal(g.id);
       
-      const ratingDisp = (g.rating && parseFloat(g.rating) > 0) ? `<span class="rating-val-wrap"><span class="${isRetro ? 'retro-star' : ''}">★</span><span>${parseFloat(g.rating).toFixed(1)}</span></span>` : `<span style="color:var(--text-muted); display:inline-flex; align-items:center;">${C.PLACEHOLDERS.UNRATED_LABEL}</span>`;
+      // v0.25 Mathematical SVG Star for Retro Arcade
+      const starIcon = isRetro ? `<svg class="retro-star-svg" viewBox="0 0 10 10"><polygon points="5,0 6.5,3.5 10,3.8 7.5,6.2 8.2,10 5,8 1.8,10 2.5,6.2 0,3.8 3.5,3.5"/></svg>` : `<span class="retro-star">★</span>`;
+      
+      const ratingDisp = (g.rating && parseFloat(g.rating) > 0) ? `<span class="rating-val-wrap">${starIcon}<span>${parseFloat(g.rating).toFixed(1)}</span></span>` : `<span style="color:var(--text-muted); display:inline-flex; align-items:center;">${C.PLACEHOLDERS.UNRATED_LABEL}</span>`;
       
       let compBadge = `<span class="badge" style="background:var(--border);">${g.status}</span>`;
       if (isCompleted) {
@@ -1870,6 +1889,7 @@ window.CONFIG = {
 
       const titleClass = g.title.length > 25 ? "card-title title-long" : "card-title";
 
+      // v0.25 Reverted Card Footer HTML Structure (2-Row Design)
       card.innerHTML = `
         <img src="${g.url || ''}" class="card-cover" loading="lazy">
         <div class="card-details">
@@ -1880,12 +1900,12 @@ window.CONFIG = {
             ${ratingDisp}
           </div>
           <div class="card-footer">
-            <div class="card-footer-left">
-              <span class="badge" style="background:${platColor}; color:${platText}; border:1px solid ${platBorder}; box-shadow: 0 1px 3px rgba(0,0,0,0.4);">${g.plat || ''}</span>
-              ${achBadge}
+            <div class="card-footer-row-1">
+              <span class="badge platform-badge" style="background:${platColor}; color:${platText}; border:1px solid ${platBorder}; box-shadow: 0 1px 3px rgba(0,0,0,0.4);">${g.plat || ''}</span>
             </div>
-            <div class="card-footer-right">
-              ${compBadge}
+            <div class="card-footer-row-2">
+              <div class="trophy-col">${achBadge}</div>
+              <div class="status-col">${compBadge}</div>
             </div>
           </div>
         </div>

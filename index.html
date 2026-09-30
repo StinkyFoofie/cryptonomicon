@@ -7,15 +7,15 @@
    ========================================================================== */
 window.CONFIG = {
   // 1. API Credentials & Cloud Paths
-  RAWG_API_KEY: "db9f18921e714a36bb784e65b5fd424b",
+  RAWG_API_KEY: "YOUR_RAWG_API_KEY_HERE",
   DB_COLLECTION: "nomicon",
   FIREBASE: {
-    apiKey: "AIzaSyCk9HvlsACbj-XsH8hAS0rqXSXPYbBN7vk",
-    authDomain: "video-game-cryptonomicon.firebaseapp.com",
-    projectId: "video-game-cryptonomicon",
-    storageBucket: "video-game-cryptonomicon.firebasestorage.app",
-    messagingSenderId: "63649233927",
-    appId: "1:63649233927:web:c2717ba5797c3cf4243ea2"
+    apiKey: "YOUR_FIREBASE_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
   },
 
   // 2. App Defaults
@@ -25,10 +25,10 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.29",
+  APP_VERSION: "0.30",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
-  BTN_CHECK_RAWG: "🌐 Check RAWG",
+  BTN_CHECK_RAWG: "🌐 RAWG Check",
   BTN_CLEAR_CACHE: "🗑️ Clear Cache",
   BTN_FORCE_SYNC: "🚀 Sync",
   BTN_RANDOM_GAME: "🎲 Pick Game",
@@ -111,7 +111,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.29</title>
+<title id="html-title">VGnomicon v0.30</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -172,7 +172,7 @@ window.CONFIG = {
   [data-theme="retro-arcade"] h2 { font-size: 16px; text-align: center; }
   [data-theme="retro-arcade"] .settings-coll-row { display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; text-align: center; width: 100%; }
   
-  /* v0.24/v0.26 Hardened Optical Centering for Press Start 2P Baseline */
+  /* Hardened Optical Centering for Press Start 2P Baseline */
   [data-theme="retro-arcade"] .rating-val-wrap {
     display: inline-flex;
     align-items: center;
@@ -197,9 +197,11 @@ window.CONFIG = {
   [data-theme="retro-arcade"] .optical-align span:first-child { position: relative; top: -2px; }
   [data-theme="retro-arcade"] .modal-header .close-btn { font-size: 24px !important; padding: 4px; }
   
-  /* v0.29 Surgical Diff #8: Retro Arcade Scoped Row 2 Clamp & Gutter Lock */
+  /* Retro Arcade Scoped Row 2 Clamp & Gutter Lock */
   [data-theme="retro-arcade"] .grid-view .card-footer-row-2 .badge { font-size: 8.5px !important; padding: 0 4px !important; letter-spacing: -0.04em !important; }
-  [data-theme="retro-arcade"] .winner-emoji-box { transform: translateY(-2px); }
+  /* v0.30 Diff #8: Retro Arcade Winner Celebration Midline Alignment */
+  [data-theme="retro-arcade"] .winner-emoji-box { transform: translateY(-4px); }
+  [data-theme="retro-arcade"] .system-tray button { font-size: 11px; }
 
   /* --- 5. SYNTHWAVE SUNSET --- */
   [data-theme="synthwave-sunset"] {
@@ -245,7 +247,13 @@ window.CONFIG = {
     --shadow: 0 0 16px rgba(51, 255, 51, 0.25); --font-main: 'VT323', 'Fira Code', monospace; --font-heading: 'VT323', monospace;
     --radius: 2px; --scrollbar-thumb: #1c991c; --scrollbar-track: #041206;
   }
-  
+  /* v0.30 Diff #10: Wasteland Terminal CRT Font Size Step-Up */
+  [data-theme="wasteland-terminal"] body { font-size: 16px; }
+  [data-theme="wasteland-terminal"] input, [data-theme="wasteland-terminal"] select, [data-theme="wasteland-terminal"] textarea, [data-theme="wasteland-terminal"] button, [data-theme="wasteland-terminal"] .custom-select-trigger, [data-theme="wasteland-terminal"] .custom-option { font-size: 16px; }
+  [data-theme="wasteland-terminal"] .grid-view .card-title { font-size: 18px; }
+  [data-theme="wasteland-terminal"] .list-view .card-title { font-size: 18px; }
+  [data-theme="wasteland-terminal"] .badge { font-size: 13px; }
+
   /* --- 9. COZY VILLAGE --- */
   [data-theme="cozy-village"] {
     --bg-base: #f5f0eb; --bg-surface: #fffdfa; --bg-surface-hover: #ede6dd; --bg-input: #faf7f2; --bg-placeholder: #e4dcd3; --bg-backdrop: rgba(245, 240, 235, 0.85);
@@ -321,7 +329,8 @@ window.CONFIG = {
   .search-bar { max-width: 300px; min-width: 250px; }
   #btn-add-game { white-space: nowrap; flex-shrink: 0; }
   
-  .system-tray { display: flex; align-items: center; gap: 12px; font-size: 12px; color: var(--text-muted); justify-self: flex-end;}
+  /* v0.30 Diff #9: System Tray Action Buttons Scale Reduction */
+  .system-tray { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--text-muted); justify-self: flex-end;}
   .sync-status { display: flex; align-items: center; gap: 6px; }
   .status-dot { width: 10px; height: 10px; border-radius: 50%; }
   .dot-green { background: var(--success); }
@@ -329,10 +338,10 @@ window.CONFIG = {
   .dot-red { background: var(--danger); }
   .tray-time-stacked { display: flex; flex-direction: column; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 10px; line-height: 1.2; }
   
-  .system-tray button { background: transparent; border: none; color: var(--text-muted); padding: 6px 10px; border-radius: var(--radius); transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; }
+  .system-tray button { background: transparent; border: none; color: var(--text-muted); padding: 4px 8px; font-size: 12px; border-radius: var(--radius); transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; }
   .system-tray button:hover { color: var(--accent); background: var(--bg-surface-hover); }
   
-  /* v0.29 Surgical Diff #6: Harmonic 800ms Spin Period for Perfect 360° Landings */
+  /* Harmonic 800ms Spin Period for Perfect 360° Landings */
   @keyframes spin { 100% { transform: rotate(360deg); } }
   .spinning { animation: spin 0.8s linear infinite; }
   
@@ -340,7 +349,7 @@ window.CONFIG = {
   .control-bar .custom-select-wrapper { width: auto; flex: 1; min-width: 130px; }
   .control-bar .custom-select-trigger { padding: 6px 10px; }
   
-  /* v0.29 Surgical Diff #1 & #2: Flawless View Slider 50/50 Centering & Elevated Optical Baseline */
+  /* v0.30 Diffs #6: View Slider Glyph Midline Calibration */
   .view-toggle { display: inline-grid; grid-template-columns: 1fr 1fr; background: var(--bg-input); border-radius: 20px; padding: 2px; position: relative; border: 1px solid var(--border); align-items: center; margin: 0 10px; line-height: 1; overflow: hidden; width: 184px; box-sizing: border-box; }
   .view-slider { position: absolute; top: 2px; bottom: 2px; left: 2px; width: calc(50% - 2px); background: var(--bg-surface); border-radius: 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.3); transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1; border: 1px solid var(--border-hover); pointer-events: none; }
   .view-toggle.list-active .view-slider { transform: translateX(100%); }
@@ -353,9 +362,9 @@ window.CONFIG = {
   
   .view-btn .optical-align { justify-content: center; width: 100%; }
   .view-btn .optical-align > span:first-child { display: inline-flex; align-items: center; justify-content: center; width: 16px; flex-shrink: 0; }
-  #btn-list-view .optical-align > span:first-child { transform: translateY(-2.5px); }
-  #btn-grid-view .optical-align > span:first-child { transform: translateY(0.5px); }
-  [data-theme="retro-arcade"] #btn-list-view .optical-align > span:first-child { transform: translateY(-3.5px); }
+  #btn-list-view .optical-align > span:first-child { transform: translateY(-4.5px); }
+  #btn-grid-view .optical-align > span:first-child { transform: translateY(1.5px); }
+  [data-theme="retro-arcade"] #btn-list-view .optical-align > span:first-child { transform: translateY(-6px); }
 
   /* Library Container & Empty State */
   main { padding: 20px; min-height: calc(100vh - 140px); }
@@ -574,7 +583,7 @@ window.CONFIG = {
   .winner-emoji-box { display: inline-flex; align-items: center; justify-content: center; width: 1.5rem; flex-shrink: 0; line-height: 1; }
   [data-theme="retro-arcade"] .winner-banner-wrap { font-size: 14px; }
 
-  /* v0.29 Surgical Diff #9a: Prominent, Centered, Config-Expandable Winner Button */
+  /* Prominent, Centered, Config-Expandable Winner Button */
   #btn-close-randomizer { min-width: 140px; width: auto; padding: 10px 24px; font-size: 14px; display: none; margin: 20px auto 0; position: relative; z-index: 2; align-items: center; justify-content: center; }
 
   /* Canvas FX */
@@ -607,7 +616,7 @@ window.CONFIG = {
     <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.29</span>
+      <span id="ui-app-version">v0.30</span>
     </div>
   </a>
   <div class="header-actions">
@@ -694,9 +703,11 @@ window.CONFIG = {
         <div class="form-group autocomplete-wrapper">
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <label style="margin-bottom:0;">Title * (Sorted Newest-to-Oldest)</label>
-            <div style="display:flex; align-items:center; gap:8px;">
-              <div class="status-dot dot-yellow" id="modal-game-rawg-dot" title="RAWG API Status"></div>
+            <!-- v0.30 Feature #3: Split RAWG Slot for Add/Edit Modes -->
+            <div id="modal-rawg-slot" style="display:flex; align-items:center; gap:8px;">
+              <span id="lbl-rawg-status-text" style="font-size:12px; color:var(--text-muted); font-weight:600; line-height:1; vertical-align:middle;">RAWG Status</span>
               <button type="button" id="btn-refresh-rawg" class="btn-refresh-rawg" style="display:none;" title="Re-fetch latest metadata from RAWG"></button>
+              <div class="status-dot dot-yellow" id="modal-game-rawg-dot" title="RAWG API Status"></div>
             </div>
           </div>
           <input type="text" id="f-title" placeholder="Type Your Favorite Game..." required autocomplete="off">
@@ -862,14 +873,15 @@ window.CONFIG = {
         </div>
       </div>
 
+      <!-- v0.30 Feature #4: Restructured API Block -->
       <div class="settings-block">
         <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">External APIs</h3>
         <div style="display:flex; justify-content: space-between; align-items:center;">
-          <span style="font-size:12px; color:var(--text-muted);">RAWG Metadata Database</span>
           <div style="display:flex; align-items:center; gap: 8px;">
             <div class="status-dot dot-yellow" id="modal-rawg-dot"></div>
-            <button id="btn-audit-rawg" style="padding:4px 10px; font-size:12px;"></button>
+            <span style="font-size:12px; color:var(--text-muted); font-weight:600;">RAWG Metadata Database</span>
           </div>
+          <button id="btn-audit-rawg" style="padding:4px 10px; font-size:12px;"></button>
         </div>
       </div>
 
@@ -1006,6 +1018,7 @@ window.CONFIG = {
     traySyncDot: document.getElementById('tray-sync-dot'), 
     modalRawgDot: document.getElementById('modal-rawg-dot'),
     modalGameRawgDot: document.getElementById('modal-game-rawg-dot'),
+    lblRawgStatusText: document.getElementById('lbl-rawg-status-text'),
     btnSync: document.getElementById('btn-force-sync'), btnTheme: document.getElementById('btn-open-theme'),
     
     // Filters & View Toggles
@@ -1355,7 +1368,20 @@ window.CONFIG = {
         updateStorageMeter();
         showToast(splitEmoji(C.MESSAGES.CACHE_AUDITED));
     };
-    els.btnAuditRawg.onclick = () => auditRawgConnection(false);
+    
+    // v0.30 Diff #5: Settings RAWG Check Harmonic Spin & Toast
+    els.btnAuditRawg.onclick = async () => {
+      els.btnAuditRawg.classList.add('spinning');
+      const spinStart = Date.now();
+      const HARMONIC_SPIN = 3200;
+      await auditRawgConnection(false);
+      const elapsed = Date.now() - spinStart;
+      const remaining = Math.max(0, HARMONIC_SPIN - elapsed);
+      setTimeout(() => {
+        els.btnAuditRawg.classList.remove('spinning');
+      }, remaining);
+    };
+    
     els.btnSync.onclick = forceSync;
     
     els.btnGrid.onclick = () => { 
@@ -1394,16 +1420,20 @@ window.CONFIG = {
     els.f.dateAdd.addEventListener('change', (e) => updateDateClass(e.target));
     els.f.dateComp.addEventListener('change', (e) => updateDateClass(e.target));
 
+    // v0.30 Diff #7: Notes Reaction Chip Whitespace Padding
     const reactionContainer = document.getElementById('reaction-chips');
     if (reactionContainer) {
       reactionContainer.querySelectorAll('.chip').forEach(chip => {
         chip.onclick = (e) => { 
             e.stopPropagation();
-            const chipText = chip.textContent.replace(/\s+/g, ' ').trim();
-            if (!chipText) return;
+            const rawText = chip.textContent.trim();
+            if (!rawText) return;
             
-            const currentNotes = els.f.notes.value.replace(/[\r\n]+/g, ' ').trim();
-            els.f.notes.value = currentNotes ? `${currentNotes} ${chipText} ` : `${chipText} `;
+            const match = rawText.match(/^([\p{Emoji_Presentation}|\p{Extended_Pictographic}]+)\s*(.*)$/u);
+            const chipToAppend = match ? `${match[1]} ${match[2]}` : rawText;
+            
+            const currentNotes = els.f.notes.value.trim();
+            els.f.notes.value = currentNotes ? `${currentNotes} ${chipToAppend} ` : `${chipToAppend} `;
         };
       });
     }
@@ -1413,7 +1443,7 @@ window.CONFIG = {
     els.btnCancelDel.onclick = () => els.mDelete.classList.remove('active');
     els.btnConfirmDel.onclick = deleteGame;
     
-    // v0.29 Surgical Diff #5: Harmonic 3200ms RAWG Refresh Spin Alignment
+    // Harmonic 3200ms RAWG Refresh Spin Alignment
     els.btnRefreshRawg.onclick = async () => {
       const query = els.f.title.value.trim();
       const apiKey = getRawgKey();
@@ -1548,7 +1578,6 @@ window.CONFIG = {
     }, 3200);
   }
 
-  // v0.29 Surgical Diff #3: Harmonic 3200ms Force Sync Spin Alignment
   async function forceSync() {
     setSyncState('🟡');
     els.btnSync.classList.add('spinning');
@@ -1612,7 +1641,6 @@ window.CONFIG = {
   }
 
   // --- 5. RAWG API ---
-  // v0.29 Feature #1: Synchronized Dual Traffic Lights
   function setRawgState(state) {
     const dots = [els.modalRawgDot, els.modalGameRawgDot].filter(Boolean);
     dots.forEach(dot => {
@@ -1623,7 +1651,6 @@ window.CONFIG = {
     });
   }
 
-  // v0.29 Feature #1: Silent Background Audit Option
   async function auditRawgConnection(silent = false) {
     setRawgState('🟡');
     const apiKey = getRawgKey();
@@ -1642,7 +1669,7 @@ window.CONFIG = {
       
       if(res.ok) {
         setRawgState('🟢');
-        if(!silent && els.mSettings.classList.contains('active')) showToast(C.MESSAGES.RAWG_ONLINE);
+        if(!silent) showToast(C.MESSAGES.RAWG_ONLINE);
       } else {
         console.warn(`RAWG Audit failed with status: ${res.status} ${res.statusText}`);
         setRawgState('🔴');
@@ -1688,9 +1715,8 @@ window.CONFIG = {
     } catch(e) { console.error("RAWG autocomplete fetch failed:", e); }
   }
 
-  // v0.29 Defect #4: Scroll Offset Reset on Render
+  // v0.30 Defect #2: requestAnimationFrame Post-Paint Scroll Reset
   function renderAutocomplete(results) {
-    els.f.rawgRes.scrollTop = 0;
     els.f.rawgRes.innerHTML = '';
     if(results.length === 0) { els.f.rawgRes.style.display = 'none'; return; }
     
@@ -1711,11 +1737,13 @@ window.CONFIG = {
       els.f.rawgRes.appendChild(div);
     });
     
-    els.f.rawgRes.scrollTop = 0;
     els.f.rawgRes.style.display = 'block';
+    requestAnimationFrame(() => {
+      els.f.rawgRes.scrollTop = 0;
+    });
   }
 
-  // Two-Stage Defensive Hydration Pipeline
+  // v0.30 Defect #1: Deep Hydration Pipeline (Clean g.metacritic variable reference)
   async function populateFromRAWG(g) {
     if (!g) return;
     els.f.rawgRes.style.display = 'none';
@@ -1738,7 +1766,7 @@ window.CONFIG = {
     if (isFuture) {
       setVal(els.f.rawgScore, C.PLACEHOLDERS.NOT_RELEASED_LABEL || "🚀 Not yet released!");
     } else if (g.rating && parseFloat(g.rating) > 0) {
-      setVal(els.f.rawgScore, `RAWG: ${g.rating} / 5.0 (Meta: ${match?.metacritic || g.metacritic || "N/A"})`);
+      setVal(els.f.rawgScore, `RAWG: ${g.rating} / 5.0 (Meta: ${g.metacritic || "N/A"})`);
     } else {
       setVal(els.f.rawgScore, "Unrated");
     }
@@ -1823,6 +1851,7 @@ window.CONFIG = {
     }
   }
 
+  // v0.30 Feature #3: Dynamic Split Layout for Add vs. Edit RAWG Header Slot
   function openGameModal(id = null) {
     els.form.reset();
     els.f.coverImg.style.display = 'none';
@@ -1836,14 +1865,16 @@ window.CONFIG = {
     toggleModalScrollLock(true);
     els.mGameBody.scrollTop = 0;
     
-    // v0.29 Feature #1: Silent Background Status Check on Modal Open
     auditRawgConnection(true);
 
     if(id && games[id]) {
       const g = games[id];
       els.mGameTitle.innerText = "Edit Game";
       els.btnDelPrompt.style.display = "block";
-      els.btnRefreshRawg.style.display = "inline-flex"; 
+      
+      // Edit Mode Layout: [🔄 Refresh RAWG] [●]
+      els.lblRawgStatusText.style.display = "none";
+      els.btnRefreshRawg.style.display = "inline-flex";
       
       els.f.id.value = id;
       els.f.title.value = g.title || "";
@@ -1881,7 +1912,11 @@ window.CONFIG = {
     } else {
       els.mGameTitle.innerText = "Add Game";
       els.btnDelPrompt.style.display = "none";
-      els.btnRefreshRawg.style.display = "none"; 
+      
+      // Add Mode Layout: RAWG Status [●]
+      els.lblRawgStatusText.style.display = "inline";
+      els.btnRefreshRawg.style.display = "none";
+      
       els.f.id.value = crypto.randomUUID();
       els.f.status.value = "";
       els.f.plat.value = "";
@@ -2131,7 +2166,6 @@ window.CONFIG = {
     if(!els.sGenresCloud.innerHTML) els.sGenresCloud.innerHTML = `<span style="font-size:12px; color:var(--text-muted);">No genres found.</span>`;
   }
 
-  // v0.29 Surgical Diff #6: Harmonic 3200ms Toast Display Window
   function showToast(msg) {
     const match = msg.match(/^([\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic})\s*(.*)$/u);
     const matchEnd = msg.match(/^(.*?)\s*([\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic})$/u);

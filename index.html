@@ -25,7 +25,7 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.27",
+  APP_VERSION: "0.28",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 Check RAWG",
@@ -60,7 +60,7 @@ window.CONFIG = {
     RAWG_REFRESH_ERROR: "⚠️ RAWG: No metadata found or connection failed!",
     RAWG_REFRESH_SUCCESS: "RAWG metadata refreshed! 🔄",
     SAVED_TOAST: "SAVED - {title}",
-    SYNC_SUCCESS: "Library Synced! 🚀",
+    SYNC_SUCCESS: "Library Synced like CRAZY! 🚀",
     TITLE_REQUIRED: "⚠️ Title is required!"
   },
 
@@ -110,7 +110,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.27</title>
+<title id="html-title">VGnomicon v0.28</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -164,7 +164,6 @@ window.CONFIG = {
   [data-theme="retro-arcade"] .grid-view .card-meta { font-size: 9px; }
   [data-theme="retro-arcade"] .game-card:not(.completed-glow) .status-col .badge { background: #101025 !important; border: 1px solid #ffcc00 !important; color: #ffcc00 !important; }
   
-  /* v0.27 Surgical Diff #7: Removed "button" from the left-align override to allow .theme-btn centering globally */
   [data-theme="retro-arcade"] input, [data-theme="retro-arcade"] select, [data-theme="retro-arcade"] textarea, [data-theme="retro-arcade"] .custom-select-trigger, [data-theme="retro-arcade"] .custom-option { font-size: 11px; text-align: left; }
   
   [data-theme="retro-arcade"] .custom-option { padding: 12px; }
@@ -261,7 +260,7 @@ window.CONFIG = {
   body, html { width: 100%; overflow-x: hidden; }
   body { background-color: var(--bg-base); color: var(--text-main); font-family: var(--font-main); -webkit-font-smoothing: antialiased; }
   
-  /* v0.27 Defect #4 Modal Open Scroll Isolation */
+  /* Modal Open Scroll Isolation */
   body.modal-open { overflow: hidden; }
   
   h1, h2, h3, h4, h5 { font-family: var(--font-heading); }
@@ -335,20 +334,22 @@ window.CONFIG = {
   .control-bar .custom-select-wrapper { width: auto; flex: 1; min-width: 130px; }
   .control-bar .custom-select-trigger { padding: 6px 10px; }
   
-  /* v0.27 Surgical Diff #3 & #8: Realistic Hover & Width Expansion */
+  /* v0.28 Defect #3 & Surgical Diff #6: Non-colliding Layering, Tactile Spring Easing & Optical Baseline Offsets */
   .view-toggle { display: inline-grid; grid-template-columns: 1fr 1fr; background: var(--bg-input); border-radius: 20px; padding: 2px; position: relative; border: 1px solid var(--border); align-items: center; margin: 0 10px; line-height: 1; overflow: hidden; width: 184px; box-sizing: border-box; }
-  .view-slider { position: absolute; top: 2px; bottom: 2px; left: 2px; width: calc(50% - 2px); background: var(--bg-surface); border-radius: 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.3); transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.25, 1); z-index: 1; border: 1px solid var(--border-hover); pointer-events: none; }
+  .view-slider { position: absolute; top: 2px; bottom: 2px; left: 2px; width: calc(50% - 2px); background: var(--bg-surface); border-radius: 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.3); transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1; border: 1px solid var(--border-hover); pointer-events: none; }
   .view-toggle.list-active .view-slider { transform: translateX(100%); }
   
-  .view-btn { position: relative; z-index: 2; background: transparent; border: none; border-radius: 18px; padding: 4px 8px; font-size: 13px; color: var(--text-muted); font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; width: 100%; box-sizing: border-box; transition: background 0.15s, color 0.15s; white-space: nowrap !important; }
-  .view-btn:not(.active):hover { background: rgba(255, 255, 255, 0.08); border-radius: 18px; }
+  .view-btn { position: relative; z-index: 2; background: transparent !important; border: none; border-radius: 18px; padding: 4px 8px; font-size: 13px; color: var(--text-muted); font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; width: 100%; box-sizing: border-box; transition: color 0.15s; white-space: nowrap !important; }
+  .view-toggle:not(.list-active) #btn-list-view:hover { background: rgba(255, 255, 255, 0.08) !important; border-radius: 18px; }
+  .view-toggle.list-active #btn-grid-view:hover { background: rgba(255, 255, 255, 0.08) !important; border-radius: 18px; }
   .view-toggle:not(.list-active) #btn-grid-view { color: var(--text-main); }
   .view-toggle.list-active #btn-list-view { color: var(--text-main); }
   
-  /* v0.27 Surgical Diff #9: Equalized Icon Fixed Width Centering */
+  /* v0.28 Surgical Diff #6: Midline Optical Calibration */
   .view-btn .optical-align > span:first-child { display: inline-flex; align-items: center; justify-content: center; width: 16px; flex-shrink: 0; }
-  #btn-list-view .optical-align > span:first-child { transform: translateY(-0.5px); }
-  #btn-grid-view .optical-align > span:first-child { transform: translateY(-0.5px); }
+  #btn-list-view .optical-align > span:first-child { transform: translateY(-1.5px); }
+  #btn-grid-view .optical-align > span:first-child { transform: translateY(0.5px); }
+  [data-theme="retro-arcade"] #btn-list-view .optical-align > span:first-child { transform: translateY(-2.5px); }
 
   /* Library Container & Empty State */
   main { padding: 20px; min-height: calc(100vh - 140px); }
@@ -357,8 +358,8 @@ window.CONFIG = {
   .empty-state { text-align: center; padding: 60px 20px; font-size: 24px; color: var(--text-muted); font-family: var(--font-heading); animation: float 3s ease-in-out infinite; }
   .empty-state-emoji { display: inline-block; animation: bounce-emoji 2s infinite ease-in-out; }
   
-  /* Grid & Cards */
-  .grid-view { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+  /* v0.28 Surgical Diff #5: Card Footprint Expansion (minmax 215px) */
+  .grid-view { display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 20px; }
   .game-card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; display: flex; flex-direction: column; position: relative;}
   .game-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--border-hover); }
   .card-cover { width: 100%; aspect-ratio: 3/4; object-fit: cover; background: var(--bg-placeholder); }
@@ -407,11 +408,12 @@ window.CONFIG = {
   .grid-view .card-footer-row-2 .trophy-col { display: flex; justify-content: flex-start; align-items: center; min-width: 0; }
   .grid-view .card-footer-row-2 .status-col { display: flex; justify-content: flex-end; align-items: center; min-width: 0; }
   
-  /* v0.27 Surgical Diff #5: Universal Pill Height & Scaled Typography */
-  .badge { height: 22px; display: inline-flex; align-items: center; justify-content: center; padding: 0 6px; border-radius: 4px; font-size: 10px; font-family: var(--font-heading); font-weight: bold; white-space: nowrap; box-sizing: border-box; line-height: 22px; text-align: center; vertical-align: middle; }
+  /* v0.28 Surgical Diff #4 & #5: Pill Legibility Restoration & Row 2 Separation */
+  .badge { height: 22px; display: inline-flex; align-items: center; justify-content: center; padding: 0 8px; border-radius: 4px; font-size: 11px; font-family: var(--font-heading); font-weight: bold; white-space: nowrap; box-sizing: border-box; line-height: 22px; text-align: center; vertical-align: middle; }
   
-  [data-theme="retro-arcade"] .badge { font-size: 9px; padding: 0 6px; letter-spacing: -0.03em; }
-  [data-theme="synthwave-sunset"] .badge { font-size: 9px; padding: 0 6px; }
+  [data-theme="retro-arcade"] .badge { font-size: 10px; padding: 0 6px; }
+  [data-theme="retro-arcade"] .grid-view .card-footer-row-2 .badge { letter-spacing: -0.04em !important; padding: 0 5px !important; }
+  [data-theme="synthwave-sunset"] .badge { font-size: 10px; padding: 0 6px; }
 
   .badge.anim-glint { position: relative !important; overflow: hidden !important; }
   .anim-glint::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%); transform: rotate(45deg); animation: glint 2s infinite; }
@@ -421,10 +423,10 @@ window.CONFIG = {
 
   /* Adaptive Container Query Step-Downs for Compact Columns */
   @container (max-width: 220px) {
-    .grid-view .card-footer .badge { font-size: 9px; padding: 0 4px; height: 22px; }
+    .grid-view .card-footer .badge { font-size: 9.5px; padding: 0 5px; height: 22px; }
   }
   @container (max-width: 185px) {
-    .grid-view .card-footer .badge { font-size: 8px; padding: 0 3px; height: 22px; }
+    .grid-view .card-footer .badge { font-size: 8.5px; padding: 0 4px; height: 22px; }
   }
 
   /* List View (Canonical Single-Row Flex Flow Preserved) */
@@ -442,7 +444,7 @@ window.CONFIG = {
   .list-view .card-footer-row-2 { gap: 8px; }
   .list-view .card-footer-row-2 .trophy-col, .list-view .card-footer-row-2 .status-col { display: inline-flex; align-items: center; }
 
-  /* v0.27 Defect #4: Modal Scroll Chaining Isolation */
+  /* Modal Scroll Chaining Isolation */
   .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg-backdrop); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 15px; overflow-x: hidden; overscroll-behavior: contain; }
   .modal-overlay.active { display: flex; }
   .modal-content { background: var(--bg-surface); width: 100%; max-width: 700px; max-height: 90vh; border-radius: var(--radius); display: flex; flex-direction: column; box-shadow: 0 0 25px var(--accent), var(--shadow); border: 1px solid var(--accent); overflow: hidden; position: relative; overscroll-behavior: contain;}
@@ -520,14 +522,11 @@ window.CONFIG = {
 
   /* Theme Grid Modal */
   .theme-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  
-  /* v0.27 Surgical Diff #7: Universal Theme Button Label Centering */
   .theme-btn { background: var(--bg-input); border: 2px solid var(--border); padding: 12px; border-radius: var(--radius); font-weight: bold; transition: all 0.2s; word-wrap: break-word; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; text-align: center !important; gap: 8px; line-height: 1.3; vertical-align: middle;}
-  
   .theme-btn:hover { border-color: var(--border-hover); background: var(--bg-surface-hover); }
   .theme-btn.active { border-color: var(--accent); color: var(--accent); }
   
-  /* v0.27 Surgical Diff #6: Dynamic Expanding Toasts Center Align */
+  /* Dynamic Expanding Toasts Center Align */
   .toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: var(--bg-surface); border: 1px solid var(--accent); color: var(--text-main); padding: 12px 24px; border-radius: 30px; box-shadow: var(--shadow); font-weight: bold; z-index: 10000; transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); width: max-content; max-width: 90vw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-flex; align-items: center; justify-content: center; text-align: center;}
   .toast.show { top: 20px; }
 
@@ -600,7 +599,7 @@ window.CONFIG = {
     <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.27</span>
+      <span id="ui-app-version">v0.28</span>
     </div>
   </a>
   <div class="header-actions">
@@ -1050,12 +1049,12 @@ window.CONFIG = {
     btnClearCache: document.getElementById('btn-clear-cache')
   };
   
-  // --- v0.27 Defect #1: Sanitized RAWG Key Accessor ---
+  // --- Sanitized RAWG Key Accessor ---
   const getRawgKey = () => {
     return (C.RAWG_API_KEY || "").trim();
   };
 
-  // --- v0.21 DYNAMIC ASSET ENGINE ---
+  // --- Dynamic Asset Engine ---
   function applyDynamicAssets() {
     if(!C.ASSETS) return;
     
@@ -1213,12 +1212,10 @@ window.CONFIG = {
     return splitEmoji(str);
   }
   
-  // v0.27 Defect #4: Scroll Isolation Toggle
   function toggleModalScrollLock(isActive) {
     if (isActive) {
       document.body.classList.add('modal-open');
     } else {
-      // Ensure no other modal is active before unlocking
       const openModals = document.querySelectorAll('.modal-overlay.active');
       if (openModals.length === 0) document.body.classList.remove('modal-open');
     }
@@ -1345,8 +1342,19 @@ window.CONFIG = {
     els.btnAuditRawg.onclick = auditRawgConnection;
     els.btnSync.onclick = forceSync;
     
-    els.btnGrid.onclick = () => { els.viewToggle.classList.remove('list-active'); els.lib.className = 'grid-view'; };
-    els.btnList.onclick = () => { els.viewToggle.classList.add('list-active'); els.lib.className = 'list-view'; };
+    // v0.28 Defect #3: Active state management on slider view toggles
+    els.btnGrid.onclick = () => { 
+      els.viewToggle.classList.remove('list-active'); 
+      els.btnGrid.classList.add('active');
+      els.btnList.classList.remove('active');
+      els.lib.className = 'grid-view'; 
+    };
+    els.btnList.onclick = () => { 
+      els.viewToggle.classList.add('list-active'); 
+      els.btnList.classList.add('active');
+      els.btnGrid.classList.remove('active');
+      els.lib.className = 'list-view'; 
+    };
 
     els.btnRandom.onclick = triggerRandomizer;
     els.btnCloseRandom.onclick = () => {
@@ -1354,7 +1362,6 @@ window.CONFIG = {
       toggleModalScrollLock(false);
     };
 
-    // v0.27 Defect #1: Decoupled Debounce Instantiation
     const handleTitleSearch = debounce(searchRAWG, 300);
     els.f.title.addEventListener('input', (e) => { 
       handleTitleSearch();
@@ -1391,7 +1398,6 @@ window.CONFIG = {
     els.btnCancelDel.onclick = () => els.mDelete.classList.remove('active');
     els.btnConfirmDel.onclick = deleteGame;
     
-    // v0.27 Defect #2: Shielded Refresh Workflow with Sanitized Key Accessor
     els.btnRefreshRawg.onclick = async () => {
       const query = els.f.title.value.trim();
       const apiKey = getRawgKey();
@@ -1435,7 +1441,9 @@ window.CONFIG = {
               if (det.description_raw) setVal(els.f.desc, det.description_raw);
               if (det.developers && det.developers.length) setVal(els.f.dev, det.developers.map(x => x.name).join(', '));
               if (det.publishers && det.publishers.length) setVal(els.f.pub, det.publishers.map(x => x.name).join(', '));
-              if (det.genres && det.genres.length) setVal(els.f.genres, det.genres.map(x => x.name).join(', '));
+              if (det.genres && det.genres.length && !els.f.genres.value) {
+                setVal(els.f.genres, det.genres.map(x=>x.name).join(', '));
+              }
             }
           } catch(err) { console.warn("RAWG detail fetch failed:", err); }
           
@@ -1524,17 +1532,31 @@ window.CONFIG = {
     }, 4000);
   }
 
+  // v0.28 Defect #2: Atomic Force Sync Orchestration
   async function forceSync() {
-    triggerManualSyncDot();
-    if(db && navigator.onLine) {
-      try {
+    setSyncState('🟡');
+    els.btnSync.classList.add('spinning');
+    const startTime = Date.now();
+    const MIN_SPIN = 2500;
+    try {
+      if (db && navigator.onLine) {
         const activeDbColl = settings.dbColl || C.DB_COLLECTION;
         await getDocs(collection(db, activeDbColl), { source: 'server' });
         lastSyncTime = new Date();
         updateTimestamp();
         updateStorageMeter();
-        showToast(C.MESSAGES.SYNC_SUCCESS);
-      } catch(e) {}
+      }
+      setSyncState('🟢');
+      showToast(C.MESSAGES.SYNC_SUCCESS);
+    } catch(e) {
+      console.error("Force sync failed:", e);
+      setSyncState('🔴');
+    } finally {
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(0, MIN_SPIN - elapsed);
+      setTimeout(() => {
+        els.btnSync.classList.remove('spinning');
+      }, remaining);
     }
   }
 
@@ -1581,7 +1603,6 @@ window.CONFIG = {
     else els.modalRawgDot.classList.add('dot-red');
   }
 
-  // v0.27 Defect #1: Sanitized Diagnostic Ping with AbortController
   async function auditRawgConnection() {
     setRawgState('🟡');
     const apiKey = getRawgKey();
@@ -1611,8 +1632,13 @@ window.CONFIG = {
     }
   }
 
+  // v0.28 Defect #1: Encapsulated closure timer
   function debounce(func, delay) {
-    return function() { clearTimeout(debounceTimer); debounceTimer = setTimeout(() => func.apply(this, arguments), delay); }
+    let timer;
+    return function(...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => func.apply(this, args), delay);
+    };
   }
   
   function formatRawgDate(dateString) {

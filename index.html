@@ -25,7 +25,7 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.30",
+  APP_VERSION: "0.31",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 RAWG Check",
@@ -56,7 +56,7 @@ window.CONFIG = {
     EMPTY_RANDOMIZER: "No games found in your library to roll!",
     NUMERIC_NEGATIVE: "⚠️ Playtime and HLTB values cannot be negative!",
     PLATFORM_REQUIRED: "⚠️ Platform is required!",
-    RAWG_OFFLINE: "RAWG API: Connection Error",
+    RAWG_OFFLINE: "⚠️ RAWG API: Connection Error",
     RAWG_ONLINE: "RAWG API: Online & Connected",
     RAWG_REFRESH_ERROR: "⚠️ RAWG: No metadata found or connection failed!",
     RAWG_REFRESH_SUCCESS: "RAWG metadata refreshed! 🔄",
@@ -111,7 +111,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.30</title>
+<title id="html-title">VGnomicon v0.31</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -199,9 +199,10 @@ window.CONFIG = {
   
   /* Retro Arcade Scoped Row 2 Clamp & Gutter Lock */
   [data-theme="retro-arcade"] .grid-view .card-footer-row-2 .badge { font-size: 8.5px !important; padding: 0 4px !important; letter-spacing: -0.04em !important; }
-  /* v0.30 Diff #8: Retro Arcade Winner Celebration Midline Alignment */
   [data-theme="retro-arcade"] .winner-emoji-box { transform: translateY(-4px); }
-  [data-theme="retro-arcade"] .system-tray button { font-size: 11px; }
+  [data-theme="retro-arcade"] .system-tray button { font-size: 12px; }
+  /* v0.31 Diff #8: Retro Arcade List View Rating Proportional Scale */
+  [data-theme="retro-arcade"] .list-view .card-meta { font-size: 8.5px !important; }
 
   /* --- 5. SYNTHWAVE SUNSET --- */
   [data-theme="synthwave-sunset"] {
@@ -247,12 +248,15 @@ window.CONFIG = {
     --shadow: 0 0 16px rgba(51, 255, 51, 0.25); --font-main: 'VT323', 'Fira Code', monospace; --font-heading: 'VT323', monospace;
     --radius: 2px; --scrollbar-thumb: #1c991c; --scrollbar-track: #041206;
   }
-  /* v0.30 Diff #10: Wasteland Terminal CRT Font Size Step-Up */
-  [data-theme="wasteland-terminal"] body { font-size: 16px; }
-  [data-theme="wasteland-terminal"] input, [data-theme="wasteland-terminal"] select, [data-theme="wasteland-terminal"] textarea, [data-theme="wasteland-terminal"] button, [data-theme="wasteland-terminal"] .custom-select-trigger, [data-theme="wasteland-terminal"] .custom-option { font-size: 16px; }
-  [data-theme="wasteland-terminal"] .grid-view .card-title { font-size: 18px; }
-  [data-theme="wasteland-terminal"] .list-view .card-title { font-size: 18px; }
-  [data-theme="wasteland-terminal"] .badge { font-size: 13px; }
+  /* v0.31 Diff #6: Wasteland Terminal CRT Typography Remaster */
+  [data-theme="wasteland-terminal"] body { font-size: 18px; }
+  [data-theme="wasteland-terminal"] input, [data-theme="wasteland-terminal"] select, [data-theme="wasteland-terminal"] textarea, [data-theme="wasteland-terminal"] button, [data-theme="wasteland-terminal"] .custom-select-trigger, [data-theme="wasteland-terminal"] .custom-option { font-size: 18px; }
+  [data-theme="wasteland-terminal"] .grid-view .card-title { font-size: 21px; }
+  [data-theme="wasteland-terminal"] .list-view .card-title { font-size: 21px; }
+  [data-theme="wasteland-terminal"] .rating-val-wrap { font-size: 16px; }
+  [data-theme="wasteland-terminal"] .grid-view .card-meta { font-size: 15px; }
+  [data-theme="wasteland-terminal"] .list-view .card-meta { font-size: 15px; }
+  [data-theme="wasteland-terminal"] .badge { font-size: 14.5px; }
 
   /* --- 9. COZY VILLAGE --- */
   [data-theme="cozy-village"] {
@@ -329,8 +333,8 @@ window.CONFIG = {
   .search-bar { max-width: 300px; min-width: 250px; }
   #btn-add-game { white-space: nowrap; flex-shrink: 0; }
   
-  /* v0.30 Diff #9: System Tray Action Buttons Scale Reduction */
-  .system-tray { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--text-muted); justify-self: flex-end;}
+  /* v0.31 Diff #4 & #5: System Tray Action Buttons Scale Reduction & Gear Prominence */
+  .system-tray { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text-muted); justify-self: flex-end;}
   .sync-status { display: flex; align-items: center; gap: 6px; }
   .status-dot { width: 10px; height: 10px; border-radius: 50%; }
   .dot-green { background: var(--success); }
@@ -338,9 +342,11 @@ window.CONFIG = {
   .dot-red { background: var(--danger); }
   .tray-time-stacked { display: flex; flex-direction: column; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 10px; line-height: 1.2; }
   
-  .system-tray button { background: transparent; border: none; color: var(--text-muted); padding: 4px 8px; font-size: 12px; border-radius: var(--radius); transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; }
+  .system-tray button { background: transparent; border: none; color: var(--text-muted); padding: 4px 8px; font-size: 13px; font-weight: 600; border-radius: var(--radius); transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; }
   .system-tray button:hover { color: var(--accent); background: var(--bg-surface-hover); }
   
+  #btn-open-settings .optical-align > span:first-child { font-size: 16px; margin-right: 2px; }
+
   /* Harmonic 800ms Spin Period for Perfect 360° Landings */
   @keyframes spin { 100% { transform: rotate(360deg); } }
   .spinning { animation: spin 0.8s linear infinite; }
@@ -349,7 +355,7 @@ window.CONFIG = {
   .control-bar .custom-select-wrapper { width: auto; flex: 1; min-width: 130px; }
   .control-bar .custom-select-trigger { padding: 6px 10px; }
   
-  /* v0.30 Diffs #6: View Slider Glyph Midline Calibration */
+  /* v0.31 Diff #7: View Slider Glyph Midline Calibration */
   .view-toggle { display: inline-grid; grid-template-columns: 1fr 1fr; background: var(--bg-input); border-radius: 20px; padding: 2px; position: relative; border: 1px solid var(--border); align-items: center; margin: 0 10px; line-height: 1; overflow: hidden; width: 184px; box-sizing: border-box; }
   .view-slider { position: absolute; top: 2px; bottom: 2px; left: 2px; width: calc(50% - 2px); background: var(--bg-surface); border-radius: 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.3); transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1; border: 1px solid var(--border-hover); pointer-events: none; }
   .view-toggle.list-active .view-slider { transform: translateX(100%); }
@@ -362,9 +368,9 @@ window.CONFIG = {
   
   .view-btn .optical-align { justify-content: center; width: 100%; }
   .view-btn .optical-align > span:first-child { display: inline-flex; align-items: center; justify-content: center; width: 16px; flex-shrink: 0; }
-  #btn-list-view .optical-align > span:first-child { transform: translateY(-4.5px); }
-  #btn-grid-view .optical-align > span:first-child { transform: translateY(1.5px); }
-  [data-theme="retro-arcade"] #btn-list-view .optical-align > span:first-child { transform: translateY(-6px); }
+  #btn-list-view .optical-align > span:first-child { transform: translateY(-5.5px); }
+  #btn-grid-view .optical-align > span:first-child { transform: translateY(0px); }
+  [data-theme="retro-arcade"] #btn-list-view .optical-align > span:first-child { transform: translateY(-7px); }
 
   /* Library Container & Empty State */
   main { padding: 20px; min-height: calc(100vh - 140px); }
@@ -581,6 +587,8 @@ window.CONFIG = {
   
   .winner-banner-wrap { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; text-align: center; }
   .winner-emoji-box { display: inline-flex; align-items: center; justify-content: center; width: 1.5rem; flex-shrink: 0; line-height: 1; }
+  /* v0.31 Diff #9: Right-Side Optical Gap Lock for Winner Banner */
+  .winner-emoji-box:last-child { transform: translateX(-4px); }
   [data-theme="retro-arcade"] .winner-banner-wrap { font-size: 14px; }
 
   /* Prominent, Centered, Config-Expandable Winner Button */
@@ -616,7 +624,7 @@ window.CONFIG = {
     <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.30</span>
+      <span id="ui-app-version">v0.31</span>
     </div>
   </a>
   <div class="header-actions">
@@ -703,7 +711,6 @@ window.CONFIG = {
         <div class="form-group autocomplete-wrapper">
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <label style="margin-bottom:0;">Title * (Sorted Newest-to-Oldest)</label>
-            <!-- v0.30 Feature #3: Split RAWG Slot for Add/Edit Modes -->
             <div id="modal-rawg-slot" style="display:flex; align-items:center; gap:8px;">
               <span id="lbl-rawg-status-text" style="font-size:12px; color:var(--text-muted); font-weight:600; line-height:1; vertical-align:middle;">RAWG Status</span>
               <button type="button" id="btn-refresh-rawg" class="btn-refresh-rawg" style="display:none;" title="Re-fetch latest metadata from RAWG"></button>
@@ -873,7 +880,6 @@ window.CONFIG = {
         </div>
       </div>
 
-      <!-- v0.30 Feature #4: Restructured API Block -->
       <div class="settings-block">
         <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">External APIs</h3>
         <div style="display:flex; justify-content: space-between; align-items:center;">
@@ -1369,7 +1375,7 @@ window.CONFIG = {
         showToast(splitEmoji(C.MESSAGES.CACHE_AUDITED));
     };
     
-    // v0.30 Diff #5: Settings RAWG Check Harmonic Spin & Toast
+    // v0.31 Diff #3: Settings RAWG Check Harmonic Spin Phase-Lock
     els.btnAuditRawg.onclick = async () => {
       els.btnAuditRawg.classList.add('spinning');
       const spinStart = Date.now();
@@ -1420,7 +1426,6 @@ window.CONFIG = {
     els.f.dateAdd.addEventListener('change', (e) => updateDateClass(e.target));
     els.f.dateComp.addEventListener('change', (e) => updateDateClass(e.target));
 
-    // v0.30 Diff #7: Notes Reaction Chip Whitespace Padding
     const reactionContainer = document.getElementById('reaction-chips');
     if (reactionContainer) {
       reactionContainer.querySelectorAll('.chip').forEach(chip => {
@@ -1568,15 +1573,6 @@ window.CONFIG = {
     else if(txt.includes('🟡')) els.traySyncDot.classList.add('dot-yellow');
     else els.traySyncDot.classList.add('dot-red');
   }
-  
-  function triggerManualSyncDot() {
-    setSyncState('🟡');
-    els.btnSync.classList.add('spinning');
-    setTimeout(() => {
-        els.btnSync.classList.remove('spinning');
-        if(navigator.onLine) setSyncState('🟢');
-    }, 3200);
-  }
 
   async function forceSync() {
     setSyncState('🟡');
@@ -1621,17 +1617,27 @@ window.CONFIG = {
   async function pushDocToCloud(id, data) {
     if(!db) return;
     try { 
+        setSyncState('🟡');
         const activeDbColl = settings.dbColl || C.DB_COLLECTION;
         await setDoc(doc(db, activeDbColl, id), data); 
-    } catch(e) { console.warn("Queued locally", e); }
+        setSyncState('🟢');
+    } catch(e) { 
+        console.warn("Queued locally", e);
+        setSyncState('🔴');
+    }
   }
   
   async function removeDocFromCloud(id) {
     if(!db) return;
     try { 
+        setSyncState('🟡');
         const activeDbColl = settings.dbColl || C.DB_COLLECTION;
         await deleteDoc(doc(db, activeDbColl, id)); 
-    } catch(e) { console.warn("Queued locally", e); }
+        setSyncState('🟢');
+    } catch(e) { 
+        console.warn("Queued locally", e);
+        setSyncState('🔴');
+    }
   }
 
   function saveLocalAndRender() {
@@ -1651,12 +1657,14 @@ window.CONFIG = {
     });
   }
 
+  // v0.31 Feature #1: Explicit Offline Failure Toast Notifications
   async function auditRawgConnection(silent = false) {
     setRawgState('🟡');
     const apiKey = getRawgKey();
     
     if (!apiKey || apiKey === "YOUR_RAWG_API_KEY_HERE") {
         setRawgState('🔴');
+        if(!silent) showToast(C.MESSAGES.RAWG_OFFLINE);
         return;
     }
     
@@ -1673,10 +1681,12 @@ window.CONFIG = {
       } else {
         console.warn(`RAWG Audit failed with status: ${res.status} ${res.statusText}`);
         setRawgState('🔴');
+        if(!silent) showToast(C.MESSAGES.RAWG_OFFLINE);
       }
     } catch(e) {
       console.warn(`RAWG Audit connection error or timeout:`, e);
       setRawgState('🔴');
+      if(!silent) showToast(C.MESSAGES.RAWG_OFFLINE);
     }
   }
 
@@ -1715,7 +1725,6 @@ window.CONFIG = {
     } catch(e) { console.error("RAWG autocomplete fetch failed:", e); }
   }
 
-  // v0.30 Defect #2: requestAnimationFrame Post-Paint Scroll Reset
   function renderAutocomplete(results) {
     els.f.rawgRes.innerHTML = '';
     if(results.length === 0) { els.f.rawgRes.style.display = 'none'; return; }
@@ -1743,7 +1752,6 @@ window.CONFIG = {
     });
   }
 
-  // v0.30 Defect #1: Deep Hydration Pipeline (Clean g.metacritic variable reference)
   async function populateFromRAWG(g) {
     if (!g) return;
     els.f.rawgRes.style.display = 'none';
@@ -1851,7 +1859,6 @@ window.CONFIG = {
     }
   }
 
-  // v0.30 Feature #3: Dynamic Split Layout for Add vs. Edit RAWG Header Slot
   function openGameModal(id = null) {
     els.form.reset();
     els.f.coverImg.style.display = 'none';
@@ -1872,7 +1879,6 @@ window.CONFIG = {
       els.mGameTitle.innerText = "Edit Game";
       els.btnDelPrompt.style.display = "block";
       
-      // Edit Mode Layout: [🔄 Refresh RAWG] [●]
       els.lblRawgStatusText.style.display = "none";
       els.btnRefreshRawg.style.display = "inline-flex";
       
@@ -1913,7 +1919,6 @@ window.CONFIG = {
       els.mGameTitle.innerText = "Add Game";
       els.btnDelPrompt.style.display = "none";
       
-      // Add Mode Layout: RAWG Status [●]
       els.lblRawgStatusText.style.display = "inline";
       els.btnRefreshRawg.style.display = "none";
       

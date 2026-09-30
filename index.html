@@ -8,6 +8,7 @@
 window.CONFIG = {
   // 1. API Credentials & Cloud Paths
   RAWG_API_KEY: "db9f18921e714a36bb784e65b5fd424b",
+  STEAMGRIDDB_API_KEY: "f6c9781c9cc590c4907e0348df3a992a",
   DB_COLLECTION: "nomicon",
   FIREBASE: {
     apiKey: "AIzaSyCk9HvlsACbj-XsH8hAS0rqXSXPYbBN7vk",
@@ -25,7 +26,7 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.31",
+  APP_VERSION: "0.32",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 RAWG Check",
@@ -61,7 +62,7 @@ window.CONFIG = {
     RAWG_REFRESH_ERROR: "⚠️ RAWG: No metadata found or connection failed!",
     RAWG_REFRESH_SUCCESS: "RAWG metadata refreshed! 🔄",
     SAVED_TOAST: "SAVED - {title}",
-    SYNC_SUCCESS: "Library Synced like CRAZY! 🚀",
+    SYNC_SUCCESS: "Library Synced like PANTS! 🚀",
     TITLE_REQUIRED: "⚠️ Title is required!"
   },
 
@@ -111,7 +112,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.31</title>
+<title id="html-title">VGnomicon v0.32</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -200,7 +201,7 @@ window.CONFIG = {
   /* Retro Arcade Scoped Row 2 Clamp & Gutter Lock */
   [data-theme="retro-arcade"] .grid-view .card-footer-row-2 .badge { font-size: 8.5px !important; padding: 0 4px !important; letter-spacing: -0.04em !important; }
   [data-theme="retro-arcade"] .winner-emoji-box { transform: translateY(-4px); }
-  [data-theme="retro-arcade"] .system-tray button { font-size: 12px; }
+  [data-theme="retro-arcade"] .system-tray button { font-size: 14px; }
   /* v0.31 Diff #8: Retro Arcade List View Rating Proportional Scale */
   [data-theme="retro-arcade"] .list-view .card-meta { font-size: 8.5px !important; }
 
@@ -333,19 +334,20 @@ window.CONFIG = {
   .search-bar { max-width: 300px; min-width: 250px; }
   #btn-add-game { white-space: nowrap; flex-shrink: 0; }
   
-  /* v0.31 Diff #4 & #5: System Tray Action Buttons Scale Reduction & Gear Prominence */
-  .system-tray { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text-muted); justify-self: flex-end;}
+  /* v0.32 Diffs #1 & #2: System Tray Typography Prominence & Gear Spacing */
+  .system-tray { display: flex; align-items: center; gap: 10px; color: var(--text-muted); justify-self: flex-end;}
   .sync-status { display: flex; align-items: center; gap: 6px; }
   .status-dot { width: 10px; height: 10px; border-radius: 50%; }
   .dot-green { background: var(--success); }
   .dot-yellow { background: var(--warning); box-shadow: 0 0 8px var(--warning); }
   .dot-red { background: var(--danger); }
-  .tray-time-stacked { display: flex; flex-direction: column; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 10px; line-height: 1.2; }
+  .tray-time-stacked { display: flex; flex-direction: column; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 1.2; }
   
-  .system-tray button { background: transparent; border: none; color: var(--text-muted); padding: 4px 8px; font-size: 13px; font-weight: 600; border-radius: var(--radius); transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; }
+  .system-tray button { background: transparent; border: none; color: var(--text-muted); padding: 6px 12px; font-size: 14px; font-weight: 600; border-radius: var(--radius); transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; }
   .system-tray button:hover { color: var(--accent); background: var(--bg-surface-hover); }
   
-  #btn-open-settings .optical-align > span:first-child { font-size: 16px; margin-right: 2px; }
+  #btn-open-settings .optical-align { gap: 3px !important; }
+  #btn-open-settings .optical-align > span:first-child { margin-right: -2px; }
 
   /* Harmonic 800ms Spin Period for Perfect 360° Landings */
   @keyframes spin { 100% { transform: rotate(360deg); } }
@@ -379,11 +381,11 @@ window.CONFIG = {
   .empty-state { text-align: center; padding: 60px 20px; font-size: 24px; color: var(--text-muted); font-family: var(--font-heading); animation: float 3s ease-in-out infinite; }
   .empty-state-emoji { display: inline-block; animation: bounce-emoji 2s infinite ease-in-out; }
   
-  /* Card Footprint minmax(215px, 1fr) */
+  /* Card Footprint minmax(215px, 1fr) - Portrait 2:3 Aspect Ratio */
   .grid-view { display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 20px; }
   .game-card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; display: flex; flex-direction: column; position: relative;}
   .game-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--border-hover); }
-  .card-cover { width: 100%; aspect-ratio: 3/4; object-fit: cover; background: var(--bg-placeholder); }
+  .card-cover { width: 100%; aspect-ratio: 2/3; object-fit: cover; background: var(--bg-placeholder); }
   .card-details { padding: 12px; display: flex; flex-direction: column; gap: 6px; flex: 1;}
   
   .card-details-text-container { container-type: inline-size; width: 100%; }
@@ -449,10 +451,10 @@ window.CONFIG = {
     .grid-view .card-footer .badge { font-size: 8.5px; padding: 0 4px; height: 22px; }
   }
 
-  /* List View */
+  /* List View - Landscape 16:9 Aspect Ratio */
   .list-view { display: flex; flex-direction: column; gap: 10px; }
   .list-view .game-card { flex-direction: row; height: 60px; align-items: center; padding-right: 15px;}
-  .list-view .card-cover { width: 45px; height: 60px; border-right: 1px solid var(--border); margin-right: 15px; aspect-ratio: auto; }
+  .list-view .card-cover { width: calc(60px * 16 / 9); height: 60px; border-right: 1px solid var(--border); margin-right: 15px; aspect-ratio: 16/9; object-fit: cover; }
   
   .list-view .card-details { flex-direction: row; align-items: center; justify-content: space-between; padding: 0; width: 100%; gap: 15px; }
   .list-view .card-details-text-container { flex: 1; min-width: 0; }
@@ -486,9 +488,9 @@ window.CONFIG = {
   .settings-block input:focus, .settings-block select:focus { border-color: var(--border-focus); }
   .settings-coll-row { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; line-height: 1.4; font-size: 12px; color: var(--text-muted); }
 
-  /* Fixed Pixel-Locked Height Equalization (187px) */
+  /* Fixed Pixel-Locked Height Equalization (187px) - Portrait 2:3 Cover Box */
   .modal-top-section { height: 187px; display: flex; gap: 16px; margin-bottom: 16px; margin-top: 16px; align-items: stretch; }
-  .modal-cover-wrapper { width: 140px; height: 187px; flex-shrink: 0; background: var(--bg-placeholder); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--text-disabled); font-size: 12px; position: relative; }
+  .modal-cover-wrapper { width: calc(187px * 2 / 3); height: 187px; flex-shrink: 0; background: var(--bg-placeholder); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--text-disabled); font-size: 12px; position: relative; }
   .modal-cover-wrapper img { width: 100%; height: 100%; object-fit: cover; display: none; position: absolute; top:0; left:0; }
   
   .modal-desc-wrapper { height: 187px; display: flex; flex-direction: column; gap: 5px; flex: 1 1 0; min-height: 0; }
@@ -624,7 +626,7 @@ window.CONFIG = {
     <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.31</span>
+      <span id="ui-app-version">v0.32</span>
     </div>
   </a>
   <div class="header-actions">
@@ -707,6 +709,7 @@ window.CONFIG = {
       <form id="game-form">
         <input type="hidden" id="f-id">
         <input type="hidden" id="f-cover-url">
+        <input type="hidden" id="f-banner-url">
         
         <div class="form-group autocomplete-wrapper">
           <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -822,32 +825,32 @@ window.CONFIG = {
                 <input type="number" id="f-ach-earned" min="0">
                 <span>Earned</span>
               </div>
-              <div class="achievement-divider">/</div>
-              <div class="achievement-group">
-                <input type="number" id="f-ach-total" min="0">
-                <span>Total</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group full" style="border-top:1px dashed var(--border); padding-top:16px; margin-top:0px;">
-            <label>Notes / Personal Review</label>
-            <div class="reaction-chips" id="reaction-chips">
-              <!-- JS Populated -->
-            </div>
-            <textarea id="f-notes" rows="4" maxlength="2000" placeholder="Emojis and thoughts here..."></textarea>
+          <div class="achievement-divider">/</div>
+          <div class="achievement-group">
+            <input type="number" id="f-ach-total" min="0">
+            <span>Total</span>
           </div>
         </div>
-      </form>
-    </div>
-    <div class="modal-footer">
-      <button class="danger" id="btn-delete-prompt" style="display:none;"></button>
-      <div style="margin-left:auto; display:flex; gap:10px;">
-        <button id="btn-cancel-game">Cancel</button>
-        <button class="primary" id="btn-save-game" form="game-form"></button>
+      </div>
+
+      <div class="form-group full" style="border-top:1px dashed var(--border); padding-top:16px; margin-top:0px;">
+        <label>Notes / Personal Review</label>
+        <div class="reaction-chips" id="reaction-chips">
+          <!-- JS Populated -->
+        </div>
+        <textarea id="f-notes" rows="4" maxlength="2000" placeholder="Emojis and thoughts here..."></textarea>
       </div>
     </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="danger" id="btn-delete-prompt" style="display:none;"></button>
+  <div style="margin-left:auto; display:flex; gap:10px;">
+    <button id="btn-cancel-game">Cancel</button>
+    <button class="primary" id="btn-save-game" form="game-form"></button>
   </div>
+</div>
+</div>
 </div>
 
 <!-- Theme Selector Modal -->
@@ -1066,6 +1069,7 @@ window.CONFIG = {
       status: document.getElementById('f-status'), 
       ratingContainer: document.getElementById('f-rating-interactive'),
       rawgScore: document.getElementById('f-rawg-score'), url: document.getElementById('f-cover-url'),
+      bannerUrl: document.getElementById('f-banner-url'),
       dateAdd: document.getElementById('f-date-added'), dateComp: document.getElementById('f-date-completed'),
       playtime: document.getElementById('f-playtime'), hltbM: document.getElementById('f-hltb-main'),
       hltbE: document.getElementById('f-hltb-extras'), hltbC: document.getElementById('f-hltb-comp'),
@@ -1083,10 +1087,9 @@ window.CONFIG = {
     btnClearCache: document.getElementById('btn-clear-cache')
   };
   
-  // --- Sanitized RAWG Key Accessor ---
-  const getRawgKey = () => {
-    return (C.RAWG_API_KEY || "").trim();
-  };
+  // --- Sanitized API Key Accessors ---
+  const getRawgKey = () => (C.RAWG_API_KEY || "").trim();
+  const getSteamGridKey = () => (C.STEAMGRIDDB_API_KEY || "").trim();
 
   // --- Dynamic Asset Engine ---
   function applyDynamicAssets() {
@@ -1375,7 +1378,6 @@ window.CONFIG = {
         showToast(splitEmoji(C.MESSAGES.CACHE_AUDITED));
     };
     
-    // v0.31 Diff #3: Settings RAWG Check Harmonic Spin Phase-Lock
     els.btnAuditRawg.onclick = async () => {
       els.btnAuditRawg.classList.add('spinning');
       const spinStart = Date.now();
@@ -1448,7 +1450,6 @@ window.CONFIG = {
     els.btnCancelDel.onclick = () => els.mDelete.classList.remove('active');
     els.btnConfirmDel.onclick = deleteGame;
     
-    // Harmonic 3200ms RAWG Refresh Spin Alignment
     els.btnRefreshRawg.onclick = async () => {
       const query = els.f.title.value.trim();
       const apiKey = getRawgKey();
@@ -1469,10 +1470,19 @@ window.CONFIG = {
         const data = await res.json();
         if (data.results && data.results.length > 0) {
           const match = data.results[0];
+          const banner = match.background_image || "";
+          let portrait = banner;
           
-          setVal(els.f.url, match.background_image || els.f.url.value);
-          if (match.background_image) {
-            els.f.coverImg.src = match.background_image;
+          const sgKey = getSteamGridKey();
+          if (sgKey && sgKey !== "YOUR_STEAMGRIDDB_API_KEY_HERE") {
+             const sgCover = await fetchSteamGridCover(match.name, sgKey);
+             if (sgCover) portrait = sgCover;
+          }
+          
+          setVal(els.f.url, portrait);
+          setVal(els.f.bannerUrl, banner);
+          if (portrait) {
+            els.f.coverImg.src = portrait;
             els.f.coverImg.style.display = 'block';
             els.f.coverText.style.display = 'none';
           }
@@ -1574,11 +1584,11 @@ window.CONFIG = {
     else els.traySyncDot.classList.add('dot-red');
   }
 
+  // v0.32 Quantized 800ms Spin Harmonization for Long Syncs
   async function forceSync() {
     setSyncState('🟡');
     els.btnSync.classList.add('spinning');
     const startTime = Date.now();
-    const HARMONIC_SPIN = 3200;
     try {
       if (db && navigator.onLine) {
         const activeDbColl = settings.dbColl || C.DB_COLLECTION;
@@ -1594,7 +1604,8 @@ window.CONFIG = {
       setSyncState('🔴');
     } finally {
       const elapsed = Date.now() - startTime;
-      const remaining = Math.max(0, HARMONIC_SPIN - elapsed);
+      const quantizedSpin = Math.max(3200, Math.ceil(elapsed / 800) * 800);
+      const remaining = Math.max(0, quantizedSpin - elapsed);
       setTimeout(() => {
         els.btnSync.classList.remove('spinning');
       }, remaining);
@@ -1646,7 +1657,7 @@ window.CONFIG = {
     renderLibrary();
   }
 
-  // --- 5. RAWG API ---
+  // --- 5. RAWG & STEAMGRIDDB API ---
   function setRawgState(state) {
     const dots = [els.modalRawgDot, els.modalGameRawgDot].filter(Boolean);
     dots.forEach(dot => {
@@ -1657,7 +1668,6 @@ window.CONFIG = {
     });
   }
 
-  // v0.31 Feature #1: Explicit Offline Failure Toast Notifications
   async function auditRawgConnection(silent = false) {
     setRawgState('🟡');
     const apiKey = getRawgKey();
@@ -1688,6 +1698,29 @@ window.CONFIG = {
       setRawgState('🔴');
       if(!silent) showToast(C.MESSAGES.RAWG_OFFLINE);
     }
+  }
+
+  async function fetchSteamGridCover(gameName, apiKey) {
+    if (!apiKey || apiKey === "YOUR_STEAMGRIDDB_API_KEY_HERE") return null;
+    try {
+      const searchRes = await fetch(`https://www.steamgriddb.com/api/v2/search/autocomplete/${encodeURIComponent(gameName)}`, {
+        headers: { Authorization: `Bearer ${apiKey}` }
+      });
+      const searchData = await searchRes.json();
+      if (!searchData.success || !searchData.data || searchData.data.length === 0) return null;
+      
+      const gameId = searchData.data[0].id;
+      const gridRes = await fetch(`https://www.steamgriddb.com/api/v2/grids/game/${gameId}?dimensions=600x900`, {
+        headers: { Authorization: `Bearer ${apiKey}` }
+      });
+      const gridData = await gridRes.json();
+      if (gridData.success && gridData.data && gridData.data.length > 0) {
+        return gridData.data[0].url;
+      }
+    } catch(e) {
+      console.warn("SteamGridDB fetch failed:", e);
+    }
+    return null;
   }
 
   function debounce(func, delay) {
@@ -1759,9 +1792,19 @@ window.CONFIG = {
     updateHLTBLink(g.name || "");
     promoteStatusAndDate();
     
-    setVal(els.f.url, g.background_image || "");
-    if(g.background_image) {
-      els.f.coverImg.src = g.background_image;
+    const banner = g.background_image || "";
+    let portrait = banner;
+    
+    const sgKey = getSteamGridKey();
+    if (sgKey && sgKey !== "YOUR_STEAMGRIDDB_API_KEY_HERE") {
+      const sgCover = await fetchSteamGridCover(g.name, sgKey);
+      if (sgCover) portrait = sgCover;
+    }
+    
+    setVal(els.f.url, portrait);
+    setVal(els.f.bannerUrl, banner);
+    if(portrait) {
+      els.f.coverImg.src = portrait;
       els.f.coverImg.style.display = 'block';
       els.f.coverText.style.display = 'none';
     }
@@ -1894,12 +1937,14 @@ window.CONFIG = {
       els.f.price.value = g.price || "";
       els.f.status.value = g.status || "Backlog";
       els.f.url.value = g.url || "";
+      els.f.bannerUrl.value = g.bannerUrl || "";
       els.f.rawgScore.value = g.rawgScore || "";
       
       setStars(parseFloat(g.rating || 0));
       
-      if(g.url) {
-        els.f.coverImg.src = g.url;
+      const displayCover = g.url || g.bannerUrl;
+      if(displayCover) {
+        els.f.coverImg.src = displayCover;
         els.f.coverImg.style.display = 'block';
         els.f.coverText.style.display = 'none';
       }
@@ -2013,7 +2058,7 @@ window.CONFIG = {
       id: id,
       title: els.f.title.value, desc: els.f.desc.value, dev: els.f.dev.value, pub: els.f.pub.value,
       genres: els.f.genres.value, plat: els.f.plat.value, format: els.f.format.value, price: els.f.price.value,
-      status: els.f.status.value, rating: currentRating, url: els.f.url.value, rawgScore: els.f.rawgScore.value,
+      status: els.f.status.value, rating: currentRating, url: els.f.url.value, bannerUrl: els.f.bannerUrl.value, rawgScore: els.f.rawgScore.value,
       dateAdd: els.f.dateAdd.value, dateComp: els.f.dateComp.value, playtime: els.f.playtime.value,
       hltbM: els.f.hltbM.value, hltbE: els.f.hltbE.value, hltbC: els.f.hltbC.value,
       notes: els.f.notes.value, achE: els.f.achE.value, achT: els.f.achT.value
@@ -2025,7 +2070,6 @@ window.CONFIG = {
     
     lastSyncTime = new Date();
     updateTimestamp();
-    triggerManualSyncDot();
     
     els.mGame.classList.remove('active');
     toggleModalScrollLock(false);
@@ -2038,8 +2082,6 @@ window.CONFIG = {
     delete games[id];
     removeDocFromCloud(id);
     saveLocalAndRender();
-    
-    triggerManualSyncDot();
     
     els.mDelete.classList.remove('active');
     els.mGame.classList.remove('active');
@@ -2057,6 +2099,7 @@ window.CONFIG = {
     let count = 0;
     const isRetro = document.body.getAttribute('data-theme') === 'retro-arcade';
     const isCyberpunk = document.body.getAttribute('data-theme') === 'cyberpunk';
+    const isList = els.lib.classList.contains('list-view');
     
     const gamesList = Object.values(games).sort((a, b) => a.title.localeCompare(b.title));
 
@@ -2110,9 +2153,10 @@ window.CONFIG = {
       }
 
       const titleClass = g.title.length > 25 ? "card-title title-long" : "card-title";
+      const coverSrc = isList ? (g.bannerUrl || g.url || '') : (g.url || g.bannerUrl || '');
 
       card.innerHTML = `
-        <img src="${g.url || ''}" class="card-cover" loading="lazy">
+        <img src="${coverSrc}" class="card-cover" loading="lazy">
         <div class="card-details">
           <div class="card-details-text-container">
             <div class="${titleClass}">${g.title}</div>
@@ -2344,10 +2388,11 @@ window.CONFIG = {
          else if (p === "NES" || p === "Nintendo 64" || p === "SNES" || p.includes("Switch")) { platColor = "#E60012"; }
 
          const titleClass = pick.title.length > 25 ? "card-title title-long" : "card-title";
+         const pickCover = pick.url || pick.bannerUrl || '';
 
          els.randomRes.innerHTML = `
             <div class="game-card" style="margin:0 auto; transform:scale(1.05); pointer-events:none; border:1px solid var(--accent); box-shadow: 0 0 20px var(--accent), 0 0 40px rgba(0,0,0,0.5);">
-              <img src="${pick.url || ''}" class="card-cover">
+              <img src="${pickCover}" class="card-cover">
               <div class="card-details" style="padding:15px; align-items:center; container-type: inline-size; width: 100%;">
                 <div class="${titleClass}" style="display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; text-overflow:ellipsis; line-height:1.3; text-align:center; word-break:break-word; font-size: 20px; font-weight: bold;">${pick.title}</div>
                 <div class="badge" style="margin-top:12px; background:${platColor}; color:${platText}; border:1px solid ${platBorder}; box-shadow: 0 2px 6px rgba(0,0,0,0.5); height:26px; padding: 0 12px; font-size:12px; border-radius:4px;">${pick.plat || ''}</div>

@@ -7,15 +7,15 @@
    ========================================================================== */
 window.CONFIG = {
   // 1. API Credentials & Cloud Paths
-  RAWG_API_KEY: "db9f18921e714a36bb784e65b5fd424b",
+  RAWG_API_KEY: "YOUR_RAWG_API_KEY_HERE",
   DB_COLLECTION: "nomicon",
   FIREBASE: {
-    apiKey: "AIzaSyCk9HvlsACbj-XsH8hAS0rqXSXPYbBN7vk",
-    authDomain: "video-game-cryptonomicon.firebaseapp.com",
-    projectId: "video-game-cryptonomicon",
-    storageBucket: "video-game-cryptonomicon.firebasestorage.app",
-    messagingSenderId: "63649233927",
-    appId: "1:63649233927:web:c2717ba5797c3cf4243ea2"
+    apiKey: "YOUR_FIREBASE_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
   },
 
   // 2. App Defaults
@@ -25,7 +25,7 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.26",
+  APP_VERSION: "0.27",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 Check RAWG",
@@ -57,6 +57,7 @@ window.CONFIG = {
     PLATFORM_REQUIRED: "⚠️ Platform is required!",
     RAWG_OFFLINE: "RAWG API: Connection Error",
     RAWG_ONLINE: "RAWG API: Online & Connected",
+    RAWG_REFRESH_ERROR: "⚠️ RAWG: No metadata found or connection failed!",
     RAWG_REFRESH_SUCCESS: "RAWG metadata refreshed! 🔄",
     SAVED_TOAST: "SAVED - {title}",
     SYNC_SUCCESS: "Library Synced! 🚀",
@@ -109,7 +110,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.26</title>
+<title id="html-title">VGnomicon v0.27</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -162,7 +163,10 @@ window.CONFIG = {
   [data-theme="retro-arcade"] .grid-view .card-title { font-size: 10px; }
   [data-theme="retro-arcade"] .grid-view .card-meta { font-size: 9px; }
   [data-theme="retro-arcade"] .game-card:not(.completed-glow) .status-col .badge { background: #101025 !important; border: 1px solid #ffcc00 !important; color: #ffcc00 !important; }
-  [data-theme="retro-arcade"] input, [data-theme="retro-arcade"] select, [data-theme="retro-arcade"] textarea, [data-theme="retro-arcade"] button, [data-theme="retro-arcade"] .custom-select-trigger, [data-theme="retro-arcade"] .custom-option { font-size: 11px; text-align: left; }
+  
+  /* v0.27 Surgical Diff #7: Removed "button" from the left-align override to allow .theme-btn centering globally */
+  [data-theme="retro-arcade"] input, [data-theme="retro-arcade"] select, [data-theme="retro-arcade"] textarea, [data-theme="retro-arcade"] .custom-select-trigger, [data-theme="retro-arcade"] .custom-option { font-size: 11px; text-align: left; }
+  
   [data-theme="retro-arcade"] .custom-option { padding: 12px; }
   [data-theme="retro-arcade"] h2 { font-size: 16px; text-align: center; }
   [data-theme="retro-arcade"] .settings-coll-row { display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; text-align: center; width: 100%; }
@@ -256,6 +260,10 @@ window.CONFIG = {
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body, html { width: 100%; overflow-x: hidden; }
   body { background-color: var(--bg-base); color: var(--text-main); font-family: var(--font-main); -webkit-font-smoothing: antialiased; }
+  
+  /* v0.27 Defect #4 Modal Open Scroll Isolation */
+  body.modal-open { overflow: hidden; }
+  
   h1, h2, h3, h4, h5 { font-family: var(--font-heading); }
   
   /* Inputs & Forms (v0.21 Global-First Optical Centering) */
@@ -327,18 +335,20 @@ window.CONFIG = {
   .control-bar .custom-select-wrapper { width: auto; flex: 1; min-width: 130px; }
   .control-bar .custom-select-trigger { padding: 6px 10px; }
   
-  /* v0.26 Surgical Diff #7 & #8: View Slider 50/50 Grid Symmetry, Overflow Clip & Flush Hover */
-  .view-toggle { display: inline-grid; grid-template-columns: 1fr 1fr; background: var(--bg-input); border-radius: 20px; padding: 2px; position: relative; border: 1px solid var(--border); align-items: center; margin: 0 10px; line-height: 1; overflow: hidden; width: 170px; box-sizing: border-box; }
+  /* v0.27 Surgical Diff #3 & #8: Realistic Hover & Width Expansion */
+  .view-toggle { display: inline-grid; grid-template-columns: 1fr 1fr; background: var(--bg-input); border-radius: 20px; padding: 2px; position: relative; border: 1px solid var(--border); align-items: center; margin: 0 10px; line-height: 1; overflow: hidden; width: 184px; box-sizing: border-box; }
   .view-slider { position: absolute; top: 2px; bottom: 2px; left: 2px; width: calc(50% - 2px); background: var(--bg-surface); border-radius: 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.3); transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.25, 1); z-index: 1; border: 1px solid var(--border-hover); pointer-events: none; }
   .view-toggle.list-active .view-slider { transform: translateX(100%); }
-  .view-btn { position: relative; z-index: 2; background: transparent; border: none; border-radius: 18px; padding: 4px 10px; font-size: 13px; color: var(--text-muted); font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; width: 100%; box-sizing: border-box; transition: background 0.15s, color 0.15s; }
-  .view-btn:hover { background: var(--bg-surface-hover); border-radius: 18px; }
+  
+  .view-btn { position: relative; z-index: 2; background: transparent; border: none; border-radius: 18px; padding: 4px 8px; font-size: 13px; color: var(--text-muted); font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; width: 100%; box-sizing: border-box; transition: background 0.15s, color 0.15s; white-space: nowrap !important; }
+  .view-btn:not(.active):hover { background: rgba(255, 255, 255, 0.08); border-radius: 18px; }
   .view-toggle:not(.list-active) #btn-grid-view { color: var(--text-main); }
   .view-toggle.list-active #btn-list-view { color: var(--text-main); }
   
-  /* v0.26 Surgical Diff #6: Optical Centering for View Slider Icons */
-  #btn-list-view .optical-align span:first-child { transform: translateY(-0.5px); }
-  #btn-grid-view .optical-align span:first-child { transform: translateY(-0.5px); }
+  /* v0.27 Surgical Diff #9: Equalized Icon Fixed Width Centering */
+  .view-btn .optical-align > span:first-child { display: inline-flex; align-items: center; justify-content: center; width: 16px; flex-shrink: 0; }
+  #btn-list-view .optical-align > span:first-child { transform: translateY(-0.5px); }
+  #btn-grid-view .optical-align > span:first-child { transform: translateY(-0.5px); }
 
   /* Library Container & Empty State */
   main { padding: 20px; min-height: calc(100vh - 140px); }
@@ -390,39 +400,31 @@ window.CONFIG = {
   /* v0.24 Hardened Universal Star and Score Alignment Wrap */
   .rating-val-wrap { display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; gap: 4px; font-weight: bold;}
   
-  /* v0.25 2-Row Deterministic Card Footer Layout (Scoped strictly to Grid View) */
+  /* 2-Row Deterministic Card Footer Layout (Scoped strictly to Grid View) */
   .grid-view .card-footer { display: flex; flex-direction: column; gap: 6px; width: 100%; margin-top: auto; }
   .grid-view .card-footer-row-1 { display: flex; justify-content: flex-start; align-items: center; width: 100%; }
   .grid-view .card-footer-row-2 { display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 100%; gap: 4px; }
   .grid-view .card-footer-row-2 .trophy-col { display: flex; justify-content: flex-start; align-items: center; min-width: 0; }
   .grid-view .card-footer-row-2 .status-col { display: flex; justify-content: flex-end; align-items: center; min-width: 0; }
   
-  /* v0.26 Surgical Diff #3: Retro Arcade & Synthwave Sunset Card Row 2 Step-Down Standard */
-  [data-theme="retro-arcade"] .grid-view .card-footer-row-2,
-  [data-theme="synthwave-sunset"] .grid-view .card-footer-row-2 {
-    gap: 3px;
-  }
-  [data-theme="retro-arcade"] .grid-view .card-footer-row-2 .badge,
-  [data-theme="synthwave-sunset"] .grid-view .card-footer-row-2 .badge {
-    font-size: 8px !important;
-    padding: 0 4px !important;
-    letter-spacing: -0.03em !important;
-  }
+  /* v0.27 Surgical Diff #5: Universal Pill Height & Scaled Typography */
+  .badge { height: 22px; display: inline-flex; align-items: center; justify-content: center; padding: 0 6px; border-radius: 4px; font-size: 10px; font-family: var(--font-heading); font-weight: bold; white-space: nowrap; box-sizing: border-box; line-height: 22px; text-align: center; vertical-align: middle; }
+  
+  [data-theme="retro-arcade"] .badge { font-size: 9px; padding: 0 6px; letter-spacing: -0.03em; }
+  [data-theme="synthwave-sunset"] .badge { font-size: 9px; padding: 0 6px; }
 
-  /* v0.25 Zero-Ellipsis Baseline with Restored Glint Containment */
-  .badge { height: 22px; display: inline-flex; align-items: center; justify-content: center; padding: 0 8px; border-radius: 4px; font-size: 11px; font-family: var(--font-heading); font-weight: bold; white-space: nowrap; box-sizing: border-box; line-height: 1; text-align: center; vertical-align: middle; }
   .badge.anim-glint { position: relative !important; overflow: hidden !important; }
   .anim-glint::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%); transform: rotate(45deg); animation: glint 2s infinite; }
   @keyframes glint { 0% { left: -100%; } 100% { left: 100%; } }
 
   .game-card.completed-glow { border-color: var(--accent-completion, var(--accent)); box-shadow: 0 0 25px var(--accent-completion, var(--accent)), 0 0 45px rgba(0, 0, 0, 0.5); }
 
-  /* v0.24 Adaptive Container Query Step-Downs for Compact Columns */
+  /* Adaptive Container Query Step-Downs for Compact Columns */
   @container (max-width: 220px) {
-    .grid-view .card-footer .badge { font-size: 9.5px; padding: 0 5px; height: 20px; }
+    .grid-view .card-footer .badge { font-size: 9px; padding: 0 4px; height: 22px; }
   }
   @container (max-width: 185px) {
-    .grid-view .card-footer .badge { font-size: 8.5px; padding: 0 4px; height: 19px; }
+    .grid-view .card-footer .badge { font-size: 8px; padding: 0 3px; height: 22px; }
   }
 
   /* List View (Canonical Single-Row Flex Flow Preserved) */
@@ -440,10 +442,10 @@ window.CONFIG = {
   .list-view .card-footer-row-2 { gap: 8px; }
   .list-view .card-footer-row-2 .trophy-col, .list-view .card-footer-row-2 .status-col { display: inline-flex; align-items: center; }
 
-  /* Modals */
-  .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg-backdrop); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 15px; overflow-x: hidden; }
+  /* v0.27 Defect #4: Modal Scroll Chaining Isolation */
+  .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg-backdrop); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 15px; overflow-x: hidden; overscroll-behavior: contain; }
   .modal-overlay.active { display: flex; }
-  .modal-content { background: var(--bg-surface); width: 100%; max-width: 700px; max-height: 90vh; border-radius: var(--radius); display: flex; flex-direction: column; box-shadow: 0 0 25px var(--accent), var(--shadow); border: 1px solid var(--accent); overflow: hidden; position: relative;}
+  .modal-content { background: var(--bg-surface); width: 100%; max-width: 700px; max-height: 90vh; border-radius: var(--radius); display: flex; flex-direction: column; box-shadow: 0 0 25px var(--accent), var(--shadow); border: 1px solid var(--accent); overflow: hidden; position: relative; overscroll-behavior: contain;}
   
   #modal-theme .modal-header, #modal-settings .modal-header, #modal-confirm-cache .modal-header { justify-content: center; position: relative; }
   .modal-header { padding: 15px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); z-index: 2;}
@@ -454,7 +456,7 @@ window.CONFIG = {
   .close-btn { background: none; border: none; font-size: 20px; color: var(--text-muted); padding: 0; width: auto; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; }
   .close-btn:hover { color: var(--text-main); }
   
-  .modal-body { padding: 20px; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; gap: 16px; scroll-behavior: smooth; flex: 1; }
+  .modal-body { padding: 20px; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; gap: 16px; scroll-behavior: smooth; flex: 1; overscroll-behavior: contain;}
   .modal-footer { padding: 15px 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; gap: 10px; background: var(--bg-surface); z-index: 2;}
   
   .settings-block { background: var(--bg-input); padding: 15px; border-radius: var(--radius); border: 3px solid var(--border); }
@@ -518,12 +520,15 @@ window.CONFIG = {
 
   /* Theme Grid Modal */
   .theme-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .theme-btn { background: var(--bg-input); border: 2px solid var(--border); padding: 12px; border-radius: var(--radius); font-weight: bold; transition: all 0.2s; word-wrap: break-word; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; text-align: center; gap: 8px; line-height: 1; vertical-align: middle;}
+  
+  /* v0.27 Surgical Diff #7: Universal Theme Button Label Centering */
+  .theme-btn { background: var(--bg-input); border: 2px solid var(--border); padding: 12px; border-radius: var(--radius); font-weight: bold; transition: all 0.2s; word-wrap: break-word; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; text-align: center !important; gap: 8px; line-height: 1.3; vertical-align: middle;}
+  
   .theme-btn:hover { border-color: var(--border-hover); background: var(--bg-surface-hover); }
   .theme-btn.active { border-color: var(--accent); color: var(--accent); }
   
-  /* Dynamic Expanding Toasts */
-  .toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: var(--bg-surface); border: 1px solid var(--accent); color: var(--text-main); padding: 12px 24px; border-radius: 30px; box-shadow: var(--shadow); font-weight: bold; z-index: 10000; transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); width: max-content; max-width: 90vw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  /* v0.27 Surgical Diff #6: Dynamic Expanding Toasts Center Align */
+  .toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: var(--bg-surface); border: 1px solid var(--accent); color: var(--text-main); padding: 12px 24px; border-radius: 30px; box-shadow: var(--shadow); font-weight: bold; z-index: 10000; transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); width: max-content; max-width: 90vw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-flex; align-items: center; justify-content: center; text-align: center;}
   .toast.show { top: 20px; }
 
   /* Full-Screen Specular Disco Beams */
@@ -561,7 +566,6 @@ window.CONFIG = {
   .random-result { display: none; text-align: center; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; z-index: 3; }
   @keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
   
-  /* v0.26 Surgical Diff #4: Centered Winner Banner Geometry */
   .winner-banner-wrap { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; text-align: center; }
   .winner-emoji-box { display: inline-flex; align-items: center; justify-content: center; width: 1.5rem; flex-shrink: 0; line-height: 1; }
   [data-theme="retro-arcade"] .winner-banner-wrap { font-size: 14px; }
@@ -596,7 +600,7 @@ window.CONFIG = {
     <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.26</span>
+      <span id="ui-app-version">v0.27</span>
     </div>
   </a>
   <div class="header-actions">
@@ -920,7 +924,7 @@ window.CONFIG = {
 </div>
 
 <!-- Randomizer Modal w/ 3D Dice & FX Canvas -->
-<div class="modal-overlay" id="modal-randomizer" style="z-index: 1002; overflow: hidden;">
+<div class="modal-overlay" id="modal-randomizer" style="z-index: 1002;">
   <canvas id="fx-canvas"></canvas>
   <div class="dice-disco-bg" id="dice-disco"></div>
   <div class="modal-content" style="max-width: 300px; text-align:center; background: transparent; box-shadow: none; border: none; position: relative; z-index: 2;">
@@ -1015,7 +1019,7 @@ window.CONFIG = {
     mDelete: document.getElementById('modal-confirm-delete'), btnConfirmDel: document.getElementById('btn-confirm-delete'),
     btnCancelDel: document.getElementById('btn-cancel-delete'), mConfirmBody: document.getElementById('modal-confirm-body'),
 
-    // Cache Confirmation Modal (Surgically Verified to Match Layer 4 Markup)
+    // Cache Confirmation Modal
     mConfirmCache: document.getElementById('modal-confirm-cache'), mConfirmCacheBody: document.getElementById('modal-confirm-cache-body'),
     btnConfirmClearCache: document.getElementById('btn-confirm-clear-cache'), btnCancelClearCache: document.getElementById('btn-cancel-clear-cache'),
 
@@ -1046,6 +1050,11 @@ window.CONFIG = {
     btnClearCache: document.getElementById('btn-clear-cache')
   };
   
+  // --- v0.27 Defect #1: Sanitized RAWG Key Accessor ---
+  const getRawgKey = () => {
+    return (C.RAWG_API_KEY || "").trim();
+  };
+
   // --- v0.21 DYNAMIC ASSET ENGINE ---
   function applyDynamicAssets() {
     if(!C.ASSETS) return;
@@ -1058,7 +1067,6 @@ window.CONFIG = {
       return '';
     };
 
-    // v0.23 Hardened Asset Path Resolution Check
     if(C.ASSETS.FAVICON_DESKTOP) {
       const el = document.getElementById('favicon-desktop');
       if(el) { el.setAttribute('href', `./${C.ASSETS.FAVICON_DESKTOP}`); el.type = getMime(C.ASSETS.FAVICON_DESKTOP); }
@@ -1141,11 +1149,8 @@ window.CONFIG = {
         });
         wrapper.classList.toggle('open');
         
-        // v0.23 Dynamic Universal 5-Item Viewport Clamp Engine
         if(wrapper.classList.contains('open')) {
             optionsContainer.scrollTop = 0;
-            
-            // Only clamp the long platform lists mathematically
             if(optionsContainer.dataset.selectId === "f-platform" || optionsContainer.dataset.selectId === "filter-platform") {
                 const visibleOpts = Array.from(optionsContainer.children);
                 if(visibleOpts.length >= 5) {
@@ -1153,7 +1158,6 @@ window.CONFIG = {
                     for(let i = 0; i < 5; i++) {
                         totalHeight += visibleOpts[i].getBoundingClientRect().height;
                     }
-                    // Add 2px for top/bottom container borders
                     optionsContainer.style.maxHeight = `${totalHeight + 2}px`;
                 }
             }
@@ -1193,23 +1197,31 @@ window.CONFIG = {
   }
 
   // --- 3. INITIALIZATION & UI SETUP ---
-  // v0.21 Config-Driven Strings Optical Align Parser
   const injectAlign = (emoji, text) => `<span class="optical-align"><span>${emoji}</span><span>${text}</span></span>`;
   const splitEmoji = (str) => {
     const match = str.match(/^([\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic})\s*(.*)$/u);
     return match ? injectAlign(match[1], match[2]) : str;
   };
   
-  // v0.26 Defect #1 Fail-Safe Setter Utility
   const setVal = (el, val) => { if (el) el.value = val ?? ''; };
 
-  // v0.26 Surgical Diff #4 Winner Banner Symmetric Formatter
   function formatWinnerBanner(str) {
     const match = str.match(/^([\p{Extended_Pictographic}\uD800-\uDBFF\uDC00-\uDFFF])\s*(.*?)\s*([\p{Extended_Pictographic}\uD800-\uDBFF\uDC00-\uDFFF])$/u);
     if (match) {
       return `<div class="winner-banner-wrap"><span class="winner-emoji-box">${match[1]}</span><span>${match[2]}</span><span class="winner-emoji-box">${match[3]}</span></div>`;
     }
     return splitEmoji(str);
+  }
+  
+  // v0.27 Defect #4: Scroll Isolation Toggle
+  function toggleModalScrollLock(isActive) {
+    if (isActive) {
+      document.body.classList.add('modal-open');
+    } else {
+      // Ensure no other modal is active before unlocking
+      const openModals = document.querySelectorAll('.modal-overlay.active');
+      if (openModals.length === 0) document.body.classList.remove('modal-open');
+    }
   }
 
   function init() {
@@ -1224,14 +1236,12 @@ window.CONFIG = {
     document.getElementById('s-appver-read').innerText = `v${C.APP_VERSION}`;
     document.getElementById('s-apparch-read').innerText = C.APP_ARCHITECTURE;
     
-    // Wire up dynamic UI strings
     els.btnAdd.innerHTML = splitEmoji(C.BTN_ADD_GAME);
     els.btnSync.innerHTML = splitEmoji(C.BTN_FORCE_SYNC);
     els.btnTheme.innerHTML = splitEmoji(C.BTN_THEME);
     els.btnRandom.innerHTML = splitEmoji(C.BTN_RANDOM_GAME);
     els.btnRefreshRawg.innerHTML = splitEmoji("🔄 Refresh RAWG");
     
-    // Hydrate Settings Button Label
     if (els.btnSettings) {
       els.btnSettings.innerHTML = splitEmoji(C.BTN_SETTINGS || "⚙️ Settings");
     }
@@ -1299,14 +1309,34 @@ window.CONFIG = {
 
     // Listeners
     els.btnAdd.onclick = () => openGameModal();
-    document.getElementById('btn-close-game').onclick = () => els.mGame.classList.remove('active');
-    els.btnCancel.onclick = (e) => { e.preventDefault(); els.mGame.classList.remove('active'); };
+    document.getElementById('btn-close-game').onclick = () => {
+      els.mGame.classList.remove('active');
+      toggleModalScrollLock(false);
+    };
+    els.btnCancel.onclick = (e) => { 
+      e.preventDefault(); 
+      els.mGame.classList.remove('active'); 
+      toggleModalScrollLock(false);
+    };
     
-    els.btnTheme.onclick = () => els.mTheme.classList.add('active');
-    document.getElementById('btn-close-theme').onclick = () => els.mTheme.classList.remove('active');
+    els.btnTheme.onclick = () => { 
+      els.mTheme.classList.add('active'); 
+      toggleModalScrollLock(true);
+    };
+    document.getElementById('btn-close-theme').onclick = () => { 
+      els.mTheme.classList.remove('active'); 
+      toggleModalScrollLock(false);
+    };
     
-    els.btnSettings.onclick = () => { els.mSettings.classList.add('active'); els.mSetBody.scrollTop = 0; };
-    els.btnCloseSettings.onclick = () => { els.mSettings.classList.remove('active'); };
+    els.btnSettings.onclick = () => { 
+      els.mSettings.classList.add('active'); 
+      els.mSetBody.scrollTop = 0; 
+      toggleModalScrollLock(true);
+    };
+    els.btnCloseSettings.onclick = () => { 
+      els.mSettings.classList.remove('active'); 
+      toggleModalScrollLock(false);
+    };
     
     els.btnAuditCache.onclick = () => {
         updateStorageMeter();
@@ -1319,15 +1349,19 @@ window.CONFIG = {
     els.btnList.onclick = () => { els.viewToggle.classList.add('list-active'); els.lib.className = 'list-view'; };
 
     els.btnRandom.onclick = triggerRandomizer;
-    els.btnCloseRandom.onclick = () => els.mRandom.classList.remove('active');
+    els.btnCloseRandom.onclick = () => {
+      els.mRandom.classList.remove('active');
+      toggleModalScrollLock(false);
+    };
 
+    // v0.27 Defect #1: Decoupled Debounce Instantiation
+    const handleTitleSearch = debounce(searchRAWG, 300);
     els.f.title.addEventListener('input', (e) => { 
-      debounce(searchRAWG, 300)(); 
+      handleTitleSearch();
       updateHLTBLink(e.target.value); 
       if (e.target.value) promoteStatusAndDate(); 
     });
     
-    // Defensive blur listener for autocomplete dropdown
     els.f.title.addEventListener('blur', () => {
       setTimeout(() => { els.f.rawgRes.style.display = 'none'; }, 200);
     });
@@ -1338,7 +1372,6 @@ window.CONFIG = {
     els.f.dateAdd.addEventListener('change', (e) => updateDateClass(e.target));
     els.f.dateComp.addEventListener('change', (e) => updateDateClass(e.target));
 
-    // v0.26 Defect #2 Notes Reaction Chip Single-Line Whitespace Collapse
     const reactionContainer = document.getElementById('reaction-chips');
     if (reactionContainer) {
       reactionContainer.querySelectorAll('.chip').forEach(chip => {
@@ -1358,17 +1391,24 @@ window.CONFIG = {
     els.btnCancelDel.onclick = () => els.mDelete.classList.remove('active');
     els.btnConfirmDel.onclick = deleteGame;
     
-    // v0.25/v0.26 Post-Release RAWG Metadata Refresh Workflow with Spin Duration Lock
+    // v0.27 Defect #2: Shielded Refresh Workflow with Sanitized Key Accessor
     els.btnRefreshRawg.onclick = async () => {
       const query = els.f.title.value.trim();
-      if (!query || C.RAWG_API_KEY === "YOUR_RAWG_API_KEY_HERE") return;
+      const apiKey = getRawgKey();
+      if (!query || !apiKey || apiKey === "YOUR_RAWG_API_KEY_HERE") return;
       
       els.btnRefreshRawg.classList.add('spinning');
       const spinStart = Date.now();
       const MIN_SPIN_DURATION = 2500;
 
       try {
-        const res = await fetch(`https://api.rawg.io/api/games?key=${C.RAWG_API_KEY}&search=${encodeURIComponent(query)}&page_size=1`);
+        const res = await fetch(`https://api.rawg.io/api/games?key=${apiKey}&search=${encodeURIComponent(query)}&page_size=1`);
+        if (!res.ok) {
+           console.warn(`RAWG Search returned ${res.status}: ${res.statusText}`);
+           showToast(splitEmoji(C.MESSAGES.RAWG_REFRESH_ERROR));
+           return;
+        }
+        
         const data = await res.json();
         if (data.results && data.results.length > 0) {
           const match = data.results[0];
@@ -1388,17 +1428,24 @@ window.CONFIG = {
             setVal(els.f.rawgScore, `RAWG: ${match.rating} / 5.0 (Meta: ${match.metacritic || "N/A"})`);
           }
           
-          const detRes = await fetch(`https://api.rawg.io/api/games/${match.id}?key=${C.RAWG_API_KEY}`);
-          const det = await detRes.json();
-          if (det.description_raw) setVal(els.f.desc, det.description_raw);
-          if (det.developers && det.developers.length) setVal(els.f.dev, det.developers.map(x => x.name).join(', '));
-          if (det.publishers && det.publishers.length) setVal(els.f.pub, det.publishers.map(x => x.name).join(', '));
-          if (det.genres && det.genres.length) setVal(els.f.genres, det.genres.map(x => x.name).join(', '));
+          try {
+            const detRes = await fetch(`https://api.rawg.io/api/games/${match.id}?key=${apiKey}`);
+            if (detRes.ok) {
+              const det = await detRes.json();
+              if (det.description_raw) setVal(els.f.desc, det.description_raw);
+              if (det.developers && det.developers.length) setVal(els.f.dev, det.developers.map(x => x.name).join(', '));
+              if (det.publishers && det.publishers.length) setVal(els.f.pub, det.publishers.map(x => x.name).join(', '));
+              if (det.genres && det.genres.length) setVal(els.f.genres, det.genres.map(x => x.name).join(', '));
+            }
+          } catch(err) { console.warn("RAWG detail fetch failed:", err); }
           
           showToast(splitEmoji(C.MESSAGES.RAWG_REFRESH_SUCCESS || "RAWG metadata refreshed! 🔄"));
+        } else {
+          showToast(splitEmoji(C.MESSAGES.RAWG_REFRESH_ERROR));
         }
       } catch (err) {
         console.error("Refresh RAWG failed:", err);
+        showToast(splitEmoji(C.MESSAGES.RAWG_REFRESH_ERROR));
       } finally {
         const elapsed = Date.now() - spinStart;
         const remaining = Math.max(0, MIN_SPIN_DURATION - elapsed);
@@ -1534,22 +1581,36 @@ window.CONFIG = {
     else els.modalRawgDot.classList.add('dot-red');
   }
 
+  // v0.27 Defect #1: Sanitized Diagnostic Ping with AbortController
   async function auditRawgConnection() {
     setRawgState('🟡');
+    const apiKey = getRawgKey();
+    
+    if (!apiKey || apiKey === "YOUR_RAWG_API_KEY_HERE") {
+        setRawgState('🔴');
+        return;
+    }
+    
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 4000);
+    
     try {
-      const res = await fetch(`https://api.rawg.io/api/games?key=${C.RAWG_API_KEY}&page_size=1`);
+      const res = await fetch(`https://api.rawg.io/api/games?key=${apiKey}&page_size=1`, { signal: controller.signal });
+      clearTimeout(timeoutId);
+      
       if(res.ok) {
         setRawgState('🟢');
         if(els.mSettings.classList.contains('active')) showToast(C.MESSAGES.RAWG_ONLINE);
       } else {
+        console.warn(`RAWG Audit failed with status: ${res.status} ${res.statusText}`);
         setRawgState('🔴');
       }
     } catch(e) {
+      console.warn(`RAWG Audit connection error or timeout:`, e);
       setRawgState('🔴');
     }
   }
 
-  let debounceTimer;
   function debounce(func, delay) {
     return function() { clearTimeout(debounceTimer); debounceTimer = setTimeout(() => func.apply(this, arguments), delay); }
   }
@@ -1563,15 +1624,24 @@ window.CONFIG = {
 
   async function searchRAWG() {
     const query = els.f.title.value.trim();
-    if(query.length < 3 || C.RAWG_API_KEY === "YOUR_RAWG_API_KEY_HERE") { els.f.rawgRes.style.display = 'none'; return; }
+    const apiKey = getRawgKey();
+    
+    if(query.length < 3 || !apiKey || apiKey === "YOUR_RAWG_API_KEY_HERE") { 
+        els.f.rawgRes.style.display = 'none'; 
+        return; 
+    }
+    
     try {
-      const res = await fetch(`https://api.rawg.io/api/games?key=${C.RAWG_API_KEY}&search=${encodeURIComponent(query)}&page_size=10`);
+      const res = await fetch(`https://api.rawg.io/api/games?key=${apiKey}&search=${encodeURIComponent(query)}&page_size=10`);
+      if (!res.ok) {
+          console.warn(`RAWG Autocomplete failed with status: ${res.status}`);
+          return;
+      }
       const data = await res.json();
       renderAutocomplete(data.results);
-    } catch(e) { console.error("RAWG fetch failed", e); }
+    } catch(e) { console.error("RAWG autocomplete fetch failed:", e); }
   }
 
-  // v0.26 Defect #1: Mousedown Event Binding to Prevent Blur Dropdown Collapse
   function renderAutocomplete(results) {
     els.f.rawgRes.innerHTML = '';
     if(results.length === 0) { els.f.rawgRes.style.display = 'none'; return; }
@@ -1597,7 +1667,7 @@ window.CONFIG = {
     els.f.rawgRes.style.display = 'block';
   }
 
-  // v0.26 Defect #1: Two-Stage Defensive Hydration Pipeline
+  // Two-Stage Defensive Hydration Pipeline
   async function populateFromRAWG(g) {
     if (!g) return;
     els.f.rawgRes.style.display = 'none';
@@ -1614,7 +1684,6 @@ window.CONFIG = {
     
     setVal(els.f.genres, (g.genres || []).map(x=>x.name).join(', '));
     
-    // v0.24/v0.26 Defensive Rating & Unreleased Guard (Safe g.metacritic Evaluation)
     const releaseDate = g.released ? new Date(g.released) : null;
     const isFuture = releaseDate && releaseDate > new Date();
 
@@ -1627,8 +1696,9 @@ window.CONFIG = {
     }
 
     try {
-      if (C.RAWG_API_KEY && C.RAWG_API_KEY !== "YOUR_RAWG_API_KEY_HERE") {
-        const res = await fetch(`https://api.rawg.io/api/games/${g.id}?key=${C.RAWG_API_KEY}`);
+      const apiKey = getRawgKey();
+      if (apiKey && apiKey !== "YOUR_RAWG_API_KEY_HERE") {
+        const res = await fetch(`https://api.rawg.io/api/games/${g.id}?key=${apiKey}`);
         if (res.ok) {
           const det = await res.json();
           setVal(els.f.desc, det.description_raw || "");
@@ -1715,6 +1785,7 @@ window.CONFIG = {
     updateHLTBLink("");
     
     els.mGame.classList.add('active');
+    toggleModalScrollLock(true);
     els.mGameBody.scrollTop = 0;
 
     if(id && games[id]) {
@@ -1866,6 +1937,7 @@ window.CONFIG = {
     triggerManualSyncDot();
     
     els.mGame.classList.remove('active');
+    toggleModalScrollLock(false);
     showToast(C.MESSAGES.SAVED_TOAST.replace('{title}', gameData.title));
   }
 
@@ -1880,6 +1952,7 @@ window.CONFIG = {
     
     els.mDelete.classList.remove('active');
     els.mGame.classList.remove('active');
+    toggleModalScrollLock(false);
     showToast(C.MESSAGES.DELETED_TOAST.replace('{title}', title));
   }
 
@@ -1905,7 +1978,7 @@ window.CONFIG = {
       let achBadge = "";
       let isCompleted = g.status === "Completed";
       
-      let platColor = "#6b21a8"; // Royal Purple (Non-Big 3)
+      let platColor = "#6b21a8";
       let platText = "#ffffff";
       let platBorder = "rgba(255,255,255,0.2)";
       const p = g.plat || "";
@@ -1934,7 +2007,6 @@ window.CONFIG = {
       card.className = `game-card ${isCompleted ? 'completed-glow' : ''}`;
       card.onclick = () => openGameModal(g.id);
       
-      // v0.25/v0.26 Mathematical SVG Star for Retro Arcade (Surgically Calibrated)
       const starIcon = isRetro ? `<svg class="retro-star-svg" viewBox="0 0 10 10"><polygon points="5,0 6.5,3.5 10,3.8 7.5,6.2 8.2,10 5,8 1.8,10 2.5,6.2 0,3.8 3.5,3.5"/></svg>` : `<span class="retro-star">★</span>`;
       
       const ratingDisp = (g.rating && parseFloat(g.rating) > 0) ? `<span class="rating-val-wrap">${starIcon}<span>${parseFloat(g.rating).toFixed(1)}</span></span>` : `<span style="color:var(--text-muted); display:inline-flex; align-items:center;">${C.PLACEHOLDERS.UNRATED_LABEL}</span>`;
@@ -1948,7 +2020,6 @@ window.CONFIG = {
 
       const titleClass = g.title.length > 25 ? "card-title title-long" : "card-title";
 
-      // 2-Row Deterministic Card Footer Layout
       card.innerHTML = `
         <img src="${g.url || ''}" class="card-cover" loading="lazy">
         <div class="card-details">
@@ -2136,6 +2207,7 @@ window.CONFIG = {
     if(keys.length === 0) { showToast(C.MESSAGES.EMPTY_RANDOMIZER); return; }
     
     els.mRandom.classList.add('active');
+    toggleModalScrollLock(true);
     els.diceCube.parentElement.style.display = 'block';
     
     els.diceCube.style.transition = 'none';

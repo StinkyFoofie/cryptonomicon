@@ -25,11 +25,12 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.36",
+  APP_VERSION: "0.37",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 RAWG Check",
   BTN_CLEAR_CACHE: "🗑️ Clear Cache",
+  BTN_CLEAR_FILTERS: "🧹 Clear Filters",
   BTN_FORCE_SYNC: "🚀 Sync",
   BTN_RANDOM_GAME: "🎲 Pick Game",
   BTN_SETTINGS: "⚙️ Settings",
@@ -111,7 +112,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.36</title>
+<title id="html-title">VGnomicon v0.37</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -133,6 +134,8 @@ window.CONFIG = {
     --shadow: 0 4px 16px rgba(0, 0, 0, 0.5); --font-main: 'Inter', -apple-system, sans-serif; --font-heading: 'Inter', sans-serif;
     --radius: 8px; --scrollbar-thumb: #555555; --scrollbar-track: #1e1e1e;
   }
+  [data-theme="modern-dark"] .list-view .card-meta { font-size: 11px; }
+
   /* --- 2. MINIMALIST LIGHT --- */
   [data-theme="minimalist-light"] {
     --bg-base: #f5f5f7; --bg-surface: #ffffff; --bg-surface-hover: #f0f0f2; --bg-input: #ffffff; --bg-placeholder: #e5e5ea; --bg-backdrop: rgba(255, 255, 255, 0.85);
@@ -142,6 +145,8 @@ window.CONFIG = {
     --shadow: 0 4px 16px rgba(0, 0, 0, 0.08); --font-main: system-ui, -apple-system, sans-serif; --font-heading: system-ui, -apple-system, sans-serif;
     --radius: 8px; --scrollbar-thumb: #c7c7cc; --scrollbar-track: #f5f5f7;
   }
+  [data-theme="minimalist-light"] .list-view .card-meta { font-size: 11px; }
+
   /* --- 3. MODERN LIGHT --- */
   [data-theme="modern-light"] {
     --bg-base: #f8fafc; --bg-surface: #ffffff; --bg-surface-hover: #f1f5f9; --bg-input: #ffffff; --bg-placeholder: #e2e8f0; --bg-backdrop: rgba(248, 250, 252, 0.85);
@@ -151,6 +156,8 @@ window.CONFIG = {
     --shadow: 0 4px 16px rgba(15, 23, 42, 0.08); --font-main: 'Plus Jakarta Sans', 'Inter', sans-serif; --font-heading: 'Plus Jakarta Sans', sans-serif;
     --radius: 10px; --scrollbar-thumb: #cbd5e1; --scrollbar-track: #f8fafc;
   }
+  [data-theme="modern-light"] .list-view .card-meta { font-size: 11px; }
+
   /* --- 4. RETRO ARCADE --- */
   [data-theme="retro-arcade"] {
     --bg-base: #050510; --bg-surface: #101025; --bg-surface-hover: #1b1b38; --bg-input: #0c0c1d; --bg-placeholder: #222244; --bg-backdrop: rgba(5, 5, 16, 0.85);
@@ -161,7 +168,6 @@ window.CONFIG = {
     --radius: 2px; --scrollbar-thumb: #ffcc00; --scrollbar-track: #101025;
   }
   
-  /* v0.36 Diff #5: Retro Arcade Micro-Typography Balancing */
   [data-theme="retro-arcade"] .system-tray button { font-size: 10.5px; }
   [data-theme="retro-arcade"] .view-btn { font-size: 10.5px; }
   [data-theme="retro-arcade"] #btn-random-game { font-size: 10.5px; }
@@ -218,6 +224,7 @@ window.CONFIG = {
     --shadow: 0 4px 20px rgba(255, 0, 127, 0.3); --font-main: 'Rajdhani', sans-serif; --font-heading: 'Orbitron', sans-serif;
     --radius: 8px; --scrollbar-thumb: #ff007f; --scrollbar-track: #1a162b;
   }
+  [data-theme="synthwave-sunset"] .list-view .card-meta { font-size: 11px; }
   
   /* --- 6. CYBERPUNK --- */
   [data-theme="cyberpunk"] {
@@ -230,6 +237,7 @@ window.CONFIG = {
     --radius: 0px; --scrollbar-thumb: #fcee09; --scrollbar-track: #0e1420;
   }
   [data-theme="cyberpunk"] .rating-val-wrap { color: #00e8f8 !important; text-shadow: 0 0 5px rgba(0,232,248,0.4); }
+  [data-theme="cyberpunk"] .list-view .card-meta { font-size: 13.5px !important; }
 
   /* --- 7. GOTHIC CRIMSON --- */
   [data-theme="gothic-crimson"] {
@@ -241,6 +249,7 @@ window.CONFIG = {
     --shadow: 0 4px 20px rgba(128, 24, 36, 0.35); --font-main: 'Cinzel', Georgia, serif; --font-heading: 'Cinzel', Georgia, serif;
     --radius: 4px; --scrollbar-thumb: #801824; --scrollbar-track: #171012;
   }
+  [data-theme="gothic-crimson"] .list-view .card-meta { font-size: 11px; }
   
   /* --- 8. WASTELAND TERMINAL --- */
   [data-theme="wasteland-terminal"] {
@@ -270,6 +279,7 @@ window.CONFIG = {
     --shadow: 0 4px 14px rgba(74, 62, 53, 0.08); --font-main: 'Nunito', sans-serif; --font-heading: 'Quicksand', sans-serif;
     --radius: 12px; --scrollbar-thumb: #c2b2a1; --scrollbar-track: #f5f0eb;
   }
+  [data-theme="cozy-village"] .list-view .card-meta { font-size: 11px; }
 
   ::-webkit-scrollbar { width: 8px; height: 8px; }
   ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
@@ -310,9 +320,9 @@ window.CONFIG = {
   .custom-select-wrapper.open .custom-select-trigger { border-color: var(--border-focus); }
   .custom-select-wrapper.open .custom-select-trigger::after { transform: rotate(180deg); }
   
-  .custom-options-container { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); z-index: 10000; overflow-y: auto; display: none; flex-direction: column;}
+  /* v0.37 Diff #2: Universal 6-Item Dropdown Limit */
+  .custom-options-container { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); z-index: 10000; overflow-y: auto; display: none; flex-direction: column; max-height: 242px;}
   .custom-select-wrapper.open .custom-options-container { display: flex; }
-  .custom-options-container[data-select-id="f-format"], .custom-options-container[data-select-id="f-status"], .custom-options-container[data-select-id="filter-status"], .custom-options-container[data-select-id="f-currency"] { max-height: none; overflow-y: visible; }
   
   .custom-option { padding: 10px 12px; cursor: pointer; color: var(--text-main); font-family: var(--font-main); font-size: 14px; border-bottom: 1px solid var(--border); box-sizing: border-box; }
   .custom-option:last-child { border-bottom: none; }
@@ -343,13 +353,11 @@ window.CONFIG = {
   .dot-yellow { background: var(--warning); box-shadow: 0 0 8px var(--warning); }
   .dot-red { background: var(--danger); }
   
-  /* v0.36 Diff #6: System Tray Date/Time Optically Centered Offset */
-  .tray-time-stacked { display: flex; flex-direction: column; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 1.2; margin-right: 12px; }
+  .tray-time-stacked { display: flex; flex-direction: column; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 1.15; margin-right: 12px; }
   
   .system-tray button { background: transparent; border: none; color: var(--text-muted); padding: 6px 12px; font-size: 15.5px; font-weight: 600; border-radius: var(--radius); transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; }
   .system-tray button:hover { color: var(--accent); background: var(--bg-surface-hover); }
   
-  /* v0.36 Diff #7: Settings Unicode Gear Glyph Elevation Nudge */
   #btn-open-settings .optical-align { gap: 3px !important; }
   #btn-open-settings .optical-align > span:first-child { font-size: 21.5px; margin-right: -2px; transform: translateY(-1.5px); }
 
@@ -357,11 +365,18 @@ window.CONFIG = {
   @keyframes spin { 100% { transform: rotate(360deg); } }
   .spinning { animation: spin 0.8s linear infinite; }
   
+  /* v0.37 Diff #3: Control-Bar Layout Restructuring */
   .control-bar { padding: 10px 20px; display: flex; gap: 10px; background: var(--bg-base); flex-wrap: wrap; border-bottom: 1px solid var(--border); align-items: center;}
-  .control-bar .custom-select-wrapper { width: auto; flex: 1; min-width: 130px; }
+  .control-bar .custom-select-wrapper { max-width: 175px; flex: 0 0 auto; width: 100%; min-width: 130px; }
   .control-bar .custom-select-trigger { padding: 6px 10px; }
   
-  .view-toggle { display: inline-grid; grid-template-columns: 1fr 1fr; background: var(--bg-input); border-radius: 20px; padding: 2px; position: relative; border: 1px solid var(--border); align-items: center; margin: 0 10px; line-height: 1; overflow: hidden; width: 184px; box-sizing: border-box; }
+  /* v0.37 Diff #1: Clear Filters Button Style */
+  #btn-clear-filters { background: transparent; border: 1px solid var(--border); color: var(--text-muted); font-size: 14px; font-weight: 600; border-radius: var(--radius); padding: 6px 12px; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; height: 100%; box-sizing: border-box;}
+  #btn-clear-filters:hover { border-color: var(--accent); color: var(--accent); background: var(--bg-surface-hover); }
+  [data-theme="retro-arcade"] #btn-clear-filters { font-size: 11px; }
+  [data-theme="wasteland-terminal"] #btn-clear-filters { font-size: 18px; }
+
+  .view-toggle { display: inline-grid; grid-template-columns: 1fr 1fr; background: var(--bg-input); border-radius: 20px; padding: 2px; position: relative; border: 1px solid var(--border); align-items: center; margin: 0 10px 0 auto; line-height: 1; overflow: hidden; width: 184px; box-sizing: border-box; }
   .view-slider { position: absolute; top: 2px; bottom: 2px; left: 2px; width: calc(50% - 2px); background: var(--bg-surface); border-radius: 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.3); transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1; border: 1px solid var(--border-hover); pointer-events: none; }
   .view-toggle.list-active .view-slider { transform: translateX(100%); }
   
@@ -387,7 +402,10 @@ window.CONFIG = {
   .grid-view { display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 20px; }
   .game-card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; display: flex; flex-direction: column; position: relative;}
   .game-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--border-hover); }
-  .card-cover { width: 100%; aspect-ratio: 2/3; object-fit: cover; object-position: center top; background: var(--bg-placeholder); }
+  
+  /* v0.37 Diff #8: Widescreen Landscape Art Crop Optimization */
+  .card-cover { width: 100%; aspect-ratio: 2/3; object-fit: cover; object-position: center 32%; background: var(--bg-placeholder); }
+  
   .card-details { padding: 12px; display: flex; flex-direction: column; gap: 6px; flex: 1;}
   
   .card-details-text-container { container-type: inline-size; width: 100%; }
@@ -502,7 +520,7 @@ window.CONFIG = {
   /* Fixed Pixel-Locked Height Equalization (187px) - Portrait 2:3 Cover Box */
   .modal-top-section { height: 187px; display: flex; gap: 16px; margin-bottom: 16px; margin-top: 16px; align-items: stretch; }
   .modal-cover-wrapper { width: calc(187px * 2 / 3); height: 187px; flex-shrink: 0; background: var(--bg-placeholder); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--text-disabled); font-size: 12px; position: relative; }
-  .modal-cover-wrapper img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: none; position: absolute; top:0; left:0; }
+  .modal-cover-wrapper img { width: 100%; height: 100%; object-fit: cover; object-position: center 32%; display: none; position: absolute; top:0; left:0; }
   
   .modal-desc-wrapper { height: 187px; display: flex; flex-direction: column; gap: 5px; flex: 1 1 0; min-height: 0; }
   .modal-desc-wrapper label { font-size: 12px; color: var(--text-muted); font-weight: 600; font-family: var(--font-heading); text-transform: uppercase; flex-shrink: 0;}
@@ -544,10 +562,7 @@ window.CONFIG = {
   .star-half.left { left: 0; }
   .star-half.right { right: 0; }
   
-  /* Chips & Badges */
   .reaction-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 5px; }
-  
-  /* v0.36 Diff #3: Active Library Genre Chips Centering Lock */
   .chip { background: var(--bg-input); border: 1px solid var(--border); padding: 5px 10px; border-radius: 12px; font-size: 12px; font-family: var(--font-heading); cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; text-align: center; line-height: 1; vertical-align: middle;}
   .chip:hover { background: var(--bg-surface-hover); border-color: var(--accent); }
   
@@ -638,7 +653,7 @@ window.CONFIG = {
     <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.36</span>
+      <span id="ui-app-version">v0.37</span>
     </div>
   </a>
   <div class="header-actions">
@@ -647,6 +662,7 @@ window.CONFIG = {
   </div>
   <div class="system-tray">
     <div class="tray-time-stacked">
+      <div>Last Sync:</div>
       <div id="tray-date">-- --- ----</div>
       <div id="tray-time">--:--:--</div>
     </div>
@@ -664,7 +680,6 @@ window.CONFIG = {
 <div class="control-bar">
   <select id="filter-status" class="native-hijack" data-select-id="filter-status">
     <option value="" disabled selected hidden>All Statuses</option>
-    <option value="">(Clear Filter)</option>
     <option value="Abandoned">Abandoned</option>
     <option value="Backlog">Backlog</option>
     <option value="Completed">Completed</option>
@@ -674,7 +689,6 @@ window.CONFIG = {
   </select>
   <select id="filter-platform" class="native-hijack" data-select-id="filter-platform">
     <option value="" disabled selected hidden>All Platforms</option>
-    <option value="">(Clear Filter)</option>
     <option value="Mobile">Mobile</option>
     <option value="NES">NES</option>
     <option value="Nintendo 64">Nintendo 64</option>
@@ -691,13 +705,15 @@ window.CONFIG = {
     <option value="Other">Other</option>
   </select>
   
+  <button id="btn-clear-filters" title="Clear Filters"></button>
+  
   <div class="view-toggle" id="view-toggle">
     <div class="view-slider"></div>
     <button class="view-btn active" id="btn-grid-view"></button>
     <button class="view-btn" id="btn-list-view"></button>
   </div>
 
-  <button id="btn-random-game" style="margin-left:auto;"></button>
+  <button id="btn-random-game"></button>
 </div>
 
 <main>
@@ -897,7 +913,6 @@ window.CONFIG = {
       <div class="settings-block">
         <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">External APIs</h3>
         <div style="display:flex; justify-content: space-between; align-items:center;">
-          <!-- v0.36 Diff #2: Settings RAWG Traffic Light Midline Center-Lock -->
           <div style="display:inline-flex; align-items:center; line-height:1; gap: 8px;">
             <div class="status-dot dot-yellow" id="modal-rawg-dot"></div>
             <span style="font-size:12px; color:var(--text-muted); font-weight:600;">RAWG Metadata Database</span>
@@ -1044,6 +1059,7 @@ window.CONFIG = {
     
     // Filters & View Toggles
     fStatus: document.getElementById('filter-status'), fPlatform: document.getElementById('filter-platform'),
+    btnClearFilters: document.getElementById('btn-clear-filters'),
     viewToggle: document.getElementById('view-toggle'), btnGrid: document.getElementById('btn-grid-view'), btnList: document.getElementById('btn-list-view'),
     btnRandom: document.getElementById('btn-random-game'),
     
@@ -1197,16 +1213,6 @@ window.CONFIG = {
         
         if(wrapper.classList.contains('open')) {
             optionsContainer.scrollTop = 0;
-            if(optionsContainer.dataset.selectId === "f-platform" || optionsContainer.dataset.selectId === "filter-platform") {
-                const visibleOpts = Array.from(optionsContainer.children);
-                if(visibleOpts.length >= 5) {
-                    let totalHeight = 0;
-                    for(let i = 0; i < 5; i++) {
-                        totalHeight += visibleOpts[i].getBoundingClientRect().height;
-                    }
-                    optionsContainer.style.maxHeight = `${totalHeight + 2}px`;
-                }
-            }
         }
         e.stopPropagation();
       });
@@ -1284,11 +1290,12 @@ window.CONFIG = {
     els.btnSync.innerHTML = splitEmoji(C.BTN_FORCE_SYNC);
     els.btnTheme.innerHTML = splitEmoji(C.BTN_THEME);
     els.btnRandom.innerHTML = splitEmoji(C.BTN_RANDOM_GAME);
-    els.btnRefreshRawg.innerHTML = splitEmoji("🔄 Refresh RAWG");
     
-    if (els.btnSettings) {
-      els.btnSettings.innerHTML = splitEmoji(C.BTN_SETTINGS || "⚙️ Settings");
-    }
+    // v0.37 Diff #6: "🌐 RAWG Refresh" Button Integration
+    els.btnRefreshRawg.innerHTML = splitEmoji("🌐 RAWG Refresh");
+    
+    if (els.btnClearFilters) els.btnClearFilters.innerHTML = splitEmoji(C.BTN_CLEAR_FILTERS || "🧹 Clear Filters");
+    if (els.btnSettings) els.btnSettings.innerHTML = splitEmoji(C.BTN_SETTINGS || "⚙️ Settings");
     
     document.getElementById('btn-close-game').innerHTML = "✕";
     document.getElementById('btn-close-theme').innerHTML = "✕";
@@ -1458,7 +1465,6 @@ window.CONFIG = {
     els.btnCancelDel.onclick = () => els.mDelete.classList.remove('active');
     els.btnConfirmDel.onclick = deleteGame;
     
-    // v0.36 Diff #1: Edit Modal RAWG Refresh True-Status Sync & Harmonic Phase-Lock
     els.btnRefreshRawg.onclick = async () => {
       const query = els.f.title.value.trim();
       const apiKey = getRawgKey();
@@ -1556,6 +1562,16 @@ window.CONFIG = {
     els.fStatus.addEventListener('change', renderLibrary);
     els.fPlatform.addEventListener('change', renderLibrary);
     els.search.addEventListener('input', renderLibrary);
+    
+    if (els.btnClearFilters) {
+      els.btnClearFilters.onclick = () => {
+        els.fStatus.value = "";
+        els.fPlatform.value = "";
+        syncCustomSelect('filter-status');
+        syncCustomSelect('filter-platform');
+        renderLibrary();
+      };
+    }
 
     auditRawgConnection(true);
     renderLibrary();
@@ -1765,9 +1781,10 @@ window.CONFIG = {
     els.f.rawgRes.innerHTML = '';
     if(results.length === 0) { els.f.rawgRes.style.display = 'none'; return; }
     
+    // v0.37 Diff #7: Dual-Factor RAWG Search Sorting (Relevance + Release Date)
     results.sort((a, b) => {
-      const dA = a.released ? new Date(a.released) : new Date(0);
-      const dB = b.released ? new Date(b.released) : new Date(0);
+      const dA = a.released ? new Date(a.released).getTime() : 0;
+      const dB = b.released ? new Date(b.released).getTime() : 0;
       return dB - dA;
     });
 
@@ -2151,7 +2168,7 @@ window.CONFIG = {
          compBadge = `<span class="badge" style="background:#080c14; color:#00e8f8; border: 1px solid #00e8f8; box-shadow: 0 0 5px rgba(0,232,248,0.4);">${g.status}</span>`;
       }
 
-      const titleClass = g.title.length > 25 ? "card-title title-long" : "card-title";
+      const titleClass = g.title.length > 36 ? "card-title title-long" : "card-title";
       const coverSrc = g.url || '';
 
       card.innerHTML = `

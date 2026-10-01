@@ -25,7 +25,7 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.42",
+  APP_VERSION: "0.43",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 RAWG Check",
@@ -62,7 +62,7 @@ window.CONFIG = {
     RAWG_REFRESH_ERROR: "⚠️ RAWG: No metadata found or connection failed!",
     RAWG_REFRESH_SUCCESS: "RAWG metadata refreshed! 🔄",
     SAVED_TOAST: "SAVED - {title}",
-    SYNC_SUCCESS: "Library Synced like UNDIES! 🚀",
+    SYNC_SUCCESS: "Library Synced like SOCKIES! 🚀",
     TITLE_REQUIRED: "⚠️ Title is required!"
   },
 
@@ -112,7 +112,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.42</title>
+<title id="html-title">VGnomicon v0.43</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -288,8 +288,6 @@ window.CONFIG = {
 
   /* Core Layout & Reset */
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  
-  /* v0.41 Diff #1: Scrollbar Gutter Stabilization */
   html { width: 100%; overflow-x: hidden; overflow-y: scroll; scrollbar-gutter: stable; }
   body { width: 100%; overflow-x: hidden; background-color: var(--bg-base); color: var(--text-main); font-family: var(--font-main); -webkit-font-smoothing: antialiased; }
   
@@ -304,9 +302,9 @@ window.CONFIG = {
   input::placeholder, textarea::placeholder { color: var(--text-disabled); opacity: 1; }
   
   /* Universal Inline-Flex Optical Anchor */
-  .optical-align { display: inline-flex; align-items: center; justify-content: center; gap: 6px; line-height: 1; vertical-align: middle; }
+  .optical-align { display: inline-flex; align-items: center; justify-content: center; gap: 6px; line-height: 1; vertical-align: middle; white-space: nowrap !important; }
   
-  button { cursor: pointer; transition: background 0.2s; font-weight: 600; width: auto; display: inline-flex; align-items: center; justify-content: center; gap: 8px; line-height: 1; vertical-align: middle; }
+  button { cursor: pointer; transition: background 0.2s; font-weight: 600; width: auto; display: inline-flex; align-items: center; justify-content: center; gap: 8px; line-height: 1; vertical-align: middle; white-space: nowrap !important; }
   button:hover { background: var(--bg-surface-hover); }
   button.primary { background: var(--accent); color: var(--text-inverse); border: none; }
   button.primary:hover { background: var(--accent-hover); }
@@ -317,9 +315,7 @@ window.CONFIG = {
   .custom-select-wrapper select { display: none; }
   
   .custom-select-trigger { background: var(--bg-input); color: var(--text-main); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px; font-size: 14px; font-family: var(--font-main); width: 100%; cursor: pointer; display: inline-flex; justify-content: space-between; align-items: center; user-select: none; line-height: 1; vertical-align: middle; }
-  
   .custom-select-trigger.empty { color: var(--text-muted); font-weight: 600; }
-  
   .custom-select-trigger::after { content: ''; width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid var(--text-muted); transition: transform 0.2s; }
   .custom-select-wrapper.open .custom-select-trigger { border-color: var(--border-focus); }
   .custom-select-wrapper.open .custom-select-trigger::after { transform: rotate(180deg); }
@@ -351,7 +347,7 @@ window.CONFIG = {
   .search-bar::placeholder { color: var(--text-muted); font-weight: 600; opacity: 1; text-align: center; }
   
   #btn-add-game { white-space: nowrap; flex-shrink: 0; }
-
+  
   /* System Tray & Atomic Sync Grouping */
   .system-tray { display: flex; align-items: center; gap: 10px; color: var(--text-muted); justify-self: flex-end; flex-wrap: wrap; justify-content: flex-end; }
   .tray-sync-group { display: inline-flex; align-items: center; gap: 10px; flex-shrink: 0; white-space: nowrap; }
@@ -366,7 +362,6 @@ window.CONFIG = {
   
   .system-tray button { background: transparent; border: none; color: var(--text-muted); padding: 6px 12px; font-size: 15.5px; font-weight: 600; border-radius: var(--radius); transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; white-space: nowrap !important; flex-shrink: 0; }
   .system-tray button:hover { color: var(--accent); background: var(--bg-surface-hover); }
-  .system-tray button .optical-align { white-space: nowrap !important; }
   
   #btn-open-settings .optical-align { gap: 3px !important; white-space: nowrap !important; }
   #btn-open-settings .optical-align > span:first-child { font-size: 21.5px; margin-right: -2px; transform: translateY(-1.5px); }
@@ -379,10 +374,20 @@ window.CONFIG = {
     .system-tray { flex: 0 0 auto; margin-left: auto; justify-content: flex-end; order: 2; }
   }
 
+  /* v0.43 Diff #1: System Tray Elevation (< 600px breakpoint) */
+  @media (max-width: 600px) {
+    header { flex-direction: column; justify-content: center; align-items: center; gap: 12px; }
+    .brand { order: 1; justify-self: center; align-items: center; }
+    .system-tray { order: 2; width: 100%; justify-content: center; gap: 8px; margin-top: 0; margin-bottom: 4px; }
+    .header-actions { order: 3; flex-direction: column; width: 100%; }
+    .search-bar { max-width: 100%; }
+  }
+
   /* Harmonic 800ms Spin Period for Perfect 360° Landings */
   @keyframes spin { 100% { transform: rotate(360deg); } }
   .spinning { animation: spin 0.8s linear infinite; }
   
+  /* v0.43 Diff #2: Control-Bar Natural Left/Right Pinning (Removed 768px center lock) */
   .control-bar { padding: 10px 20px; display: flex; gap: 10px; background: var(--bg-base); flex-wrap: wrap; border-bottom: 1px solid var(--border); align-items: center;}
   .control-bar .custom-select-wrapper { max-width: 175px; flex: 0 0 auto; width: 100%; min-width: 130px; }
   .control-bar .custom-select-trigger { padding: 6px 10px; }
@@ -404,11 +409,16 @@ window.CONFIG = {
   
   .view-btn .optical-align { justify-content: center; width: 100%; }
   .view-btn .optical-align > span:first-child { display: inline-flex; align-items: center; justify-content: center; width: 16px; flex-shrink: 0; }
-  
-  /* v0.41 Diff #3: List Toggle Icon Optical Elevation Nudge */
   #btn-list-view .optical-align > span:first-child { transform: translateY(-7px); }
   #btn-grid-view .optical-align > span:first-child { transform: translateY(0px); }
   [data-theme="retro-arcade"] #btn-list-view .optical-align > span:first-child { transform: translateY(-8.5px); }
+
+  /* Control-Bar absolute minimum alignment center */
+  @media (max-width: 600px) {
+    .control-bar { justify-content: center; }
+    .view-toggle { margin: 0 10px; }
+    #btn-random-game { margin-left: 0; }
+  }
 
   /* Library Container & Empty State */
   main { padding: 20px; min-height: calc(100vh - 140px); }
@@ -535,7 +545,6 @@ window.CONFIG = {
   .settings-block input:focus, .settings-block select:focus { border-color: var(--border-focus); }
   .settings-coll-row { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; line-height: 1.4; font-size: 12px; color: var(--text-muted); }
 
-  /* v0.42 Diff #1: Modal Description Stacking Geometry Fix */
   .modal-top-section { height: 187px; display: flex; gap: 16px; margin-bottom: 16px; margin-top: 16px; align-items: stretch; }
   .modal-cover-wrapper { flex: 1 1 0; min-width: 0; height: 187px; background: var(--bg-placeholder); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--text-disabled); font-size: 12px; position: relative; }
   .modal-cover-wrapper img { width: 100%; height: 100%; object-fit: cover; object-position: center 32%; display: none; position: absolute; top:0; left:0; }

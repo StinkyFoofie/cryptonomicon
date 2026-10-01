@@ -25,7 +25,7 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.41",
+  APP_VERSION: "0.42",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 RAWG Check",
@@ -58,11 +58,11 @@ window.CONFIG = {
     NUMERIC_NEGATIVE: "⚠️ Playtime and HLTB values cannot be negative!",
     PLATFORM_REQUIRED: "⚠️ Platform is required!",
     RAWG_OFFLINE: "⚠️ RAWG API: Connection Error",
-    RAWG_ONLINE: "RAWG API: Online & Connected",
+    RAWG_ONLINE: "⚠️ RAWG API: Online & Connected",
     RAWG_REFRESH_ERROR: "⚠️ RAWG: No metadata found or connection failed!",
     RAWG_REFRESH_SUCCESS: "RAWG metadata refreshed! 🔄",
     SAVED_TOAST: "SAVED - {title}",
-    SYNC_SUCCESS: "Library Synced like PANTIES! 🚀",
+    SYNC_SUCCESS: "Library Synced like UNDIES! 🚀",
     TITLE_REQUIRED: "⚠️ Title is required!"
   },
 
@@ -112,7 +112,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.41</title>
+<title id="html-title">VGnomicon v0.42</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -351,21 +351,33 @@ window.CONFIG = {
   .search-bar::placeholder { color: var(--text-muted); font-weight: 600; opacity: 1; text-align: center; }
   
   #btn-add-game { white-space: nowrap; flex-shrink: 0; }
+
+  /* System Tray & Atomic Sync Grouping */
+  .system-tray { display: flex; align-items: center; gap: 10px; color: var(--text-muted); justify-self: flex-end; flex-wrap: wrap; justify-content: flex-end; }
+  .tray-sync-group { display: inline-flex; align-items: center; gap: 10px; flex-shrink: 0; white-space: nowrap; }
   
-  .system-tray { display: flex; align-items: center; gap: 10px; color: var(--text-muted); justify-self: flex-end;}
-  .sync-status { display: flex; align-items: center; gap: 6px; }
-  .status-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .sync-status { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+  .status-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
   .dot-green { background: var(--success); }
   .dot-yellow { background: var(--warning); box-shadow: 0 0 8px var(--warning); }
   .dot-red { background: var(--danger); }
   
-  .tray-time-stacked { display: flex; flex-direction: column; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 1.15; margin-right: 12px; }
+  .tray-time-stacked { display: flex; flex-direction: column; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 1.15; margin-right: 12px; white-space: nowrap; flex-shrink: 0; }
   
-  .system-tray button { background: transparent; border: none; color: var(--text-muted); padding: 6px 12px; font-size: 15.5px; font-weight: 600; border-radius: var(--radius); transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; }
+  .system-tray button { background: transparent; border: none; color: var(--text-muted); padding: 6px 12px; font-size: 15.5px; font-weight: 600; border-radius: var(--radius); transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; white-space: nowrap !important; flex-shrink: 0; }
   .system-tray button:hover { color: var(--accent); background: var(--bg-surface-hover); }
+  .system-tray button .optical-align { white-space: nowrap !important; }
   
-  #btn-open-settings .optical-align { gap: 3px !important; }
+  #btn-open-settings .optical-align { gap: 3px !important; white-space: nowrap !important; }
   #btn-open-settings .optical-align > span:first-child { font-size: 21.5px; margin-right: -2px; transform: translateY(-1.5px); }
+
+  /* Responsive Header Reflow Breakpoints */
+  @media (max-width: 960px) {
+    header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; }
+    .brand { flex: 0 0 auto; }
+    .header-actions { flex: 1 1 100%; order: 3; justify-content: center; margin-top: 4px; }
+    .system-tray { flex: 0 0 auto; margin-left: auto; justify-content: flex-end; order: 2; }
+  }
 
   /* Harmonic 800ms Spin Period for Perfect 360° Landings */
   @keyframes spin { 100% { transform: rotate(360deg); } }
@@ -397,12 +409,6 @@ window.CONFIG = {
   #btn-list-view .optical-align > span:first-child { transform: translateY(-7px); }
   #btn-grid-view .optical-align > span:first-child { transform: translateY(0px); }
   [data-theme="retro-arcade"] #btn-list-view .optical-align > span:first-child { transform: translateY(-8.5px); }
-
-  @media (max-width: 768px) {
-    .control-bar { justify-content: center; }
-    .view-toggle { margin: 0 10px; }
-    #btn-random-game { margin-left: 0; }
-  }
 
   /* Library Container & Empty State */
   main { padding: 20px; min-height: calc(100vh - 140px); }
@@ -529,13 +535,14 @@ window.CONFIG = {
   .settings-block input:focus, .settings-block select:focus { border-color: var(--border-focus); }
   .settings-coll-row { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; line-height: 1.4; font-size: 12px; color: var(--text-muted); }
 
+  /* v0.42 Diff #1: Modal Description Stacking Geometry Fix */
   .modal-top-section { height: 187px; display: flex; gap: 16px; margin-bottom: 16px; margin-top: 16px; align-items: stretch; }
-  .modal-cover-wrapper { flex: 1 1 0; width: 0; min-width: 0; height: 187px; background: var(--bg-placeholder); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--text-disabled); font-size: 12px; position: relative; }
+  .modal-cover-wrapper { flex: 1 1 0; min-width: 0; height: 187px; background: var(--bg-placeholder); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--text-disabled); font-size: 12px; position: relative; }
   .modal-cover-wrapper img { width: 100%; height: 100%; object-fit: cover; object-position: center 32%; display: none; position: absolute; top:0; left:0; }
   
-  .modal-desc-wrapper { flex: 1 1 0; width: 0; min-width: 0; height: 187px; display: flex; flex-direction: column; gap: 5px; }
+  .modal-desc-wrapper { flex: 1 1 0; min-width: 0; height: 187px; display: flex; flex-direction: column; gap: 5px; }
   .modal-desc-wrapper label { font-size: 12px; color: var(--text-muted); font-weight: 600; font-family: var(--font-heading); text-transform: uppercase; flex-shrink: 0;}
-  .modal-desc-wrapper textarea { flex: 1 1 0; height: 0; min-height: 0; resize: none; margin: 0; box-sizing: border-box; }
+  .modal-desc-wrapper textarea { flex: 1 1 0; width: 100%; height: 0; min-height: 0; resize: none; margin: 0; box-sizing: border-box; }
 
   /* Forms & Grid */
   .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; }
@@ -641,16 +648,17 @@ window.CONFIG = {
 
   /* Mobile Adjustments */
   @media (max-width: 600px) {
-    header { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 15px;}
-    .brand { justify-self: center; align-items: center; }
-    .system-tray { justify-self: center; width: 100%; justify-content: space-around; margin-top: 5px;}
-    .header-actions { flex-direction: column; width: 100%; }
+    header { flex-direction: column; justify-content: center; align-items: center; gap: 12px; }
+    .brand { order: 1; justify-self: center; align-items: center; }
+    .header-actions { order: 2; flex-direction: column; width: 100%; }
     .search-bar { max-width: 100%; }
+    .system-tray { order: 3; width: 100%; justify-content: center; gap: 8px; margin-top: 5px; }
+    
     .form-grid { grid-template-columns: 1fr; }
     
     .modal-top-section { flex-direction: column; align-items: stretch; height: auto; }
-    .modal-cover-wrapper { width: 100%; margin: 0 auto; height: 187px; flex: none; }
-    .modal-desc-wrapper { height: 150px; flex: none; }
+    .modal-cover-wrapper { width: 100%; height: 187px; flex: none; }
+    .modal-desc-wrapper { width: 100%; height: 150px; flex: none; }
     
     .theme-grid { grid-template-columns: repeat(2, 1fr); }
   }
@@ -666,7 +674,7 @@ window.CONFIG = {
     <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.41</span>
+      <span id="ui-app-version">v0.42</span>
     </div>
   </a>
   <div class="header-actions">
@@ -674,15 +682,17 @@ window.CONFIG = {
     <button class="primary" id="btn-add-game"></button>
   </div>
   <div class="system-tray">
-    <div class="tray-time-stacked">
-      <div>LAST SYNC:</div>
-      <div id="tray-date">-- --- ----</div>
-      <div id="tray-time">--:--:--</div>
+    <div class="tray-sync-group">
+      <div class="tray-time-stacked">
+        <div>LAST SYNC:</div>
+        <div id="tray-date">-- --- ----</div>
+        <div id="tray-time">--:--:--</div>
+      </div>
+      <div class="sync-status" title="Cloud Sync Status">
+        <div class="status-dot dot-yellow" id="tray-sync-dot"></div>
+      </div>
+      <button id="btn-force-sync" title="Force Sync"></button>
     </div>
-    <div class="sync-status" title="Cloud Sync Status">
-      <div class="status-dot dot-yellow" id="tray-sync-dot"></div>
-    </div>
-    <button id="btn-force-sync" title="Force Sync"></button>
     <button id="btn-open-theme" title="Theme"></button>
     <button id="btn-open-settings" title="Settings">
       <span class="optical-align"><span>⚙️</span><span>Settings</span></span>
@@ -755,7 +765,6 @@ window.CONFIG = {
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <label style="margin-bottom:0;">Title * (Sorted by RAWG Relevance)</label>
             <div id="modal-rawg-slot">
-              <!-- v0.41 Diff #2: RAWG STATUS Label Harmonization -->
               <span id="lbl-rawg-status-text" style="font-size:12px; color:var(--text-muted); font-weight:600; line-height:1; vertical-align:middle;">RAWG STATUS</span>
               <button type="button" id="btn-refresh-rawg" class="btn-refresh-rawg" style="display:none;" title="Re-fetch latest metadata from RAWG"></button>
               <div class="status-dot dot-yellow" id="modal-game-rawg-dot" title="RAWG API Status"></div>

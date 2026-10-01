@@ -25,7 +25,7 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.34",
+  APP_VERSION: "0.35",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 RAWG Check",
@@ -111,7 +111,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.34</title>
+<title id="html-title">VGnomicon v0.35</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -342,8 +342,9 @@ window.CONFIG = {
   .system-tray button { background: transparent; border: none; color: var(--text-muted); padding: 6px 12px; font-size: 15.5px; font-weight: 600; border-radius: var(--radius); transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; }
   .system-tray button:hover { color: var(--accent); background: var(--bg-surface-hover); }
   
+  /* v0.35 Diff #2: Settings Unicode Gear Glyph Scale-Up (21.5px) */
   #btn-open-settings .optical-align { gap: 3px !important; }
-  #btn-open-settings .optical-align > span:first-child { font-size: 19px; margin-right: -2px; }
+  #btn-open-settings .optical-align > span:first-child { font-size: 21.5px; margin-right: -2px; }
 
   /* Harmonic 800ms Spin Period for Perfect 360° Landings */
   @keyframes spin { 100% { transform: rotate(360deg); } }
@@ -376,7 +377,6 @@ window.CONFIG = {
   .empty-state { text-align: center; padding: 60px 20px; font-size: 24px; color: var(--text-muted); font-family: var(--font-heading); animation: float 3s ease-in-out infinite; }
   .empty-state-emoji { display: inline-block; animation: bounce-emoji 2s infinite ease-in-out; }
   
-  /* v0.34 Diff #2: Object-Fit RAWG Portrait Optimization */
   .grid-view { display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 20px; }
   .game-card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; display: flex; flex-direction: column; position: relative;}
   .game-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--border-hover); }
@@ -629,7 +629,7 @@ window.CONFIG = {
     <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.34</span>
+      <span id="ui-app-version">v0.35</span>
     </div>
   </a>
   <div class="header-actions">
@@ -1658,6 +1658,7 @@ window.CONFIG = {
     });
   }
 
+  // v0.35 Defect #1: RAWG Audit Connection Resiliency & Abort Hardening
   async function auditRawgConnection(silent = false) {
     setRawgState('🟡');
     const apiKey = getRawgKey();
@@ -1669,11 +1670,10 @@ window.CONFIG = {
     }
     
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 4000);
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
     
     try {
       const res = await fetch(`https://api.rawg.io/api/games?key=${apiKey}&page_size=1`, { signal: controller.signal });
-      clearTimeout(timeoutId);
       
       if(res.ok) {
         setRawgState('🟢');
@@ -1684,9 +1684,15 @@ window.CONFIG = {
         if(!silent) showToast(C.MESSAGES.RAWG_OFFLINE);
       }
     } catch(e) {
-      console.warn(`RAWG Audit connection error:`, e);
+      if (e.name === 'AbortError') {
+        console.warn("RAWG audit connection timed out or was aborted by user action.");
+      } else {
+        console.warn(`RAWG Audit connection error:`, e);
+      }
       setRawgState('🔴');
       if(!silent) showToast(C.MESSAGES.RAWG_OFFLINE);
+    } finally {
+      clearTimeout(timeoutId);
     }
   }
 

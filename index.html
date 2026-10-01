@@ -8,7 +8,6 @@
 window.CONFIG = {
   // 1. API Credentials & Cloud Paths
   RAWG_API_KEY: "db9f18921e714a36bb784e65b5fd424b",
-  STEAMGRIDDB_API_KEY: "f6c9781c9cc590c4907e0348df3a992a",
   DB_COLLECTION: "nomicon",
   FIREBASE: {
     apiKey: "AIzaSyCk9HvlsACbj-XsH8hAS0rqXSXPYbBN7vk",
@@ -26,11 +25,10 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.33",
+  APP_VERSION: "0.34",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 RAWG Check",
-  BTN_CHECK_STEAMGRID: "🌐 SteamGridDB Check",
   BTN_CLEAR_CACHE: "🗑️ Clear Cache",
   BTN_FORCE_SYNC: "🚀 Sync",
   BTN_RANDOM_GAME: "🎲 Pick Game",
@@ -63,8 +61,6 @@ window.CONFIG = {
     RAWG_REFRESH_ERROR: "⚠️ RAWG: No metadata found or connection failed!",
     RAWG_REFRESH_SUCCESS: "RAWG metadata refreshed! 🔄",
     SAVED_TOAST: "SAVED - {title}",
-    STEAMGRID_OFFLINE: "⚠️ SteamGridDB API: Connection Error",
-    STEAMGRID_ONLINE: "SteamGridDB API: Online & Connected",
     SYNC_SUCCESS: "Library Synced like SHIRTS! 🚀",
     TITLE_REQUIRED: "⚠️ Title is required!"
   },
@@ -115,7 +111,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.33</title>
+<title id="html-title">VGnomicon v0.34</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -335,7 +331,6 @@ window.CONFIG = {
   .search-bar { max-width: 300px; min-width: 250px; }
   #btn-add-game { white-space: nowrap; flex-shrink: 0; }
   
-  /* v0.33 Diff #5: System Tray Typography Prominence Step-Up */
   .system-tray { display: flex; align-items: center; gap: 10px; color: var(--text-muted); justify-self: flex-end;}
   .sync-status { display: flex; align-items: center; gap: 6px; }
   .status-dot { width: 10px; height: 10px; border-radius: 50%; }
@@ -347,7 +342,6 @@ window.CONFIG = {
   .system-tray button { background: transparent; border: none; color: var(--text-muted); padding: 6px 12px; font-size: 15.5px; font-weight: 600; border-radius: var(--radius); transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; }
   .system-tray button:hover { color: var(--accent); background: var(--bg-surface-hover); }
   
-  /* v0.33 Diff #2: Settings Gear Unicode Spacing & Scale */
   #btn-open-settings .optical-align { gap: 3px !important; }
   #btn-open-settings .optical-align > span:first-child { font-size: 19px; margin-right: -2px; }
 
@@ -382,11 +376,11 @@ window.CONFIG = {
   .empty-state { text-align: center; padding: 60px 20px; font-size: 24px; color: var(--text-muted); font-family: var(--font-heading); animation: float 3s ease-in-out infinite; }
   .empty-state-emoji { display: inline-block; animation: bounce-emoji 2s infinite ease-in-out; }
   
-  /* Card Footprint minmax(215px, 1fr) - Portrait 2:3 Aspect Ratio */
+  /* v0.34 Diff #2: Object-Fit RAWG Portrait Optimization */
   .grid-view { display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 20px; }
   .game-card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; display: flex; flex-direction: column; position: relative;}
   .game-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--border-hover); }
-  .card-cover { width: 100%; aspect-ratio: 2/3; object-fit: cover; background: var(--bg-placeholder); }
+  .card-cover { width: 100%; aspect-ratio: 2/3; object-fit: cover; object-position: center top; background: var(--bg-placeholder); }
   .card-details { padding: 12px; display: flex; flex-direction: column; gap: 6px; flex: 1;}
   
   .card-details-text-container { container-type: inline-size; width: 100%; }
@@ -452,7 +446,6 @@ window.CONFIG = {
     .grid-view .card-footer .badge { font-size: 8.5px; padding: 0 4px; height: 22px; }
   }
 
-  /* v0.33 Diff #3: List View Right Border Removal & Fade Gradient Mask */
   .list-view { display: flex; flex-direction: column; gap: 10px; }
   .list-view .game-card { flex-direction: row; height: 60px; align-items: center; padding-right: 15px;}
   .list-view .card-cover { 
@@ -462,6 +455,7 @@ window.CONFIG = {
     margin-right: 12px; 
     aspect-ratio: 16/9; 
     object-fit: cover; 
+    object-position: center center;
     -webkit-mask-image: linear-gradient(to right, black 66%, transparent 100%);
     mask-image: linear-gradient(to right, black 66%, transparent 100%);
   }
@@ -490,7 +484,6 @@ window.CONFIG = {
   .close-btn { background: none; border: none; font-size: 20px; color: var(--text-muted); padding: 0; width: auto; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; }
   .close-btn:hover { color: var(--text-main); }
   
-  /* v0.33 Diff #7: Modal Instant Top-Snap */
   .modal-body { padding: 20px; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; gap: 16px; flex: 1; overscroll-behavior: contain;}
   .modal-footer { padding: 15px 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; gap: 10px; background: var(--bg-surface); z-index: 2;}
   
@@ -502,7 +495,7 @@ window.CONFIG = {
   /* Fixed Pixel-Locked Height Equalization (187px) - Portrait 2:3 Cover Box */
   .modal-top-section { height: 187px; display: flex; gap: 16px; margin-bottom: 16px; margin-top: 16px; align-items: stretch; }
   .modal-cover-wrapper { width: calc(187px * 2 / 3); height: 187px; flex-shrink: 0; background: var(--bg-placeholder); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--text-disabled); font-size: 12px; position: relative; }
-  .modal-cover-wrapper img { width: 100%; height: 100%; object-fit: cover; display: none; position: absolute; top:0; left:0; }
+  .modal-cover-wrapper img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: none; position: absolute; top:0; left:0; }
   
   .modal-desc-wrapper { height: 187px; display: flex; flex-direction: column; gap: 5px; flex: 1 1 0; min-height: 0; }
   .modal-desc-wrapper label { font-size: 12px; color: var(--text-muted); font-weight: 600; font-family: var(--font-heading); text-transform: uppercase; flex-shrink: 0;}
@@ -530,7 +523,7 @@ window.CONFIG = {
   .autocomplete-results { position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); z-index: 9999; max-height: 228px; overflow-y: auto; display: none; box-shadow: var(--shadow); }
   .ac-item { padding: 10px; display: flex; gap: 10px; align-items: center; cursor: pointer; border-bottom: 1px solid var(--border); }
   .ac-item:hover { background: var(--bg-surface-hover); }
-  .ac-item img { width: 40px; height: 55px; object-fit: cover; border-radius: 4px; }
+  .ac-item img { width: 40px; height: 55px; object-fit: cover; object-position: center top; border-radius: 4px; }
   
   .btn-refresh-rawg { background: var(--bg-input); border: 1px solid var(--border); color: var(--accent); padding: 3px 8px; font-size: 11px; border-radius: var(--radius); cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: all 0.2s; height: 22px;}
   .btn-refresh-rawg:hover { background: var(--bg-surface-hover); border-color: var(--accent); }
@@ -636,7 +629,7 @@ window.CONFIG = {
     <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.33</span>
+      <span id="ui-app-version">v0.34</span>
     </div>
   </a>
   <div class="header-actions">
@@ -719,7 +712,6 @@ window.CONFIG = {
       <form id="game-form">
         <input type="hidden" id="f-id">
         <input type="hidden" id="f-cover-url">
-        <input type="hidden" id="f-banner-url">
         
         <div class="form-group autocomplete-wrapper">
           <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -895,23 +887,12 @@ window.CONFIG = {
 
       <div class="settings-block">
         <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">External APIs</h3>
-        
-        <!-- RAWG Row -->
-        <div style="display:flex; justify-content: space-between; align-items:center; margin-bottom: 12px;">
+        <div style="display:flex; justify-content: space-between; align-items:center;">
           <div style="display:flex; align-items:center; gap: 8px;">
             <div class="status-dot dot-yellow" id="modal-rawg-dot"></div>
             <span style="font-size:12px; color:var(--text-muted); font-weight:600;">RAWG Metadata Database</span>
           </div>
           <button id="btn-audit-rawg" style="padding:4px 10px; font-size:12px;"></button>
-        </div>
-        
-        <!-- v0.33 Feature #4: SteamGridDB Row -->
-        <div style="display:flex; justify-content: space-between; align-items:center;">
-          <div style="display:flex; align-items:center; gap: 8px;">
-            <div class="status-dot dot-yellow" id="modal-steamgrid-dot"></div>
-            <span style="font-size:12px; color:var(--text-muted); font-weight:600;">SteamGridDB Artwork</span>
-          </div>
-          <button id="btn-audit-steamgrid" style="padding:4px 10px; font-size:12px;"></button>
         </div>
       </div>
 
@@ -1047,7 +1028,6 @@ window.CONFIG = {
     trayDate: document.getElementById('tray-date'), trayTime: document.getElementById('tray-time'), 
     traySyncDot: document.getElementById('tray-sync-dot'), 
     modalRawgDot: document.getElementById('modal-rawg-dot'),
-    modalSteamGridDot: document.getElementById('modal-steamgrid-dot'),
     modalGameRawgDot: document.getElementById('modal-game-rawg-dot'),
     lblRawgStatusText: document.getElementById('lbl-rawg-status-text'),
     btnSync: document.getElementById('btn-force-sync'), btnTheme: document.getElementById('btn-open-theme'),
@@ -1091,7 +1071,6 @@ window.CONFIG = {
       status: document.getElementById('f-status'), 
       ratingContainer: document.getElementById('f-rating-interactive'),
       rawgScore: document.getElementById('f-rawg-score'), url: document.getElementById('f-cover-url'),
-      bannerUrl: document.getElementById('f-banner-url'),
       dateAdd: document.getElementById('f-date-added'), dateComp: document.getElementById('f-date-completed'),
       playtime: document.getElementById('f-playtime'), hltbM: document.getElementById('f-hltb-main'),
       hltbE: document.getElementById('f-hltb-extras'), hltbC: document.getElementById('f-hltb-comp'),
@@ -1106,13 +1085,11 @@ window.CONFIG = {
     btnSettings: document.getElementById('btn-open-settings'), btnCloseSettings: document.getElementById('btn-close-settings'),
     sGenresCloud: document.getElementById('s-genres-cloud'),
     btnAuditCache: document.getElementById('btn-audit-cache'), btnAuditRawg: document.getElementById('btn-audit-rawg'),
-    btnAuditSteamGrid: document.getElementById('btn-audit-steamgrid'),
     btnClearCache: document.getElementById('btn-clear-cache')
   };
   
   // --- Sanitized API Key Accessors ---
   const getRawgKey = () => (C.RAWG_API_KEY || "").trim();
-  const getSteamGridKey = () => (C.STEAMGRIDDB_API_KEY || "").trim();
 
   // --- Dynamic Asset Engine ---
   function applyDynamicAssets() {
@@ -1319,7 +1296,6 @@ window.CONFIG = {
     els.btnAuditCache.innerHTML = splitEmoji(C.BTN_AUDIT_CACHE);
     els.btnClearCache.innerHTML = splitEmoji(C.BTN_CLEAR_CACHE);
     els.btnAuditRawg.innerHTML = splitEmoji(C.BTN_CHECK_RAWG);
-    els.btnAuditSteamGrid.innerHTML = splitEmoji(C.BTN_CHECK_STEAMGRID || "🌐 SteamGridDB Check");
     els.btnGrid.innerHTML = splitEmoji("🔲 Grid");
     els.btnList.innerHTML = splitEmoji("☰ List");
     els.btnCloseRandom.innerHTML = splitEmoji(C.BTN_WINNER_CONFIRM || "Awesome!");
@@ -1411,16 +1387,6 @@ window.CONFIG = {
       const remaining = Math.max(0, quantizedSpin - elapsed);
       setTimeout(() => els.btnAuditRawg.classList.remove('spinning'), remaining);
     };
-
-    els.btnAuditSteamGrid.onclick = async () => {
-      els.btnAuditSteamGrid.classList.add('spinning');
-      const spinStart = Date.now();
-      await auditSteamGridConnection(false);
-      const elapsed = Date.now() - spinStart;
-      const quantizedSpin = Math.max(3200, Math.ceil(elapsed / 800) * 800);
-      const remaining = Math.max(0, quantizedSpin - elapsed);
-      setTimeout(() => els.btnAuditSteamGrid.classList.remove('spinning'), remaining);
-    };
     
     els.btnSync.onclick = forceSync;
     
@@ -1502,18 +1468,10 @@ window.CONFIG = {
         if (data.results && data.results.length > 0) {
           const match = data.results[0];
           const banner = match.background_image || "";
-          let portrait = banner;
           
-          const sgKey = getSteamGridKey();
-          if (sgKey && sgKey !== "YOUR_STEAMGRIDDB_API_KEY_HERE") {
-             const sgCover = await fetchSteamGridCover(match.name, sgKey);
-             if (sgCover) portrait = sgCover;
-          }
-          
-          setVal(els.f.url, portrait);
-          setVal(els.f.bannerUrl, banner);
-          if (portrait) {
-            els.f.coverImg.src = portrait;
+          setVal(els.f.url, banner);
+          if (banner) {
+            els.f.coverImg.src = banner;
             els.f.coverImg.style.display = 'block';
             els.f.coverText.style.display = 'none';
           }
@@ -1570,7 +1528,6 @@ window.CONFIG = {
     els.search.addEventListener('input', renderLibrary);
 
     auditRawgConnection(true);
-    auditSteamGridConnection(true);
     renderLibrary();
   }
 
@@ -1690,7 +1647,7 @@ window.CONFIG = {
     renderLibrary();
   }
 
-  // --- 5. RAWG & STEAMGRIDDB API ---
+  // --- 5. RAWG API ---
   function setRawgState(state) {
     const dots = [els.modalRawgDot, els.modalGameRawgDot].filter(Boolean);
     dots.forEach(dot => {
@@ -1699,14 +1656,6 @@ window.CONFIG = {
       else if(state === '🟡') dot.classList.add('dot-yellow');
       else dot.classList.add('dot-red');
     });
-  }
-
-  function setSteamGridState(state) {
-    if (!els.modalSteamGridDot) return;
-    els.modalSteamGridDot.className = 'status-dot';
-    if(state === '🟢') els.modalSteamGridDot.classList.add('dot-green');
-    else if(state === '🟡') els.modalSteamGridDot.classList.add('dot-yellow');
-    else els.modalSteamGridDot.classList.add('dot-red');
   }
 
   async function auditRawgConnection(silent = false) {
@@ -1739,70 +1688,6 @@ window.CONFIG = {
       setRawgState('🔴');
       if(!silent) showToast(C.MESSAGES.RAWG_OFFLINE);
     }
-  }
-
-  async function auditSteamGridConnection(silent = false) {
-    setSteamGridState('🟡');
-    const apiKey = getSteamGridKey();
-    
-    if (!apiKey || apiKey === "YOUR_STEAMGRIDDB_API_KEY_HERE") {
-        setSteamGridState('🔴');
-        if(!silent) showToast(C.MESSAGES.STEAMGRID_OFFLINE);
-        return;
-    }
-    
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 4000);
-    
-    try {
-      const corsProxy = 'https://corsproxy.io/?';
-      const targetUrl = encodeURIComponent(`https://www.steamgriddb.com/api/v2/search/autocomplete/mario`);
-      const res = await fetch(`${corsProxy}${targetUrl}`, {
-        headers: { Authorization: `Bearer ${apiKey}` },
-        signal: controller.signal
-      });
-      clearTimeout(timeoutId);
-      
-      if(res.ok) {
-        setSteamGridState('🟢');
-        if(!silent) showToast(C.MESSAGES.STEAMGRID_ONLINE);
-      } else {
-        console.warn(`SteamGridDB Audit failed with status: ${res.status}`);
-        setSteamGridState('🔴');
-        if(!silent) showToast(C.MESSAGES.STEAMGRID_OFFLINE);
-      }
-    } catch(e) {
-      console.warn(`SteamGridDB Audit connection error:`, e);
-      setSteamGridState('🔴');
-      if(!silent) showToast(C.MESSAGES.STEAMGRID_OFFLINE);
-    }
-  }
-
-  // v0.33 Feature #1: Client-Side CORS Proxy Fetch for SteamGridDB
-  async function fetchSteamGridCover(gameName, apiKey) {
-    if (!apiKey || apiKey === "YOUR_STEAMGRIDDB_API_KEY_HERE") return null;
-    const corsProxy = 'https://corsproxy.io/?';
-    try {
-      const searchTarget = encodeURIComponent(`https://www.steamgriddb.com/api/v2/search/autocomplete/${encodeURIComponent(gameName)}`);
-      const searchRes = await fetch(`${corsProxy}${searchTarget}`, {
-        headers: { Authorization: `Bearer ${apiKey}` }
-      });
-      const searchData = await searchRes.json();
-      if (!searchData.success || !searchData.data || searchData.data.length === 0) return null;
-      
-      const gameId = searchData.data[0].id;
-      const gridTarget = encodeURIComponent(`https://www.steamgriddb.com/api/v2/grids/game/${gameId}?dimensions=600x900`);
-      const gridRes = await fetch(`${corsProxy}${gridTarget}`, {
-        headers: { Authorization: `Bearer ${apiKey}` }
-      });
-      const gridData = await gridRes.json();
-      if (gridData.success && gridData.data && gridData.data.length > 0) {
-        return gridData.data[0].url;
-      }
-    } catch(e) {
-      console.warn("SteamGridDB fetch failed:", e);
-    }
-    return null;
   }
 
   function debounce(func, delay) {
@@ -1875,18 +1760,10 @@ window.CONFIG = {
     promoteStatusAndDate();
     
     const banner = g.background_image || "";
-    let portrait = banner;
     
-    const sgKey = getSteamGridKey();
-    if (sgKey && sgKey !== "YOUR_STEAMGRIDDB_API_KEY_HERE") {
-      const sgCover = await fetchSteamGridCover(g.name, sgKey);
-      if (sgCover) portrait = sgCover;
-    }
-    
-    setVal(els.f.url, portrait);
-    setVal(els.f.bannerUrl, banner);
-    if(portrait) {
-      els.f.coverImg.src = portrait;
+    setVal(els.f.url, banner);
+    if(banner) {
+      els.f.coverImg.src = banner;
       els.f.coverImg.style.display = 'block';
       els.f.coverText.style.display = 'none';
     }
@@ -2021,12 +1898,11 @@ window.CONFIG = {
       els.f.price.value = g.price || "";
       els.f.status.value = g.status || "Backlog";
       els.f.url.value = g.url || "";
-      els.f.bannerUrl.value = g.bannerUrl || "";
       els.f.rawgScore.value = g.rawgScore || "";
       
       setStars(parseFloat(g.rating || 0));
       
-      const displayCover = g.url || g.bannerUrl;
+      const displayCover = g.url;
       if(displayCover) {
         els.f.coverImg.src = displayCover;
         els.f.coverImg.style.display = 'block';
@@ -2142,7 +2018,7 @@ window.CONFIG = {
       id: id,
       title: els.f.title.value, desc: els.f.desc.value, dev: els.f.dev.value, pub: els.f.pub.value,
       genres: els.f.genres.value, plat: els.f.plat.value, format: els.f.format.value, price: els.f.price.value,
-      status: els.f.status.value, rating: currentRating, url: els.f.url.value, bannerUrl: els.f.bannerUrl.value, rawgScore: els.f.rawgScore.value,
+      status: els.f.status.value, rating: currentRating, url: els.f.url.value, rawgScore: els.f.rawgScore.value,
       dateAdd: els.f.dateAdd.value, dateComp: els.f.dateComp.value, playtime: els.f.playtime.value,
       hltbM: els.f.hltbM.value, hltbE: els.f.hltbE.value, hltbC: els.f.hltbC.value,
       notes: els.f.notes.value, achE: els.f.achE.value, achT: els.f.achT.value
@@ -2240,7 +2116,7 @@ window.CONFIG = {
       }
 
       const titleClass = g.title.length > 25 ? "card-title title-long" : "card-title";
-      const coverSrc = isList ? (g.bannerUrl || g.url || '') : (g.url || g.bannerUrl || '');
+      const coverSrc = g.url || '';
 
       card.innerHTML = `
         <img src="${coverSrc}" class="card-cover" loading="lazy">
@@ -2475,7 +2351,7 @@ window.CONFIG = {
          else if (p === "NES" || p === "Nintendo 64" || p === "SNES" || p.includes("Switch")) { platColor = "#E60012"; }
 
          const titleClass = pick.title.length > 25 ? "card-title title-long" : "card-title";
-         const pickCover = pick.url || pick.bannerUrl || '';
+         const pickCover = pick.url || '';
 
          els.randomRes.innerHTML = `
             <div class="game-card" style="margin:0 auto; transform:scale(1.05); pointer-events:none; border:1px solid var(--accent); box-shadow: 0 0 20px var(--accent), 0 0 40px rgba(0,0,0,0.5);">

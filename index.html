@@ -25,7 +25,7 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.45",
+  APP_VERSION: "0.46",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 RAWG Check",
@@ -112,7 +112,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.45</title>
+<title id="html-title">VGnomicon v0.46</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -378,7 +378,7 @@ window.CONFIG = {
   @keyframes spin { 100% { transform: rotate(360deg); } }
   .spinning { animation: spin 0.8s linear infinite; }
   
-  /* v0.45 Diff #1: Clean Semantic Control-Bar Splitting & Alignment */
+  /* v0.46 Diff #1: Strict 2-Line Flex Lock & Button Height Synchronization */
   .control-bar { 
     padding: 10px 20px; 
     display: flex; 
@@ -394,20 +394,40 @@ window.CONFIG = {
     display: flex; 
     align-items: center; 
     gap: 10px; 
-    flex-wrap: wrap; 
+    flex-wrap: nowrap;     /* Lock to 1 line */
+    white-space: nowrap; 
+    flex-shrink: 0; 
   }
   
   .control-right-group { 
     display: flex; 
     align-items: center; 
     gap: 10px; 
+    flex-wrap: nowrap;     /* Lock to 1 line */
+    white-space: nowrap; 
     flex-shrink: 0; 
   }
 
   .control-bar .custom-select-wrapper { max-width: 175px; flex: 0 0 auto; width: 100%; min-width: 130px; }
   .control-bar .custom-select-trigger { padding: 6px 10px; }
   
-  #btn-clear-filters { background: transparent; border: 1px solid var(--border); color: var(--text-muted); font-size: 14px; font-weight: 600; border-radius: var(--radius); padding: 6px 12px; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; height: 100%; box-sizing: border-box;}
+  #btn-clear-filters { 
+    background: transparent; 
+    border: 1px solid var(--border); 
+    color: var(--text-muted); 
+    font-size: 14px; 
+    font-weight: 600; 
+    border-radius: var(--radius); 
+    padding: 6px 12px; 
+    transition: all 0.2s; 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    box-sizing: border-box;
+    height: 38px;          /* Match custom-select trigger height */
+    flex-shrink: 0;        /* Prevent button crush */
+  }
+  
   #btn-clear-filters:hover { border-color: var(--accent); color: var(--accent); background: var(--bg-surface-hover); }
   [data-theme="retro-arcade"] #btn-clear-filters { font-size: 11px; }
   [data-theme="wasteland-terminal"] #btn-clear-filters { font-size: 18px; }
@@ -429,11 +449,18 @@ window.CONFIG = {
   #btn-grid-view .optical-align > span:first-child { transform: translateY(0px); }
   [data-theme="retro-arcade"] #btn-list-view .optical-align > span:first-child { transform: translateY(-8.5px); }
 
-  /* v0.45 Diff #2: Coordinated Collision Threshold Breakpoint */
+  /* v0.46 Diff #2: Symmetrical 2-Line Collapse Enforcement */
   @media (max-width: 880px) {
-    .control-bar { justify-content: center; }
-    .control-left-group { width: 100%; justify-content: center; }
-    .control-right-group { width: 100%; justify-content: center; }
+    .control-bar { justify-content: center; gap: 10px; }
+    .control-left-group { width: 100%; justify-content: center; flex-wrap: nowrap; }
+    .control-right-group { width: 100%; justify-content: center; flex-wrap: nowrap; }
+  }
+
+  /* v0.46 Diff #3: Fluid Mobile Scaling */
+  @media (max-width: 600px) {
+    .control-bar .custom-select-wrapper { min-width: 100px; max-width: 145px; flex: 1 1 auto; }
+    .control-bar .custom-select-trigger { padding: 6px 8px; font-size: 13px; }
+    #btn-clear-filters { padding: 6px 10px; font-size: 13px; }
   }
 
   /* Library Container & Empty State */

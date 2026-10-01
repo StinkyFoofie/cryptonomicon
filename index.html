@@ -25,7 +25,7 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.39",
+  APP_VERSION: "0.40",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 RAWG Check",
@@ -112,7 +112,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.39</title>
+<title id="html-title">VGnomicon v0.40</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -315,12 +315,14 @@ window.CONFIG = {
   .custom-select-wrapper select { display: none; }
   
   .custom-select-trigger { background: var(--bg-input); color: var(--text-main); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px; font-size: 14px; font-family: var(--font-main); width: 100%; cursor: pointer; display: inline-flex; justify-content: space-between; align-items: center; user-select: none; line-height: 1; vertical-align: middle; }
-  .custom-select-trigger.empty { color: var(--text-disabled); }
+  
+  /* v0.40 Diff #4: High-Contrast Muted Triggers */
+  .custom-select-trigger.empty { color: var(--text-muted); font-weight: 600; }
+  
   .custom-select-trigger::after { content: ''; width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid var(--text-muted); transition: transform 0.2s; }
   .custom-select-wrapper.open .custom-select-trigger { border-color: var(--border-focus); }
   .custom-select-wrapper.open .custom-select-trigger::after { transform: rotate(180deg); }
   
-  /* v0.39 Diff #2: Bulletproof Dynamic CSS Max-Height (No Static Ceiling) */
   .custom-options-container { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); z-index: 10000; overflow-y: auto; display: none; flex-direction: column;}
   .custom-select-wrapper.open .custom-options-container { display: flex; }
   
@@ -333,7 +335,7 @@ window.CONFIG = {
   /* Date Input Placeholder Hack */
   input[type="date"] { position: relative; }
   input[type="date"].empty-date { color: transparent; }
-  input[type="date"].empty-date::before { content: attr(data-placeholder); color: var(--text-disabled); position: absolute; left: 10px; pointer-events: none; font-family: var(--font-main); }
+  input[type="date"].empty-date::before { content: attr(data-placeholder); color: var(--text-muted); font-weight: 600; position: absolute; left: 10px; pointer-events: none; font-family: var(--font-main); }
 
   /* Header Brand Horizontal & Baseline Centering */
   header { background: var(--bg-surface); padding: 12px 20px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; border-bottom: 1px solid var(--border); gap: 10px; }
@@ -343,7 +345,11 @@ window.CONFIG = {
   .brand h1 { color: var(--accent); font-size: 16px; margin: 0; }
   .brand span { font-size: 11px; color: var(--text-muted); font-family: var(--font-main); font-weight: 600;}
   .header-actions { display: flex; gap: 10px; align-items: center; justify-content: center; justify-self: center;}
-  .search-bar { max-width: 300px; min-width: 250px; }
+  
+  /* v0.40 Diff #3: Global Header Search Bar Centered Placeholder & Query Text */
+  .search-bar { max-width: 300px; min-width: 250px; text-align: center; }
+  .search-bar::placeholder { color: var(--text-muted); font-weight: 600; opacity: 1; text-align: center; }
+  
   #btn-add-game { white-space: nowrap; flex-shrink: 0; }
   
   .system-tray { display: flex; align-items: center; gap: 10px; color: var(--text-muted); justify-self: flex-end;}
@@ -407,7 +413,6 @@ window.CONFIG = {
   .game-card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; display: flex; flex-direction: column; position: relative;}
   .game-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--border-hover); }
   
-  /* v0.39 Diff #1: Clean RAWG Art Reversion (No Blur, Full Bleed) */
   .card-cover { width: 100%; aspect-ratio: 2/3; object-fit: cover; object-position: center 32%; background: var(--bg-placeholder); border-bottom: 1px solid var(--border); }
   
   .card-details { padding: 12px; display: flex; flex-direction: column; gap: 6px; flex: 1;}
@@ -491,7 +496,6 @@ window.CONFIG = {
   .list-view .card-footer-row-2 { gap: 8px; }
   .list-view .card-footer-row-2 .trophy-col, .list-view .card-footer-row-2 .status-col { display: inline-flex; align-items: center; }
 
-  /* v0.39 Diff #5: 2-Line Dynamic Morph Breakpoint (< 720px) */
   @media (max-width: 720px) {
     .list-view .game-card { height: auto; min-height: 84px; }
     .list-view .card-details { flex-direction: column; align-items: flex-start; justify-content: center; gap: 8px; padding: 10px 0; }
@@ -523,12 +527,12 @@ window.CONFIG = {
   .settings-block input:focus, .settings-block select:focus { border-color: var(--border-focus); }
   .settings-coll-row { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; line-height: 1.4; font-size: 12px; color: var(--text-muted); }
 
-  /* v0.39 Diff #4: Widescreen Thumbnail Expansion */
+  /* v0.40 Diff #1: Symmetrical 50/50 Desktop Row Split */
   .modal-top-section { height: 187px; display: flex; gap: 16px; margin-bottom: 16px; margin-top: 16px; align-items: stretch; }
-  .modal-cover-wrapper { width: 270px; height: 187px; flex-shrink: 0; background: var(--bg-placeholder); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--text-disabled); font-size: 12px; position: relative; }
+  .modal-cover-wrapper { flex: 1 1 0; width: 0; min-width: 0; height: 187px; background: var(--bg-placeholder); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--text-disabled); font-size: 12px; position: relative; }
   .modal-cover-wrapper img { width: 100%; height: 100%; object-fit: cover; object-position: center 32%; display: none; position: absolute; top:0; left:0; }
   
-  .modal-desc-wrapper { height: 187px; display: flex; flex-direction: column; gap: 5px; flex: 1 1 0; min-height: 0; }
+  .modal-desc-wrapper { flex: 1 1 0; width: 0; min-width: 0; height: 187px; display: flex; flex-direction: column; gap: 5px; }
   .modal-desc-wrapper label { font-size: 12px; color: var(--text-muted); font-weight: 600; font-family: var(--font-heading); text-transform: uppercase; flex-shrink: 0;}
   .modal-desc-wrapper textarea { flex: 1 1 0; height: 0; min-height: 0; resize: none; margin: 0; box-sizing: border-box; }
 
@@ -556,8 +560,11 @@ window.CONFIG = {
   .ac-item:hover { background: var(--bg-surface-hover); }
   .ac-item img { width: 40px; height: 55px; object-fit: cover; object-position: center top; border-radius: 4px; }
   
-  .btn-refresh-rawg { background: var(--bg-input); border: 1px solid var(--border); color: var(--accent); padding: 3px 8px; font-size: 11px; border-radius: var(--radius); cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: all 0.2s; height: 22px;}
+  /* v0.40 Diff #2: Midline Axis Lock for Modal RAWG Controls */
+  #modal-rawg-slot { display: inline-flex; align-items: center; gap: 8px; line-height: 1; vertical-align: middle; }
+  .btn-refresh-rawg { margin: 0; align-self: center; background: var(--bg-input); border: 1px solid var(--border); color: var(--accent); padding: 3px 8px; font-size: 11px; border-radius: var(--radius); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 4px; transition: all 0.2s; height: 22px; vertical-align: middle; }
   .btn-refresh-rawg:hover { background: var(--bg-surface-hover); border-color: var(--accent); }
+  #modal-game-rawg-dot { margin: 0; align-self: center; flex-shrink: 0; }
   
   /* Star Rating Widget */
   .rating-container { display: flex; align-items: center; gap: 4px; height: 42px;}
@@ -642,7 +649,7 @@ window.CONFIG = {
     .form-grid { grid-template-columns: 1fr; }
     
     .modal-top-section { flex-direction: column; align-items: stretch; height: auto; }
-    .modal-cover-wrapper { width: 140px; margin: 0 auto; height: 187px; }
+    .modal-cover-wrapper { width: 100%; margin: 0 auto; height: 187px; flex: none; }
     .modal-desc-wrapper { height: 150px; flex: none; }
     
     .theme-grid { grid-template-columns: repeat(2, 1fr); }
@@ -659,7 +666,7 @@ window.CONFIG = {
     <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.39</span>
+      <span id="ui-app-version">v0.40</span>
     </div>
   </a>
   <div class="header-actions">
@@ -747,7 +754,7 @@ window.CONFIG = {
         <div class="form-group autocomplete-wrapper">
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <label style="margin-bottom:0;">Title * (Sorted by RAWG Relevance)</label>
-            <div id="modal-rawg-slot" style="display:flex; align-items:center; gap:8px;">
+            <div id="modal-rawg-slot">
               <span id="lbl-rawg-status-text" style="font-size:12px; color:var(--text-muted); font-weight:600; line-height:1; vertical-align:middle;">RAWG Status</span>
               <button type="button" id="btn-refresh-rawg" class="btn-refresh-rawg" style="display:none;" title="Re-fetch latest metadata from RAWG"></button>
               <div class="status-dot dot-yellow" id="modal-game-rawg-dot" title="RAWG API Status"></div>
@@ -911,7 +918,7 @@ window.CONFIG = {
       <div class="settings-block">
         <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">Firebase Sync Targets</h3>
         <div class="settings-coll-row">
-          <span>Collection paths dynamically map to:</span>
+          <strong style="font-weight:600; color:var(--text-muted);">Collection paths dynamically map to:</strong>
           <strong id="s-db-coll-read" style="color:var(--text-main); font-family:monospace;"></strong>
         </div>
       </div>
@@ -930,7 +937,7 @@ window.CONFIG = {
       <div class="settings-block">
         <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">Local Cache Usage Tracker</h3>
         <div class="storage-meter"><div class="storage-fill" id="s-storage-bar-fill"></div></div>
-        <span style="font-size:12px; color:var(--text-muted); display:block; margin-top:5px; margin-bottom:15px;" id="s-storage-text">0.00 MB / 5.00 MB used (0%)</span>
+        <span style="font-size:12px; color:var(--text-muted); display:block; margin-top:5px; margin-bottom:15px; font-weight:600;" id="s-storage-text">0.00 MB / 5.00 MB used (0%)</span>
         <div style="display:flex; gap:10px;">
           <button id="btn-audit-cache" style="flex:1;"></button>
           <button class="danger" id="btn-clear-cache" style="flex:1;"></button>
@@ -946,10 +953,10 @@ window.CONFIG = {
       
       <div class="settings-block">
         <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">About</h3>
-        <p style="font-size:12px; color:var(--text-muted); line-height:1.4;">
-          Product: <strong id="s-appname-read"></strong><br>
-          Version: <strong id="s-appver-read"></strong><br>
-          Architecture: <strong id="s-apparch-read"></strong>
+        <p style="font-size:12px; color:var(--text-muted); line-height:1.6;">
+          <strong style="color:var(--text-muted); font-weight:600;">Product:</strong> <strong id="s-appname-read" style="color:var(--text-main);"></strong><br>
+          <strong style="color:var(--text-muted); font-weight:600;">Version:</strong> <strong id="s-appver-read" style="color:var(--text-main);"></strong><br>
+          <strong style="color:var(--text-muted); font-weight:600;">Architecture:</strong> <strong id="s-apparch-read" style="color:var(--text-main);"></strong>
         </p>
       </div>
 

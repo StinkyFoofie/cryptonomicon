@@ -25,7 +25,7 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.37",
+  APP_VERSION: "0.38",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 RAWG Check",
@@ -112,7 +112,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.37</title>
+<title id="html-title">VGnomicon v0.38</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -320,7 +320,6 @@ window.CONFIG = {
   .custom-select-wrapper.open .custom-select-trigger { border-color: var(--border-focus); }
   .custom-select-wrapper.open .custom-select-trigger::after { transform: rotate(180deg); }
   
-  /* v0.37 Diff #2: Universal 6-Item Dropdown Limit */
   .custom-options-container { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); z-index: 10000; overflow-y: auto; display: none; flex-direction: column; max-height: 242px;}
   .custom-select-wrapper.open .custom-options-container { display: flex; }
   
@@ -365,12 +364,10 @@ window.CONFIG = {
   @keyframes spin { 100% { transform: rotate(360deg); } }
   .spinning { animation: spin 0.8s linear infinite; }
   
-  /* v0.37 Diff #3: Control-Bar Layout Restructuring */
   .control-bar { padding: 10px 20px; display: flex; gap: 10px; background: var(--bg-base); flex-wrap: wrap; border-bottom: 1px solid var(--border); align-items: center;}
   .control-bar .custom-select-wrapper { max-width: 175px; flex: 0 0 auto; width: 100%; min-width: 130px; }
   .control-bar .custom-select-trigger { padding: 6px 10px; }
   
-  /* v0.37 Diff #1: Clear Filters Button Style */
   #btn-clear-filters { background: transparent; border: 1px solid var(--border); color: var(--text-muted); font-size: 14px; font-weight: 600; border-radius: var(--radius); padding: 6px 12px; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; height: 100%; box-sizing: border-box;}
   #btn-clear-filters:hover { border-color: var(--accent); color: var(--accent); background: var(--bg-surface-hover); }
   [data-theme="retro-arcade"] #btn-clear-filters { font-size: 11px; }
@@ -392,6 +389,13 @@ window.CONFIG = {
   #btn-grid-view .optical-align > span:first-child { transform: translateY(0px); }
   [data-theme="retro-arcade"] #btn-list-view .optical-align > span:first-child { transform: translateY(-7px); }
 
+  /* v0.38 Diff #3: Control-Bar Multi-Line Wrapped Row Auto-Centering */
+  @media (max-width: 768px) {
+    .control-bar { justify-content: center; }
+    .view-toggle { margin: 0 10px; }
+    #btn-random-game { margin-left: 0; }
+  }
+
   /* Library Container & Empty State */
   main { padding: 20px; min-height: calc(100vh - 140px); }
   @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-12px); } 100% { transform: translateY(0px); } }
@@ -403,8 +407,10 @@ window.CONFIG = {
   .game-card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; display: flex; flex-direction: column; position: relative;}
   .game-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--border-hover); }
   
-  /* v0.37 Diff #8: Widescreen Landscape Art Crop Optimization */
-  .card-cover { width: 100%; aspect-ratio: 2/3; object-fit: cover; object-position: center 32%; background: var(--bg-placeholder); }
+  /* v0.38 Diff #1: Ambient Blur Widescreen Backdrop Plate (Grid View) */
+  .card-cover-container { position: relative; width: 100%; aspect-ratio: 2/3; overflow: hidden; background: var(--bg-placeholder); border-bottom: 1px solid var(--border); }
+  .card-cover-blur { position: absolute; top: -10%; left: -10%; width: 120%; height: 120%; object-fit: cover; filter: blur(15px) brightness(0.6); opacity: 0.8; z-index: 1; }
+  .card-cover { position: relative; width: 100%; height: 100%; object-fit: contain; z-index: 2; }
   
   .card-details { padding: 12px; display: flex; flex-direction: column; gap: 6px; flex: 1;}
   
@@ -471,19 +477,14 @@ window.CONFIG = {
     .grid-view .card-footer .badge { font-size: 8.5px; padding: 0 4px; height: 22px; }
   }
 
+  /* v0.38 Diff #2: List View Dynamic 2-Line Responsive Morpher */
   .list-view { display: flex; flex-direction: column; gap: 10px; }
-  .list-view .game-card { flex-direction: row; height: 60px; align-items: center; padding-right: 15px;}
-  .list-view .card-cover { 
-    width: calc(60px * 16 / 9); 
-    height: 60px; 
-    border-right: none; 
-    margin-right: 12px; 
-    aspect-ratio: 16/9; 
-    object-fit: cover; 
-    object-position: center center;
-    -webkit-mask-image: linear-gradient(to right, black 66%, transparent 100%);
-    mask-image: linear-gradient(to right, black 66%, transparent 100%);
-  }
+  .list-view .game-card { flex-direction: row; height: 60px; align-items: center; padding-right: 15px; }
+  
+  /* List View Cover Specific Overrides */
+  .list-view .card-cover-container { width: calc(60px * 16 / 9); height: 100%; aspect-ratio: auto; margin-right: 12px; border-bottom: none; -webkit-mask-image: linear-gradient(to right, black 66%, transparent 100%); mask-image: linear-gradient(to right, black 66%, transparent 100%); flex-shrink: 0;}
+  .list-view .card-cover { object-fit: cover; }
+  .list-view .card-cover-blur { display: none; }
   
   .list-view .card-details { flex-direction: row; align-items: center; justify-content: space-between; padding: 0; width: 100%; gap: 15px; }
   .list-view .card-details-text-container { flex: 1; min-width: 0; }
@@ -494,6 +495,15 @@ window.CONFIG = {
   .list-view .card-footer-row-1, .list-view .card-footer-row-2 { display: inline-flex; align-items: center; width: auto; }
   .list-view .card-footer-row-2 { gap: 8px; }
   .list-view .card-footer-row-2 .trophy-col, .list-view .card-footer-row-2 .status-col { display: inline-flex; align-items: center; }
+
+  /* 2-Line Dynamic Morph Breakpoint (< 720px) */
+  @media (max-width: 720px) {
+    .list-view .game-card { height: auto; min-height: 76px; }
+    .list-view .card-details { flex-direction: column; align-items: flex-start; justify-content: center; gap: 8px; padding: 10px 0; }
+    .list-view .card-footer { width: 100%; justify-content: flex-start; flex-wrap: wrap; }
+    .list-view .card-meta { width: 100%; justify-content: flex-start; }
+    .list-view .card-cover-container { height: auto; align-self: stretch; min-height: 76px; }
+  }
 
   /* Modal Scroll Chaining Isolation */
   .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg-backdrop); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 15px; overflow-x: hidden; overscroll-behavior: contain; }
@@ -520,7 +530,8 @@ window.CONFIG = {
   /* Fixed Pixel-Locked Height Equalization (187px) - Portrait 2:3 Cover Box */
   .modal-top-section { height: 187px; display: flex; gap: 16px; margin-bottom: 16px; margin-top: 16px; align-items: stretch; }
   .modal-cover-wrapper { width: calc(187px * 2 / 3); height: 187px; flex-shrink: 0; background: var(--bg-placeholder); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--text-disabled); font-size: 12px; position: relative; }
-  .modal-cover-wrapper img { width: 100%; height: 100%; object-fit: cover; object-position: center 32%; display: none; position: absolute; top:0; left:0; }
+  .modal-cover-wrapper .card-cover-blur { position: absolute; top: -10%; left: -10%; width: 120%; height: 120%; object-fit: cover; filter: blur(15px) brightness(0.6); opacity: 0.8; z-index: 1; display: none; }
+  .modal-cover-wrapper img#cover-preview-img { width: 100%; height: 100%; object-fit: contain; position: absolute; top: 0; left: 0; z-index: 2; display: none; }
   
   .modal-desc-wrapper { height: 187px; display: flex; flex-direction: column; gap: 5px; flex: 1 1 0; min-height: 0; }
   .modal-desc-wrapper label { font-size: 12px; color: var(--text-muted); font-weight: 600; font-family: var(--font-heading); text-transform: uppercase; flex-shrink: 0;}
@@ -653,7 +664,7 @@ window.CONFIG = {
     <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.37</span>
+      <span id="ui-app-version">v0.38</span>
     </div>
   </a>
   <div class="header-actions">
@@ -754,6 +765,7 @@ window.CONFIG = {
         <div class="modal-top-section">
           <div class="modal-cover-wrapper">
             <span id="cover-preview-text">Select Title...</span>
+            <img id="cover-preview-blur" class="card-cover-blur" src="">
             <img id="cover-preview-img" src="" alt="Cover" loading="lazy">
           </div>
           <div class="modal-desc-wrapper">
@@ -1103,7 +1115,7 @@ window.CONFIG = {
       notes: document.getElementById('f-notes'), achE: document.getElementById('f-ach-earned'),
       achT: document.getElementById('f-ach-total'), lblAch: document.getElementById('lbl-achievements'),
       rawgRes: document.getElementById('rawg-results'), coverImg: document.getElementById('cover-preview-img'),
-      coverText: document.getElementById('cover-preview-text')
+      coverBlur: document.getElementById('cover-preview-blur'), coverText: document.getElementById('cover-preview-text')
     },
     
     // Settings
@@ -1152,6 +1164,7 @@ window.CONFIG = {
   }
 
   // --- CUSTOM THEMEABLE DROPDOWN ENGINE ---
+  // v0.38 Diff #4: Bulletproof JS DOM Height Calibration
   function initializeCustomSelects() {
     document.querySelectorAll('select.native-hijack').forEach(select => {
       if (select.parentNode.classList.contains('custom-select-wrapper')) return;
@@ -1206,13 +1219,26 @@ window.CONFIG = {
       wrapper.appendChild(optionsContainer);
       
       trigger.addEventListener('click', (e) => {
-        document.querySelectorAll('.custom-select-wrapper').forEach(w => {
-          if (w !== wrapper) w.classList.remove('open');
-        });
-        wrapper.classList.toggle('open');
+        const wasOpen = wrapper.classList.contains('open');
         
-        if(wrapper.classList.contains('open')) {
-            optionsContainer.scrollTop = 0;
+        document.querySelectorAll('.custom-select-wrapper').forEach(w => {
+          w.classList.remove('open');
+        });
+        
+        if (!wasOpen) {
+          wrapper.classList.add('open');
+          
+          // Bulletproof 6-item height clamp across all themes
+          const visibleOpts = Array.from(optionsContainer.querySelectorAll('.custom-option'));
+          if(visibleOpts.length > 6) {
+              let totalHeight = 0;
+              for(let i = 0; i < 6; i++) {
+                  totalHeight += visibleOpts[i].offsetHeight;
+              }
+              optionsContainer.style.maxHeight = `${totalHeight + 1}px`;
+          }
+          
+          optionsContainer.scrollTop = 0;
         }
         e.stopPropagation();
       });
@@ -1291,7 +1317,6 @@ window.CONFIG = {
     els.btnTheme.innerHTML = splitEmoji(C.BTN_THEME);
     els.btnRandom.innerHTML = splitEmoji(C.BTN_RANDOM_GAME);
     
-    // v0.37 Diff #6: "🌐 RAWG Refresh" Button Integration
     els.btnRefreshRawg.innerHTML = splitEmoji("🌐 RAWG Refresh");
     
     if (els.btnClearFilters) els.btnClearFilters.innerHTML = splitEmoji(C.BTN_CLEAR_FILTERS || "🧹 Clear Filters");
@@ -1496,7 +1521,9 @@ window.CONFIG = {
             setVal(els.f.url, banner);
             if (banner) {
               els.f.coverImg.src = banner;
+              els.f.coverBlur.src = banner;
               els.f.coverImg.style.display = 'block';
+              els.f.coverBlur.style.display = 'block';
               els.f.coverText.style.display = 'none';
             }
             
@@ -1817,7 +1844,9 @@ window.CONFIG = {
     setVal(els.f.url, banner);
     if(banner) {
       els.f.coverImg.src = banner;
+      els.f.coverBlur.src = banner;
       els.f.coverImg.style.display = 'block';
+      els.f.coverBlur.style.display = 'block';
       els.f.coverText.style.display = 'none';
     }
     
@@ -1917,6 +1946,7 @@ window.CONFIG = {
   function openGameModal(id = null) {
     els.form.reset();
     els.f.coverImg.style.display = 'none';
+    els.f.coverBlur.style.display = 'none';
     els.f.coverText.style.display = 'block';
     els.f.rawgScore.value = "";
     els.f.rawgRes.style.display = 'none';
@@ -1958,7 +1988,9 @@ window.CONFIG = {
       const displayCover = g.url;
       if(displayCover) {
         els.f.coverImg.src = displayCover;
+        els.f.coverBlur.src = displayCover;
         els.f.coverImg.style.display = 'block';
+        els.f.coverBlur.style.display = 'block';
         els.f.coverText.style.display = 'none';
       }
       
@@ -2172,7 +2204,10 @@ window.CONFIG = {
       const coverSrc = g.url || '';
 
       card.innerHTML = `
-        <img src="${coverSrc}" class="card-cover" loading="lazy">
+        <div class="card-cover-container">
+          <img src="${coverSrc}" class="card-cover-blur" loading="lazy">
+          <img src="${coverSrc}" class="card-cover" loading="lazy">
+        </div>
         <div class="card-details">
           <div class="card-details-text-container">
             <div class="${titleClass}">${g.title}</div>
@@ -2408,7 +2443,10 @@ window.CONFIG = {
 
          els.randomRes.innerHTML = `
             <div class="game-card" style="margin:0 auto; transform:scale(1.05); pointer-events:none; border:1px solid var(--accent); box-shadow: 0 0 20px var(--accent), 0 0 40px rgba(0,0,0,0.5);">
-              <img src="${pickCover}" class="card-cover">
+              <div class="card-cover-container">
+                <img src="${pickCover}" class="card-cover-blur" loading="lazy">
+                <img src="${pickCover}" class="card-cover" loading="lazy">
+              </div>
               <div class="card-details" style="padding:15px; align-items:center; container-type: inline-size; width: 100%;">
                 <div class="${titleClass}" style="display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; text-overflow:ellipsis; line-height:1.3; text-align:center; word-break:break-word; font-size: 20px; font-weight: bold;">${pick.title}</div>
                 <div class="badge" style="margin-top:12px; background:${platColor}; color:${platText}; border:1px solid ${platBorder}; box-shadow: 0 2px 6px rgba(0,0,0,0.5); height:26px; padding: 0 12px; font-size:12px; border-radius:4px;">${pick.plat || ''}</div>

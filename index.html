@@ -25,7 +25,7 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.43",
+  APP_VERSION: "0.44",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 RAWG Check",
@@ -112,7 +112,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.43</title>
+<title id="html-title">VGnomicon v0.44</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -372,15 +372,6 @@ window.CONFIG = {
     .brand { flex: 0 0 auto; }
     .header-actions { flex: 1 1 100%; order: 3; justify-content: center; margin-top: 4px; }
     .system-tray { flex: 0 0 auto; margin-left: auto; justify-content: flex-end; order: 2; }
-  }
-
-  /* v0.43 Diff #1: System Tray Elevation (< 600px breakpoint) */
-  @media (max-width: 600px) {
-    header { flex-direction: column; justify-content: center; align-items: center; gap: 12px; }
-    .brand { order: 1; justify-self: center; align-items: center; }
-    .system-tray { order: 2; width: 100%; justify-content: center; gap: 8px; margin-top: 0; margin-bottom: 4px; }
-    .header-actions { order: 3; flex-direction: column; width: 100%; }
-    .search-bar { max-width: 100%; }
   }
 
   /* Harmonic 800ms Spin Period for Perfect 360° Landings */
@@ -655,20 +646,25 @@ window.CONFIG = {
   /* Canvas FX */
   #fx-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 4; display: none;}
 
-  /* Mobile Adjustments */
+  /* v0.44 Diff #1: Cleaned and Consolidated Authoritative Mobile Breakpoint */
   @media (max-width: 600px) {
+    /* Header Order Swap */
     header { flex-direction: column; justify-content: center; align-items: center; gap: 12px; }
     .brand { order: 1; justify-self: center; align-items: center; }
-    .header-actions { order: 2; flex-direction: column; width: 100%; }
+    .system-tray { order: 2; width: 100%; justify-content: center; gap: 8px; margin-top: 0; margin-bottom: 4px; }
+    .header-actions { order: 3; flex-direction: column; width: 100%; }
     .search-bar { max-width: 100%; }
-    .system-tray { order: 3; width: 100%; justify-content: center; gap: 8px; margin-top: 5px; }
     
+    /* Control-Bar absolute minimum alignment center */
+    .control-bar { justify-content: center; }
+    .view-toggle { margin: 0 10px; }
+    #btn-random-game { margin-left: 0; }
+    
+    /* Forms & Modals */
     .form-grid { grid-template-columns: 1fr; }
-    
     .modal-top-section { flex-direction: column; align-items: stretch; height: auto; }
     .modal-cover-wrapper { width: 100%; height: 187px; flex: none; }
     .modal-desc-wrapper { width: 100%; height: 150px; flex: none; }
-    
     .theme-grid { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
@@ -683,7 +679,7 @@ window.CONFIG = {
     <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.42</span>
+      <span id="ui-app-version">v0.44</span>
     </div>
   </a>
   <div class="header-actions">

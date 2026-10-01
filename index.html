@@ -25,7 +25,7 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.35",
+  APP_VERSION: "0.36",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 RAWG Check",
@@ -111,7 +111,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.35</title>
+<title id="html-title">VGnomicon v0.36</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -160,6 +160,13 @@ window.CONFIG = {
     --shadow: 0 0 15px rgba(255, 0, 85, 0.35); --font-main: 'Press Start 2P', 'Courier New', monospace; --font-heading: 'Press Start 2P', monospace;
     --radius: 2px; --scrollbar-thumb: #ffcc00; --scrollbar-track: #101025;
   }
+  
+  /* v0.36 Diff #5: Retro Arcade Micro-Typography Balancing */
+  [data-theme="retro-arcade"] .system-tray button { font-size: 10.5px; }
+  [data-theme="retro-arcade"] .view-btn { font-size: 10.5px; }
+  [data-theme="retro-arcade"] #btn-random-game { font-size: 10.5px; }
+  [data-theme="retro-arcade"] .list-view .card-meta { font-size: 10px !important; }
+
   /* Retro Arcade Layout Normalization & Universal Optical Snapping */
   [data-theme="retro-arcade"] .grid-view .card-title { font-size: 10px; }
   [data-theme="retro-arcade"] .list-view .card-title { font-size: 11px; }
@@ -200,8 +207,6 @@ window.CONFIG = {
   /* Retro Arcade Scoped Row 2 Clamp & Gutter Lock */
   [data-theme="retro-arcade"] .grid-view .card-footer-row-2 .badge { font-size: 8.5px !important; padding: 0 4px !important; letter-spacing: -0.04em !important; }
   [data-theme="retro-arcade"] .winner-emoji-box { transform: translateY(-4px); }
-  [data-theme="retro-arcade"] .system-tray button { font-size: 15.5px; }
-  [data-theme="retro-arcade"] .list-view .card-meta { font-size: 8.5px !important; }
 
   /* --- 5. SYNTHWAVE SUNSET --- */
   [data-theme="synthwave-sunset"] {
@@ -337,14 +342,16 @@ window.CONFIG = {
   .dot-green { background: var(--success); }
   .dot-yellow { background: var(--warning); box-shadow: 0 0 8px var(--warning); }
   .dot-red { background: var(--danger); }
-  .tray-time-stacked { display: flex; flex-direction: column; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 1.2; }
+  
+  /* v0.36 Diff #6: System Tray Date/Time Optically Centered Offset */
+  .tray-time-stacked { display: flex; flex-direction: column; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 1.2; margin-right: 12px; }
   
   .system-tray button { background: transparent; border: none; color: var(--text-muted); padding: 6px 12px; font-size: 15.5px; font-weight: 600; border-radius: var(--radius); transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; }
   .system-tray button:hover { color: var(--accent); background: var(--bg-surface-hover); }
   
-  /* v0.35 Diff #2: Settings Unicode Gear Glyph Scale-Up (21.5px) */
+  /* v0.36 Diff #7: Settings Unicode Gear Glyph Elevation Nudge */
   #btn-open-settings .optical-align { gap: 3px !important; }
-  #btn-open-settings .optical-align > span:first-child { font-size: 21.5px; margin-right: -2px; }
+  #btn-open-settings .optical-align > span:first-child { font-size: 21.5px; margin-right: -2px; transform: translateY(-1.5px); }
 
   /* Harmonic 800ms Spin Period for Perfect 360° Landings */
   @keyframes spin { 100% { transform: rotate(360deg); } }
@@ -539,7 +546,9 @@ window.CONFIG = {
   
   /* Chips & Badges */
   .reaction-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 5px; }
-  .chip { background: var(--bg-input); border: 1px solid var(--border); padding: 4px 10px; border-radius: 12px; font-size: 12px; font-family: var(--font-heading); cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle;}
+  
+  /* v0.36 Diff #3: Active Library Genre Chips Centering Lock */
+  .chip { background: var(--bg-input); border: 1px solid var(--border); padding: 5px 10px; border-radius: 12px; font-size: 12px; font-family: var(--font-heading); cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; text-align: center; line-height: 1; vertical-align: middle;}
   .chip:hover { background: var(--bg-surface-hover); border-color: var(--accent); }
   
   /* Storage Meter */
@@ -629,7 +638,7 @@ window.CONFIG = {
     <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.35</span>
+      <span id="ui-app-version">v0.36</span>
     </div>
   </a>
   <div class="header-actions">
@@ -888,7 +897,8 @@ window.CONFIG = {
       <div class="settings-block">
         <h3 style="margin-bottom:10px; font-size:14px; color:var(--accent);">External APIs</h3>
         <div style="display:flex; justify-content: space-between; align-items:center;">
-          <div style="display:flex; align-items:center; gap: 8px;">
+          <!-- v0.36 Diff #2: Settings RAWG Traffic Light Midline Center-Lock -->
+          <div style="display:inline-flex; align-items:center; line-height:1; gap: 8px;">
             <div class="status-dot dot-yellow" id="modal-rawg-dot"></div>
             <span style="font-size:12px; color:var(--text-muted); font-weight:600;">RAWG Metadata Database</span>
           </div>
@@ -1448,66 +1458,86 @@ window.CONFIG = {
     els.btnCancelDel.onclick = () => els.mDelete.classList.remove('active');
     els.btnConfirmDel.onclick = deleteGame;
     
+    // v0.36 Diff #1: Edit Modal RAWG Refresh True-Status Sync & Harmonic Phase-Lock
     els.btnRefreshRawg.onclick = async () => {
       const query = els.f.title.value.trim();
       const apiKey = getRawgKey();
       if (!query || !apiKey || apiKey === "YOUR_RAWG_API_KEY_HERE") return;
       
       els.btnRefreshRawg.classList.add('spinning');
+      els.modalGameRawgDot.className = 'status-dot dot-yellow';
+      
+      let isSuccess = false;
       const spinStart = Date.now();
 
       try {
-        const res = await fetch(`https://api.rawg.io/api/games?key=${apiKey}&search=${encodeURIComponent(query)}&page_size=1`);
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 8000);
+        
+        const res = await fetch(`https://api.rawg.io/api/games?key=${apiKey}&search=${encodeURIComponent(query)}&page_size=1`, { signal: controller.signal });
+        clearTimeout(timeoutId);
+        
         if (!res.ok) {
            console.warn(`RAWG Search returned ${res.status}: ${res.statusText}`);
+           els.modalGameRawgDot.className = 'status-dot dot-red';
            showToast(splitEmoji(C.MESSAGES.RAWG_REFRESH_ERROR));
-           return;
-        }
-        
-        const data = await res.json();
-        if (data.results && data.results.length > 0) {
-          const match = data.results[0];
-          const banner = match.background_image || "";
-          
-          setVal(els.f.url, banner);
-          if (banner) {
-            els.f.coverImg.src = banner;
-            els.f.coverImg.style.display = 'block';
-            els.f.coverText.style.display = 'none';
-          }
-          
-          const relDate = match.released ? new Date(match.released) : null;
-          const isFut = relDate && relDate > new Date();
-          if (isFut) {
-            setVal(els.f.rawgScore, C.PLACEHOLDERS.NOT_RELEASED_LABEL || "🚀 Not yet released!");
-          } else if (match.rating && parseFloat(match.rating) > 0) {
-            setVal(els.f.rawgScore, `RAWG: ${match.rating} / 5.0 (Meta: ${match.metacritic || "N/A"})`);
-          }
-          
-          try {
-            const detRes = await fetch(`https://api.rawg.io/api/games/${match.id}?key=${apiKey}`);
-            if (detRes.ok) {
-              const det = await detRes.json();
-              if (det.description_raw) setVal(els.f.desc, det.description_raw);
-              if (det.developers && det.developers.length) setVal(els.f.dev, det.developers.map(x => x.name).join(', '));
-              if (det.publishers && det.publishers.length) setVal(els.f.pub, det.publishers.map(x => x.name).join(', '));
-              if (det.genres && det.genres.length && !els.f.genres.value) {
-                setVal(els.f.genres, det.genres.map(x=>x.name).join(', '));
-              }
-            }
-          } catch(err) { console.warn("RAWG detail fetch failed:", err); }
-          
-          showToast(splitEmoji(C.MESSAGES.RAWG_REFRESH_SUCCESS || "RAWG metadata refreshed! 🔄"));
         } else {
-          showToast(splitEmoji(C.MESSAGES.RAWG_REFRESH_ERROR));
+          const data = await res.json();
+          if (data.results && data.results.length > 0) {
+            const match = data.results[0];
+            const banner = match.background_image || "";
+            
+            setVal(els.f.url, banner);
+            if (banner) {
+              els.f.coverImg.src = banner;
+              els.f.coverImg.style.display = 'block';
+              els.f.coverText.style.display = 'none';
+            }
+            
+            const relDate = match.released ? new Date(match.released) : null;
+            const isFut = relDate && relDate > new Date();
+            if (isFut) {
+              setVal(els.f.rawgScore, C.PLACEHOLDERS.NOT_RELEASED_LABEL || "🚀 Not yet released!");
+            } else if (match.rating && parseFloat(match.rating) > 0) {
+              setVal(els.f.rawgScore, `RAWG: ${match.rating} / 5.0 (Meta: ${match.metacritic || "N/A"})`);
+            }
+            
+            try {
+              const detRes = await fetch(`https://api.rawg.io/api/games/${match.id}?key=${apiKey}`);
+              if (detRes.ok) {
+                const det = await detRes.json();
+                if (det.description_raw) setVal(els.f.desc, det.description_raw);
+                if (det.developers && det.developers.length) setVal(els.f.dev, det.developers.map(x => x.name).join(', '));
+                if (det.publishers && det.publishers.length) setVal(els.f.pub, det.publishers.map(x => x.name).join(', '));
+                if (det.genres && det.genres.length && !els.f.genres.value) {
+                  setVal(els.f.genres, det.genres.map(x=>x.name).join(', '));
+                }
+              }
+            } catch(err) { console.warn("RAWG detail fetch failed:", err); }
+            
+            els.modalGameRawgDot.className = 'status-dot dot-green';
+            isSuccess = true;
+          } else {
+            els.modalGameRawgDot.className = 'status-dot dot-red';
+            showToast(splitEmoji(C.MESSAGES.RAWG_REFRESH_ERROR));
+          }
         }
       } catch (err) {
-        console.error("Refresh RAWG failed:", err);
+        if (err.name === 'AbortError') {
+          console.warn("RAWG fetch aborted or timed out.");
+        } else {
+          console.error("Refresh RAWG failed:", err);
+        }
+        els.modalGameRawgDot.className = 'status-dot dot-red';
         showToast(splitEmoji(C.MESSAGES.RAWG_REFRESH_ERROR));
       } finally {
         const elapsed = Date.now() - spinStart;
-        const quantizedSpin = Math.max(3200, Math.ceil(elapsed / 800) * 800);
-        const remaining = Math.max(0, quantizedSpin - elapsed);
+        const remaining = Math.max(0, 3200 - (elapsed % 800));
+        
+        if (isSuccess) {
+          showToast(splitEmoji(C.MESSAGES.RAWG_REFRESH_SUCCESS || "RAWG metadata refreshed! 🔄"));
+        }
+        
         setTimeout(() => els.btnRefreshRawg.classList.remove('spinning'), remaining);
       }
     };

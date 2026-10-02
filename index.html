@@ -25,7 +25,7 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.50",
+  APP_VERSION: "0.51",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 RAWG Check",
@@ -112,7 +112,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.50</title>
+<title id="html-title">VGnomicon v0.51</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -388,9 +388,24 @@ window.CONFIG = {
   
   #btn-add-game { white-space: nowrap; flex-shrink: 0; }
   
-  /* System Tray & Atomic Sync Grouping (Desktop Baseline Typography) */
-  .system-tray { display: flex; align-items: center; gap: 10px; color: var(--text-muted); justify-self: flex-end; flex-wrap: wrap; justify-content: flex-end; }
-  .tray-sync-group { display: inline-flex; align-items: center; gap: 10px; flex-shrink: 0; white-space: nowrap; }
+  /* Global Desktop 4-Unit System Tray Baseline */
+  .system-tray { 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    color: var(--text-muted); 
+    justify-self: flex-end; 
+    flex-wrap: wrap; 
+    justify-content: flex-end; 
+  }
+  
+  .tray-telemetry-group { 
+    display: inline-flex; 
+    align-items: center; 
+    gap: 8px; 
+    flex-shrink: 0; 
+    white-space: nowrap; 
+  }
   
   .sync-status { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
   .status-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
@@ -782,8 +797,10 @@ window.CONFIG = {
   #fx-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 4; display: none;}
 
   /* ==========================================================================
-     v0.50 DELTA: UNIFIED EDGE-TO-EDGE SYSTEM TRAY & LEGIBLE TYPOGRAPHY
+     v0.51 DELTA: 4-UNIT DECOUPLED SYSTEM TRAY EDGE-TO-EDGE EXPANSION
      ========================================================================== */
+  
+  /* Authoritative Mobile Breakpoint (@media max-width: 600px) */
   @media (max-width: 600px) {
     header { 
       flex-direction: column; 
@@ -794,50 +811,55 @@ window.CONFIG = {
     }
     .brand { order: 1; justify-self: center; align-items: center; }
     
-    /* Edge-to-Edge Spread (Zero Dead Space) */
+    /* 4-Unit System Tray Full Width Edge-to-Edge */
     .system-tray { 
       order: 2; 
+      display: flex !important;
       flex-wrap: nowrap !important; 
+      align-items: center !important;
       justify-content: space-between !important; 
       width: 100% !important; 
       margin: 0 !important; 
-      gap: 6px !important; 
+      gap: 8px !important; /* Consistent, smooth inter-element spacing */
     }
     
-    /* Flush left sync group */
-    .tray-sync-group { 
+    /* Unit 1: Compact Telemetry */
+    .tray-telemetry-group { 
+      flex: 0 0 auto !important;
       display: inline-flex !important; 
       align-items: center !important; 
-      gap: 6px !important; 
-      flex-shrink: 0 !important; 
+      gap: 5px !important; 
     }
-    
-    /* Unified typography: Legible timestamp and buttons */
     .tray-time-stacked { 
-      font-size: 11px !important; 
+      font-size: 10.5px !important; 
       line-height: 1.15 !important; 
       margin-right: 0 !important; 
     }
     
-    .system-tray button { 
-      padding: 6px 10px !important; 
-      font-size: 14.5px !important; 
+    /* Units 2, 3 & 4: Action Buttons Equal Expansion */
+    #btn-force-sync,
+    #btn-open-theme,
+    #btn-open-settings { 
+      flex: 1 1 0 !important;
+      min-width: 0 !important;
+      padding: 6px 4px !important; 
+      font-size: 14px !important; 
       font-weight: 600 !important; 
-      flex-shrink: 0 !important; 
+      text-align: center !important;
     }
     
     #btn-open-settings .optical-align > span:first-child { 
-      font-size: 19px !important; 
+      font-size: 18px !important; 
     }
     
-    /* Curated theme scale balance */
+    /* Theme Micro-Tunings for 4-Unit Parity */
     [data-theme="retro-arcade"] .system-tray button { 
-      font-size: 10px !important; 
-      padding: 4px 6px !important; 
+      font-size: 9.5px !important; 
+      padding: 5px 2px !important; 
     }
     [data-theme="wasteland-terminal"] .system-tray button { 
-      font-size: 16px !important; 
-      padding: 6px 8px !important; 
+      font-size: 15px !important; 
+      padding: 6px 4px !important; 
     }
 
     .header-actions { order: 3; flex-direction: column; width: 100%; }
@@ -870,7 +892,7 @@ window.CONFIG = {
     <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.50</span>
+      <span id="ui-app-version">v0.51</span>
     </div>
   </a>
   <div class="header-actions">
@@ -878,7 +900,8 @@ window.CONFIG = {
     <button class="primary" id="btn-add-game"></button>
   </div>
   <div class="system-tray">
-    <div class="tray-sync-group">
+    <!-- Unit 1: Telemetry Cluster (Time Stack + Traffic Light Dot) -->
+    <div class="tray-telemetry-group">
       <div class="tray-time-stacked">
         <div>LAST SYNC:</div>
         <div id="tray-date">-- --- ----</div>
@@ -887,9 +910,15 @@ window.CONFIG = {
       <div class="sync-status" title="Cloud Sync Status">
         <div class="status-dot dot-yellow" id="tray-sync-dot"></div>
       </div>
-      <button id="btn-force-sync" title="Force Sync"></button>
     </div>
+    
+    <!-- Unit 2: First-Class Sync Action Button -->
+    <button id="btn-force-sync" title="Force Sync"></button>
+    
+    <!-- Unit 3: Theme Selector Button -->
     <button id="btn-open-theme" title="Theme"></button>
+    
+    <!-- Unit 4: Settings Button -->
     <button id="btn-open-settings" title="Settings">
       <span class="optical-align"><span>⚙️</span><span>Settings</span></span>
     </button>
@@ -1543,7 +1572,7 @@ window.CONFIG = {
     
     els.btnSave.innerHTML = splitEmoji("💾 Save");
     els.btnDelPrompt.innerHTML = splitEmoji("🗑 Delete");
-    els.btnConfirmDel.innerHTML = splitEmoji("🗑️ Delete");
+    els.btnConfirmDel.innerHTML = splitEmoji("🗑 Delete");
     els.btnConfirmClearCache.innerHTML = splitEmoji("🗑️ Clear Data");
     els.btnAuditCache.innerHTML = splitEmoji(C.BTN_AUDIT_CACHE);
     els.btnClearCache.innerHTML = splitEmoji(C.BTN_CLEAR_CACHE);

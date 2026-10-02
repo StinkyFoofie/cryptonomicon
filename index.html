@@ -25,7 +25,7 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.53",
+  APP_VERSION: "0.54",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 RAWG Check",
@@ -112,13 +112,13 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.53</title>
+<title id="html-title">VGnomicon v0.54</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
 <link id="favicon-mobile-1" rel="apple-touch-icon" href="./Favi%20iP%20PNG%201024%20v1.png">
 <link id="favicon-mobile-2" rel="apple-touch-icon" sizes="180x180" href="./Favi%20iP%20PNG%201024%20v1.png">
-<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiVkdub21pY29uIiwic2hvcnRfbmFtZSI6IlZHbm9taWNvbiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiaWNvbnMiOlt7InNyYyI6Ii4vRmF2aSUyMGlQJTIwUE5HJTIwMTAyNCUyMHYxLnBuZyIsInNpemVzIjoiMTkyeDE5MiB0byAxMDI0eDEwMjQiLCJ0eXBlIjoiaW1hZ2UvcG5nIn1dfQ==">
+<link id="resize-manifest" rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiVkdub21pY29uIiwic2hvcnRfbmFtZSI6IlZHbm9taWNvbiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiaWNvbnMiOlt7InNyYyI6Ii4vRmF2aSUyMGlQJTIwUE5HJTIwMTAyNCUyMHYxLnBuZyIsInNpemVzIjoiMTkyeDE5MiB0byAxMDI0eDEwMjQiLCJ0eXBlIjoiaW1hZ2UvcG5nIn1dfQ==">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Plus+Jakarta+Sans:wght@400;600;800&family=Press+Start+2P&family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&family=Share+Tech+Mono&family=JetBrains+Mono&family=Cinzel:wght@600&family=VT323&family=Fira+Code&family=Quicksand:wght@500;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
 
 <!-- ==========================================================================
@@ -389,7 +389,7 @@ window.CONFIG = {
   #btn-add-game { white-space: nowrap; flex-shrink: 0; }
   
   /* ==========================================================================
-     v0.53 DELTA: OPTICAL TEXT CENTERING & INVARIANT SNAP SPACING
+     v0.54 DELTA: OPTICAL TEXT CENTERING & INVARIANT SNAP SPACING
      ========================================================================== */
   .system-tray { 
     display: flex; 
@@ -596,7 +596,9 @@ window.CONFIG = {
   /* Universal Star and Score Alignment Wrap */
   .rating-val-wrap { display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; gap: 4px; font-weight: bold;}
   
-  /* 2-Row Deterministic Card Footer Layout */
+  /* ==========================================================================
+     v0.54 DELTA: DESKTOP CARD FOOTER (ISOLATED & INVARIANT)
+     ========================================================================== */
   .grid-view .card-footer { display: flex; flex-direction: column; gap: 6px; width: 100%; margin-top: auto; }
   .grid-view .card-footer-row-1 { display: flex; justify-content: flex-start; align-items: center; width: 100%; }
   .grid-view .card-footer-row-2 { display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 100%; gap: 4px; }
@@ -639,9 +641,6 @@ window.CONFIG = {
   .list-view .card-footer-row-2 { gap: 8px; }
   .list-view .card-footer-row-2 .trophy-col, .list-view .card-footer-row-2 .status-col { display: inline-flex; align-items: center; }
 
-  /* ==========================================================================
-     v0.53 DELTA: MOBILE GRID CARD FOOTER DYNAMIC ANTI-COLLISION REFLOW
-     ========================================================================== */
   @media (max-width: 720px) {
     .list-view .game-card { height: auto; min-height: 84px; }
     .list-view .card-details { flex-direction: column; align-items: flex-start; justify-content: center; gap: 8px; padding: 10px 0; }
@@ -711,10 +710,13 @@ window.CONFIG = {
     main { padding: 12px 10px; }
     .grid-view { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
     
-    /* MOBILE GRID CARD FOOTER DYNAMIC ANTI-COLLISION REFLOW */
+    /* ==========================================================================
+       v0.54 DELTA: MOBILE GRID CARD FOOTER (STRICT 2-ROW GRID LOCK)
+       ========================================================================== */
     .grid-view .card-footer {
-      display: flex !important;
-      flex-wrap: wrap !important;
+      display: grid !important;
+      grid-template-rows: 22px 22px !important; /* Mathematically prevents 3rd row */
+      grid-template-columns: auto auto 1fr !important;
       gap: 6px 4px !important;
       width: 100% !important;
       align-items: center !important;
@@ -725,16 +727,20 @@ window.CONFIG = {
       display: contents !important;
     }
 
-    /* Row 1 Left: Platform Badge */
+    /* Row 1, Column 1: Platform Badge (Far Left) */
     .grid-view .platform-badge {
-      order: 1 !important;
+      grid-row: 1 !important;
+      grid-column: 1 !important;
+      justify-self: start !important;
       display: inline-flex !important;
       align-items: center !important;
     }
 
-    /* Row 1 Adjacent: Trophy Pill */
+    /* Row 1, Column 2: Trophy Pill (Right of Platform, Left-Aligned) */
     .grid-view .trophy-col {
-      order: 2 !important;
+      grid-row: 1 !important;
+      grid-column: 2 !important;
+      justify-self: start !important;
       display: inline-flex !important;
       align-items: center !important;
     }
@@ -742,12 +748,12 @@ window.CONFIG = {
       display: none !important;
     }
 
-    /* Row 2: Status Badge (Full-width row break, flush right) */
+    /* Row 2: Status Badge (Full-width span, Strictly Right-Aligned) */
     .grid-view .status-col {
-      order: 3 !important;
-      width: 100% !important;
+      grid-row: 2 !important;
+      grid-column: 1 / -1 !important;
+      justify-self: end !important;
       display: flex !important;
-      justify-content: flex-end !important;
       align-items: center !important;
     }
 
@@ -948,7 +954,7 @@ window.CONFIG = {
     <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.53</span>
+      <span id="ui-app-version">v0.54</span>
     </div>
   </a>
   <div class="header-actions">
@@ -1825,7 +1831,7 @@ window.CONFIG = {
             if (isFut) {
               setVal(els.f.rawgScore, C.PLACEHOLDERS.NOT_RELEASED_LABEL || "🚀 Not yet released!");
             } else if (match.rating && parseFloat(match.rating) > 0) {
-              setVal(els.f.rawgScore, `RAWG: ${match.rating} / 5.0 (Meta: ${g.metacritic || "N/A"})`);
+              setVal(els.f.rawgScore, `RAWG: ${match.rating} / 5.0 (Meta: ${match.metacritic || "N/A"})`);
             }
             
             try {
@@ -2151,7 +2157,7 @@ window.CONFIG = {
     if (isFuture) {
       setVal(els.f.rawgScore, C.PLACEHOLDERS.NOT_RELEASED_LABEL || "🚀 Not yet released!");
     } else if (g.rating && parseFloat(g.rating) > 0) {
-      setVal(els.f.rawgScore, `RAWG: ${g.rating} / 5.0 (Meta: ${match.metacritic || "N/A"})`);
+      setVal(els.f.rawgScore, `RAWG: ${g.rating} / 5.0 (Meta: ${g.metacritic || "N/A"})`);
     } else {
       setVal(els.f.rawgScore, "Unrated");
     }

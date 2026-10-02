@@ -25,7 +25,7 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.49",
+  APP_VERSION: "0.50",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 RAWG Check",
@@ -112,7 +112,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.49</title>
+<title id="html-title">VGnomicon v0.50</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -340,7 +340,7 @@ window.CONFIG = {
   .custom-option.disabled { color: var(--text-disabled); cursor: default; background: var(--bg-surface); }
   .custom-option.disabled:hover { background: var(--bg-surface); color: var(--text-disabled); }
 
-  /* v0.49 Diff #1: Global Date Input Vertical Containment Engine (38px Canonical Height) */
+  /* Global Date Input Vertical Containment Engine (38px Canonical Height) */
   input[type="date"] { 
     position: relative; 
     -webkit-appearance: none;
@@ -388,7 +388,7 @@ window.CONFIG = {
   
   #btn-add-game { white-space: nowrap; flex-shrink: 0; }
   
-  /* System Tray & Atomic Sync Grouping (Desktop Invariance Verified) */
+  /* System Tray & Atomic Sync Grouping (Desktop Baseline Typography) */
   .system-tray { display: flex; align-items: center; gap: 10px; color: var(--text-muted); justify-self: flex-end; flex-wrap: wrap; justify-content: flex-end; }
   .tray-sync-group { display: inline-flex; align-items: center; gap: 10px; flex-shrink: 0; white-space: nowrap; }
   
@@ -781,27 +781,64 @@ window.CONFIG = {
   /* Canvas FX */
   #fx-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 4; display: none;}
 
-  /* Authoritative Mobile Breakpoint (@media max-width: 600px) */
+  /* ==========================================================================
+     v0.50 DELTA: UNIFIED EDGE-TO-EDGE SYSTEM TRAY & LEGIBLE TYPOGRAPHY
+     ========================================================================== */
   @media (max-width: 600px) {
-    header { flex-direction: column; justify-content: center; align-items: center; gap: 12px; }
+    header { 
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: center; 
+      gap: 12px; 
+      padding: 12px 10px !important; /* Unified with 10px card margins */
+    }
     .brand { order: 1; justify-self: center; align-items: center; }
     
-    /* System Tray 5-Element Single-Line Compression */
+    /* Edge-to-Edge Spread (Zero Dead Space) */
     .system-tray { 
       order: 2; 
       flex-wrap: nowrap !important; 
-      justify-content: center !important; 
+      justify-content: space-between !important; 
       width: 100% !important; 
-      gap: 4px !important; 
-      margin-top: 0; 
-      margin-bottom: 4px; 
+      margin: 0 !important; 
+      gap: 6px !important; 
     }
-    .tray-sync-group { gap: 4px !important; }
-    .tray-time-stacked { font-size: 9.5px !important; line-height: 1.1 !important; margin-right: 4px !important; }
-    .system-tray button { padding: 4px 6px !important; font-size: 12.5px !important; flex-shrink: 1 !important; }
-    #btn-open-settings .optical-align > span:first-child { font-size: 16px !important; }
-    [data-theme="retro-arcade"] .system-tray button { font-size: 8.5px !important; }
-    [data-theme="wasteland-terminal"] .system-tray button { font-size: 13.5px !important; }
+    
+    /* Flush left sync group */
+    .tray-sync-group { 
+      display: inline-flex !important; 
+      align-items: center !important; 
+      gap: 6px !important; 
+      flex-shrink: 0 !important; 
+    }
+    
+    /* Unified typography: Legible timestamp and buttons */
+    .tray-time-stacked { 
+      font-size: 11px !important; 
+      line-height: 1.15 !important; 
+      margin-right: 0 !important; 
+    }
+    
+    .system-tray button { 
+      padding: 6px 10px !important; 
+      font-size: 14.5px !important; 
+      font-weight: 600 !important; 
+      flex-shrink: 0 !important; 
+    }
+    
+    #btn-open-settings .optical-align > span:first-child { 
+      font-size: 19px !important; 
+    }
+    
+    /* Curated theme scale balance */
+    [data-theme="retro-arcade"] .system-tray button { 
+      font-size: 10px !important; 
+      padding: 4px 6px !important; 
+    }
+    [data-theme="wasteland-terminal"] .system-tray button { 
+      font-size: 16px !important; 
+      padding: 6px 8px !important; 
+    }
 
     .header-actions { order: 3; flex-direction: column; width: 100%; }
     .search-bar { max-width: 100%; }
@@ -833,7 +870,7 @@ window.CONFIG = {
     <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.48</span>
+      <span id="ui-app-version">v0.50</span>
     </div>
   </a>
   <div class="header-actions">

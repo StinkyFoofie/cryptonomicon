@@ -25,7 +25,7 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.52",
+  APP_VERSION: "0.53",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 RAWG Check",
@@ -57,7 +57,7 @@ window.CONFIG = {
     EMPTY_RANDOMIZER: "No games found in your library to roll!",
     NUMERIC_NEGATIVE: "⚠️ Playtime and HLTB values cannot be negative!",
     PLATFORM_REQUIRED: "⚠️ Platform is required!",
-    RAWG_OFFLINE: "⚠️ RAWG API: Connection Error",
+    RAWG_OFFLINE: "⚠ RAWG API: Connection Error",
     RAWG_ONLINE: "⚠️ RAWG API: Online & Connected",
     RAWG_REFRESH_ERROR: "⚠️ RAWG: No metadata found or connection failed!",
     RAWG_REFRESH_SUCCESS: "RAWG metadata refreshed! 🔄",
@@ -112,7 +112,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.52</title>
+<title id="html-title">VGnomicon v0.53</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -389,7 +389,7 @@ window.CONFIG = {
   #btn-add-game { white-space: nowrap; flex-shrink: 0; }
   
   /* ==========================================================================
-     v0.52 DELTA: 5-ELEMENT UNIFORM SPACING & OPTICAL CENTERING
+     v0.53 DELTA: OPTICAL TEXT CENTERING & INVARIANT SNAP SPACING
      ========================================================================== */
   .system-tray { 
     display: flex; 
@@ -413,6 +413,7 @@ window.CONFIG = {
   .dot-yellow { background: var(--warning); box-shadow: 0 0 8px var(--warning); }
   .dot-red { background: var(--danger); }
   
+  /* Symmetrical text margin balancing action button padding */
   .tray-time-stacked { 
     display: flex; 
     flex-direction: column; 
@@ -422,14 +423,14 @@ window.CONFIG = {
     line-height: 1.15; 
     white-space: nowrap; 
     flex-shrink: 0; 
-    padding-right: 2px;
+    margin-right: 12px !important; 
   }
   
   .system-tray button { 
     background: transparent; 
     border: none; 
     color: var(--text-muted); 
-    padding: 6px 10px; 
+    padding: 6px 12px; /* Symmetrical left padding for optical dot center */
     font-size: 15.5px; 
     font-weight: 600; 
     border-radius: var(--radius); 
@@ -638,6 +639,9 @@ window.CONFIG = {
   .list-view .card-footer-row-2 { gap: 8px; }
   .list-view .card-footer-row-2 .trophy-col, .list-view .card-footer-row-2 .status-col { display: inline-flex; align-items: center; }
 
+  /* ==========================================================================
+     v0.53 DELTA: MOBILE GRID CARD FOOTER DYNAMIC ANTI-COLLISION REFLOW
+     ========================================================================== */
   @media (max-width: 720px) {
     .list-view .game-card { height: auto; min-height: 84px; }
     .list-view .card-details { flex-direction: column; align-items: flex-start; justify-content: center; gap: 8px; padding: 10px 0; }
@@ -645,6 +649,116 @@ window.CONFIG = {
     .list-view .card-footer { width: 100%; justify-content: flex-start; flex-wrap: wrap; }
     .list-view .card-meta { width: 100%; justify-content: flex-start; }
     .list-view .card-cover { height: auto; align-self: stretch; min-height: 84px; }
+  }
+
+  /* Authoritative Mobile & Narrow Desktop Breakpoint (@media max-width: 600px) */
+  @media (max-width: 600px) {
+    header { 
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: center; 
+      gap: 12px; 
+      padding: 12px 10px !important; 
+    }
+    .brand { order: 1; justify-self: center; align-items: center; }
+    
+    /* System Tray Invariant Spacing & Text Centering */
+    .system-tray { 
+      order: 2; 
+      display: flex !important;
+      flex-wrap: nowrap !important; 
+      align-items: center !important;
+      justify-content: center !important; 
+      width: 100% !important; 
+      margin: 0 !important; 
+      gap: 10px !important; /* Preserves canonical spacing when snapped */
+    }
+
+    .tray-time-stacked { 
+      font-size: 10.5px !important; 
+      line-height: 1.15 !important; 
+      margin-right: 10px !important; /* Adjusted for optical alignment with 10px gap */
+      flex-shrink: 0 !important;
+    }
+
+    .sync-status { 
+      flex-shrink: 0 !important;
+    }
+
+    .system-tray button { 
+      flex-shrink: 0 !important;
+      padding: 6px 10px !important; /* Symmetric text padding */
+      font-size: 13.5px !important; 
+      font-weight: 600 !important; 
+    }
+    
+    #btn-open-settings .optical-align > span:first-child { 
+      font-size: 18px !important; 
+    }
+    
+    [data-theme="retro-arcade"] .system-tray button { 
+      font-size: 9.5px !important; 
+      padding: 4px 2px !important; 
+    }
+    [data-theme="wasteland-terminal"] .system-tray button { 
+      font-size: 15px !important; 
+      padding: 6px 4px !important; 
+    }
+
+    .header-actions { order: 3; flex-direction: column; width: 100%; }
+    .search-bar { max-width: 100%; }
+    
+    main { padding: 12px 10px; }
+    .grid-view { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+    
+    /* MOBILE GRID CARD FOOTER DYNAMIC ANTI-COLLISION REFLOW */
+    .grid-view .card-footer {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      gap: 6px 4px !important;
+      width: 100% !important;
+      align-items: center !important;
+    }
+
+    .grid-view .card-footer-row-1,
+    .grid-view .card-footer-row-2 {
+      display: contents !important;
+    }
+
+    /* Row 1 Left: Platform Badge */
+    .grid-view .platform-badge {
+      order: 1 !important;
+      display: inline-flex !important;
+      align-items: center !important;
+    }
+
+    /* Row 1 Adjacent: Trophy Pill */
+    .grid-view .trophy-col {
+      order: 2 !important;
+      display: inline-flex !important;
+      align-items: center !important;
+    }
+    .grid-view .trophy-col:empty {
+      display: none !important;
+    }
+
+    /* Row 2: Status Badge (Full-width row break, flush right) */
+    .grid-view .status-col {
+      order: 3 !important;
+      width: 100% !important;
+      display: flex !important;
+      justify-content: flex-end !important;
+      align-items: center !important;
+    }
+
+    .form-grid { grid-template-columns: minmax(0, 1fr) !important; }
+    .modal-top-section { flex-direction: column; align-items: stretch; height: auto; }
+    .modal-cover-wrapper { width: 100%; height: 187px; flex: none; }
+    .modal-desc-wrapper { width: 100%; height: 150px; flex: none; }
+    .theme-grid { grid-template-columns: repeat(2, 1fr); }
+    
+    .hltb-title-wrap { display: flex !important; flex-direction: column !important; line-height: 1.25 !important; }
+    .hltb-line-1, .hltb-line-2 { display: block !important; white-space: nowrap !important; }
   }
 
   /* Modal Scroll Chaining Isolation */
@@ -822,84 +936,6 @@ window.CONFIG = {
   /* Canvas FX */
   #fx-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 4; display: none;}
 
-  /* ==========================================================================
-     v0.52 DELTA: 5-ELEMENT UNIFORM SPACING & OPTICAL CENTERING
-     ========================================================================== */
-  
-  /* Authoritative Mobile Breakpoint (@media max-width: 600px) */
-  @media (max-width: 600px) {
-    header { 
-      flex-direction: column; 
-      justify-content: center; 
-      align-items: center; 
-      gap: 12px; 
-      padding: 12px 10px !important; /* Unified with 10px card margins */
-    }
-    .brand { order: 1; justify-self: center; align-items: center; }
-    
-    /* 5-Element Edge-to-Edge Spread with Uniform Gaps */
-    .system-tray { 
-      order: 2; 
-      display: flex !important;
-      flex-wrap: nowrap !important; 
-      align-items: center !important;
-      justify-content: space-between !important; /* Produces 4 identical intervals */
-      width: 100% !important; 
-      margin: 0 !important; 
-      gap: 0 !important; /* Gaps dynamically managed by space-between */
-    }
-
-    .tray-time-stacked { 
-      font-size: 10.5px !important; 
-      line-height: 1.15 !important; 
-      margin-right: 0 !important; 
-      padding-right: 0 !important; /* Stripped asymmetric padding */
-      flex-shrink: 0 !important;
-    }
-
-    .sync-status { 
-      flex-shrink: 0 !important;
-    }
-
-    .system-tray button { 
-      flex-shrink: 0 !important;
-      padding: 6px 6px !important; 
-      font-size: 14px !important; 
-      font-weight: 600 !important; 
-    }
-    
-    #btn-open-settings .optical-align > span:first-child { 
-      font-size: 18px !important; 
-    }
-    
-    /* Theme Proportional Typography Scaling */
-    [data-theme="retro-arcade"] .system-tray button { 
-      font-size: 9.5px !important; 
-      padding: 4px 2px !important; 
-    }
-    [data-theme="wasteland-terminal"] .system-tray button { 
-      font-size: 15px !important; 
-      padding: 6px 4px !important; 
-    }
-
-    .header-actions { order: 3; flex-direction: column; width: 100%; }
-    .search-bar { max-width: 100%; }
-    
-    /* 2-Card Symmetrical Grid View */
-    main { padding: 12px 10px; }
-    .grid-view { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
-    
-    /* Modal Form 1-Column Collapse */
-    .form-grid { grid-template-columns: minmax(0, 1fr) !important; }
-    .modal-top-section { flex-direction: column; align-items: stretch; height: auto; }
-    .modal-cover-wrapper { width: 100%; height: 187px; flex: none; }
-    .modal-desc-wrapper { width: 100%; height: 150px; flex: none; }
-    .theme-grid { grid-template-columns: repeat(2, 1fr); }
-    
-    /* HLTB Clean Two-Line Break */
-    .hltb-title-wrap { display: flex !important; flex-direction: column !important; line-height: 1.25 !important; }
-    .hltb-line-1, .hltb-line-2 { display: block !important; white-space: nowrap !important; }
-  }
 </style>
 </head>
 <body data-theme="modern-dark">
@@ -912,7 +948,7 @@ window.CONFIG = {
     <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
     <div class="brand-text">
       <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.52</span>
+      <span id="ui-app-version">v0.53</span>
     </div>
   </a>
   <div class="header-actions">
@@ -1789,7 +1825,7 @@ window.CONFIG = {
             if (isFut) {
               setVal(els.f.rawgScore, C.PLACEHOLDERS.NOT_RELEASED_LABEL || "🚀 Not yet released!");
             } else if (match.rating && parseFloat(match.rating) > 0) {
-              setVal(els.f.rawgScore, `RAWG: ${match.rating} / 5.0 (Meta: ${match.metacritic || "N/A"})`);
+              setVal(els.f.rawgScore, `RAWG: ${match.rating} / 5.0 (Meta: ${g.metacritic || "N/A"})`);
             }
             
             try {
@@ -2115,7 +2151,7 @@ window.CONFIG = {
     if (isFuture) {
       setVal(els.f.rawgScore, C.PLACEHOLDERS.NOT_RELEASED_LABEL || "🚀 Not yet released!");
     } else if (g.rating && parseFloat(g.rating) > 0) {
-      setVal(els.f.rawgScore, `RAWG: ${g.rating} / 5.0 (Meta: ${g.metacritic || "N/A"})`);
+      setVal(els.f.rawgScore, `RAWG: ${g.rating} / 5.0 (Meta: ${match.metacritic || "N/A"})`);
     } else {
       setVal(els.f.rawgScore, "Unrated");
     }

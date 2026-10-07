@@ -7,7 +7,7 @@
    ========================================================================== */
 window.CONFIG = {
   // 1. API Credentials & Cloud Paths
-  RAWG_API_KEY: "db9f18921e714a36bb784e65b5fd424b",
+  RAWG_API_KEY: "YOUR_RAWG_API_KEY_HERE",
   DB_COLLECTION: "nomicon",
   FIREBASE: {
     apiKey: "AIzaSyCk9HvlsACbj-XsH8hAS0rqXSXPYbBN7vk",
@@ -25,7 +25,7 @@ window.CONFIG = {
   // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
   APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.56",
+  APP_VERSION: "0.57",
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 RAWG Check",
@@ -101,9 +101,9 @@ window.CONFIG = {
   
   // 7. Companion Brand Assets (Keep image files flat in the same directory as index.html!)
   ASSETS: {
-    FAVICON_DESKTOP: "Favi Dsk SVG 512 v1.svg",
+    FAVICON_DESKTOP: "Favi Dsk PNG 512 v1.png",
     FAVICON_MOBILE: "Favi iP PNG 1024 v1.png",
-    LOGO_BRAND: "Logo SVG v1.svg"
+    LOGO_BRAND: "Logo PNG v1.png"
   }
 };
 </script>
@@ -112,7 +112,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.56</title>
+<title id="html-title">VGnomicon v0.57</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -374,8 +374,21 @@ window.CONFIG = {
     font-family: var(--font-main); 
   }
 
+  /* ==========================================================================
+     v0.57 DELTA: STICKY DUAL-TRAY COMMAND DOCK & SINGLE-ROW ACTIONS
+     ========================================================================== */
+  .sticky-command-dock {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: var(--bg-surface);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
   /* Header Brand Horizontal & Baseline Centering */
-  header { background: var(--bg-surface); padding: 12px 20px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; border-bottom: 1px solid var(--border); gap: 10px; }
+  .app-header { padding: 12px 20px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; border-bottom: 1px solid var(--border); gap: 10px; }
   .brand { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; text-decoration: none; justify-self: flex-start;}
   .brand img { height: 28px; width: auto; aspect-ratio: 2355 / 644; object-fit: contain; }
   .brand-text { display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 6px; line-height: 1; }
@@ -388,9 +401,6 @@ window.CONFIG = {
   
   #btn-add-game { white-space: nowrap; flex-shrink: 0; }
   
-  /* ==========================================================================
-     v0.55 DELTA: OPTICAL TEXT CENTERING & INVARIANT SNAP SPACING
-     ========================================================================== */
   .system-tray { 
     display: flex; 
     align-items: center; 
@@ -450,7 +460,7 @@ window.CONFIG = {
 
   /* Responsive Header Reflow Breakpoints */
   @media (max-width: 960px) {
-    header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; }
+    .app-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; }
     .brand { flex: 0 0 auto; }
     .header-actions { flex: 1 1 100%; order: 3; justify-content: center; margin-top: 4px; }
     .system-tray { flex: 0 0 auto; margin-left: auto; justify-content: flex-end; order: 2; }
@@ -468,8 +478,8 @@ window.CONFIG = {
     align-items: center; 
     flex-wrap: wrap; 
     gap: 12px; 
-    background: var(--bg-base); 
-    border-bottom: 1px solid var(--border); 
+    background: transparent; /* Inherits background from .sticky-command-dock */
+    border-bottom: none; /* Border moved to .sticky-command-dock */
   }
   
   .control-left-group { 
@@ -538,11 +548,101 @@ window.CONFIG = {
     .control-right-group { width: 100%; justify-content: center; flex-wrap: nowrap; }
   }
 
-  /* Fluid Mobile Scaling */
+  /* Fluid Mobile Scaling & v0.57 Header Actions Single-Row Lock */
   @media (max-width: 600px) {
     .control-bar .custom-select-wrapper { min-width: 100px; max-width: 145px; flex: 1 1 auto; }
     .control-bar .custom-select-trigger { padding: 6px 8px; font-size: 13px; }
     #btn-clear-filters { padding: 6px 10px; font-size: 13px; }
+    
+    .app-header { 
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: center; 
+      gap: 12px; 
+      padding: 12px 10px !important; 
+    }
+    .brand { order: 1; justify-self: center; align-items: center; }
+    
+    /* System Tray Invariant Spacing & Text Centering */
+    .system-tray { 
+      order: 2; 
+      display: flex !important;
+      flex-wrap: nowrap !important; 
+      align-items: center !important;
+      justify-content: center !important; 
+      width: 100% !important; 
+      margin: 0 !important; 
+      gap: 10px !important; /* Preserves canonical spacing when snapped */
+    }
+
+    .tray-time-stacked { 
+      font-size: 10.5px !important; 
+      line-height: 1.15 !important; 
+      margin-right: 10px !important; /* Adjusted for optical alignment with 10px gap */
+      flex-shrink: 0 !important;
+    }
+
+    .sync-status { 
+      flex-shrink: 0 !important;
+    }
+
+    .system-tray button { 
+      flex-shrink: 0 !important;
+      padding: 6px 10px !important; /* Symmetric text padding */
+      font-size: 13.5px !important; 
+      font-weight: 600 !important; 
+    }
+    
+    #btn-open-settings .optical-align > span:first-child { 
+      font-size: 18px !important; 
+    }
+    
+    [data-theme="retro-arcade"] .system-tray button { 
+      font-size: 9.5px !important; 
+      padding: 4px 2px !important; 
+    }
+    [data-theme="wasteland-terminal"] .system-tray button { 
+      font-size: 15px !important; 
+      padding: 6px 4px !important; 
+    }
+
+    /* v0.57: Single-Row Action Bar Lock */
+    .header-actions { 
+      order: 3; 
+      display: flex !important; 
+      flex-direction: row !important; 
+      flex-wrap: nowrap !important; 
+      align-items: center !important; 
+      gap: 8px !important; 
+      width: 100% !important; 
+      margin-top: 0;
+    }
+    
+    #search-input { 
+      flex: 1 1 auto !important; 
+      min-width: 0 !important; 
+      width: 100% !important; 
+      max-width: 100% !important;
+    }
+    
+    #btn-add-game { 
+      flex: 0 0 auto !important; 
+      flex-shrink: 0 !important; 
+      white-space: nowrap !important; 
+      width: auto !important; 
+    }
+    
+    main { padding: 12px 10px; }
+    .grid-view { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+
+    .form-grid { grid-template-columns: minmax(0, 1fr) !important; }
+    .modal-top-section { flex-direction: column; align-items: stretch; height: auto; }
+    .modal-cover-wrapper { width: 100%; height: 187px; flex: none; }
+    .modal-desc-wrapper { width: 100%; height: 150px; flex: none; }
+    .theme-grid { grid-template-columns: repeat(2, 1fr); }
+    
+    .hltb-title-wrap { display: flex !important; flex-direction: column !important; line-height: 1.25 !important; }
+    .hltb-line-1, .hltb-line-2 { display: block !important; white-space: nowrap !important; }
   }
 
   /* Library Container & Empty State */
@@ -596,9 +696,6 @@ window.CONFIG = {
   /* Universal Star and Score Alignment Wrap */
   .rating-val-wrap { display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; gap: 4px; font-weight: bold;}
   
-  /* ==========================================================================
-     v0.56 DELTA: DESKTOP CARD FOOTER (ABSOLUTE INVARIANCE GUARANTEE)
-     ========================================================================== */
   .grid-view .card-footer { display: flex; flex-direction: column; gap: 6px; width: 100%; margin-top: auto; }
   .grid-view .card-footer-row-1 { display: flex; justify-content: flex-start; align-items: center; width: 100%; }
   .grid-view .card-footer-row-2 { display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 100%; gap: 4px; }
@@ -650,80 +747,6 @@ window.CONFIG = {
     .list-view .card-cover { height: auto; align-self: stretch; min-height: 84px; }
   }
 
-  /* Authoritative Mobile & Narrow Desktop Breakpoint (@media max-width: 600px) */
-  @media (max-width: 600px) {
-    header { 
-      flex-direction: column; 
-      justify-content: center; 
-      align-items: center; 
-      gap: 12px; 
-      padding: 12px 10px !important; 
-    }
-    .brand { order: 1; justify-self: center; align-items: center; }
-    
-    /* System Tray Invariant Spacing & Text Centering */
-    .system-tray { 
-      order: 2; 
-      display: flex !important;
-      flex-wrap: nowrap !important; 
-      align-items: center !important;
-      justify-content: center !important; 
-      width: 100% !important; 
-      margin: 0 !important; 
-      gap: 10px !important; /* Preserves canonical spacing when snapped */
-    }
-
-    .tray-time-stacked { 
-      font-size: 10.5px !important; 
-      line-height: 1.15 !important; 
-      margin-right: 10px !important; /* Adjusted for optical alignment with 10px gap */
-      flex-shrink: 0 !important;
-    }
-
-    .sync-status { 
-      flex-shrink: 0 !important;
-    }
-
-    .system-tray button { 
-      flex-shrink: 0 !important;
-      padding: 6px 10px !important; /* Symmetric text padding */
-      font-size: 13.5px !important; 
-      font-weight: 600 !important; 
-    }
-    
-    #btn-open-settings .optical-align > span:first-child { 
-      font-size: 18px !important; 
-    }
-    
-    [data-theme="retro-arcade"] .system-tray button { 
-      font-size: 9.5px !important; 
-      padding: 4px 2px !important; 
-    }
-    [data-theme="wasteland-terminal"] .system-tray button { 
-      font-size: 15px !important; 
-      padding: 6px 4px !important; 
-    }
-
-    .header-actions { order: 3; flex-direction: column; width: 100%; }
-    .search-bar { max-width: 100%; }
-    
-    main { padding: 12px 10px; }
-    .grid-view { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
-
-    .form-grid { grid-template-columns: minmax(0, 1fr) !important; }
-    .modal-top-section { flex-direction: column; align-items: stretch; height: auto; }
-    .modal-cover-wrapper { width: 100%; height: 187px; flex: none; }
-    .modal-desc-wrapper { width: 100%; height: 150px; flex: none; }
-    .theme-grid { grid-template-columns: repeat(2, 1fr); }
-    
-    .hltb-title-wrap { display: flex !important; flex-direction: column !important; line-height: 1.25 !important; }
-    .hltb-line-1, .hltb-line-2 { display: block !important; white-space: nowrap !important; }
-  }
-
-  /* ==========================================================================
-     v0.56 DELTA: MOBILE PORTRAIT ANTI-COLLISION & DESKTOP POINTER QUARANTINE
-     ========================================================================== */
-  
   /* 1. Expand Anti-Collision Zone to cover all iPhones in portrait mode (<= 480px) */
   @media (max-width: 480px) {
     /* STRICT 2-ROW GRID LOCK FOR MOBILE PORTRAIT */
@@ -890,9 +913,6 @@ window.CONFIG = {
   /* Theme Grid Modal */
   .theme-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
   
-  /* ==========================================================================
-     v0.56 DELTA: THEME BUTTON 2-ROW MAX WORD WRAPPING
-     ========================================================================== */
   .theme-btn { 
     height: 54px !important; 
     min-height: 54px !important; 
@@ -994,82 +1014,84 @@ window.CONFIG = {
 <!-- ==========================================================================
      LAYER 4: UI COMPONENTS & HTML MARKUP
      ========================================================================== -->
-<header>
-  <a href="#" class="brand" aria-label="VGnomicon Home">
-    <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
-    <div class="brand-text">
-      <h1 id="ui-app-name">VGnomicon</h1>
-      <span id="ui-app-version">v0.56</span>
+<div class="sticky-command-dock">
+  <header class="app-header">
+    <a href="#" class="brand" aria-label="VGnomicon Home">
+      <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
+      <div class="brand-text">
+        <h1 id="ui-app-name">VGnomicon</h1>
+        <span id="ui-app-version">v0.57</span>
+      </div>
+    </a>
+    <div class="header-actions">
+      <input type="text" id="global-search" class="search-bar" id="search-input" placeholder="🔍 Search Library...">
+      <button class="primary" id="btn-add-game"></button>
     </div>
-  </a>
-  <div class="header-actions">
-    <input type="text" id="global-search" class="search-bar" placeholder="🔍 Search Library...">
-    <button class="primary" id="btn-add-game"></button>
-  </div>
-  <div class="system-tray">
-    <!-- Element 1: Timestamp Stack -->
-    <div class="tray-time-stacked">
-      <div>LAST SYNC:</div>
-      <div id="tray-date">-- --- ----</div>
-      <div id="tray-time">--:--:--</div>
+    <div class="system-tray">
+      <!-- Element 1: Timestamp Stack -->
+      <div class="tray-time-stacked">
+        <div>LAST SYNC:</div>
+        <div id="tray-date">-- --- ----</div>
+        <div id="tray-time">--:--:--</div>
+      </div>
+      
+      <!-- Element 2: Independent Traffic Light Dot Container -->
+      <div class="sync-status" title="Cloud Sync Status">
+        <div class="status-dot dot-yellow" id="tray-sync-dot"></div>
+      </div>
+      
+      <!-- Element 3: Sync Action Button -->
+      <button id="btn-force-sync" title="Force Sync"></button>
+      
+      <!-- Element 4: Theme Selector Button -->
+      <button id="btn-open-theme" title="Theme"></button>
+      
+      <!-- Element 5: Settings Button -->
+      <button id="btn-open-settings" title="Settings">
+        <span class="optical-align"><span>⚙️</span><span>Settings</span></span>
+      </button>
     </div>
-    
-    <!-- Element 2: Independent Traffic Light Dot Container -->
-    <div class="sync-status" title="Cloud Sync Status">
-      <div class="status-dot dot-yellow" id="tray-sync-dot"></div>
-    </div>
-    
-    <!-- Element 3: Sync Action Button -->
-    <button id="btn-force-sync" title="Force Sync"></button>
-    
-    <!-- Element 4: Theme Selector Button -->
-    <button id="btn-open-theme" title="Theme"></button>
-    
-    <!-- Element 5: Settings Button -->
-    <button id="btn-open-settings" title="Settings">
-      <span class="optical-align"><span>⚙️</span><span>Settings</span></span>
-    </button>
-  </div>
-</header>
+  </header>
 
-<div class="control-bar">
-  <div class="control-left-group">
-    <select id="filter-status" class="native-hijack" data-select-id="filter-status">
-      <option value="" disabled selected hidden>All Statuses</option>
-      <option value="Abandoned">Abandoned</option>
-      <option value="Backlog">Backlog</option>
-      <option value="Completed">Completed</option>
-      <option value="Playing">Playing</option>
-      <option value="Preordered">Preordered</option>
-      <option value="Wishlist">Wishlist</option>
-    </select>
-    <select id="filter-platform" class="native-hijack" data-select-id="filter-platform">
-      <option value="" disabled selected hidden>All Platforms</option>
-      <option value="Mobile">Mobile</option>
-      <option value="NES">NES</option>
-      <option value="Nintendo 64">Nintendo 64</option>
-      <option value="PC">PC</option>
-      <option value="PlayStation/PS One">PlayStation/PS One</option>
-      <option value="PS4">PS4</option>
-      <option value="PS5">PS5</option>
-      <option value="SNES">SNES</option>
-      <option value="Switch">Switch</option>
-      <option value="Switch 2">Switch 2</option>
-      <option value="Xbox 360">Xbox 360</option>
-      <option value="Xbox One">Xbox One</option>
-      <option value="Xbox S/X">Xbox S/X</option>
-      <option value="Other">Other</option>
-    </select>
-    <button id="btn-clear-filters" title="Clear Filters"></button>
-  </div>
-  
-  <div class="control-right-group">
-    <div class="view-toggle" id="view-toggle">
-      <div class="view-slider"></div>
-      <button class="view-btn active" id="btn-grid-view"></button>
-      <button class="view-btn" id="btn-list-view"></button>
+  <div class="control-bar">
+    <div class="control-left-group">
+      <select id="filter-status" class="native-hijack" data-select-id="filter-status">
+        <option value="" disabled selected hidden>All Statuses</option>
+        <option value="Abandoned">Abandoned</option>
+        <option value="Backlog">Backlog</option>
+        <option value="Completed">Completed</option>
+        <option value="Playing">Playing</option>
+        <option value="Preordered">Preordered</option>
+        <option value="Wishlist">Wishlist</option>
+      </select>
+      <select id="filter-platform" class="native-hijack" data-select-id="filter-platform">
+        <option value="" disabled selected hidden>All Platforms</option>
+        <option value="Mobile">Mobile</option>
+        <option value="NES">NES</option>
+        <option value="Nintendo 64">Nintendo 64</option>
+        <option value="PC">PC</option>
+        <option value="PlayStation/PS One">PlayStation/PS One</option>
+        <option value="PS4">PS4</option>
+        <option value="PS5">PS5</option>
+        <option value="SNES">SNES</option>
+        <option value="Switch">Switch</option>
+        <option value="Switch 2">Switch 2</option>
+        <option value="Xbox 360">Xbox 360</option>
+        <option value="Xbox One">Xbox One</option>
+        <option value="Xbox S/X">Xbox S/X</option>
+        <option value="Other">Other</option>
+      </select>
+      <button id="btn-clear-filters" title="Clear Filters"></button>
     </div>
-    <button id="btn-random-game"></button>
+    
+    <div class="control-right-group">
+      <div class="view-toggle" id="view-toggle">
+        <div class="view-slider"></div>
+        <button class="view-btn active" id="btn-grid-view"></button>
+        <button class="view-btn" id="btn-list-view"></button>
+      </div>
+      <button id="btn-random-game"></button>
+    </div>
   </div>
 </div>
 
@@ -1884,8 +1906,8 @@ window.CONFIG = {
               if (detRes.ok) {
                 const det = await detRes.json();
                 if (det.description_raw) setVal(els.f.desc, det.description_raw);
-                if (det.developers && det.developers.length) setVal(els.f.dev, det.developers.map(x => x.name).join(', '));
-                if (det.publishers && det.publishers.length) setVal(els.f.pub, det.publishers.map(x => x.name).join(', '));
+                if (det.developers && det.developers.length) setVal(els.f.dev, (det.developers || []).map(x=>x.name).join(', '));
+                if (det.publishers && det.publishers.length) setVal(els.f.pub, (det.publishers || []).map(x=>x.name).join(', '));
                 if (det.genres && det.genres.length && !els.f.genres.value) {
                   setVal(els.f.genres, det.genres.map(x=>x.name).join(', '));
                 }
@@ -2138,7 +2160,7 @@ window.CONFIG = {
   }
 
   async function searchRAWG() {
-    const query = els.f.title.value.trim();
+    const query = els.search.value.trim();
     const apiKey = getRawgKey();
     
     if(query.length < 3 || !apiKey || apiKey === "YOUR_RAWG_API_KEY_HERE") { 
@@ -2202,7 +2224,7 @@ window.CONFIG = {
     if (isFuture) {
       setVal(els.f.rawgScore, C.PLACEHOLDERS.NOT_RELEASED_LABEL || "🚀 Not yet released!");
     } else if (g.rating && parseFloat(g.rating) > 0) {
-      setVal(els.f.rawgScore, `RAWG: ${g.rating} / 5.0 (Meta: ${match.metacritic || "N/A"})`);
+      setVal(els.f.rawgScore, `RAWG: ${g.rating} / 5.0 (Meta: ${g.metacritic || "N/A"})`);
     } else {
       setVal(els.f.rawgScore, "Unrated");
     }
@@ -2701,7 +2723,7 @@ window.CONFIG = {
 
     function animate() {
       if(particles.length === 0) { els.fxCanvas.style.display = 'none'; return; }
-      ctx.clearRect(0, 0, els.fxCanvas.width, elements = els.fxCanvas.height);
+      ctx.clearRect(0, 0, els.fxCanvas.width, els.fxCanvas.height);
       
       for(let i = particles.length - 1; i >= 0; i--) {
         let p = particles[i];

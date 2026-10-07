@@ -6,7 +6,12 @@
    LAYER 1: CONFIGURATION BLOCK
    ========================================================================== */
 window.CONFIG = {
-  // 1. API Credentials & Cloud Paths
+  // 1. App Identity & Core Metadata
+  APP_ARCHITECTURE: "Single-File Offline PWA",
+  APP_NAME: "VGnomicon",
+  APP_VERSION: "0.58",
+
+  // 2. API Credentials & Cloud Paths
   RAWG_API_KEY: "YOUR_RAWG_API_KEY_HERE",
   DB_COLLECTION: "nomicon",
   FIREBASE: {
@@ -18,14 +23,18 @@ window.CONFIG = {
     appId: "1:63649233927:web:c2717ba5797c3cf4243ea2"
   },
 
-  // 2. App Defaults
+  // 3. Companion Brand Assets (Keep image files flat in the same directory as index.html!)
+  ASSETS: {
+    FAVICON_DESKTOP: "Favi Dsk PNG 512 v1.png",
+    FAVICON_MOBILE: "Favi iP PNG 1024 v1.png",
+    LOGO_BRAND: "Logo PNG v1.png"
+  },
+
+  // 4. App Defaults
   DEFAULT_THEME: "random",
   DEFAULT_CURRENCY: "USD",
 
-  // 3. UI Identity & Prominent Strings (Strict Alphabetical Order)
-  APP_ARCHITECTURE: "Single-File Offline PWA",
-  APP_NAME: "VGnomicon",
-  APP_VERSION: "0.57",
+  // 5. UI Identity & Prominent Strings (Strict Alphabetical Order)
   BTN_ADD_GAME: "➕ Add Game",
   BTN_AUDIT_CACHE: "🔄 Check Local Cache",
   BTN_CHECK_RAWG: "🌐 RAWG Check",
@@ -43,7 +52,7 @@ window.CONFIG = {
   SETTINGS_TITLE: "Settings",
   WINNER_BANNER_TEXT: "🎉 Winner! 🎉",
 
-  // 4. Centralized Notification & Error Messages
+  // 6. Centralized Notification & Error Messages
   MESSAGES: {
     ACHIEVEMENT_ERROR: "⚠ Earned achievements cannot exceed total! Please check your numbers.",
     ACHIEVEMENT_NEGATIVE: "⚠️ Achievement values cannot be negative numbers!",
@@ -66,7 +75,7 @@ window.CONFIG = {
     TITLE_REQUIRED: "⚠️ Title is required!"
   },
 
-  // 5. Configurable Blank Field Placeholders (Strict Alphabetical Order)
+  // 7. Configurable Blank Field Placeholders (Strict Alphabetical Order)
   PLACEHOLDERS: {
     DATE_ADDED: "Select Title...",
     DATE_COMPLETED: "Select Completed Status...",
@@ -86,7 +95,7 @@ window.CONFIG = {
     UNRATED_LABEL: "No Rating..."
   },
 
-  // 6. Theme Display Names
+  // 8. Theme Display Names
   THEME_NAMES: {
     "modern-dark": "Modern Dark",
     "minimalist-light": "Minimal Light",
@@ -97,13 +106,6 @@ window.CONFIG = {
     "gothic-crimson": "Gothic Crimson",
     "wasteland-terminal": "Wasteland Terminal",
     "cozy-village": "Cozy Village"
-  },
-  
-  // 7. Companion Brand Assets (Keep image files flat in the same directory as index.html!)
-  ASSETS: {
-    FAVICON_DESKTOP: "Favi Dsk PNG 512 v1.png",
-    FAVICON_MOBILE: "Favi iP PNG 1024 v1.png",
-    LOGO_BRAND: "Logo PNG v1.png"
   }
 };
 </script>
@@ -112,7 +114,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.57</title>
+<title id="html-title">VGnomicon v0.58</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -297,10 +299,13 @@ window.CONFIG = {
   ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: var(--radius); }
   ::-webkit-scrollbar-thumb:hover { background: var(--border-hover); }
 
-  /* Core Layout & Reset */
+  /* ==========================================================================
+     v0.58 DELTA: STICKY COMMAND DOCK CLIPPING REMEDIATION
+     ========================================================================== */
+  /* Core Layout & Reset (overflow-x changed from hidden to clip) */
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { width: 100%; overflow-x: hidden; overflow-y: scroll; scrollbar-gutter: stable; }
-  body { width: 100%; overflow-x: hidden; background-color: var(--bg-base); color: var(--text-main); font-family: var(--font-main); -webkit-font-smoothing: antialiased; }
+  html { width: 100%; overflow-x: clip; overflow-y: scroll; scrollbar-gutter: stable; }
+  body { width: 100%; overflow-x: clip; background-color: var(--bg-base); color: var(--text-main); font-family: var(--font-main); -webkit-font-smoothing: antialiased; }
   
   /* Modal Open Scroll Isolation */
   body.modal-open { overflow: hidden; }
@@ -374,10 +379,9 @@ window.CONFIG = {
     font-family: var(--font-main); 
   }
 
-  /* ==========================================================================
-     v0.57 DELTA: STICKY DUAL-TRAY COMMAND DOCK & SINGLE-ROW ACTIONS
-     ========================================================================== */
+  /* v0.58 DELTA: Vendor Prefix Hardening for Sticky Dock */
   .sticky-command-dock {
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -548,7 +552,7 @@ window.CONFIG = {
     .control-right-group { width: 100%; justify-content: center; flex-wrap: nowrap; }
   }
 
-  /* Fluid Mobile Scaling & v0.57 Header Actions Single-Row Lock */
+  /* Fluid Mobile Scaling & Single-Row Lock */
   @media (max-width: 600px) {
     .control-bar .custom-select-wrapper { min-width: 100px; max-width: 145px; flex: 1 1 auto; }
     .control-bar .custom-select-trigger { padding: 6px 8px; font-size: 13px; }
@@ -606,7 +610,7 @@ window.CONFIG = {
       padding: 6px 4px !important; 
     }
 
-    /* v0.57: Single-Row Action Bar Lock */
+    /* v0.58 DELTA: Sanitized Selector for Search Bar */
     .header-actions { 
       order: 3; 
       display: flex !important; 
@@ -618,7 +622,7 @@ window.CONFIG = {
       margin-top: 0;
     }
     
-    #search-input { 
+    #global-search { 
       flex: 1 1 auto !important; 
       min-width: 0 !important; 
       width: 100% !important; 
@@ -1020,11 +1024,11 @@ window.CONFIG = {
       <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
       <div class="brand-text">
         <h1 id="ui-app-name">VGnomicon</h1>
-        <span id="ui-app-version">v0.57</span>
+        <span id="ui-app-version">v0.58</span>
       </div>
     </a>
     <div class="header-actions">
-      <input type="text" id="global-search" class="search-bar" id="search-input" placeholder="🔍 Search Library...">
+      <input type="text" id="global-search" class="search-bar" placeholder="🔍 Search Library...">
       <button class="primary" id="btn-add-game"></button>
     </div>
     <div class="system-tray">

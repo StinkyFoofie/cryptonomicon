@@ -7,9 +7,9 @@
    ========================================================================== */
 window.CONFIG = {
   // 1. App Identity & Core Metadata
-  APP_ARCHITECTURE: "Single-File Offline PWAA",
+  APP_ARCHITECTURE: "Single-File Offline PWAAS",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.59",
+  APP_VERSION: "0.60",
 
   // 2. API Credentials & Cloud Paths
   RAWG_API_KEY: "db9f18921e714a36bb784e65b5fd424b",
@@ -115,7 +115,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.59</title>
+<title id="html-title">VGnomicon v0.60</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -655,9 +655,11 @@ window.CONFIG = {
     .grid-view { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
 
     .form-grid { grid-template-columns: minmax(0, 1fr) !important; }
-    .modal-top-section { flex-direction: column; align-items: stretch; height: auto; }
-    .modal-cover-wrapper { width: 100%; height: 187px; flex: none; }
-    .modal-desc-wrapper { width: 100%; height: 150px; flex: none; }
+    /* v0.60 DELTA: iOS Mobile Modal Cover Art (260px) & 5-Line Description Height Fix */
+    .modal-top-section { flex-direction: column !important; align-items: stretch !important; height: auto !important; }
+    .modal-cover-wrapper { width: 100% !important; height: 260px !important; flex: none !important; }
+    .modal-desc-wrapper { width: 100% !important; height: 144px !important; flex: none !important; }
+    .modal-desc-wrapper textarea { height: 124px !important; min-height: 124px !important; flex: none !important; line-height: 1.45 !important; }
     .theme-grid { grid-template-columns: repeat(2, 1fr); }
     
     .hltb-title-wrap { display: flex !important; flex-direction: column !important; line-height: 1.25 !important; }
@@ -982,7 +984,7 @@ window.CONFIG = {
   
   .modal-desc-wrapper { flex: 1 1 0; min-width: 0; height: 187px; display: flex; flex-direction: column; gap: 5px; }
   .modal-desc-wrapper label { font-size: 12px; color: var(--text-muted); font-weight: 600; font-family: var(--font-heading); text-transform: uppercase; flex-shrink: 0;}
-  .modal-desc-wrapper textarea { flex: 1 1 0; width: 100%; height: 0; min-height: 0; resize: none; margin: 0; box-sizing: border-box; }
+  .modal-desc-wrapper textarea { flex: 1 1 0; width: 100%; height: 0; min-height: 0; resize: none; margin: 0; box-sizing: border-box; line-height: 1.45; }
 
   /* Global Grid Track & Input Clamping */
   .form-grid { 
@@ -1001,7 +1003,26 @@ window.CONFIG = {
   .form-group.full { grid-column: 1 / -1; }
   .form-group label { font-size: 12px; color: var(--text-muted); font-weight: 600; font-family: var(--font-heading); text-transform: uppercase; display:flex; justify-content: space-between;}
   
-  #f-rawg-score { color: var(--text-main); font-weight: 600; }
+  /* v0.60 DELTA: Readonly Description & RAWG Rating Visual Parity */
+  #f-desc, #f-rawg-score,
+  #f-desc:disabled, #f-rawg-score:disabled,
+  #f-desc[readonly], #f-rawg-score[readonly] {
+    background: var(--bg-input) !important;
+    border: 1px solid var(--border) !important;
+    color: var(--text-main) !important;
+    -webkit-text-fill-color: var(--text-main) !important;
+    opacity: 1 !important;
+    cursor: default;
+  }
+  #f-desc::placeholder, #f-rawg-score::placeholder {
+    color: var(--text-disabled) !important;
+    -webkit-text-fill-color: var(--text-disabled) !important;
+    opacity: 1 !important;
+  }
+  #f-desc:placeholder-shown, #f-rawg-score:placeholder-shown {
+    color: var(--text-disabled) !important;
+    -webkit-text-fill-color: var(--text-disabled) !important;
+  }
 
   .inline-input-group { display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; }
   .inline-input-group input[type="number"] { width: 100px; }
@@ -1151,7 +1172,7 @@ window.CONFIG = {
       <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
       <div class="brand-text">
         <h1 id="ui-app-name">VGnomicon</h1>
-        <span id="ui-app-version">v0.59</span>
+        <span id="ui-app-version">v0.60</span>
       </div>
     </a>
     <div class="header-actions">
@@ -1339,7 +1360,7 @@ window.CONFIG = {
           </div>
           <div class="form-group">
             <label>RAWG Rating</label>
-            <input type="text" id="f-rawg-score" readonly disabled style="background:var(--bg-base);" placeholder="Select Title...">
+            <input type="text" id="f-rawg-score" readonly disabled placeholder="Select Title...">
           </div>
 
           <div class="form-group"><label>Date Added</label><input type="date" id="f-date-added" readonly data-placeholder="Select Title..." class="empty-date"></div>
@@ -1651,6 +1672,14 @@ window.CONFIG = {
   
   // --- Sanitized API Key Accessors ---
   const getRawgKey = () => (C.RAWG_API_KEY || "").trim();
+
+  // --- Currency Price 2-Decimal Formatter ---
+  function formatCurrencyPrice(val) {
+    if (val === undefined || val === null || String(val).trim() === '') return '';
+    const num = parseFloat(val);
+    if (isNaN(num) || num < 0) return '';
+    return num.toFixed(2);
+  }
 
   // --- Dynamic Asset Engine ---
   function applyDynamicAssets() {
@@ -2004,6 +2033,18 @@ window.CONFIG = {
     
     els.f.plat.addEventListener('change', updatePlatformFields);
     els.f.status.addEventListener('change', handleStatusChange);
+
+    // v0.60 DELTA: Auto-format Purchase Price to 2 decimal places (.00)
+    els.f.price.addEventListener('blur', () => {
+      if (els.f.price.value !== '') {
+        els.f.price.value = formatCurrencyPrice(els.f.price.value);
+      }
+    });
+    els.f.price.addEventListener('change', () => {
+      if (els.f.price.value !== '') {
+        els.f.price.value = formatCurrencyPrice(els.f.price.value);
+      }
+    });
 
     els.f.dateAdd.addEventListener('change', (e) => updateDateClass(e.target));
     els.f.dateComp.addEventListener('change', (e) => updateDateClass(e.target));
@@ -2514,7 +2555,7 @@ window.CONFIG = {
       els.f.genres.value = g.genres || "";
       els.f.plat.value = g.plat || "";
       els.f.format.value = g.format || "";
-      els.f.price.value = g.price || "";
+      els.f.price.value = g.price ? formatCurrencyPrice(g.price) : "";
       els.f.curr.value = g.curr || C.DEFAULT_CURRENCY;
       els.f.status.value = g.status || "Backlog";
       els.f.url.value = g.url || "";
@@ -2634,11 +2675,13 @@ window.CONFIG = {
     }
     
     const id = els.f.id.value;
+    const formattedPrice = els.f.price.value !== '' ? formatCurrencyPrice(els.f.price.value) : "";
+    els.f.price.value = formattedPrice;
     
     const gameData = {
       id: id,
       title: els.f.title.value, desc: els.f.desc.value, dev: els.f.dev.value, pub: els.f.pub.value,
-      genres: els.f.genres.value, plat: els.f.plat.value, format: els.f.format.value, price: els.f.price.value,
+      genres: els.f.genres.value, plat: els.f.plat.value, format: els.f.format.value, price: formattedPrice,
       curr: els.f.curr.value || C.DEFAULT_CURRENCY,
       status: els.f.status.value, rating: currentRating, url: els.f.url.value, rawgScore: els.f.rawgScore.value,
       dateAdd: els.f.dateAdd.value, dateComp: els.f.dateComp.value, playtime: els.f.playtime.value,
@@ -2902,9 +2945,9 @@ window.CONFIG = {
         totalPlaytime += parseFloat(g.playtime);
       }
 
-      // Estimated HLTB Backlog Playtime (strictly Backlog titles with hltbM > 0)
-      if (st === "Backlog" && g.hltbM && parseFloat(g.hltbM) > 0) {
-        backlogHltbHours += parseFloat(g.hltbM);
+      // v0.60 DELTA: HLTB Backlog Playtime uses Completionist time (hltbC) strictly for Backlog titles
+      if (st === "Backlog" && g.hltbC && parseFloat(g.hltbC) > 0) {
+        backlogHltbHours += parseFloat(g.hltbC);
         backlogTrackedCount++;
       }
 
@@ -2927,10 +2970,10 @@ window.CONFIG = {
     }
 
     const compPct = totalGames > 0 ? ((completedCount / totalGames) * 100).toFixed(1) : "0.0";
-    const avgRating = ratedCount > 0 ? `★ ${(ratingSum / ratedCount).toFixed(1)} / 5.0` : "N/A";
+    const avgRating = ratedCount > 0 ? `★ ${(ratingSum / ratedCount).toFixed(1)} / 5.0` : "★ N/A";
     const costPerHr = totalPlaytime > 0 ? `$${(usdTotal / totalPlaytime).toFixed(2)} / HR` : "N/A";
 
-    // Dynamic Descending Sort (Highest -> Lowest, Left -> Right) for Status Distribution
+    // Dynamic Descending Sort (Highest -> Lowest, Left -> Right) for Status
     const sortedStatuses = Object.values(statusMap)
       .filter(s => s.count > 0)
       .sort((a, b) => b.count - a.count);
@@ -2952,7 +2995,7 @@ window.CONFIG = {
       statusBarHtml = `<div style="font-size:12px; color:var(--text-muted); text-align:center; padding:8px 0;">No status data available.</div>`;
     }
 
-    // Dynamic Descending Sort (Highest -> Lowest, Left -> Right) for Platform Breakdown
+    // Dynamic Descending Sort (Highest -> Lowest, Left -> Right) for Platform
     const sortedPlatforms = Object.values(platFamilyMap)
       .filter(p => p.count > 0)
       .sort((a, b) => b.count - a.count);
@@ -2977,33 +3020,31 @@ window.CONFIG = {
     els.mStatsBody.innerHTML = `
       <div class="stats-kpi-grid">
         <div class="stats-kpi-card">
-          <div class="stats-kpi-val">${totalGames} TOTAL</div>
+          <div class="stats-kpi-val">${splitEmoji(`🎮 ${totalGames}`)}</div>
           <div class="stats-kpi-label">Games Tracked</div>
-          <div class="stats-kpi-sub">Active Library</div>
         </div>
         <div class="stats-kpi-card">
-          <div class="stats-kpi-val">${compPct}%</div>
+          <div class="stats-kpi-val">${splitEmoji(`✅ ${compPct}%`)}</div>
           <div class="stats-kpi-label">Completed</div>
-          <div class="stats-kpi-sub">${completedCount} / ${totalGames} Titles</div>
+          <div class="stats-kpi-sub">${completedCount} / ${totalGames} Games</div>
         </div>
         <div class="stats-kpi-card">
           <div class="stats-kpi-val">${splitEmoji(`🏆 ${platEarned} / ${platTotal}`)}</div>
-          <div class="stats-kpi-label">Platinums Earned</div>
+          <div class="stats-kpi-label">Platinums</div>
           <div class="stats-kpi-sub">Tracked PS Games</div>
         </div>
         <div class="stats-kpi-card">
-          <div class="stats-kpi-val">${splitEmoji(`🎯 ${gsEarned.toLocaleString()} / ${gsTotal.toLocaleString()} G`)}</div>
-          <div class="stats-kpi-label">Xbox Gamerscore</div>
-          <div class="stats-kpi-sub">Tracked Xbox Games</div>
+          <div class="stats-kpi-val">${splitEmoji(`🎯 ${gsEarned.toLocaleString()} G`)}</div>
+          <div class="stats-kpi-label">Gamerscore</div>
+          <div class="stats-kpi-sub">Out of ${gsTotal.toLocaleString()}G</div>
         </div>
         <div class="stats-kpi-card">
           <div class="stats-kpi-val">${splitEmoji(`⏱️ ${totalPlaytime.toFixed(1)} HRS`)}</div>
           <div class="stats-kpi-label">Personal Time</div>
-          <div class="stats-kpi-sub">Logged Hours</div>
         </div>
         <div class="stats-kpi-card">
           <div class="stats-kpi-val">${splitEmoji(`⏳ ~${backlogHltbHours.toFixed(1)} HRS`)}</div>
-          <div class="stats-kpi-label">Est. HLTB Backlog</div>
+          <div class="stats-kpi-label">HLTB Backlog</div>
           <div class="stats-kpi-sub">${backlogTrackedCount} Tracked Backlog</div>
         </div>
         <div class="stats-kpi-card">
@@ -3012,22 +3053,22 @@ window.CONFIG = {
           <div class="stats-kpi-sub">${ratedCount} Rated Titles</div>
         </div>
         <div class="stats-kpi-card">
-          <div class="stats-kpi-val">${costPerHr}</div>
+          <div class="stats-kpi-val">${splitEmoji(`💎 ${costPerHr}`)}</div>
           <div class="stats-kpi-label">Value Extracted</div>
-          <div class="stats-kpi-sub">USD Cost / Hour</div>
+          <div class="stats-kpi-sub">USD / Hour</div>
         </div>
       </div>
 
       <div class="settings-block">
-        <h3 style="margin-bottom:8px; font-size:14px; color:var(--accent);">🎮 Status Distribution</h3>
-        ${statusBarHtml}
-        ${statusLegendHtml}
+        <h3 style="margin-bottom:8px; font-size:14px; color:var(--accent);">🕹️ Platform</h3>
+        ${platBarHtml}
+        ${platLegendHtml}
       </div>
 
       <div class="settings-block">
-        <h3 style="margin-bottom:8px; font-size:14px; color:var(--accent);">🕹️ Platform Breakdown</h3>
-        ${platBarHtml}
-        ${platLegendHtml}
+        <h3 style="margin-bottom:8px; font-size:14px; color:var(--accent);">🎮 Status</h3>
+        ${statusBarHtml}
+        ${statusLegendHtml}
       </div>
 
       <div class="settings-block">

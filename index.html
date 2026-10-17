@@ -7,9 +7,9 @@
    ========================================================================== */
 window.CONFIG = {
   // 1. App Identity & Core Metadata
-  APP_ARCHITECTURE: "Single-File Offline PWAAS",
+  APP_ARCHITECTURE: "Single-File Offline PWA",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.62",
+  APP_VERSION: "0.63",
 
   // 2. API Credentials & Cloud Paths
   RAWG_API_KEY: "db9f18921e714a36bb784e65b5fd424b",
@@ -90,8 +90,12 @@ window.CONFIG = {
     PLATFORM: "Select Platform...",
     PUBLISHER: "Select Title...",
     RAWG_RATING: "Select Title...",
+    RAWG_SYNCED: "Select Title...",
+    RAWG_UPDATED: "Select Title...",
+    RELEASE_DATE: "Select Title...",
     SEARCH_PLACEHOLDER: "🔍 Search Library...",
     STATUS: "Select Title...",
+    TBA_LABEL: "To Be Announced...",
     THUMBNAIL: "Select Title...",
     TITLE: "Type Your Favorite Game...",
     UNRATED_LABEL: "No Rating..."
@@ -116,7 +120,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.62</title>
+<title id="html-title">VGnomicon v0.63</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -341,7 +345,7 @@ window.CONFIG = {
   .custom-select-wrapper { position: relative; width: 100%; }
   .custom-select-wrapper select { display: none; }
   
-  .custom-select-trigger { background: var(--bg-input); color: var(--text-main); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px; font-size: 14px; font-family: var(--font-main); width: 100%; cursor: pointer; display: inline-flex; justify-content: space-between; align-items: center; user-select: none; line-height: 1; vertical-align: middle; }
+  .custom-select-trigger { background: var(--bg-input); color: var(--text-main); border: 1px solid var(--border); border-radius: var(--radius); padding: 0 10px; height: 38px; min-height: 38px; box-sizing: border-box; font-size: 14px; font-family: var(--font-main); width: 100%; cursor: pointer; display: inline-flex; justify-content: space-between; align-items: center; user-select: none; line-height: 1; vertical-align: middle; }
   .custom-select-trigger.empty { color: var(--text-muted); font-weight: 600; }
   .custom-select-trigger::after { content: ''; width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid var(--text-muted); transition: transform 0.2s; }
   .custom-select-wrapper.open .custom-select-trigger { border-color: var(--border-focus); }
@@ -356,7 +360,7 @@ window.CONFIG = {
   .custom-option.disabled { color: var(--text-disabled); cursor: default; background: var(--bg-surface); }
   .custom-option.disabled:hover { background: var(--bg-surface); color: var(--text-disabled); }
 
-  /* Global Date Input Vertical Containment Engine (38px Canonical Height) */
+  /* Global Date Input Vertical Containment & M DD, YYYY Display Engine (38px Canonical Height) */
   input[type="date"] { 
     position: relative; 
     -webkit-appearance: none;
@@ -367,6 +371,7 @@ window.CONFIG = {
     box-sizing: border-box;
     height: 38px;
     min-height: 38px;
+    padding: 0 10px;
   }
   
   input[type="date"]::-webkit-date-and-time-value {
@@ -377,6 +382,7 @@ window.CONFIG = {
   }
 
   input[type="date"].empty-date { color: transparent; }
+  input[type="date"].empty-date::-webkit-datetime-edit { color: transparent; }
   input[type="date"].empty-date::before { 
     content: attr(data-placeholder); 
     color: var(--text-muted); 
@@ -388,6 +394,26 @@ window.CONFIG = {
     line-height: 1;
     pointer-events: none; 
     font-family: var(--font-main); 
+  }
+
+  /* v0.63 DELTA: M DD, YYYY Display Overlay with Full Native Editability on Focus/Picker */
+  input[type="date"]:not(.empty-date):not(:focus) {
+    color: transparent;
+  }
+  input[type="date"]:not(.empty-date):not(:focus)::-webkit-datetime-edit {
+    color: transparent;
+  }
+  input[type="date"]:not(.empty-date):not(:focus)::before {
+    content: attr(data-display-date);
+    color: var(--text-main);
+    font-weight: 400;
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    line-height: 1;
+    pointer-events: none;
+    font-family: var(--font-main);
   }
 
   /* v0.58 DELTA: Vendor Prefix Hardening for Sticky Dock */
@@ -411,10 +437,11 @@ window.CONFIG = {
   .brand span { font-size: 11px; color: var(--text-muted); font-family: var(--font-main); font-weight: 600;}
   .header-actions { display: flex; gap: 10px; align-items: center; justify-content: center; justify-self: center;}
   
-  .search-bar { max-width: 300px; min-width: 250px; text-align: center; }
+  /* v0.63 DELTA: Search Bar & Add Game Button 38px Canonical Height Synchronization */
+  .search-bar, #global-search { max-width: 300px; min-width: 250px; text-align: center; height: 38px; min-height: 38px; padding: 0 10px; box-sizing: border-box; }
   .search-bar::placeholder { color: var(--text-muted); font-weight: 600; opacity: 1; text-align: center; }
   
-  #btn-add-game { white-space: nowrap; flex-shrink: 0; }
+  #btn-add-game { white-space: nowrap; flex-shrink: 0; height: 38px; min-height: 38px; padding: 0 14px; box-sizing: border-box; }
   
   .system-tray { 
     display: flex; 
@@ -529,8 +556,9 @@ window.CONFIG = {
     flex-shrink: 0;
   }
 
+  /* v0.63 DELTA: Secondary Bar Dropdown Trigger & Clear Filters 38px Height Synchronization */
   .control-bar .custom-select-wrapper { max-width: 175px; flex: 0 0 auto; width: 100%; min-width: 130px; }
-  .control-bar .custom-select-trigger { padding: 6px 10px; }
+  .control-bar .custom-select-trigger { height: 38px; min-height: 38px; padding: 0 10px; box-sizing: border-box; }
   
   #btn-clear-filters { 
     background: transparent; 
@@ -539,14 +567,15 @@ window.CONFIG = {
     font-size: 14px; 
     font-weight: 600; 
     border-radius: var(--radius); 
-    padding: 6px 12px; 
+    padding: 0 12px; 
     transition: all 0.2s; 
     display: inline-flex; 
     align-items: center; 
     justify-content: center; 
     box-sizing: border-box; 
-    height: 38px;          /* Match custom-select trigger height */
-    flex-shrink: 0;        /* Prevent button crush */
+    height: 38px;
+    min-height: 38px;
+    flex-shrink: 0;
   }
   
   #btn-clear-filters:hover { border-color: var(--accent); color: var(--accent); background: var(--bg-surface-hover); }
@@ -580,8 +609,8 @@ window.CONFIG = {
   /* Fluid Mobile Scaling & Single-Row Lock */
   @media (max-width: 600px) {
     .control-bar .custom-select-wrapper { min-width: 100px; max-width: 145px; flex: 1 1 auto; }
-    .control-bar .custom-select-trigger { padding: 6px 8px; font-size: 13px; }
-    #btn-clear-filters { padding: 6px 10px; font-size: 13px; }
+    .control-bar .custom-select-trigger { height: 38px; min-height: 38px; padding: 0 8px; font-size: 13px; }
+    #btn-clear-filters { height: 38px; min-height: 38px; padding: 0 10px; font-size: 13px; }
     
     .app-header { 
       flex-direction: column; 
@@ -652,6 +681,7 @@ window.CONFIG = {
       min-width: 0 !important; 
       width: 100% !important; 
       max-width: 100% !important;
+      height: 38px !important;
     }
     
     #btn-add-game { 
@@ -659,6 +689,7 @@ window.CONFIG = {
       flex-shrink: 0 !important; 
       white-space: nowrap !important; 
       width: auto !important; 
+      height: 38px !important;
     }
     
     main { padding: 12px 10px; }
@@ -1025,17 +1056,28 @@ window.CONFIG = {
   .form-group.full { grid-column: 1 / -1; }
   .form-group label { font-size: 12px; color: var(--text-muted); font-weight: 600; font-family: var(--font-heading); text-transform: uppercase; display:flex; justify-content: space-between;}
 
-  /* v0.61 DELTA: Responsive Form Grid Placement for Edition, Status & Purchase Price */
+  /* v0.63 DELTA: Canonical 38px Single-Line Field Height Across Add/Edit Game Modal */
+  #modal-game input[type="text"],
+  #modal-game input[type="number"],
+  #modal-game input[type="date"],
+  #modal-game .custom-select-trigger {
+    height: 38px;
+    min-height: 38px;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+
+  /* v0.63 DELTA: Responsive Form Grid Placement (Desktop Swap of Purchase Price & Status) */
   @media (min-width: 601px) {
     #fg-edition { grid-column: 1; grid-row: 4; }
-    #fg-status { grid-column: 2; grid-row: 4; }
-    #fg-price { grid-column: 1 / -1; grid-row: 5; }
+    #fg-price { grid-column: 2; grid-row: 4; }
+    #fg-status { grid-column: 1 / -1; grid-row: 5; width: calc(50% - 8px); }
   }
   
-  /* v0.60 DELTA: Readonly Description & RAWG Rating Visual Parity */
-  #f-desc, #f-rawg-score,
-  #f-desc:disabled, #f-rawg-score:disabled,
-  #f-desc[readonly], #f-rawg-score[readonly] {
+  /* v0.63 DELTA: Readonly Description, RAWG Telemetry, Release Date & RAWG Rating Visual Parity */
+  #f-desc, #f-rawg-score, #f-rawg-updated, #f-rawg-synced, #f-release-date,
+  #f-desc:disabled, #f-rawg-score:disabled, #f-rawg-updated:disabled, #f-rawg-synced:disabled, #f-release-date:disabled,
+  #f-desc[readonly], #f-rawg-score[readonly], #f-rawg-updated[readonly], #f-rawg-synced[readonly], #f-release-date[readonly] {
     background: var(--bg-input) !important;
     border: 1px solid var(--border) !important;
     color: var(--text-main) !important;
@@ -1043,24 +1085,25 @@ window.CONFIG = {
     opacity: 1 !important;
     cursor: default;
   }
-  #f-desc::placeholder, #f-rawg-score::placeholder {
+  #f-desc::placeholder, #f-rawg-score::placeholder, #f-rawg-updated::placeholder, #f-rawg-synced::placeholder, #f-release-date::placeholder {
     color: var(--text-disabled) !important;
     -webkit-text-fill-color: var(--text-disabled) !important;
     opacity: 1 !important;
   }
-  #f-desc:placeholder-shown, #f-rawg-score:placeholder-shown {
+  #f-desc:placeholder-shown, #f-rawg-score:placeholder-shown, #f-rawg-updated:placeholder-shown, #f-rawg-synced:placeholder-shown, #f-release-date:placeholder-shown {
     color: var(--text-disabled) !important;
     -webkit-text-fill-color: var(--text-disabled) !important;
   }
 
   .inline-input-group { display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; }
-  .inline-input-group input[type="number"] { width: 100px; }
+  .inline-input-group input[type="number"] { width: 100px; height: 38px; min-height: 38px; padding: 0 10px; box-sizing: border-box; }
   .inline-input-group .custom-select-wrapper { width: 90px; }
   
+  /* v0.63 DELTA: Achievement Earned/Total 38px Height & Pure Input-Box Slash Centering */
   .achievement-group { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-  .achievement-group input { width: 100px; text-align: center; }
+  .achievement-group input { width: 100px; height: 38px; min-height: 38px; padding: 0 10px; text-align: center; box-sizing: border-box; }
   .achievement-group span { font-size: 11px; color: var(--text-muted); font-weight: 600; }
-  .achievement-divider { font-size: 18px; color: var(--text-muted); display: flex; align-items: flex-start; margin-top: 5px; }
+  .achievement-divider { font-size: 18px; color: var(--text-muted); height: 38px; align-self: flex-start; display: inline-flex; align-items: center; justify-content: center; margin: 0; line-height: 1; }
 
   /* Autocomplete & Post-Release Refresh */
   .autocomplete-wrapper { position: relative; width: 100%; }
@@ -1075,7 +1118,7 @@ window.CONFIG = {
   #modal-game-rawg-dot { margin: 0; align-self: center; flex-shrink: 0; }
   
   /* Star Rating Widget */
-  .rating-container { display: flex; align-items: center; gap: 4px; height: 42px;}
+  .rating-container { display: flex; align-items: center; gap: 4px; height: 38px;}
   .star-widget { display: flex; position: relative; }
   .star { position: relative; width: 28px; height: 28px; cursor: pointer; }
   .star svg { width: 100%; height: 100%; pointer-events: none; }
@@ -1201,7 +1244,7 @@ window.CONFIG = {
       <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
       <div class="brand-text">
         <h1 id="ui-app-name">VGnomicon</h1>
-        <span id="ui-app-version">v0.62</span>
+        <span id="ui-app-version">v0.63</span>
       </div>
     </a>
     <div class="header-actions">
@@ -1302,15 +1345,26 @@ window.CONFIG = {
         
         <div class="form-group autocomplete-wrapper">
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <label style="margin-bottom:0;">Title * (Sorted by RAWG Relevance)</label>
+            <label style="margin-bottom:0;">Title *</label>
             <div id="modal-rawg-slot">
-              <span id="lbl-rawg-status-text" style="font-size:12px; color:var(--text-muted); font-weight:600; line-height:1; vertical-align:middle;">RAWG STATUS</span>
+              <span id="lbl-rawg-status-text" style="font-size:12px; color:var(--text-muted); font-weight:600; line-height:1; vertical-align:middle;">RAWG SYNC</span>
               <button type="button" id="btn-refresh-rawg" class="btn-refresh-rawg" style="display:none;" title="Re-fetch latest metadata from RAWG"></button>
               <div class="status-dot dot-yellow" id="modal-game-rawg-dot" title="RAWG API Status"></div>
             </div>
           </div>
           <input type="text" id="f-title" placeholder="Type Your Favorite Game..." required autocomplete="off">
           <div class="autocomplete-results" id="rawg-results"></div>
+        </div>
+
+        <div class="form-grid" style="margin-top: 12px;">
+          <div class="form-group">
+            <label>Last RAWG Update</label>
+            <input type="text" id="f-rawg-updated" readonly disabled placeholder="Select Title...">
+          </div>
+          <div class="form-group">
+            <label>Last RAWG Sync</label>
+            <input type="text" id="f-rawg-synced" readonly disabled placeholder="Select Title...">
+          </div>
         </div>
         
         <div class="modal-top-section">
@@ -1328,7 +1382,8 @@ window.CONFIG = {
           <div class="form-group"><label>Developer</label><input type="text" id="f-developer" placeholder="Select Title..."></div>
           <div class="form-group"><label>Publisher</label><input type="text" id="f-publisher" placeholder="Select Title..."></div>
           
-          <div class="form-group full"><label>Genre(s)</label><input type="text" id="f-genres" placeholder="Select Title..."></div>
+          <div class="form-group"><label>Release Date</label><input type="text" id="f-release-date" readonly disabled placeholder="Select Title..."></div>
+          <div class="form-group"><label>Genre(s)</label><input type="text" id="f-genres" placeholder="Select Title..."></div>
 
           <div class="form-group">
             <label>Platform *</label>
@@ -1410,7 +1465,7 @@ window.CONFIG = {
             <input type="text" id="f-rawg-score" readonly disabled placeholder="Select Title...">
           </div>
 
-          <div class="form-group"><label>Date Added</label><input type="date" id="f-date-added" readonly data-placeholder="Select Title..." class="empty-date"></div>
+          <div class="form-group"><label>Date Added</label><input type="date" id="f-date-added" data-placeholder="Select Title..." class="empty-date"></div>
           <div class="form-group"><label>Date Completed</label><input type="date" id="f-date-completed" data-placeholder="Select Completed Status..." class="empty-date"></div>
 
           <div class="form-group full" style="border-top:1px dashed var(--border); padding-top:16px; margin-top:0px;">
@@ -1434,32 +1489,32 @@ window.CONFIG = {
                 <input type="number" id="f-ach-earned" min="0">
                 <span>Earned</span>
               </div>
-          <div class="achievement-divider">/</div>
-          <div class="achievement-group">
-            <input type="number" id="f-ach-total" min="0">
-            <span>Total</span>
+              <div class="achievement-divider">/</div>
+              <div class="achievement-group">
+                <input type="number" id="f-ach-total" min="0">
+                <span>Total</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group full" style="border-top:1px dashed var(--border); padding-top:16px; margin-top:0px;">
+            <label>Notes / Personal Review</label>
+            <div class="reaction-chips" id="reaction-chips">
+              <!-- JS Populated -->
+            </div>
+            <textarea id="f-notes" rows="4" maxlength="2000" placeholder="Emojis and thoughts here..."></textarea>
           </div>
         </div>
-      </div>
-
-      <div class="form-group full" style="border-top:1px dashed var(--border); padding-top:16px; margin-top:0px;">
-        <label>Notes / Personal Review</label>
-        <div class="reaction-chips" id="reaction-chips">
-          <!-- JS Populated -->
-        </div>
-        <textarea id="f-notes" rows="4" maxlength="2000" placeholder="Emojis and thoughts here..."></textarea>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="danger" id="btn-delete-prompt" style="display:none;"></button>
+      <div style="margin-left:auto; display:flex; gap:10px;">
+        <button id="btn-cancel-game">Cancel</button>
+        <button class="primary" id="btn-save-game" form="game-form"></button>
       </div>
     </div>
-  </form>
-</div>
-<div class="modal-footer">
-  <button class="danger" id="btn-delete-prompt" style="display:none;"></button>
-  <div style="margin-left:auto; display:flex; gap:10px;">
-    <button id="btn-cancel-game">Cancel</button>
-    <button class="primary" id="btn-save-game" form="game-form"></button>
   </div>
-</div>
-</div>
 </div>
 
 <!-- Theme Selector Modal -->
@@ -1693,8 +1748,12 @@ window.CONFIG = {
     // Schema Inputs
     f: {
       id: document.getElementById('f-id'), title: document.getElementById('f-title'),
+      rawgUpdated: document.getElementById('f-rawg-updated'),
+      rawgSynced: document.getElementById('f-rawg-synced'),
       desc: document.getElementById('f-desc'), dev: document.getElementById('f-developer'),
-      pub: document.getElementById('f-publisher'), genres: document.getElementById('f-genres'),
+      pub: document.getElementById('f-publisher'),
+      releaseDate: document.getElementById('f-release-date'),
+      genres: document.getElementById('f-genres'),
       plat: document.getElementById('f-platform'), format: document.getElementById('f-format'),
       edition: document.getElementById('f-edition'),
       price: document.getElementById('f-price'), curr: document.getElementById('f-currency'),
@@ -1727,6 +1786,26 @@ window.CONFIG = {
     const num = parseFloat(val);
     if (isNaN(num) || num < 0) return '';
     return num.toFixed(2);
+  }
+
+  // --- v0.63 DELTA: Universal M DD, YYYY Date Formatter (Timezone-Safe for ISO Dates) ---
+  function formatDisplayDate(dateInput) {
+    if (!dateInput) return '';
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    if (typeof dateInput === 'string') {
+      const isoDayMatch = dateInput.trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      if (isoDayMatch) {
+        const year = parseInt(isoDayMatch[1], 10);
+        const monthIdx = parseInt(isoDayMatch[2], 10) - 1;
+        const day = parseInt(isoDayMatch[3], 10);
+        if (monthIdx >= 0 && monthIdx < 12 && day >= 1 && day <= 31) {
+          return `${months[monthIdx]} ${day}, ${year}`;
+        }
+      }
+    }
+    const d = (dateInput instanceof Date) ? dateInput : new Date(dateInput);
+    if (isNaN(d.getTime())) return String(dateInput);
+    return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
   }
 
   // --- Dynamic Asset Engine ---
@@ -1918,7 +1997,7 @@ window.CONFIG = {
     if (els.btnStats) els.btnStats.innerHTML = splitEmoji(C.BTN_STATS || "📊");
     els.btnRandom.innerHTML = splitEmoji(C.BTN_RANDOM_GAME);
     
-    els.btnRefreshRawg.innerHTML = splitEmoji("🌐 RAWG STATUS");
+    els.btnRefreshRawg.innerHTML = splitEmoji("🌐 RAWG SYNC");
     
     if (els.btnClearFilters) els.btnClearFilters.innerHTML = splitEmoji(C.BTN_CLEAR_FILTERS || "🧹 Clear Filters");
     if (els.btnSettings) els.btnSettings.innerHTML = splitEmoji(C.BTN_SETTINGS || "⚙️ Settings");
@@ -1952,6 +2031,9 @@ window.CONFIG = {
     document.getElementById('s-db-coll-read').innerText = `${activeDbColl} / {gameId}`;
     
     els.f.title.placeholder = C.PLACEHOLDERS.TITLE;
+    if (els.f.rawgUpdated) els.f.rawgUpdated.placeholder = C.PLACEHOLDERS.RAWG_UPDATED || "Select Title...";
+    if (els.f.rawgSynced) els.f.rawgSynced.placeholder = C.PLACEHOLDERS.RAWG_SYNCED || "Select Title...";
+    if (els.f.releaseDate) els.f.releaseDate.placeholder = C.PLACEHOLDERS.RELEASE_DATE || "Select Title...";
     els.f.dateAdd.setAttribute('data-placeholder', C.PLACEHOLDERS.DATE_ADDED);
     els.f.dateComp.setAttribute('data-placeholder', C.PLACEHOLDERS.DATE_COMPLETED);
     els.f.coverText.innerText = C.PLACEHOLDERS.THUMBNAIL;
@@ -2097,8 +2179,10 @@ window.CONFIG = {
       }
     });
 
-    els.f.dateAdd.addEventListener('change', (e) => updateDateClass(e.target));
-    els.f.dateComp.addEventListener('change', (e) => updateDateClass(e.target));
+    ['change', 'input', 'blur'].forEach(evt => {
+      els.f.dateAdd.addEventListener(evt, (e) => updateDateClass(e.target));
+      els.f.dateComp.addEventListener(evt, (e) => updateDateClass(e.target));
+    });
 
     const reactionContainer = document.getElementById('reaction-chips');
     if (reactionContainer) {
@@ -2156,10 +2240,21 @@ window.CONFIG = {
               els.f.coverImg.style.display = 'block';
               els.f.coverText.style.display = 'none';
             }
+
+            // v0.63 DELTA: Stamp Last RAWG Sync, Last RAWG Update & Release Date
+            setVal(els.f.rawgSynced, formatDisplayDate(new Date()));
+            if (match.updated) {
+              setVal(els.f.rawgUpdated, formatDisplayDate(match.updated));
+            }
+            if (match.tba || !match.released) {
+              setVal(els.f.releaseDate, C.PLACEHOLDERS.TBA_LABEL || "To Be Announced...");
+            } else {
+              setVal(els.f.releaseDate, formatDisplayDate(match.released));
+            }
             
             const relDate = match.released ? new Date(match.released) : null;
             const isFut = relDate && relDate > new Date();
-            if (isFut) {
+            if (isFut || match.tba) {
               setVal(els.f.rawgScore, C.PLACEHOLDERS.NOT_RELEASED_LABEL || "🚀 Not yet released!");
             } else if (match.rating && parseFloat(match.rating) > 0) {
               setVal(els.f.rawgScore, `RAWG: ${match.rating} / 5.0 (Meta: ${match.metacritic || "N/A"})`);
@@ -2174,6 +2269,14 @@ window.CONFIG = {
                 if (det.publishers && det.publishers.length) setVal(els.f.pub, (det.publishers || []).map(x=>x.name).join(', '));
                 if (det.genres && det.genres.length && !els.f.genres.value) {
                   setVal(els.f.genres, det.genres.map(x=>x.name).join(', '));
+                }
+                if (det.updated) {
+                  setVal(els.f.rawgUpdated, formatDisplayDate(det.updated));
+                }
+                if (det.tba || (!det.released && !match.released)) {
+                  setVal(els.f.releaseDate, C.PLACEHOLDERS.TBA_LABEL || "To Be Announced...");
+                } else if (det.released) {
+                  setVal(els.f.releaseDate, formatDisplayDate(det.released));
                 }
               }
             } catch(err) { console.warn("RAWG detail fetch failed:", err); }
@@ -2416,11 +2519,9 @@ window.CONFIG = {
     };
   }
   
-  function formatRawgDate(dateString) {
-    if (!dateString) return 'N/A';
-    const d = new Date(dateString);
-    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+  function formatRawgDate(dateString, isTba = false) {
+    if (isTba || !dateString) return C.PLACEHOLDERS.TBA_LABEL || 'To Be Announced...';
+    return formatDisplayDate(dateString);
   }
 
   async function searchRAWG() {
@@ -2450,7 +2551,7 @@ window.CONFIG = {
     results.forEach(g => {
       const div = document.createElement('div');
       div.className = 'ac-item';
-      div.innerHTML = `<img src="${g.background_image || ''}"> <span>${g.name} (${formatRawgDate(g.released)})</span>`;
+      div.innerHTML = `<img src="${g.background_image || ''}"> <span>${g.name} (${formatRawgDate(g.released, g.tba)})</span>`;
       div.onmousedown = (e) => {
         e.preventDefault();
         populateFromRAWG(g);
@@ -2481,11 +2582,22 @@ window.CONFIG = {
     }
     
     setVal(els.f.genres, (g.genres || []).map(x=>x.name).join(', '));
+
+    // v0.63 DELTA: Populate Last RAWG Sync, Last RAWG Update & Release Date
+    setVal(els.f.rawgSynced, formatDisplayDate(new Date()));
+    if (g.updated) {
+      setVal(els.f.rawgUpdated, formatDisplayDate(g.updated));
+    }
+    if (g.tba || !g.released) {
+      setVal(els.f.releaseDate, C.PLACEHOLDERS.TBA_LABEL || "To Be Announced...");
+    } else {
+      setVal(els.f.releaseDate, formatDisplayDate(g.released));
+    }
     
     const releaseDate = g.released ? new Date(g.released) : null;
     const isFuture = releaseDate && releaseDate > new Date();
 
-    if (isFuture) {
+    if (isFuture || g.tba) {
       setVal(els.f.rawgScore, C.PLACEHOLDERS.NOT_RELEASED_LABEL || "🚀 Not yet released!");
     } else if (g.rating && parseFloat(g.rating) > 0) {
       setVal(els.f.rawgScore, `RAWG: ${g.rating} / 5.0 (Meta: ${g.metacritic || "N/A"})`);
@@ -2504,6 +2616,14 @@ window.CONFIG = {
           setVal(els.f.pub, (det.publishers || []).map(x=>x.name).join(', '));
           if (det.genres && det.genres.length && !els.f.genres.value) {
             setVal(els.f.genres, det.genres.map(x=>x.name).join(', '));
+          }
+          if (det.updated) {
+            setVal(els.f.rawgUpdated, formatDisplayDate(det.updated));
+          }
+          if (det.tba || (!det.released && !g.released)) {
+            setVal(els.f.releaseDate, C.PLACEHOLDERS.TBA_LABEL || "To Be Announced...");
+          } else if (det.released) {
+            setVal(els.f.releaseDate, formatDisplayDate(det.released));
           }
         }
       }
@@ -2558,8 +2678,13 @@ window.CONFIG = {
   }
 
   function updateDateClass(el) {
-    if (el.value) el.classList.remove('empty-date');
-    else el.classList.add('empty-date');
+    if (el.value) {
+      el.classList.remove('empty-date');
+      el.setAttribute('data-display-date', formatDisplayDate(el.value));
+    } else {
+      el.classList.add('empty-date');
+      el.removeAttribute('data-display-date');
+    }
   }
 
   function promoteStatusAndDate() {
@@ -2578,6 +2703,9 @@ window.CONFIG = {
     els.f.coverImg.style.display = 'none';
     els.f.coverText.style.display = 'block';
     els.f.rawgScore.value = "";
+    if (els.f.rawgUpdated) els.f.rawgUpdated.value = "";
+    if (els.f.rawgSynced) els.f.rawgSynced.value = "";
+    if (els.f.releaseDate) els.f.releaseDate.value = "";
     els.f.rawgRes.style.display = 'none';
     setStars(0);
     updateHLTBLink("");
@@ -2600,9 +2728,12 @@ window.CONFIG = {
       els.f.id.value = id;
       els.f.title.value = g.title || "";
       updateHLTBLink(g.title);
+      if (els.f.rawgUpdated) els.f.rawgUpdated.value = g.rawgUpdated || "";
+      if (els.f.rawgSynced) els.f.rawgSynced.value = g.rawgSynced || "";
       els.f.desc.value = g.desc || "";
       els.f.dev.value = g.dev || "";
       els.f.pub.value = g.pub || "";
+      if (els.f.releaseDate) els.f.releaseDate.value = g.releaseDate || "";
       els.f.genres.value = g.genres || "";
       els.f.plat.value = g.plat || "";
       els.f.format.value = g.format || "";
@@ -2661,10 +2792,11 @@ window.CONFIG = {
     updatePlatformFields();
   }
 
+  // v0.63 DELTA: HLTB Look Up Anchor Text Rebranding
   function updateHLTBLink(title) { 
     if(title) {
       els.hltbLink.href = `https://howlongtobeat.com/?q=${encodeURIComponent(title)}`;
-      els.hltbLink.innerHTML = splitEmoji("🔗 Look up on HLTB");
+      els.hltbLink.innerHTML = splitEmoji("🔗 HLTB Look Up");
       els.hltbLink.style.color = "var(--accent)";
       els.hltbLink.style.pointerEvents = "auto";
     } else {
@@ -2735,7 +2867,11 @@ window.CONFIG = {
     
     const gameData = {
       id: id,
-      title: els.f.title.value, desc: els.f.desc.value, dev: els.f.dev.value, pub: els.f.pub.value,
+      title: els.f.title.value,
+      rawgUpdated: els.f.rawgUpdated ? els.f.rawgUpdated.value : "",
+      rawgSynced: els.f.rawgSynced ? els.f.rawgSynced.value : "",
+      desc: els.f.desc.value, dev: els.f.dev.value, pub: els.f.pub.value,
+      releaseDate: els.f.releaseDate ? els.f.releaseDate.value : "",
       genres: els.f.genres.value, plat: els.f.plat.value, format: els.f.format.value,
       edition: els.f.edition ? els.f.edition.value : "",
       price: formattedPrice,

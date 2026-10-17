@@ -9,7 +9,7 @@ window.CONFIG = {
   // 1. App Identity & Core Metadata
   APP_ARCHITECTURE: "Single-File Offline PWAAS",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.61",
+  APP_VERSION: "0.62",
 
   // 2. API Credentials & Cloud Paths
   RAWG_API_KEY: "db9f18921e714a36bb784e65b5fd424b",
@@ -116,7 +116,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.61</title>
+<title id="html-title">VGnomicon v0.62</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -134,6 +134,7 @@ window.CONFIG = {
     --bg-base: #121212; --bg-surface: #1e1e1e; --bg-surface-hover: #2a2a2a; --bg-input: #2d2d2d; --bg-placeholder: #333333; --bg-backdrop: rgba(0, 0, 0, 0.75);
     --text-main: #ffffff; --text-muted: #a0a0a0; --text-inverse: #000000; --text-disabled: #666666;
     --border: #333333; --border-hover: #555555; --border-focus: #4da6ff; --accent: #4da6ff; --accent-hover: #3388ff;
+    --accent-beat: #0284c7;
     --success: #00cc66; --warning: #ffaa00; --danger: #ff4444; --bg-badge: #333333; --text-badge: #ffffff;
     --shadow: 0 4px 16px rgba(0, 0, 0, 0.5); --font-main: 'Inter', -apple-system, sans-serif; --font-heading: 'Inter', sans-serif;
     --radius: 8px; --scrollbar-thumb: #555555; --scrollbar-track: #1e1e1e;
@@ -145,6 +146,7 @@ window.CONFIG = {
     --bg-base: #f5f5f7; --bg-surface: #ffffff; --bg-surface-hover: #f0f0f2; --bg-input: #ffffff; --bg-placeholder: #e5e5ea; --bg-backdrop: rgba(255, 255, 255, 0.85);
     --text-main: #1d1d1f; --text-muted: #86868b; --text-inverse: #ffffff; --text-disabled: #aeaeb2;
     --border: #d2d2d7; --border-hover: #86868b; --border-focus: #0071e3; --accent: #0071e3; --accent-hover: #0056b3;
+    --accent-beat: #5856d6;
     --success: #34c759; --warning: #ff9f0a; --danger: #ff3b30; --bg-badge: #e5e5ea; --text-badge: #1d1d1f;
     --shadow: 0 4px 16px rgba(0, 0, 0, 0.08); --font-main: system-ui, -apple-system, sans-serif; --font-heading: system-ui, -apple-system, sans-serif;
     --radius: 8px; --scrollbar-thumb: #c7c7cc; --scrollbar-track: #f5f5f7;
@@ -156,6 +158,7 @@ window.CONFIG = {
     --bg-base: #f8fafc; --bg-surface: #ffffff; --bg-surface-hover: #f1f5f9; --bg-input: #ffffff; --bg-placeholder: #e2e8f0; --bg-backdrop: rgba(248, 250, 252, 0.85);
     --text-main: #0f172a; --text-muted: #64748b; --text-inverse: #ffffff; --text-disabled: #94a3b8;
     --border: #e2e8f0; --border-hover: #cbd5e1; --border-focus: #2563eb; --accent: #2563eb; --accent-hover: #1d4ed8;
+    --accent-beat: #0284c7;
     --success: #10b981; --warning: #f59e0b; --danger: #ef4444; --bg-badge: #e0f2fe; --text-badge: #0369a1;
     --shadow: 0 4px 16px rgba(15, 23, 42, 0.08); --font-main: 'Plus Jakarta Sans', 'Inter', sans-serif; --font-heading: 'Plus Jakarta Sans', sans-serif;
     --radius: 10px; --scrollbar-thumb: #cbd5e1; --scrollbar-track: #f8fafc;
@@ -167,6 +170,7 @@ window.CONFIG = {
     --bg-base: #050510; --bg-surface: #101025; --bg-surface-hover: #1b1b38; --bg-input: #0c0c1d; --bg-placeholder: #222244; --bg-backdrop: rgba(5, 5, 16, 0.85);
     --text-main: #f0f0ff; --text-muted: #8888bb; --text-inverse: #050510; --text-disabled: #555577;
     --border: #ffcc00; --border-hover: #ff0055; --border-focus: #00ffff; --accent: #ff0055; --accent-hover: #ff3377;
+    --accent-beat: #00ffff;
     --success: #00ff66; --warning: #ffcc00; --danger: #ff2222; --bg-badge: #ff0055; --text-badge: #ffffff;
     --shadow: 0 0 15px rgba(255, 0, 85, 0.35); --font-main: 'Press Start 2P', 'Courier New', monospace; --font-heading: 'Press Start 2P', monospace;
     --radius: 2px; --scrollbar-thumb: #ffcc00; --scrollbar-track: #101025;
@@ -189,7 +193,7 @@ window.CONFIG = {
   [data-theme="retro-arcade"] .grid-view .card-title { font-size: 10px; }
   [data-theme="retro-arcade"] .list-view .card-title { font-size: 11px; }
   [data-theme="retro-arcade"] .grid-view .card-meta { font-size: 9px; }
-  [data-theme="retro-arcade"] .game-card:not(.completed-glow) .status-col .badge { background: #101025 !important; border: 1px solid #ffcc00 !important; color: #ffcc00 !important; }
+  [data-theme="retro-arcade"] .game-card:not(.completed-glow) .status-col .badge:not(.beat-badge) { background: #101025 !important; border: 1px solid #ffcc00 !important; color: #ffcc00 !important; }
   
   [data-theme="retro-arcade"] input, [data-theme="retro-arcade"] select, [data-theme="retro-arcade"] textarea, [data-theme="retro-arcade"] .custom-select-trigger, [data-theme="retro-arcade"] .custom-option { font-size: 11px; text-align: left; }
   
@@ -232,6 +236,7 @@ window.CONFIG = {
     --text-main: #66fcf1; --text-muted: #c5a8e0; --text-inverse: #0b0c10; --text-disabled: #5a4b70;
     --border: #ff007f; --border-hover: #00f0ff; --border-focus: #ffe600; --accent: #ff007f; --accent-hover: #e00070;
     --accent-completion: #00f0ff;
+    --accent-beat: #ff007f;
     --success: #00f0ff; --warning: #ffe600; --danger: #ff2a6d; --bg-badge: #ff007f; --text-badge: #ffffff;
     --shadow: 0 4px 20px rgba(255, 0, 127, 0.3); --font-main: 'Rajdhani', sans-serif; --font-heading: 'Orbitron', sans-serif;
     --radius: 8px; --scrollbar-thumb: #ff007f; --scrollbar-track: #1a162b;
@@ -243,6 +248,7 @@ window.CONFIG = {
     --bg-base: #05080f; --bg-surface: #0e1420; --bg-surface-hover: #162032; --bg-input: #080c14; --bg-placeholder: #1b263b; --bg-backdrop: rgba(5, 8, 15, 0.85);
     --text-main: #fcee09; --text-muted: #00e8f8; --text-inverse: #05080f; --text-disabled: #415a77;
     --border: #00e8f8; --border-hover: #fcee09; --border-focus: #ff003c; --accent: #fcee09; --accent-hover: #e0d408;
+    --accent-beat: #00e8f8;
     --success: #00e8f8; --warning: #ffbe0b; --danger: #ff003c; 
     --bg-badge: #fcee09; --text-badge: #05080f; 
     --shadow: 0 0 18px rgba(0, 232, 248, 0.25); --font-main: 'Share Tech Mono', 'JetBrains Mono', monospace; --font-heading: 'Share Tech Mono', monospace;
@@ -257,6 +263,7 @@ window.CONFIG = {
     --text-main: #e8d7c3; --text-muted: #a38f7e; --text-inverse: #0c0809; --text-disabled: #5e4f48;
     --border: #801824; --border-hover: #d4af37; --border-focus: #d4af37; --accent: #991b29; --accent-hover: #b52233;
     --accent-completion: #d4af37;
+    --accent-beat: #801824;
     --success: #4e8054; --warning: #d4af37; --danger: #e61932; --bg-badge: #380d12; --text-badge: #d4af37;
     --shadow: 0 4px 20px rgba(128, 24, 36, 0.35); --font-main: 'Cinzel', Georgia, serif; --font-heading: 'Cinzel', Georgia, serif;
     --radius: 4px; --scrollbar-thumb: #801824; --scrollbar-track: #171012;
@@ -269,6 +276,7 @@ window.CONFIG = {
     --text-main: #33ff33; --text-muted: #1c991c; --text-inverse: #020803; --text-disabled: #0f5210;
     --border: #1c991c; --border-hover: #33ff33; --border-focus: #66ff66; --accent: #33ff33; --accent-hover: #66ff66;
     --accent-completion: #ffb000;
+    --accent-beat: #1c991c;
     --success: #33ff33; --warning: #b3ff33; --danger: #ff3333; --bg-badge: #092e0c; --text-badge: #33ff33;
     --shadow: 0 0 16px rgba(51, 255, 51, 0.25); --font-main: 'VT323', 'Fira Code', monospace; --font-heading: 'VT323', monospace;
     --radius: 2px; --scrollbar-thumb: #1c991c; --scrollbar-track: #041206;
@@ -290,6 +298,7 @@ window.CONFIG = {
     --bg-base: #f5f0eb; --bg-surface: #fffdfa; --bg-surface-hover: #ede6dd; --bg-input: #faf7f2; --bg-placeholder: #e4dcd3; --bg-backdrop: rgba(245, 240, 235, 0.85);
     --text-main: #4a3e35; --text-muted: #7d6b5c; --text-inverse: #ffffff; --text-disabled: #b0a193;
     --border: #d6c7b8; --border-hover: #8ba888; --border-focus: #6b8e67; --accent: #6b8e67; --accent-hover: #557551;
+    --accent-beat: #8ba888;
     --success: #78a874; --warning: #d99a4e; --danger: #c75c5c; --bg-badge: #e2ede0; --text-badge: #4d694a;
     --shadow: 0 4px 14px rgba(74, 62, 53, 0.08); --font-main: 'Nunito', sans-serif; --font-heading: 'Quicksand', sans-serif;
     --radius: 12px; --scrollbar-thumb: #c2b2a1; --scrollbar-track: #f5f0eb;
@@ -1192,7 +1201,7 @@ window.CONFIG = {
       <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
       <div class="brand-text">
         <h1 id="ui-app-name">VGnomicon</h1>
-        <span id="ui-app-version">v0.61</span>
+        <span id="ui-app-version">v0.62</span>
       </div>
     </a>
     <div class="header-actions">
@@ -2826,9 +2835,14 @@ window.CONFIG = {
       if (isCompleted) {
          compBadge = `<span class="badge" style="background:var(--accent-completion, var(--accent)); color:var(--text-inverse);">${splitEmoji("🏆 COMPLETED")}</span>`;
       } else if (isBeat) {
-         compBadge = `<span class="badge" style="background:#0284c7; color:#ffffff; border:1px solid rgba(255,255,255,0.2);">${g.status}</span>`;
-         if (isCyberpunk) {
-           compBadge = `<span class="badge" style="background:#080c14; color:#38bdf8; border: 1px solid #0284c7; box-shadow: 0 0 5px rgba(2,132,199,0.4);">${g.status}</span>`;
+         // v0.62 DELTA: Beat Status Pill All-Caps & Star Medal Emoji + Theme-Harmonized Tokenization
+         const beatLabel = splitEmoji("🎖️ BEAT");
+         if (isRetro) {
+           compBadge = `<span class="badge beat-badge" style="background:var(--accent-beat, #00ffff); color:#050510; border:1px solid #00ffff;">${beatLabel}</span>`;
+         } else if (isCyberpunk) {
+           compBadge = `<span class="badge beat-badge" style="background:#080c14; color:var(--accent-beat, #00e8f8); border:1px solid var(--accent-beat, #00e8f8); box-shadow: 0 0 5px rgba(0,232,248,0.4);">${beatLabel}</span>`;
+         } else {
+           compBadge = `<span class="badge beat-badge" style="background:var(--accent-beat, #0284c7); color:#ffffff; border:1px solid rgba(255,255,255,0.2);">${beatLabel}</span>`;
          }
       } else if (isCyberpunk) {
          compBadge = `<span class="badge" style="background:#080c14; color:#00e8f8; border: 1px solid #00e8f8; box-shadow: 0 0 5px rgba(0,232,248,0.4);">${g.status}</span>`;
@@ -2942,7 +2956,7 @@ window.CONFIG = {
 
     const statusMap = {
       "Completed": { name: "Completed", count: 0, color: "var(--success)" },
-      "Beat": { name: "Beat", count: 0, color: "#0284c7" },
+      "Beat": { name: "Beat", count: 0, color: "var(--accent-beat, #0284c7)" },
       "Playing": { name: "Playing", count: 0, color: "var(--accent)" },
       "Backlog": { name: "Backlog", count: 0, color: "#f59e0b" },
       "Preordered": { name: "Preordered", count: 0, color: "#06b6d4" },
@@ -3101,7 +3115,6 @@ window.CONFIG = {
         <div class="stats-kpi-card">
           <div class="stats-kpi-val">${splitEmoji(`🏆 ${platEarned} / ${platTotal}`)}</div>
           <div class="stats-kpi-label">Platinums</div>
-          <div class="stats-kpi-sub">Tracked PS Games</div>
         </div>
         <div class="stats-kpi-card">
           <div class="stats-kpi-val">${splitEmoji(`🎯 ${gsEarned.toLocaleString()}G`)}</div>
@@ -3115,12 +3128,12 @@ window.CONFIG = {
         <div class="stats-kpi-card">
           <div class="stats-kpi-val">${splitEmoji(`⏳ ~${backlogHltbHours.toFixed(1)} HRS`)}</div>
           <div class="stats-kpi-label">HLTB Backlog</div>
-          <div class="stats-kpi-sub">${backlogTrackedCount} Tracked Backlog</div>
+          <div class="stats-kpi-sub">${backlogTrackedCount} Backlog Games</div>
         </div>
         <div class="stats-kpi-card">
           <div class="stats-kpi-val">${avgRating}</div>
-          <div class="stats-kpi-label">Avg User | RAWG Rating</div>
-          <div class="stats-kpi-sub">${ratedCount} Rated Titles</div>
+          <div class="stats-kpi-label">User | RAWG Rating</div>
+          <div class="stats-kpi-sub">${ratedCount} Rated Games</div>
         </div>
         <div class="stats-kpi-card">
           <div class="stats-kpi-val">${splitEmoji(`💎 ${costPerHr}`)}</div>

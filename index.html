@@ -9,7 +9,7 @@ window.CONFIG = {
   // 1. App Identity & Core Metadata
   APP_ARCHITECTURE: "Single-File Offline PWAAS",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.60",
+  APP_VERSION: "0.61",
 
   // 2. API Credentials & Cloud Paths
   RAWG_API_KEY: "db9f18921e714a36bb784e65b5fd424b",
@@ -82,6 +82,7 @@ window.CONFIG = {
     DATE_COMPLETED: "Select Completed Status...",
     DESCRIPTION: "Select Title...",
     DEVELOPER: "Select Title...",
+    EDITION: "Select Edition...",
     FORMAT: "Select Format...",
     GENRES: "Select Title...",
     HLTB_WARNING_TEXT: "⚠️ Select Title First",
@@ -115,7 +116,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.60</title>
+<title id="html-title">VGnomicon v0.61</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -838,6 +839,16 @@ window.CONFIG = {
       grid-column: unset !important;
       justify-self: unset !important;
     }
+
+    /* v0.61 DELTA: Desktop Achievement Input Spinner Suppression for True Optical Centering */
+    .achievement-group input::-webkit-outer-spin-button,
+    .achievement-group input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    .achievement-group input[type="number"] {
+      -moz-appearance: textfield;
+    }
   }
 
   /* Modal Scroll Chaining Isolation */
@@ -973,6 +984,8 @@ window.CONFIG = {
     padding: 6px 0;
     border-bottom: 1px dashed var(--border);
     font-size: 13px;
+    flex-wrap: wrap;
+    gap: 4px;
   }
   .stats-fin-row:last-child { border-bottom: none; }
   [data-theme="retro-arcade"] .stats-fin-row { font-size: 10px; }
@@ -1002,6 +1015,13 @@ window.CONFIG = {
   }
   .form-group.full { grid-column: 1 / -1; }
   .form-group label { font-size: 12px; color: var(--text-muted); font-weight: 600; font-family: var(--font-heading); text-transform: uppercase; display:flex; justify-content: space-between;}
+
+  /* v0.61 DELTA: Responsive Form Grid Placement for Edition, Status & Purchase Price */
+  @media (min-width: 601px) {
+    #fg-edition { grid-column: 1; grid-row: 4; }
+    #fg-status { grid-column: 2; grid-row: 4; }
+    #fg-price { grid-column: 1 / -1; grid-row: 5; }
+  }
   
   /* v0.60 DELTA: Readonly Description & RAWG Rating Visual Parity */
   #f-desc, #f-rawg-score,
@@ -1172,7 +1192,7 @@ window.CONFIG = {
       <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
       <div class="brand-text">
         <h1 id="ui-app-name">VGnomicon</h1>
-        <span id="ui-app-version">v0.60</span>
+        <span id="ui-app-version">v0.61</span>
       </div>
     </a>
     <div class="header-actions">
@@ -1211,6 +1231,7 @@ window.CONFIG = {
         <option value="" disabled selected hidden>All Statuses</option>
         <option value="Abandoned">Abandoned</option>
         <option value="Backlog">Backlog</option>
+        <option value="Beat">Beat</option>
         <option value="Completed">Completed</option>
         <option value="Playing">Playing</option>
         <option value="Preordered">Preordered</option>
@@ -1332,19 +1353,36 @@ window.CONFIG = {
             </select>
           </div>
 
-          <div class="form-group">
+          <div class="form-group" id="fg-edition">
+            <label>Edition</label>
+            <select id="f-edition" class="native-hijack" data-select-id="f-edition">
+              <option value="" disabled selected hidden>Select Edition...</option>
+              <option value="Standard">Standard</option>
+              <option value="Deluxe">Deluxe</option>
+              <option value="Digital Deluxe">Digital Deluxe</option>
+              <option value="Complete">Complete</option>
+              <option value="Definitive">Definitive</option>
+              <option value="Ultimate">Ultimate</option>
+              <option value="Steelbook">Steelbook</option>
+              <option value="Collector's">Collector's</option>
+            </select>
+          </div>
+
+          <div class="form-group" id="fg-price">
             <label>Purchase Price</label>
             <div class="inline-input-group">
               <input type="number" id="f-price" step="0.01" inputmode="decimal" placeholder="0.00" min="0">
               <select id="f-currency" class="native-hijack" data-select-id="f-currency"></select>
             </div>
           </div>
-          <div class="form-group">
+
+          <div class="form-group" id="fg-status">
             <label>Status</label>
             <select id="f-status" class="native-hijack" data-select-id="f-status">
               <option value="" disabled selected hidden>Select Title...</option>
               <option value="Abandoned">Abandoned</option>
               <option value="Backlog">Backlog</option>
+              <option value="Beat">Beat</option>
               <option value="Completed">Completed</option>
               <option value="Playing">Playing</option>
               <option value="Preordered">Preordered</option>
@@ -1649,6 +1687,7 @@ window.CONFIG = {
       desc: document.getElementById('f-desc'), dev: document.getElementById('f-developer'),
       pub: document.getElementById('f-publisher'), genres: document.getElementById('f-genres'),
       plat: document.getElementById('f-platform'), format: document.getElementById('f-format'),
+      edition: document.getElementById('f-edition'),
       price: document.getElementById('f-price'), curr: document.getElementById('f-currency'),
       status: document.getElementById('f-status'), 
       ratingContainer: document.getElementById('f-rating-interactive'),
@@ -1779,10 +1818,11 @@ window.CONFIG = {
         if (!wasOpen) {
           wrapper.classList.add('open');
           
+          // v0.61 DELTA: Universal 5-Item Max Visible Height Clamping Across All Themes
           const visibleOpts = Array.from(optionsContainer.querySelectorAll('.custom-option'));
-          if(visibleOpts.length > 6) {
+          if(visibleOpts.length > 5) {
               let totalHeight = 0;
-              for(let i = 0; i < 6; i++) {
+              for(let i = 0; i < 5; i++) {
                   totalHeight += visibleOpts[i].getBoundingClientRect().height;
               }
               optionsContainer.style.maxHeight = `${Math.ceil(totalHeight) + 2}px`;
@@ -1826,8 +1866,9 @@ window.CONFIG = {
 
   // --- 3. INITIALIZATION & UI SETUP ---
   const injectAlign = (emoji, text) => `<span class="optical-align"><span>${emoji}</span><span>${text}</span></span>`;
+  // v0.61 DELTA: Capture trailing variation selector (\uFE0F) so multi-codepoint emojis like ⏱️ don't leave ghost spacing in match[2]
   const splitEmoji = (str) => {
-    const match = str.match(/^([\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic})\s*(.*)$/u);
+    const match = str.match(/^((?:[\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic})\uFE0F?)\s*(.*)$/u);
     return match ? (match[2] ? injectAlign(match[1], match[2]) : match[1]) : str;
   };
   
@@ -1913,6 +1954,7 @@ window.CONFIG = {
     
     els.f.plat.options[0].text = C.PLACEHOLDERS.PLATFORM;
     els.f.format.options[0].text = C.PLACEHOLDERS.FORMAT;
+    if (els.f.edition) els.f.edition.options[0].text = C.PLACEHOLDERS.EDITION || "Select Edition...";
     els.f.status.options[0].text = C.PLACEHOLDERS.STATUS;
     els.fStatus.options[0].text = "All Statuses"; 
     els.fPlatform.options[0].text = "All Platforms";
@@ -2555,6 +2597,7 @@ window.CONFIG = {
       els.f.genres.value = g.genres || "";
       els.f.plat.value = g.plat || "";
       els.f.format.value = g.format || "";
+      if (els.f.edition) els.f.edition.value = g.edition || "";
       els.f.price.value = g.price ? formatCurrencyPrice(g.price) : "";
       els.f.curr.value = g.curr || C.DEFAULT_CURRENCY;
       els.f.status.value = g.status || "Backlog";
@@ -2592,6 +2635,7 @@ window.CONFIG = {
       els.f.status.value = "";
       els.f.plat.value = "";
       els.f.format.value = "";
+      if (els.f.edition) els.f.edition.value = "";
       els.f.curr.value = C.DEFAULT_CURRENCY;
       els.f.dateAdd.value = "";
       els.f.dateComp.value = "";
@@ -2602,6 +2646,7 @@ window.CONFIG = {
     
     syncCustomSelect('f-platform');
     syncCustomSelect('f-format');
+    syncCustomSelect('f-edition');
     syncCustomSelect('f-status');
     syncCustomSelect('f-currency');
     updatePlatformFields();
@@ -2628,8 +2673,9 @@ window.CONFIG = {
     else els.f.lblAch.innerText = "Achievements";
   }
 
+  // v0.61 DELTA: Auto-populate Date Completed for both "Completed" and "Beat"
   function handleStatusChange(e) {
-    if(e.target.value === "Completed" && !els.f.dateComp.value) {
+    if((e.target.value === "Completed" || e.target.value === "Beat") && !els.f.dateComp.value) {
         els.f.dateComp.value = new Date().toISOString().split('T')[0];
         updateDateClass(els.f.dateComp);
     }
@@ -2681,7 +2727,9 @@ window.CONFIG = {
     const gameData = {
       id: id,
       title: els.f.title.value, desc: els.f.desc.value, dev: els.f.dev.value, pub: els.f.pub.value,
-      genres: els.f.genres.value, plat: els.f.plat.value, format: els.f.format.value, price: formattedPrice,
+      genres: els.f.genres.value, plat: els.f.plat.value, format: els.f.format.value,
+      edition: els.f.edition ? els.f.edition.value : "",
+      price: formattedPrice,
       curr: els.f.curr.value || C.DEFAULT_CURRENCY,
       status: els.f.status.value, rating: currentRating, url: els.f.url.value, rawgScore: els.f.rawgScore.value,
       dateAdd: els.f.dateAdd.value, dateComp: els.f.dateComp.value, playtime: els.f.playtime.value,
@@ -2739,6 +2787,7 @@ window.CONFIG = {
 
       let achBadge = "";
       let isCompleted = g.status === "Completed";
+      let isBeat = g.status === "Beat";
       
       let platColor = "#6b21a8";
       let platText = "#ffffff";
@@ -2776,6 +2825,11 @@ window.CONFIG = {
       let compBadge = `<span class="badge" style="background:var(--border);">${g.status}</span>`;
       if (isCompleted) {
          compBadge = `<span class="badge" style="background:var(--accent-completion, var(--accent)); color:var(--text-inverse);">${splitEmoji("🏆 COMPLETED")}</span>`;
+      } else if (isBeat) {
+         compBadge = `<span class="badge" style="background:#0284c7; color:#ffffff; border:1px solid rgba(255,255,255,0.2);">${g.status}</span>`;
+         if (isCyberpunk) {
+           compBadge = `<span class="badge" style="background:#080c14; color:#38bdf8; border: 1px solid #0284c7; box-shadow: 0 0 5px rgba(2,132,199,0.4);">${g.status}</span>`;
+         }
       } else if (isCyberpunk) {
          compBadge = `<span class="badge" style="background:#080c14; color:#00e8f8; border: 1px solid #00e8f8; box-shadow: 0 0 5px rgba(0,232,248,0.4);">${g.status}</span>`;
       }
@@ -2844,8 +2898,8 @@ window.CONFIG = {
   }
 
   function showToast(msg) {
-    const match = msg.match(/^([\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic})\s*(.*)$/u);
-    const matchEnd = msg.match(/^(.*?)\s*([\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic})$/u);
+    const match = msg.match(/^((?:[\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic})\uFE0F?)\s*(.*)$/u);
+    const matchEnd = msg.match(/^(.*?)\s*((?:[\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic})\uFE0F?)$/u);
     
     if(match) {
         els.toast.innerHTML = injectAlign(match[1], match[2]);
@@ -2881,11 +2935,14 @@ window.CONFIG = {
     let backlogTrackedCount = 0;
     let ratingSum = 0;
     let ratedCount = 0;
+    let rawgRatingSum = 0;
+    let rawgRatedCount = 0;
     let usdTotal = 0;
     let cadTotal = 0;
 
     const statusMap = {
       "Completed": { name: "Completed", count: 0, color: "var(--success)" },
+      "Beat": { name: "Beat", count: 0, color: "#0284c7" },
       "Playing": { name: "Playing", count: 0, color: "var(--accent)" },
       "Backlog": { name: "Backlog", count: 0, color: "#f59e0b" },
       "Preordered": { name: "Preordered", count: 0, color: "#06b6d4" },
@@ -2951,10 +3008,17 @@ window.CONFIG = {
         backlogTrackedCount++;
       }
 
-      // User Rating
+      // v0.61 DELTA: Dual Rating Metric (User Rating & RAWG Rating across User-Rated Titles)
       if (g.rating && parseFloat(g.rating) > 0) {
         ratingSum += parseFloat(g.rating);
         ratedCount++;
+        if (g.rawgScore) {
+          const rawgMatch = String(g.rawgScore).match(/RAWG:\s*([\d.]+)/i) || String(g.rawgScore).match(/^([\d.]+)/);
+          if (rawgMatch && parseFloat(rawgMatch[1]) > 0) {
+            rawgRatingSum += parseFloat(rawgMatch[1]);
+            rawgRatedCount++;
+          }
+        }
       }
 
       // Financials by Currency
@@ -2970,8 +3034,14 @@ window.CONFIG = {
     }
 
     const compPct = totalGames > 0 ? ((completedCount / totalGames) * 100).toFixed(1) : "0.0";
-    const avgRating = ratedCount > 0 ? `★ ${(ratingSum / ratedCount).toFixed(1)} / 5.0` : "★ N/A";
-    const costPerHr = totalPlaytime > 0 ? `$${(usdTotal / totalPlaytime).toFixed(2)} / HR` : "N/A";
+    const avgUserStr = ratedCount > 0 ? (ratingSum / ratedCount).toFixed(1) : "N/A";
+    const avgRawgStr = rawgRatedCount > 0 ? (rawgRatingSum / rawgRatedCount).toFixed(1) : "N/A";
+    const avgRating = `★ ${avgUserStr} | ${avgRawgStr}`;
+
+    // v0.61 DELTA: Value Extracted includes CAD converted at fixed 0.75 USD per 1.00 CAD
+    const cadInUsd = cadTotal * 0.75;
+    const totalSpendUsd = usdTotal + cadInUsd;
+    const costPerHr = totalPlaytime > 0 ? `$${(totalSpendUsd / totalPlaytime).toFixed(2)} / HR` : "N/A";
 
     // Dynamic Descending Sort (Highest -> Lowest, Left -> Right) for Status
     const sortedStatuses = Object.values(statusMap)
@@ -3034,7 +3104,7 @@ window.CONFIG = {
           <div class="stats-kpi-sub">Tracked PS Games</div>
         </div>
         <div class="stats-kpi-card">
-          <div class="stats-kpi-val">${splitEmoji(`🎯 ${gsEarned.toLocaleString()} G`)}</div>
+          <div class="stats-kpi-val">${splitEmoji(`🎯 ${gsEarned.toLocaleString()}G`)}</div>
           <div class="stats-kpi-label">Gamerscore</div>
           <div class="stats-kpi-sub">Out of ${gsTotal.toLocaleString()}G</div>
         </div>
@@ -3049,7 +3119,7 @@ window.CONFIG = {
         </div>
         <div class="stats-kpi-card">
           <div class="stats-kpi-val">${avgRating}</div>
-          <div class="stats-kpi-label">Avg User Rating</div>
+          <div class="stats-kpi-label">Avg User | RAWG Rating</div>
           <div class="stats-kpi-sub">${ratedCount} Rated Titles</div>
         </div>
         <div class="stats-kpi-card">
@@ -3079,7 +3149,7 @@ window.CONFIG = {
         </div>
         <div class="stats-fin-row">
           <span style="color:var(--text-muted); font-weight:600;">Total Catalog Value (CAD):</span>
-          <strong style="color:var(--text-main); font-family:var(--font-heading);">$${cadTotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} CAD</strong>
+          <strong style="color:var(--text-main); font-family:var(--font-heading);">$${cadTotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} CAD ($${cadInUsd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD with 0.75 Exchange Rate)</strong>
         </div>
       </div>
     `;

@@ -7,9 +7,9 @@
    ========================================================================== */
 window.CONFIG = {
   // 1. App Identity & Core Metadata
-  APP_ARCHITECTURE: "Single-File Offline PWA",
+  APP_ARCHITECTURE: "Single-File Offline PWAAS",
   APP_NAME: "VGnomicon",
-  APP_VERSION: "0.63",
+  APP_VERSION: "0.64",
 
   // 2. API Credentials & Cloud Paths
   RAWG_API_KEY: "db9f18921e714a36bb784e65b5fd424b",
@@ -72,14 +72,14 @@ window.CONFIG = {
     RAWG_REFRESH_ERROR: "⚠️ RAWG: No metadata found or connection failed!",
     RAWG_REFRESH_SUCCESS: "RAWG metadata refreshed! 🔄",
     SAVED_TOAST: "SAVED - {title}",
-    SYNC_SUCCESS: "Library Synced like SOCKIES! 🚀",
+    SYNC_SUCCESS: "Library Synced! 🚀",
     TITLE_REQUIRED: "⚠️ Title is required!"
   },
 
   // 7. Configurable Blank Field Placeholders (Strict Alphabetical Order)
   PLACEHOLDERS: {
     DATE_ADDED: "Select Title...",
-    DATE_COMPLETED: "Select Completed Status...",
+    DATE_COMPLETED: "Select Beat or Completed Status...",
     DESCRIPTION: "Select Title...",
     DEVELOPER: "Select Title...",
     EDITION: "Select Edition...",
@@ -93,7 +93,7 @@ window.CONFIG = {
     RAWG_SYNCED: "Select Title...",
     RAWG_UPDATED: "Select Title...",
     RELEASE_DATE: "Select Title...",
-    SEARCH_PLACEHOLDER: "🔍 Search Library...",
+    SEARCH_PLACEHOLDER: "🔍 Search the Nomicon...",
     STATUS: "Select Title...",
     TBA_LABEL: "To Be Announced...",
     THUMBNAIL: "Select Title...",
@@ -120,7 +120,7 @@ window.CONFIG = {
      ========================================================================== -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="html-title">VGnomicon v0.63</title>
+<title id="html-title">VGnomicon v0.64</title>
 <!-- Dynamic Favicons Managed by Layer 5 Asset Engine -->
 <!-- Fallback href attributes to guarantee static render in desktop browsers -->
 <link id="favicon-desktop" rel="icon" href="./Favi%20Dsk%20SVG%20512%20v1.svg" type="image/svg+xml">
@@ -138,7 +138,7 @@ window.CONFIG = {
     --bg-base: #121212; --bg-surface: #1e1e1e; --bg-surface-hover: #2a2a2a; --bg-input: #2d2d2d; --bg-placeholder: #333333; --bg-backdrop: rgba(0, 0, 0, 0.75);
     --text-main: #ffffff; --text-muted: #a0a0a0; --text-inverse: #000000; --text-disabled: #666666;
     --border: #333333; --border-hover: #555555; --border-focus: #4da6ff; --accent: #4da6ff; --accent-hover: #3388ff;
-    --accent-beat: #0284c7;
+    --accent-beat: #059669;
     --success: #00cc66; --warning: #ffaa00; --danger: #ff4444; --bg-badge: #333333; --text-badge: #ffffff;
     --shadow: 0 4px 16px rgba(0, 0, 0, 0.5); --font-main: 'Inter', -apple-system, sans-serif; --font-heading: 'Inter', sans-serif;
     --radius: 8px; --scrollbar-thumb: #555555; --scrollbar-track: #1e1e1e;
@@ -150,7 +150,7 @@ window.CONFIG = {
     --bg-base: #f5f5f7; --bg-surface: #ffffff; --bg-surface-hover: #f0f0f2; --bg-input: #ffffff; --bg-placeholder: #e5e5ea; --bg-backdrop: rgba(255, 255, 255, 0.85);
     --text-main: #1d1d1f; --text-muted: #86868b; --text-inverse: #ffffff; --text-disabled: #aeaeb2;
     --border: #d2d2d7; --border-hover: #86868b; --border-focus: #0071e3; --accent: #0071e3; --accent-hover: #0056b3;
-    --accent-beat: #5856d6;
+    --accent-beat: #7e22ce;
     --success: #34c759; --warning: #ff9f0a; --danger: #ff3b30; --bg-badge: #e5e5ea; --text-badge: #1d1d1f;
     --shadow: 0 4px 16px rgba(0, 0, 0, 0.08); --font-main: system-ui, -apple-system, sans-serif; --font-heading: system-ui, -apple-system, sans-serif;
     --radius: 8px; --scrollbar-thumb: #c7c7cc; --scrollbar-track: #f5f5f7;
@@ -162,7 +162,7 @@ window.CONFIG = {
     --bg-base: #f8fafc; --bg-surface: #ffffff; --bg-surface-hover: #f1f5f9; --bg-input: #ffffff; --bg-placeholder: #e2e8f0; --bg-backdrop: rgba(248, 250, 252, 0.85);
     --text-main: #0f172a; --text-muted: #64748b; --text-inverse: #ffffff; --text-disabled: #94a3b8;
     --border: #e2e8f0; --border-hover: #cbd5e1; --border-focus: #2563eb; --accent: #2563eb; --accent-hover: #1d4ed8;
-    --accent-beat: #0284c7;
+    --accent-beat: #059669;
     --success: #10b981; --warning: #f59e0b; --danger: #ef4444; --bg-badge: #e0f2fe; --text-badge: #0369a1;
     --shadow: 0 4px 16px rgba(15, 23, 42, 0.08); --font-main: 'Plus Jakarta Sans', 'Inter', sans-serif; --font-heading: 'Plus Jakarta Sans', sans-serif;
     --radius: 10px; --scrollbar-thumb: #cbd5e1; --scrollbar-track: #f8fafc;
@@ -240,7 +240,7 @@ window.CONFIG = {
     --text-main: #66fcf1; --text-muted: #c5a8e0; --text-inverse: #0b0c10; --text-disabled: #5a4b70;
     --border: #ff007f; --border-hover: #00f0ff; --border-focus: #ffe600; --accent: #ff007f; --accent-hover: #e00070;
     --accent-completion: #00f0ff;
-    --accent-beat: #ff007f;
+    --accent-beat: #ff7700;
     --success: #00f0ff; --warning: #ffe600; --danger: #ff2a6d; --bg-badge: #ff007f; --text-badge: #ffffff;
     --shadow: 0 4px 20px rgba(255, 0, 127, 0.3); --font-main: 'Rajdhani', sans-serif; --font-heading: 'Orbitron', sans-serif;
     --radius: 8px; --scrollbar-thumb: #ff007f; --scrollbar-track: #1a162b;
@@ -252,7 +252,7 @@ window.CONFIG = {
     --bg-base: #05080f; --bg-surface: #0e1420; --bg-surface-hover: #162032; --bg-input: #080c14; --bg-placeholder: #1b263b; --bg-backdrop: rgba(5, 8, 15, 0.85);
     --text-main: #fcee09; --text-muted: #00e8f8; --text-inverse: #05080f; --text-disabled: #415a77;
     --border: #00e8f8; --border-hover: #fcee09; --border-focus: #ff003c; --accent: #fcee09; --accent-hover: #e0d408;
-    --accent-beat: #00e8f8;
+    --accent-beat: #7928ca;
     --success: #00e8f8; --warning: #ffbe0b; --danger: #ff003c; 
     --bg-badge: #fcee09; --text-badge: #05080f; 
     --shadow: 0 0 18px rgba(0, 232, 248, 0.25); --font-main: 'Share Tech Mono', 'JetBrains Mono', monospace; --font-heading: 'Share Tech Mono', monospace;
@@ -267,7 +267,7 @@ window.CONFIG = {
     --text-main: #e8d7c3; --text-muted: #a38f7e; --text-inverse: #0c0809; --text-disabled: #5e4f48;
     --border: #801824; --border-hover: #d4af37; --border-focus: #d4af37; --accent: #991b29; --accent-hover: #b52233;
     --accent-completion: #d4af37;
-    --accent-beat: #801824;
+    --accent-beat: #526070;
     --success: #4e8054; --warning: #d4af37; --danger: #e61932; --bg-badge: #380d12; --text-badge: #d4af37;
     --shadow: 0 4px 20px rgba(128, 24, 36, 0.35); --font-main: 'Cinzel', Georgia, serif; --font-heading: 'Cinzel', Georgia, serif;
     --radius: 4px; --scrollbar-thumb: #801824; --scrollbar-track: #171012;
@@ -280,7 +280,7 @@ window.CONFIG = {
     --text-main: #33ff33; --text-muted: #1c991c; --text-inverse: #020803; --text-disabled: #0f5210;
     --border: #1c991c; --border-hover: #33ff33; --border-focus: #66ff66; --accent: #33ff33; --accent-hover: #66ff66;
     --accent-completion: #ffb000;
-    --accent-beat: #1c991c;
+    --accent-beat: #7f1d1d;
     --success: #33ff33; --warning: #b3ff33; --danger: #ff3333; --bg-badge: #092e0c; --text-badge: #33ff33;
     --shadow: 0 0 16px rgba(51, 255, 51, 0.25); --font-main: 'VT323', 'Fira Code', monospace; --font-heading: 'VT323', monospace;
     --radius: 2px; --scrollbar-thumb: #1c991c; --scrollbar-track: #041206;
@@ -302,7 +302,7 @@ window.CONFIG = {
     --bg-base: #f5f0eb; --bg-surface: #fffdfa; --bg-surface-hover: #ede6dd; --bg-input: #faf7f2; --bg-placeholder: #e4dcd3; --bg-backdrop: rgba(245, 240, 235, 0.85);
     --text-main: #4a3e35; --text-muted: #7d6b5c; --text-inverse: #ffffff; --text-disabled: #b0a193;
     --border: #d6c7b8; --border-hover: #8ba888; --border-focus: #6b8e67; --accent: #6b8e67; --accent-hover: #557551;
-    --accent-beat: #8ba888;
+    --accent-beat: #b86948;
     --success: #78a874; --warning: #d99a4e; --danger: #c75c5c; --bg-badge: #e2ede0; --text-badge: #4d694a;
     --shadow: 0 4px 14px rgba(74, 62, 53, 0.08); --font-main: 'Nunito', sans-serif; --font-heading: 'Quicksand', sans-serif;
     --radius: 12px; --scrollbar-thumb: #c2b2a1; --scrollbar-track: #f5f0eb;
@@ -360,61 +360,148 @@ window.CONFIG = {
   .custom-option.disabled { color: var(--text-disabled); cursor: default; background: var(--bg-surface); }
   .custom-option.disabled:hover { background: var(--bg-surface); color: var(--text-disabled); }
 
-  /* Global Date Input Vertical Containment & M DD, YYYY Display Engine (38px Canonical Height) */
-  input[type="date"] { 
-    position: relative; 
-    -webkit-appearance: none;
-    appearance: none;
-    min-width: 0;
-    max-width: 100%;
+  /* v0.64 DELTA: Custom Themeable Datepicker & Permanent M DD, YYYY Input Engine */
+  .custom-date-wrapper {
+    position: relative;
     width: 100%;
+    display: flex;
+    align-items: center;
+  }
+  .custom-date-wrapper input[type="text"] {
+    width: 100%;
+    height: 38px;
+    min-height: 38px;
+    padding: 0 36px 0 10px;
     box-sizing: border-box;
-    height: 38px;
-    min-height: 38px;
-    padding: 0 10px;
   }
-  
-  input[type="date"]::-webkit-date-and-time-value {
-    min-height: 38px;
-    height: 38px;
-    line-height: 38px;
-    text-align: left;
+  .custom-date-wrapper input[type="text"]::placeholder {
+    color: var(--text-muted);
+    font-weight: 600;
+    opacity: 1;
   }
-
-  input[type="date"].empty-date { color: transparent; }
-  input[type="date"].empty-date::-webkit-datetime-edit { color: transparent; }
-  input[type="date"].empty-date::before { 
-    content: attr(data-placeholder); 
-    color: var(--text-muted); 
-    font-weight: 600; 
-    position: absolute; 
-    left: 10px; 
-    top: 50%;
-    transform: translateY(-50%);
-    line-height: 1;
-    pointer-events: none; 
-    font-family: var(--font-main); 
-  }
-
-  /* v0.63 DELTA: M DD, YYYY Display Overlay with Full Native Editability on Focus/Picker */
-  input[type="date"]:not(.empty-date):not(:focus) {
-    color: transparent;
-  }
-  input[type="date"]:not(.empty-date):not(:focus)::-webkit-datetime-edit {
-    color: transparent;
-  }
-  input[type="date"]:not(.empty-date):not(:focus)::before {
-    content: attr(data-display-date);
-    color: var(--text-main);
-    font-weight: 400;
+  .btn-date-picker {
     position: absolute;
-    left: 10px;
+    right: 4px;
     top: 50%;
     transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 15px;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius);
+    padding: 0;
     line-height: 1;
-    pointer-events: none;
-    font-family: var(--font-main);
   }
+  .btn-date-picker:hover {
+    color: var(--accent);
+    background: var(--bg-surface-hover);
+  }
+  .custom-datepicker-popover {
+    position: fixed;
+    width: 280px;
+    background: var(--bg-surface);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    z-index: 10005;
+    padding: 12px;
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    font-family: var(--font-main);
+    box-sizing: border-box;
+  }
+  .custom-datepicker-popover.active { display: flex; }
+  .dp-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+  }
+  .dp-title {
+    font-family: var(--font-heading);
+    font-size: 13px;
+    font-weight: bold;
+    color: var(--accent);
+    text-align: center;
+  }
+  [data-theme="retro-arcade"] .dp-title { font-size: 9.5px; }
+  [data-theme="wasteland-terminal"] .dp-title { font-size: 18px; }
+  .dp-nav-btn {
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+    padding: 0;
+    border-radius: var(--radius);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .dp-nav-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--bg-surface-hover); }
+  .dp-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: bold;
+    padding: 2px 0;
+  }
+  [data-theme="retro-arcade"] .dp-weekdays { font-size: 8px; }
+  [data-theme="wasteland-terminal"] .dp-weekdays { font-size: 15px; }
+  .dp-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+  }
+  .dp-day {
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: var(--radius);
+    cursor: pointer;
+    color: var(--text-main);
+    user-select: none;
+  }
+  [data-theme="retro-arcade"] .dp-day { font-size: 9px; }
+  [data-theme="wasteland-terminal"] .dp-day { font-size: 16px; }
+  .dp-day:hover { background: var(--bg-surface-hover); color: var(--accent); }
+  .dp-day.selected { background: var(--accent) !important; color: var(--text-inverse) !important; font-weight: bold; }
+  .dp-day.today { border: 1px dashed var(--accent); }
+  .dp-day.disabled { color: var(--text-disabled); opacity: 0.35; cursor: not-allowed; pointer-events: none; }
+  .dp-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    border-top: 1px dashed var(--border);
+    padding-top: 8px;
+  }
+  .dp-footer button {
+    flex: 1;
+    height: 30px;
+    font-size: 12px;
+    padding: 0 8px;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+  }
+  .dp-footer button:hover { border-color: var(--accent); color: var(--accent); background: var(--bg-surface-hover); }
+  [data-theme="retro-arcade"] .dp-footer button { font-size: 9px; }
+  [data-theme="wasteland-terminal"] .dp-footer button { font-size: 16px; }
 
   /* v0.58 DELTA: Vendor Prefix Hardening for Sticky Dock */
   .sticky-command-dock {
@@ -880,13 +967,25 @@ window.CONFIG = {
       justify-self: unset !important;
     }
 
-    /* v0.61 DELTA: Desktop Achievement Input Spinner Suppression for True Optical Centering */
+    /* v0.64 DELTA: Desktop Achievement, Playtime & HLTB Spinner Suppression */
     .achievement-group input::-webkit-outer-spin-button,
-    .achievement-group input::-webkit-inner-spin-button {
+    .achievement-group input::-webkit-inner-spin-button,
+    #f-playtime::-webkit-outer-spin-button,
+    #f-playtime::-webkit-inner-spin-button,
+    #f-hltb-main::-webkit-outer-spin-button,
+    #f-hltb-main::-webkit-inner-spin-button,
+    #f-hltb-extras::-webkit-outer-spin-button,
+    #f-hltb-extras::-webkit-inner-spin-button,
+    #f-hltb-comp::-webkit-outer-spin-button,
+    #f-hltb-comp::-webkit-inner-spin-button {
       -webkit-appearance: none;
       margin: 0;
     }
-    .achievement-group input[type="number"] {
+    .achievement-group input[type="number"],
+    #f-playtime[type="number"],
+    #f-hltb-main[type="number"],
+    #f-hltb-extras[type="number"],
+    #f-hltb-comp[type="number"] {
       -moz-appearance: textfield;
     }
   }
@@ -1066,6 +1165,9 @@ window.CONFIG = {
     padding: 0 10px;
     box-sizing: border-box;
   }
+  #modal-game .custom-date-wrapper input[type="text"] {
+    padding: 0 36px 0 10px;
+  }
 
   /* v0.63 DELTA: Responsive Form Grid Placement (Desktop Swap of Purchase Price & Status) */
   @media (min-width: 601px) {
@@ -1074,10 +1176,10 @@ window.CONFIG = {
     #fg-status { grid-column: 1 / -1; grid-row: 5; width: calc(50% - 8px); }
   }
   
-  /* v0.63 DELTA: Readonly Description, RAWG Telemetry, Release Date & RAWG Rating Visual Parity */
-  #f-desc, #f-rawg-score, #f-rawg-updated, #f-rawg-synced, #f-release-date,
-  #f-desc:disabled, #f-rawg-score:disabled, #f-rawg-updated:disabled, #f-rawg-synced:disabled, #f-release-date:disabled,
-  #f-desc[readonly], #f-rawg-score[readonly], #f-rawg-updated[readonly], #f-rawg-synced[readonly], #f-release-date[readonly] {
+  /* v0.64 DELTA: Readonly Description, RAWG Telemetry, Release Date, Developer, Publisher & RAWG Rating Visual Parity */
+  #f-desc, #f-rawg-score, #f-rawg-updated, #f-rawg-synced, #f-release-date, #f-developer, #f-publisher,
+  #f-desc:disabled, #f-rawg-score:disabled, #f-rawg-updated:disabled, #f-rawg-synced:disabled, #f-release-date:disabled, #f-developer:disabled, #f-publisher:disabled,
+  #f-desc[readonly], #f-rawg-score[readonly], #f-rawg-updated[readonly], #f-rawg-synced[readonly], #f-release-date[readonly], #f-developer[readonly], #f-publisher[readonly] {
     background: var(--bg-input) !important;
     border: 1px solid var(--border) !important;
     color: var(--text-main) !important;
@@ -1085,12 +1187,12 @@ window.CONFIG = {
     opacity: 1 !important;
     cursor: default;
   }
-  #f-desc::placeholder, #f-rawg-score::placeholder, #f-rawg-updated::placeholder, #f-rawg-synced::placeholder, #f-release-date::placeholder {
+  #f-desc::placeholder, #f-rawg-score::placeholder, #f-rawg-updated::placeholder, #f-rawg-synced::placeholder, #f-release-date::placeholder, #f-developer::placeholder, #f-publisher::placeholder {
     color: var(--text-disabled) !important;
     -webkit-text-fill-color: var(--text-disabled) !important;
     opacity: 1 !important;
   }
-  #f-desc:placeholder-shown, #f-rawg-score:placeholder-shown, #f-rawg-updated:placeholder-shown, #f-rawg-synced:placeholder-shown, #f-release-date:placeholder-shown {
+  #f-desc:placeholder-shown, #f-rawg-score:placeholder-shown, #f-rawg-updated:placeholder-shown, #f-rawg-synced:placeholder-shown, #f-release-date:placeholder-shown, #f-developer:placeholder-shown, #f-publisher:placeholder-shown {
     color: var(--text-disabled) !important;
     -webkit-text-fill-color: var(--text-disabled) !important;
   }
@@ -1116,6 +1218,44 @@ window.CONFIG = {
   .btn-refresh-rawg { margin: 0; align-self: center; background: var(--bg-input); border: 1px solid var(--border); color: var(--accent); padding: 3px 8px; font-size: 11px; border-radius: var(--radius); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 4px; transition: all 0.2s; height: 22px; vertical-align: middle; }
   .btn-refresh-rawg:hover { background: var(--bg-surface-hover); border-color: var(--accent); }
   #modal-game-rawg-dot { margin: 0; align-self: center; flex-shrink: 0; }
+
+  /* v0.64 DELTA: HLTB Look Up Button Parity & Dynamic Highlighting Feedback */
+  .btn-hltb-lookup {
+    margin: 0;
+    align-self: center;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    padding: 3px 8px;
+    font-size: 11px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 22px;
+    vertical-align: middle;
+    text-decoration: none;
+    box-sizing: border-box;
+  }
+  .btn-hltb-lookup:not(.disabled):hover {
+    background: var(--bg-surface-hover);
+    border-color: var(--accent);
+    color: var(--accent-hover);
+    box-shadow: 0 0 8px var(--accent);
+  }
+  .btn-hltb-lookup:not(.disabled):active {
+    transform: scale(0.97);
+    box-shadow: 0 0 12px var(--accent);
+  }
+  .btn-hltb-lookup.disabled {
+    border-color: var(--border);
+    color: var(--text-muted);
+    pointer-events: none;
+    opacity: 0.65;
+  }
   
   /* Star Rating Widget */
   .rating-container { display: flex; align-items: center; gap: 4px; height: 38px;}
@@ -1244,7 +1384,7 @@ window.CONFIG = {
       <img id="brand-logo-img" src="" alt="VGnomicon Logo" onerror="this.style.display='none';">
       <div class="brand-text">
         <h1 id="ui-app-name">VGnomicon</h1>
-        <span id="ui-app-version">v0.63</span>
+        <span id="ui-app-version">v0.64</span>
       </div>
     </a>
     <div class="header-actions">
@@ -1379,8 +1519,8 @@ window.CONFIG = {
         </div>
 
         <div class="form-grid">
-          <div class="form-group"><label>Developer</label><input type="text" id="f-developer" placeholder="Select Title..."></div>
-          <div class="form-group"><label>Publisher</label><input type="text" id="f-publisher" placeholder="Select Title..."></div>
+          <div class="form-group"><label>Developer</label><input type="text" id="f-developer" readonly disabled placeholder="Select Title..."></div>
+          <div class="form-group"><label>Publisher</label><input type="text" id="f-publisher" readonly disabled placeholder="Select Title..."></div>
           
           <div class="form-group"><label>Release Date</label><input type="text" id="f-release-date" readonly disabled placeholder="Select Title..."></div>
           <div class="form-group"><label>Genre(s)</label><input type="text" id="f-genres" placeholder="Select Title..."></div>
@@ -1465,8 +1605,20 @@ window.CONFIG = {
             <input type="text" id="f-rawg-score" readonly disabled placeholder="Select Title...">
           </div>
 
-          <div class="form-group"><label>Date Added</label><input type="date" id="f-date-added" data-placeholder="Select Title..." class="empty-date"></div>
-          <div class="form-group"><label>Date Completed</label><input type="date" id="f-date-completed" data-placeholder="Select Completed Status..." class="empty-date"></div>
+          <div class="form-group">
+            <label>Date Added</label>
+            <div class="custom-date-wrapper">
+              <input type="text" id="f-date-added" placeholder="Select Title..." autocomplete="off">
+              <button type="button" class="btn-date-picker" data-target="f-date-added" title="Open Calendar">📅</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label id="lbl-date-completed">Date Beat or Completed</label>
+            <div class="custom-date-wrapper">
+              <input type="text" id="f-date-completed" placeholder="Select Beat or Completed Status..." autocomplete="off">
+              <button type="button" class="btn-date-picker" data-target="f-date-completed" title="Open Calendar">📅</button>
+            </div>
+          </div>
 
           <div class="form-group full" style="border-top:1px dashed var(--border); padding-top:16px; margin-top:0px;">
             <label>
@@ -1474,7 +1626,7 @@ window.CONFIG = {
                 <span class="hltb-line-1">-- PLAYTIME &</span>
                 <span class="hltb-line-2">HOWLONGTOBEAT (HLTB) --</span>
               </span>
-              <a href="#" target="_blank" id="hltb-link" style="color:var(--text-muted); text-decoration:none; display:flex; align-items:center; gap:4px; pointer-events:none;">Select Title First</a>
+              <a href="#" target="_blank" id="hltb-link" class="btn-hltb-lookup disabled">Select Title First</a>
             </label>
           </div>
           <div class="form-group"><label>Personal Playtime (hrs)</label><input type="number" id="f-playtime" step="0.1" min="0" inputmode="decimal"></div>
@@ -1808,6 +1960,243 @@ window.CONFIG = {
     return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
   }
 
+  // --- v0.64 DELTA: Date-First Military Timestamp & Timezone Formatter ---
+  function formatSyncTimestamp(dateInput = new Date()) {
+    const d = (dateInput instanceof Date) ? dateInput : new Date(dateInput);
+    if (isNaN(d.getTime())) return String(dateInput);
+    const tzMatch = d.toString().match(/\(([A-Za-z\s].*)\)/);
+    const tz = tzMatch ? tzMatch[1].split(' ').map(w => w[0]).join('') : '';
+    const timeStr = `${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}:${d.getSeconds().toString().padStart(2,'0')}${tz ? ' ' + tz : ''}`;
+    const dateStr = formatDisplayDate(d);
+    return `${dateStr} ${timeStr}`;
+  }
+
+  // --- v0.64 DELTA: Intelligent Date Parser (M DD, YYYY & ISO YYYY-MM-DD) ---
+  function parseUserInputDate(str) {
+    if (!str || !String(str).trim()) return '';
+    const s = String(str).trim();
+    const isoMatch = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (isoMatch) {
+      const y = parseInt(isoMatch[1], 10);
+      const m = parseInt(isoMatch[2], 10);
+      const d = parseInt(isoMatch[3], 10);
+      const check = new Date(y, m - 1, d);
+      if (check.getFullYear() === y && check.getMonth() === m - 1 && check.getDate() === d) {
+        return s;
+      }
+      return null;
+    }
+    const parsed = new Date(s);
+    if (isNaN(parsed.getTime())) return null;
+    const year = parsed.getFullYear();
+    const month = String(parsed.getMonth() + 1).padStart(2, '0');
+    const day = String(parsed.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  function getLocalTodayISO() {
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+  }
+
+  // --- v0.64 DELTA: Dynamic Date Beat / Completed Contextual UI Switcher ---
+  function updateCompletionDateUI(statusVal) {
+    const lbl = document.getElementById('lbl-date-completed');
+    if (!lbl) return;
+    if (statusVal === "Completed") {
+      lbl.innerText = "Date Completed";
+    } else if (statusVal === "Beat") {
+      lbl.innerText = "Date Beat";
+    } else {
+      lbl.innerText = "Date Beat or Completed";
+    }
+    if (els.f.dateComp) {
+      els.f.dateComp.placeholder = C.PLACEHOLDERS.DATE_COMPLETED || "Select Beat or Completed Status...";
+    }
+  }
+
+  // --- v0.64 DELTA: Universal Custom Themeable Datepicker Engine ---
+  let datepickerPopoverEl = null;
+  function initCustomDatePicker() {
+    let activeInput = null;
+    let viewYear = new Date().getFullYear();
+    let viewMonth = new Date().getMonth();
+
+    const popover = document.createElement('div');
+    popover.className = 'custom-datepicker-popover';
+    popover.innerHTML = `
+      <div class="dp-header">
+        <button type="button" class="dp-nav-btn" id="dp-prev">&lt;</button>
+        <span class="dp-title" id="dp-month-label"></span>
+        <button type="button" class="dp-nav-btn" id="dp-next">&gt;</button>
+      </div>
+      <div class="dp-weekdays">
+        <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+      </div>
+      <div class="dp-grid" id="dp-grid-days"></div>
+      <div class="dp-footer">
+        <button type="button" id="dp-today">Today</button>
+        <button type="button" id="dp-clear">Clear</button>
+      </div>
+    `;
+    document.body.appendChild(popover);
+    datepickerPopoverEl = popover;
+
+    function positionPopover(inputEl) {
+      if (!inputEl) return;
+      const rect = inputEl.getBoundingClientRect();
+      const popWidth = 280;
+      const popHeight = 310;
+      let left = rect.left;
+      if (left + popWidth > window.innerWidth - 10) {
+        left = Math.max(10, window.innerWidth - popWidth - 10);
+      }
+      let top = rect.bottom + 4;
+      if (top + popHeight > window.innerHeight - 10 && rect.top > popHeight + 10) {
+        top = rect.top - popHeight - 4;
+      }
+      popover.style.left = `${left}px`;
+      popover.style.top = `${top}px`;
+    }
+
+    function renderDays() {
+      const months = ['JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE','JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER'];
+      document.getElementById('dp-month-label').innerText = `${months[viewMonth]} ${viewYear}`;
+      const grid = document.getElementById('dp-grid-days');
+      grid.innerHTML = '';
+
+      const firstDay = new Date(viewYear, viewMonth, 1).getDay();
+      const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+      const todayISO = getLocalTodayISO();
+      const currentSelectedISO = activeInput ? (parseUserInputDate(activeInput.value) || '') : '';
+
+      for (let i = 0; i < firstDay; i++) {
+        const emptyCell = document.createElement('div');
+        emptyCell.className = 'dp-day disabled';
+        grid.appendChild(emptyCell);
+      }
+
+      for (let d = 1; d <= daysInMonth; d++) {
+        const cell = document.createElement('div');
+        cell.className = 'dp-day';
+        cell.innerText = d;
+        const thisISO = `${viewYear}-${String(viewMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+
+        if (thisISO === todayISO) cell.classList.add('today');
+        if (thisISO === currentSelectedISO) cell.classList.add('selected');
+        if (thisISO > todayISO) cell.classList.add('disabled');
+
+        cell.onclick = (e) => {
+          e.stopPropagation();
+          if (activeInput) {
+            activeInput.value = formatDisplayDate(thisISO);
+            updateDateClass(activeInput);
+          }
+          popover.classList.remove('active');
+        };
+        grid.appendChild(cell);
+      }
+    }
+
+    document.getElementById('dp-prev').onclick = (e) => {
+      e.stopPropagation();
+      viewMonth--;
+      if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+      renderDays();
+    };
+    document.getElementById('dp-next').onclick = (e) => {
+      e.stopPropagation();
+      viewMonth++;
+      if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+      renderDays();
+    };
+    document.getElementById('dp-today').onclick = (e) => {
+      e.stopPropagation();
+      if (activeInput) {
+        activeInput.value = formatDisplayDate(new Date());
+        updateDateClass(activeInput);
+      }
+      popover.classList.remove('active');
+    };
+    document.getElementById('dp-clear').onclick = (e) => {
+      e.stopPropagation();
+      if (activeInput) {
+        activeInput.value = '';
+        updateDateClass(activeInput);
+      }
+      popover.classList.remove('active');
+    };
+
+    document.querySelectorAll('.btn-date-picker').forEach(btn => {
+      btn.onclick = (e) => {
+        e.stopPropagation();
+        const targetId = btn.getAttribute('data-target');
+        const input = document.getElementById(targetId);
+        if (!input) return;
+
+        if (activeInput === input && popover.classList.contains('active')) {
+          popover.classList.remove('active');
+          return;
+        }
+
+        activeInput = input;
+        const parsedISO = parseUserInputDate(input.value);
+        if (parsedISO) {
+          const parts = parsedISO.split('-');
+          viewYear = parseInt(parts[0], 10);
+          viewMonth = parseInt(parts[1], 10) - 1;
+        } else {
+          const now = new Date();
+          viewYear = now.getFullYear();
+          viewMonth = now.getMonth();
+        }
+
+        renderDays();
+        positionPopover(input);
+        popover.classList.add('active');
+      };
+    });
+
+    [els.f.dateAdd, els.f.dateComp].forEach(inp => {
+      if (!inp) return;
+      inp.addEventListener('blur', () => {
+        const val = inp.value.trim();
+        if (!val) {
+          updateDateClass(inp);
+          return;
+        }
+        const iso = parseUserInputDate(val);
+        const todayISO = getLocalTodayISO();
+        if (!iso) {
+          showToast(C.MESSAGES.DATE_INVALID_ERROR);
+          inp.value = '';
+          updateDateClass(inp);
+        } else if (iso > todayISO) {
+          showToast(C.MESSAGES.DATE_FUTURE_ERROR);
+          inp.value = '';
+          updateDateClass(inp);
+        } else {
+          inp.value = formatDisplayDate(iso);
+          updateDateClass(inp);
+        }
+      });
+    });
+
+    if (els.mGameBody) {
+      els.mGameBody.addEventListener('scroll', () => {
+        if (popover.classList.contains('active') && activeInput) {
+          positionPopover(activeInput);
+        }
+      });
+    }
+
+    document.addEventListener('click', (e) => {
+      if (!popover.contains(e.target) && !e.target.closest('.btn-date-picker')) {
+        popover.classList.remove('active');
+      }
+    });
+  }
+
   // --- Dynamic Asset Engine ---
   function applyDynamicAssets() {
     if(!C.ASSETS) return;
@@ -1974,6 +2363,7 @@ window.CONFIG = {
     if (isActive) {
       document.body.classList.add('modal-open');
     } else {
+      if (datepickerPopoverEl) datepickerPopoverEl.classList.remove('active');
       const openModals = document.querySelectorAll('.modal-overlay.active');
       if (openModals.length === 0) document.body.classList.remove('modal-open');
     }
@@ -2034,8 +2424,8 @@ window.CONFIG = {
     if (els.f.rawgUpdated) els.f.rawgUpdated.placeholder = C.PLACEHOLDERS.RAWG_UPDATED || "Select Title...";
     if (els.f.rawgSynced) els.f.rawgSynced.placeholder = C.PLACEHOLDERS.RAWG_SYNCED || "Select Title...";
     if (els.f.releaseDate) els.f.releaseDate.placeholder = C.PLACEHOLDERS.RELEASE_DATE || "Select Title...";
-    els.f.dateAdd.setAttribute('data-placeholder', C.PLACEHOLDERS.DATE_ADDED);
-    els.f.dateComp.setAttribute('data-placeholder', C.PLACEHOLDERS.DATE_COMPLETED);
+    els.f.dateAdd.placeholder = C.PLACEHOLDERS.DATE_ADDED;
+    els.f.dateComp.placeholder = C.PLACEHOLDERS.DATE_COMPLETED;
     els.f.coverText.innerText = C.PLACEHOLDERS.THUMBNAIL;
     els.f.desc.placeholder = C.PLACEHOLDERS.DESCRIPTION;
     els.f.dev.placeholder = C.PLACEHOLDERS.DEVELOPER;
@@ -2053,6 +2443,7 @@ window.CONFIG = {
     els.f.curr.innerHTML = `<option value="${C.DEFAULT_CURRENCY}">${C.DEFAULT_CURRENCY}</option><option value="CAD">CAD</option>`;
     
     initializeCustomSelects();
+    initCustomDatePicker();
     buildStarWidget();
     applyTheme(activeThemeToApply);
     buildThemeGrid();
@@ -2179,7 +2570,7 @@ window.CONFIG = {
       }
     });
 
-    ['change', 'input', 'blur'].forEach(evt => {
+    ['change', 'input'].forEach(evt => {
       els.f.dateAdd.addEventListener(evt, (e) => updateDateClass(e.target));
       els.f.dateComp.addEventListener(evt, (e) => updateDateClass(e.target));
     });
@@ -2241,8 +2632,8 @@ window.CONFIG = {
               els.f.coverText.style.display = 'none';
             }
 
-            // v0.63 DELTA: Stamp Last RAWG Sync, Last RAWG Update & Release Date
-            setVal(els.f.rawgSynced, formatDisplayDate(new Date()));
+            // v0.64 DELTA: Stamp Date-First Military Timestamp for Last RAWG Sync
+            setVal(els.f.rawgSynced, formatSyncTimestamp(new Date()));
             if (match.updated) {
               setVal(els.f.rawgUpdated, formatDisplayDate(match.updated));
             }
@@ -2583,8 +2974,8 @@ window.CONFIG = {
     
     setVal(els.f.genres, (g.genres || []).map(x=>x.name).join(', '));
 
-    // v0.63 DELTA: Populate Last RAWG Sync, Last RAWG Update & Release Date
-    setVal(els.f.rawgSynced, formatDisplayDate(new Date()));
+    // v0.64 DELTA: Populate Date-First Military Timestamp for Last RAWG Sync
+    setVal(els.f.rawgSynced, formatSyncTimestamp(new Date()));
     if (g.updated) {
       setVal(els.f.rawgUpdated, formatDisplayDate(g.updated));
     }
@@ -2678,12 +3069,11 @@ window.CONFIG = {
   }
 
   function updateDateClass(el) {
-    if (el.value) {
+    if (!el) return;
+    if (el.value && el.value.trim()) {
       el.classList.remove('empty-date');
-      el.setAttribute('data-display-date', formatDisplayDate(el.value));
     } else {
       el.classList.add('empty-date');
-      el.removeAttribute('data-display-date');
     }
   }
 
@@ -2691,21 +3081,25 @@ window.CONFIG = {
     if(!els.f.status.value) {
         els.f.status.value = "Backlog";
         syncCustomSelect('f-status');
+        updateCompletionDateUI("Backlog");
     }
     if(!els.f.dateAdd.value) {
-        els.f.dateAdd.value = new Date().toISOString().split('T')[0];
+        els.f.dateAdd.value = formatDisplayDate(new Date());
         updateDateClass(els.f.dateAdd);
     }
   }
 
   function openGameModal(id = null) {
     els.form.reset();
+    if (datepickerPopoverEl) datepickerPopoverEl.classList.remove('active');
     els.f.coverImg.style.display = 'none';
     els.f.coverText.style.display = 'block';
     els.f.rawgScore.value = "";
     if (els.f.rawgUpdated) els.f.rawgUpdated.value = "";
     if (els.f.rawgSynced) els.f.rawgSynced.value = "";
     if (els.f.releaseDate) els.f.releaseDate.value = "";
+    els.f.dev.value = "";
+    els.f.pub.value = "";
     els.f.rawgRes.style.display = 'none';
     setStars(0);
     updateHLTBLink("");
@@ -2753,8 +3147,8 @@ window.CONFIG = {
         els.f.coverText.style.display = 'none';
       }
       
-      els.f.dateAdd.value = g.dateAdd || "";
-      els.f.dateComp.value = g.dateComp || "";
+      els.f.dateAdd.value = g.dateAdd ? formatDisplayDate(g.dateAdd) : "";
+      els.f.dateComp.value = g.dateComp ? formatDisplayDate(g.dateComp) : "";
       
       els.f.playtime.value = g.playtime || "";
       els.f.hltbM.value = g.hltbM || "";
@@ -2781,6 +3175,7 @@ window.CONFIG = {
       els.f.dateComp.value = "";
     }
     
+    updateCompletionDateUI(els.f.status.value);
     updateDateClass(els.f.dateAdd);
     updateDateClass(els.f.dateComp);
     
@@ -2792,18 +3187,16 @@ window.CONFIG = {
     updatePlatformFields();
   }
 
-  // v0.63 DELTA: HLTB Look Up Anchor Text Rebranding
+  // v0.64 DELTA: HLTB Look Up Button Parity & Dynamic Highlighting Feedback
   function updateHLTBLink(title) { 
-    if(title) {
-      els.hltbLink.href = `https://howlongtobeat.com/?q=${encodeURIComponent(title)}`;
+    if(title && title.trim()) {
+      els.hltbLink.href = `https://howlongtobeat.com/?q=${encodeURIComponent(title.trim())}`;
       els.hltbLink.innerHTML = splitEmoji("🔗 HLTB Look Up");
-      els.hltbLink.style.color = "var(--accent)";
-      els.hltbLink.style.pointerEvents = "auto";
+      els.hltbLink.classList.remove('disabled');
     } else {
       els.hltbLink.href = "#";
       els.hltbLink.innerHTML = splitEmoji(C.PLACEHOLDERS.HLTB_WARNING_TEXT);
-      els.hltbLink.style.color = "var(--warning)";
-      els.hltbLink.style.pointerEvents = "none";
+      els.hltbLink.classList.add('disabled');
     }
   }
 
@@ -2814,10 +3207,12 @@ window.CONFIG = {
     else els.f.lblAch.innerText = "Achievements";
   }
 
-  // v0.61 DELTA: Auto-populate Date Completed for both "Completed" and "Beat"
+  // v0.64 DELTA: Dynamic Date Beat / Completed Label & Auto-Population
   function handleStatusChange(e) {
-    if((e.target.value === "Completed" || e.target.value === "Beat") && !els.f.dateComp.value) {
-        els.f.dateComp.value = new Date().toISOString().split('T')[0];
+    const val = e.target.value;
+    updateCompletionDateUI(val);
+    if((val === "Completed" || val === "Beat") && !els.f.dateComp.value.trim()) {
+        els.f.dateComp.value = formatDisplayDate(new Date());
         updateDateClass(els.f.dateComp);
     }
   }
@@ -2848,16 +3243,20 @@ window.CONFIG = {
         return;
     }
     
-    const today = new Date().toISOString().split('T')[0];
-    const addDate = els.f.dateAdd.value;
-    const compDate = els.f.dateComp.value;
+    const today = getLocalTodayISO();
+    const rawAddDate = els.f.dateAdd.value.trim();
+    const rawCompDate = els.f.dateComp.value.trim();
+    let addDate = "";
+    let compDate = "";
     
-    if (addDate) {
-        if (isNaN(Date.parse(addDate))) { showToast(C.MESSAGES.DATE_INVALID_ERROR); return; }
+    if (rawAddDate) {
+        addDate = parseUserInputDate(rawAddDate);
+        if (!addDate) { showToast(C.MESSAGES.DATE_INVALID_ERROR); return; }
         if (addDate > today) { showToast(C.MESSAGES.DATE_FUTURE_ERROR); return; }
     }
-    if (compDate) {
-        if (isNaN(Date.parse(compDate))) { showToast(C.MESSAGES.DATE_INVALID_ERROR); return; }
+    if (rawCompDate) {
+        compDate = parseUserInputDate(rawCompDate);
+        if (!compDate) { showToast(C.MESSAGES.DATE_INVALID_ERROR); return; }
         if (compDate > today) { showToast(C.MESSAGES.DATE_FUTURE_ERROR); return; }
     }
     
@@ -2877,7 +3276,7 @@ window.CONFIG = {
       price: formattedPrice,
       curr: els.f.curr.value || C.DEFAULT_CURRENCY,
       status: els.f.status.value, rating: currentRating, url: els.f.url.value, rawgScore: els.f.rawgScore.value,
-      dateAdd: els.f.dateAdd.value, dateComp: els.f.dateComp.value, playtime: els.f.playtime.value,
+      dateAdd: addDate, dateComp: compDate, playtime: els.f.playtime.value,
       hltbM: els.f.hltbM.value, hltbE: els.f.hltbE.value, hltbC: els.f.hltbC.value,
       notes: els.f.notes.value, achE: els.f.achE.value, achT: els.f.achT.value
     };
@@ -2918,8 +3317,12 @@ window.CONFIG = {
     
     els.lib.innerHTML = '';
     let count = 0;
-    const isRetro = document.body.getAttribute('data-theme') === 'retro-arcade';
-    const isCyberpunk = document.body.getAttribute('data-theme') === 'cyberpunk';
+    const activeTheme = document.body.getAttribute('data-theme') || 'modern-dark';
+    const isRetro = activeTheme === 'retro-arcade';
+    const isCyberpunk = activeTheme === 'cyberpunk';
+    const isSynthwave = activeTheme === 'synthwave-sunset';
+    const isCrimson = activeTheme === 'gothic-crimson';
+    const isWasteland = activeTheme === 'wasteland-terminal';
     const isList = els.lib.classList.contains('list-view');
     
     const gamesList = Object.values(games).sort((a, b) => a.title.localeCompare(b.title));
@@ -2971,14 +3374,20 @@ window.CONFIG = {
       if (isCompleted) {
          compBadge = `<span class="badge" style="background:var(--accent-completion, var(--accent)); color:var(--text-inverse);">${splitEmoji("🏆 COMPLETED")}</span>`;
       } else if (isBeat) {
-         // v0.62 DELTA: Beat Status Pill All-Caps & Star Medal Emoji + Theme-Harmonized Tokenization
+         // v0.64 DELTA: 9-Theme High-Contrast Chromatic Calibration for "🎖️ BEAT"
          const beatLabel = splitEmoji("🎖️ BEAT");
          if (isRetro) {
            compBadge = `<span class="badge beat-badge" style="background:var(--accent-beat, #00ffff); color:#050510; border:1px solid #00ffff;">${beatLabel}</span>`;
+         } else if (isSynthwave) {
+           compBadge = `<span class="badge beat-badge" style="background:var(--accent-beat, #ff7700); color:#0b0c10; border:1px solid #ff7700; box-shadow: 0 0 8px rgba(255,119,0,0.5);">${beatLabel}</span>`;
          } else if (isCyberpunk) {
-           compBadge = `<span class="badge beat-badge" style="background:#080c14; color:var(--accent-beat, #00e8f8); border:1px solid var(--accent-beat, #00e8f8); box-shadow: 0 0 5px rgba(0,232,248,0.4);">${beatLabel}</span>`;
+           compBadge = `<span class="badge beat-badge" style="background:var(--accent-beat, #7928ca); color:#ffffff; border:1px solid #00e8f8; box-shadow: 0 0 8px rgba(139,0,255,0.6);">${beatLabel}</span>`;
+         } else if (isCrimson) {
+           compBadge = `<span class="badge beat-badge" style="background:var(--accent-beat, #526070); color:#f1f5f9; border:1px solid #94a3b8;">${beatLabel}</span>`;
+         } else if (isWasteland) {
+           compBadge = `<span class="badge beat-badge" style="background:var(--accent-beat, #7f1d1d); color:#ffffff; border:1px solid #ef4444;">${beatLabel}</span>`;
          } else {
-           compBadge = `<span class="badge beat-badge" style="background:var(--accent-beat, #0284c7); color:#ffffff; border:1px solid rgba(255,255,255,0.2);">${beatLabel}</span>`;
+           compBadge = `<span class="badge beat-badge" style="background:var(--accent-beat, #059669); color:#ffffff; border:1px solid rgba(255,255,255,0.2);">${beatLabel}</span>`;
          }
       } else if (isCyberpunk) {
          compBadge = `<span class="badge" style="background:#080c14; color:#00e8f8; border: 1px solid #00e8f8; box-shadow: 0 0 5px rgba(0,232,248,0.4);">${g.status}</span>`;
@@ -3092,7 +3501,7 @@ window.CONFIG = {
 
     const statusMap = {
       "Completed": { name: "Completed", count: 0, color: "var(--success)" },
-      "Beat": { name: "Beat", count: 0, color: "var(--accent-beat, #0284c7)" },
+      "Beat": { name: "Beat", count: 0, color: "var(--accent-beat, #059669)" },
       "Playing": { name: "Playing", count: 0, color: "var(--accent)" },
       "Backlog": { name: "Backlog", count: 0, color: "#f59e0b" },
       "Preordered": { name: "Preordered", count: 0, color: "#06b6d4" },

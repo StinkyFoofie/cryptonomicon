@@ -592,7 +592,6 @@ function toggleModalScrollLock(isActive) {
       document.body.style.width = '100%';
       document.body.classList.add('modal-open');
     }
-    requestAnimationFrame(syncAllModalScrollIndicators);
   } else {
     if (datepickerPopoverEl) datepickerPopoverEl.classList.remove('active');
     const openModals = document.querySelectorAll('.modal-overlay.active');
@@ -604,55 +603,6 @@ function toggleModalScrollLock(isActive) {
       window.scrollTo(0, savedScrollY);
     }
   }
-}
-
-// v0.67 DELTA [D-001]: Mobile Modal Themed Scroll Track & Indicator Engine
-const modalScrollUpdaters = [];
-function updateModalScrollIndicator(bodyEl, trackEl, thumbEl) {
-  if (!bodyEl || !trackEl || !thumbEl) return;
-  const scrollHeight = bodyEl.scrollHeight;
-  const clientHeight = bodyEl.clientHeight;
-  if (scrollHeight <= clientHeight + 2) {
-    trackEl.classList.remove('visible');
-    return;
-  }
-  trackEl.classList.add('visible');
-  const trackHeight = trackEl.clientHeight || Math.max(40, clientHeight - 20);
-  const ratio = clientHeight / scrollHeight;
-  const thumbHeight = Math.max(24, Math.round(trackHeight * ratio));
-  const maxScroll = Math.max(1, scrollHeight - clientHeight);
-  const scrollPct = Math.min(1, Math.max(0, bodyEl.scrollTop / maxScroll));
-  const maxTravel = Math.max(0, trackHeight - thumbHeight);
-  const offsetY = Math.round(scrollPct * maxTravel);
-  thumbEl.style.height = `${thumbHeight}px`;
-  thumbEl.style.transform = `translateY(${offsetY}px)`;
-}
-
-function syncAllModalScrollIndicators() {
-  modalScrollUpdaters.forEach(fn => fn());
-}
-
-function initModalScrollIndicators() {
-  document.querySelectorAll('.modal-content').forEach(contentEl => {
-    const bodyEl = contentEl.querySelector('.modal-body');
-    if (!bodyEl) return;
-    const hasFooter = !!contentEl.querySelector('.modal-footer');
-    const trackEl = document.createElement('div');
-    trackEl.className = `modal-scroll-track${hasFooter ? '' : ' no-footer'}`;
-    const thumbEl = document.createElement('div');
-    thumbEl.className = 'modal-scroll-thumb';
-    trackEl.appendChild(thumbEl);
-    contentEl.appendChild(trackEl);
-
-    const updater = () => updateModalScrollIndicator(bodyEl, trackEl, thumbEl);
-    modalScrollUpdaters.push(updater);
-    bodyEl.addEventListener('scroll', updater, { passive: true });
-    if (window.ResizeObserver) {
-      const ro = new ResizeObserver(() => updater());
-      ro.observe(bodyEl);
-    }
-  });
-  window.addEventListener('resize', syncAllModalScrollIndicators, { passive: true });
 }
 
 // v0.67 DELTA [D-002]: Hardware Touch Gesture Quarantine on Modal Headers/Footers/Backdrops
@@ -758,7 +708,6 @@ function init() {
   
   initializeCustomSelects();
   initCustomDatePicker();
-  initModalScrollIndicators();
   initModalTouchQuarantine();
   buildStarWidget();
   applyTheme(activeThemeToApply);
@@ -910,7 +859,7 @@ function init() {
   }
 
   els.btnSave.onclick = (e) => { e.preventDefault(); saveGameData(); };
-  els.btnDelPrompt.onclick = (e) => { e.preventDefault(); els.mDelete.classList.add('active'); requestAnimationFrame(syncAllModalScrollIndicators); };
+  els.btnDelPrompt.onclick = (e) => { e.preventDefault(); els.mDelete.classList.add('active'); };
   els.btnCancelDel.onclick = () => els.mDelete.classList.remove('active');
   els.btnConfirmDel.onclick = deleteGame;
   
@@ -1019,7 +968,7 @@ function init() {
     }
   };
 
-  els.btnClearCache.onclick = () => { els.mConfirmCache.classList.add('active'); requestAnimationFrame(syncAllModalScrollIndicators); };
+  els.btnClearCache.onclick = () => { els.mConfirmCache.classList.add('active'); };
   els.btnCancelClearCache.onclick = () => { els.mConfirmCache.classList.remove('active'); };
   els.btnConfirmClearCache.onclick = () => {
     localStorage.removeItem('nomicon_db');
@@ -1427,7 +1376,6 @@ function openGameModal(id = null) {
   toggleModalScrollLock(true);
   
   els.mGameBody.scrollTo({ top: 0, behavior: 'instant' });
-  requestAnimationFrame(syncAllModalScrollIndicators);
   
   auditRawgConnection(true);
 
@@ -1795,7 +1743,6 @@ function openStatsModal() {
   els.mStats.classList.add('active');
   els.mStatsBody.scrollTop = 0;
   toggleModalScrollLock(true);
-  requestAnimationFrame(syncAllModalScrollIndicators);
 }
 
 function renderStatsDashboard() {
@@ -2025,7 +1972,6 @@ function renderStatsDashboard() {
 function applyTheme(theme) { 
   document.body.setAttribute('data-theme', theme); 
   if(Object.keys(games).length > 0) renderLibrary();
-  requestAnimationFrame(syncAllModalScrollIndicators);
 }
 
 // v0.65 DELTA: 10-Slot 2-Column Theme Grid ("Surprise Me!" First + Strict Alphabetical by Text Label)

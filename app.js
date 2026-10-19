@@ -7,32 +7,26 @@ import {
   getFirestore, doc, setDoc, deleteDoc, collection, onSnapshot, getDocs, initializeFirestore, persistentLocalCache, persistentMultipleTabManager 
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
-// --- 2. GLOBAL STATE & v0.66 [X-006] MIGRATION BRIDGE ---
+// --- 2. GLOBAL STATE & v0.67 [X-002] UNIFIED NOMICON STORAGE ---
 const C = window.CONFIG;
 let db;
-const localDbRaw = localStorage.getItem('nomicon_db') || localStorage.getItem('vgnomicon_db');
+const localDbRaw = localStorage.getItem('nomicon_db');
 let games = localDbRaw ? JSON.parse(localDbRaw) : {}; 
-if (!localStorage.getItem('nomicon_db') && localDbRaw) {
-  localStorage.setItem('nomicon_db', localDbRaw);
-}
 
 const themesList = Object.keys(C.THEME_NAMES).map(key => ({
   id: key,
   name: C.THEME_NAMES[key]
 }));
 
-const localSettingsRaw = localStorage.getItem('nomicon_settings') || localStorage.getItem('vgnomicon_settings');
+const localSettingsRaw = localStorage.getItem('nomicon_settings');
 let settings = localSettingsRaw ? JSON.parse(localSettingsRaw) : { 
   theme: C.DEFAULT_THEME, 
   dbColl: C.DB_COLLECTION
 };
-if (!localStorage.getItem('nomicon_settings') && localSettingsRaw) {
-  localStorage.setItem('nomicon_settings', localSettingsRaw);
-}
 
 let activeThemeToApply = settings.theme;
 if (settings.theme === 'random' || !settings.theme) {
-  let sessionTheme = sessionStorage.getItem('nomicon_session_theme') || sessionStorage.getItem('vgnomicon_session_theme');
+  let sessionTheme = sessionStorage.getItem('nomicon_session_theme');
   if (!sessionTheme) {
     sessionTheme = themesList[Math.floor(Math.random() * themesList.length)].id;
   }
@@ -199,7 +193,6 @@ function parseUserInputDate(str) {
     'january','february','march','april','may','june',
     'july','august','september','october','november','december'
   ];
-  const monthAbbr = ['jan','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
   const monthAbbrFull = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
   const namedMatch = s.match(/^([A-Za-z]+)\s+(\d{1,2}),?\s+(\d{4})$/);
   if (namedMatch) {
@@ -599,6 +592,7 @@ function toggleModalScrollLock(isActive) {
       document.body.style.width = '100%';
       document.body.classList.add('modal-open');
     }
+    requestAnimationFrame(syncAllModalScrollIndicators);
   } else {
     if (datepickerPopoverEl) datepickerPopoverEl.classList.remove('active');
     const openModals = document.querySelectorAll('.modal-overlay.active');
@@ -610,6 +604,71 @@ function toggleModalScrollLock(isActive) {
       window.scrollTo(0, savedScrollY);
     }
   }
+}
+
+// v0.67 DELTA [D-001]: Mobile Modal Themed Scroll Track & Indicator Engine
+const modalScrollUpdaters = [];
+function updateModalScrollIndicator(bodyEl, trackEl, thumbEl) {
+  if (!bodyEl || !trackEl || !thumbEl) return;
+  const scrollHeight = bodyEl.scrollHeight;
+  const clientHeight = bodyEl.clientHeight;
+  if (scrollHeight <= clientHeight + 2) {
+    trackEl.classList.remove('visible');
+    return;
+  }
+  trackEl.classList.add('visible');
+  const trackHeight = trackEl.clientHeight || Math.max(40, clientHeight - 20);
+  const ratio = clientHeight / scrollHeight;
+  const thumbHeight = Math.max(24, Math.round(trackHeight * ratio));
+  const maxScroll = Math.max(1, scrollHeight - clientHeight);
+  const scrollPct = Math.min(1, Math.max(0, bodyEl.scrollTop / maxScroll));
+  const maxTravel = Math.max(0, trackHeight - thumbHeight);
+  const offsetY = Math.round(scrollPct * maxTravel);
+  thumbEl.style.height = `${thumbHeight}px`;
+  thumbEl.style.transform = `translateY(${offsetY}px)`;
+}
+
+function syncAllModalScrollIndicators() {
+  modalScrollUpdaters.forEach(fn => fn());
+}
+
+function initModalScrollIndicators() {
+  document.querySelectorAll('.modal-content').forEach(contentEl => {
+    const bodyEl = contentEl.querySelector('.modal-body');
+    if (!bodyEl) return;
+    const hasFooter = !!contentEl.querySelector('.modal-footer');
+    const trackEl = document.createElement('div');
+    trackEl.className = `modal-scroll-track${hasFooter ? '' : ' no-footer'}`;
+    const thumbEl = document.createElement('div');
+    thumbEl.className = 'modal-scroll-thumb';
+    trackEl.appendChild(thumbEl);
+    contentEl.appendChild(trackEl);
+
+    const updater = () => updateModalScrollIndicator(bodyEl, trackEl, thumbEl);
+    modalScrollUpdaters.push(updater);
+    bodyEl.addEventListener('scroll', updater, { passive: true });
+    if (window.ResizeObserver) {
+      const ro = new ResizeObserver(() => updater());
+      ro.observe(bodyEl);
+    }
+  });
+  window.addEventListener('resize', syncAllModalScrollIndicators, { passive: true });
+}
+
+// v0.67 DELTA [D-002]: Hardware Touch Gesture Quarantine on Modal Headers/Footers/Backdrops
+function initModalTouchQuarantine() {
+  document.querySelectorAll('.modal-header, .modal-footer').forEach(el => {
+    el.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+    }, { passive: false });
+  });
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('touchmove', (e) => {
+      if (e.target === overlay) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+  });
 }
 
 function init() {
@@ -627,8 +686,8 @@ function init() {
     appleTitleMeta.setAttribute('content', C.APP_SHORT_NAME || C.APP_NAME || "NOMICON");
   }
   document.getElementById('html-title').innerText = `${C.APP_NAME} v${C.APP_VERSION}`;
-  els.appTitle.innerText = C.APP_NAME;
-  els.appVer.innerText = `v${C.APP_VERSION}`;
+  if (els.appTitle) els.appTitle.innerText = C.APP_NAME;
+  if (els.appVer) els.appVer.innerText = `v${C.APP_VERSION}`;
   els.search.placeholder = C.PLACEHOLDERS.SEARCH_PLACEHOLDER;
   document.getElementById('ui-settings-title').innerText = C.SETTINGS_TITLE;
   
@@ -699,6 +758,8 @@ function init() {
   
   initializeCustomSelects();
   initCustomDatePicker();
+  initModalScrollIndicators();
+  initModalTouchQuarantine();
   buildStarWidget();
   applyTheme(activeThemeToApply);
   buildThemeGrid();
@@ -730,6 +791,7 @@ function init() {
   
   els.btnTheme.onclick = () => { 
     els.mTheme.classList.add('active'); 
+    els.themeGrid.scrollTop = 0;
     toggleModalScrollLock(true);
   };
   document.getElementById('btn-close-theme').onclick = () => { 
@@ -848,7 +910,7 @@ function init() {
   }
 
   els.btnSave.onclick = (e) => { e.preventDefault(); saveGameData(); };
-  els.btnDelPrompt.onclick = (e) => { e.preventDefault(); els.mDelete.classList.add('active'); };
+  els.btnDelPrompt.onclick = (e) => { e.preventDefault(); els.mDelete.classList.add('active'); requestAnimationFrame(syncAllModalScrollIndicators); };
   els.btnCancelDel.onclick = () => els.mDelete.classList.remove('active');
   els.btnConfirmDel.onclick = deleteGame;
   
@@ -957,15 +1019,12 @@ function init() {
     }
   };
 
-  els.btnClearCache.onclick = () => { els.mConfirmCache.classList.add('active'); };
+  els.btnClearCache.onclick = () => { els.mConfirmCache.classList.add('active'); requestAnimationFrame(syncAllModalScrollIndicators); };
   els.btnCancelClearCache.onclick = () => { els.mConfirmCache.classList.remove('active'); };
   els.btnConfirmClearCache.onclick = () => {
     localStorage.removeItem('nomicon_db');
     localStorage.removeItem('nomicon_settings');
     sessionStorage.removeItem('nomicon_session_theme');
-    localStorage.removeItem('vgnomicon_db');
-    localStorage.removeItem('vgnomicon_settings');
-    sessionStorage.removeItem('vgnomicon_session_theme');
     els.mConfirmCache.classList.remove('active');
     showToast(splitEmoji(C.MESSAGES.CACHE_CLEARED));
     setTimeout(() => location.reload(), 1500);
@@ -1368,6 +1427,7 @@ function openGameModal(id = null) {
   toggleModalScrollLock(true);
   
   els.mGameBody.scrollTo({ top: 0, behavior: 'instant' });
+  requestAnimationFrame(syncAllModalScrollIndicators);
   
   auditRawgConnection(true);
 
@@ -1735,6 +1795,7 @@ function openStatsModal() {
   els.mStats.classList.add('active');
   els.mStatsBody.scrollTop = 0;
   toggleModalScrollLock(true);
+  requestAnimationFrame(syncAllModalScrollIndicators);
 }
 
 function renderStatsDashboard() {
@@ -1964,6 +2025,7 @@ function renderStatsDashboard() {
 function applyTheme(theme) { 
   document.body.setAttribute('data-theme', theme); 
   if(Object.keys(games).length > 0) renderLibrary();
+  requestAnimationFrame(syncAllModalScrollIndicators);
 }
 
 // v0.65 DELTA: 10-Slot 2-Column Theme Grid ("Surprise Me!" First + Strict Alphabetical by Text Label)
@@ -1992,7 +2054,7 @@ function buildThemeGrid() {
   themesList.slice().sort((a, b) => stripLeadingEmoji(a.name).localeCompare(stripLeadingEmoji(b.name))).forEach(t => {
     const btn = document.createElement('button');
     btn.id = `theme-btn-${t.id}`;
-    const currentActive = settings.theme === 'random' ? (sessionStorage.getItem('nomicon_session_theme') || sessionStorage.getItem('vgnomicon_session_theme')) : settings.theme;
+    const currentActive = settings.theme === 'random' ? sessionStorage.getItem('nomicon_session_theme') : settings.theme;
     btn.className = `theme-btn ${currentActive === t.id ? 'active' : ''}`;
     btn.innerHTML = splitEmoji(t.name);
     btn.onclick = () => {
@@ -2007,7 +2069,7 @@ function buildThemeGrid() {
 }
 
 function updateStorageMeter() {
-  const str = localStorage.getItem('nomicon_db') || localStorage.getItem('vgnomicon_db') || "{}";
+  const str = localStorage.getItem('nomicon_db') || "{}";
   const bytes = new Blob([str]).size;
   const mb = (bytes / (1024*1024)).toFixed(2);
   const max = 5.00;

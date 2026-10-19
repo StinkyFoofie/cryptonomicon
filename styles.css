@@ -52,6 +52,7 @@
 [data-theme="retro-arcade"] .view-btn { font-size: 10.5px; }
 [data-theme="retro-arcade"] #btn-random-game { font-size: 10.5px; }
 [data-theme="retro-arcade"] .list-view .card-meta { font-size: 10px !important; }
+[data-theme="retro-arcade"] .brand span { font-size: 8.5px; margin-bottom: 3px; }
 
 /* Scoped Button Fit (9px, line-height 1.3) */
 [data-theme="retro-arcade"] .theme-btn {
@@ -161,6 +162,7 @@
 [data-theme="wasteland-terminal"] .grid-view .card-meta { font-size: 15px; }
 [data-theme="wasteland-terminal"] .list-view .card-meta { font-size: 15px; }
 [data-theme="wasteland-terminal"] .badge { font-size: 14.5px; }
+[data-theme="wasteland-terminal"] .brand span { font-size: 14px; margin-bottom: 2px; }
 
 [data-theme="wasteland-terminal"] .theme-btn { font-size: 15px; line-height: 1.2; }
 [data-theme="wasteland-terminal"] .system-tray button { font-size: 18px; }
@@ -189,8 +191,12 @@
 html { width: 100%; overflow-x: clip; overflow-y: scroll; scrollbar-gutter: stable; }
 body { width: 100%; overflow-x: clip; background-color: var(--bg-base); color: var(--text-main); font-family: var(--font-main); -webkit-font-smoothing: antialiased; }
 
-/* Modal Open Scroll Isolation */
-body.modal-open { overflow: hidden; }
+/* v0.67 DELTA [D-002]: Modal Open Scroll & Pull-to-Refresh Quarantine */
+html:has(body.modal-open),
+body.modal-open {
+  overflow: hidden;
+  overscroll-behavior-y: none !important;
+}
 
 h1, h2, h3, h4, h5 { font-family: var(--font-heading); }
 
@@ -382,13 +388,11 @@ button.danger { background: var(--danger); color: var(--text-inverse); border: n
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
-/* Header Brand Horizontal & Baseline Centering */
+/* v0.67 DELTA [X-001]: Solo Brand Logo Icon with Bottom-Aligned Version Subtext */
 .app-header { padding: 12px 20px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; border-bottom: 1px solid var(--border); gap: 10px; }
-.brand { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; text-decoration: none; justify-self: flex-start;}
-.brand img { height: 28px; width: auto; aspect-ratio: 2355 / 644; object-fit: contain; }
-.brand-text { display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 6px; line-height: 1; }
-.brand h1 { color: var(--accent); font-size: 16px; margin: 0; }
-.brand span { font-size: 11px; color: var(--text-muted); font-family: var(--font-main); font-weight: 600;}
+.brand { display: inline-flex; flex-direction: row; align-items: flex-end; gap: 6px; text-decoration: none; justify-self: flex-start; height: 38px; box-sizing: border-box; }
+.brand img { height: 36px; width: auto; aspect-ratio: 2355 / 644; object-fit: contain; display: block; }
+.brand span { font-size: 10.5px; color: var(--text-muted); font-family: var(--font-main); font-weight: 600; line-height: 1; margin-bottom: 2px; white-space: nowrap; }
 .header-actions { display: flex; gap: 10px; align-items: center; justify-content: center; justify-self: center;}
 
 /* Search Bar & Add Game Button 38px Canonical Height Synchronization */
@@ -573,7 +577,7 @@ button.danger { background: var(--danger); color: var(--text-inverse); border: n
     gap: 12px; 
     padding: 12px 10px !important; 
   }
-  .brand { order: 1; justify-self: center; align-items: center; }
+  .brand { order: 1; justify-self: center; align-items: flex-end; justify-content: center; }
   
   /* System Tray Invariant Spacing & Text Centering */
   .system-tray { 
@@ -901,10 +905,14 @@ main { padding: 20px; min-height: calc(100vh - 140px); }
   #f-hltb-comp[type="number"] {
     -moz-appearance: textfield;
   }
+  /* Hide Mobile Custom Scroll Track on Desktop Pointer Devices */
+  .modal-scroll-track {
+    display: none !important;
+  }
 }
 
-/* Modal Scroll Chaining Isolation */
-.modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg-backdrop); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 15px; overflow-x: hidden; overscroll-behavior: contain; }
+/* Modal Scroll Chaining & Touch Gesture Quarantine [D-002] */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg-backdrop); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 15px; overflow-x: hidden; overscroll-behavior: contain; touch-action: none; }
 .modal-overlay.active { display: flex; }
 .modal-content { background: var(--bg-surface); width: 100%; max-width: 700px; max-height: 90vh; border-radius: var(--radius); display: flex; flex-direction: column; box-shadow: 0 0 25px var(--accent), var(--shadow); border: 1px solid var(--accent); overflow: hidden; position: relative; overscroll-behavior: contain;}
 
@@ -913,7 +921,7 @@ main { padding: 20px; min-height: calc(100vh - 140px); }
 #modal-theme .modal-header { min-height: 54px; box-sizing: border-box; }
 
 #modal-theme .modal-header, #modal-settings .modal-header, #modal-stats .modal-header, #modal-confirm-cache .modal-header { justify-content: center; position: relative; }
-.modal-header { padding: 15px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); z-index: 2;}
+.modal-header { padding: 15px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); z-index: 2; touch-action: none; user-select: none; -webkit-user-select: none; }
 
 .modal-header .close-btn { position: absolute; right: 20px; background: none; border: none; font-size: 20px !important; font-weight: bold; color: var(--text-muted); padding: 0; width: auto; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; z-index: 10; }
 .modal-header .close-btn:hover { color: var(--text-main); }
@@ -942,7 +950,35 @@ main { padding: 20px; min-height: calc(100vh - 140px); }
   background-attachment: local, local, scroll, scroll;
   background-color: var(--bg-surface);
 }
-.modal-footer { padding: 15px 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; gap: 10px; background: var(--bg-surface); z-index: 2;}
+.modal-footer { padding: 15px 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; gap: 10px; background: var(--bg-surface); z-index: 2; touch-action: none; }
+
+/* v0.67 DELTA [D-001]: Mobile Modal Themed Scroll Track & Indicator (Option A) */
+.modal-scroll-track {
+  position: absolute;
+  top: 56px;
+  bottom: 66px;
+  right: 4px;
+  width: 4px;
+  border-radius: 4px;
+  background: rgba(128, 128, 128, 0.15);
+  pointer-events: none;
+  z-index: 25;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.modal-scroll-track.no-footer {
+  bottom: 10px;
+}
+.modal-scroll-track.visible {
+  opacity: 1;
+}
+.modal-scroll-thumb {
+  width: 100%;
+  border-radius: 4px;
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent);
+  transition: transform 0.04s linear;
+}
 
 .settings-block { background: var(--bg-input); padding: 15px; border-radius: var(--radius); border: 3px solid var(--border); }
 .settings-block input, .settings-block select, .settings-block button, .settings-block .custom-select-trigger { border: 2px solid var(--border); }

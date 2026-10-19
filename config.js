@@ -3,21 +3,21 @@
    ========================================================================== */
 window.CONFIG = {
   // 1. App Identity & Core Metadata
-  APP_ARCHITECTURE: "Single-File Offline PWA",
+  APP_ARCHITECTURE: "Single-File Offline PWAAS",
   APP_NAME: "NOMICON",
   APP_SHORT_NAME: "NOMICON",
-  APP_VERSION: "0.66",
+  APP_VERSION: "0.67",
 
   // 2. API Credentials & Cloud Paths
-  RAWG_API_KEY: "db9f18921e714a36bb784e65b5fd424b",
+  RAWG_API_KEY: "YOUR_RAWG_API_KEY_HERE",
   DB_COLLECTION: "nomicon",
   FIREBASE: {
-    apiKey: "AIzaSyCk9HvlsACbj-XsH8hAS0rqXSXPYbBN7vk",
-    authDomain: "video-game-cryptonomicon.firebaseapp.com",
-    projectId: "video-game-cryptonomicon",
-    storageBucket: "video-game-cryptonomicon.firebasestorage.app",
-    messagingSenderId: "63649233927",
-    appId: "1:63649233927:web:c2717ba5797c3cf4243ea2"
+    apiKey: "YOUR_FIREBASE_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
   },
 
   // 3. Companion Brand Assets (Keep image files flat in the same directory as index.html!)

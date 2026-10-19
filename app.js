@@ -7,28 +7,36 @@ import {
   getFirestore, doc, setDoc, deleteDoc, collection, onSnapshot, getDocs, initializeFirestore, persistentLocalCache, persistentMultipleTabManager 
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
-// --- 2. GLOBAL STATE ---
+// --- 2. GLOBAL STATE & v0.66 [X-006] MIGRATION BRIDGE ---
 const C = window.CONFIG;
 let db;
-let games = JSON.parse(localStorage.getItem('vgnomicon_db')) || {}; 
+const localDbRaw = localStorage.getItem('nomicon_db') || localStorage.getItem('vgnomicon_db');
+let games = localDbRaw ? JSON.parse(localDbRaw) : {}; 
+if (!localStorage.getItem('nomicon_db') && localDbRaw) {
+  localStorage.setItem('nomicon_db', localDbRaw);
+}
 
 const themesList = Object.keys(C.THEME_NAMES).map(key => ({
   id: key,
   name: C.THEME_NAMES[key]
 }));
 
-let settings = JSON.parse(localStorage.getItem('vgnomicon_settings')) || { 
+const localSettingsRaw = localStorage.getItem('nomicon_settings') || localStorage.getItem('vgnomicon_settings');
+let settings = localSettingsRaw ? JSON.parse(localSettingsRaw) : { 
   theme: C.DEFAULT_THEME, 
   dbColl: C.DB_COLLECTION
 };
+if (!localStorage.getItem('nomicon_settings') && localSettingsRaw) {
+  localStorage.setItem('nomicon_settings', localSettingsRaw);
+}
 
 let activeThemeToApply = settings.theme;
 if (settings.theme === 'random' || !settings.theme) {
-  let sessionTheme = sessionStorage.getItem('vgnomicon_session_theme');
+  let sessionTheme = sessionStorage.getItem('nomicon_session_theme') || sessionStorage.getItem('vgnomicon_session_theme');
   if (!sessionTheme) {
     sessionTheme = themesList[Math.floor(Math.random() * themesList.length)].id;
-    sessionStorage.setItem('vgnomicon_session_theme', sessionTheme);
   }
+  sessionStorage.setItem('nomicon_session_theme', sessionTheme);
   activeThemeToApply = sessionTheme;
 }
 
@@ -191,12 +199,13 @@ function parseUserInputDate(str) {
     'january','february','march','april','may','june',
     'july','august','september','october','november','december'
   ];
-  const monthAbbr = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+  const monthAbbr = ['jan','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+  const monthAbbrFull = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
   const namedMatch = s.match(/^([A-Za-z]+)\s+(\d{1,2}),?\s+(\d{4})$/);
   if (namedMatch) {
     const mToken = namedMatch[1].toLowerCase();
     let mIdx = monthNames.indexOf(mToken);
-    if (mIdx === -1) mIdx = monthAbbr.indexOf(mToken.slice(0, 3));
+    if (mIdx === -1) mIdx = monthAbbrFull.indexOf(mToken.slice(0, 3));
     const dayNum = parseInt(namedMatch[2], 10);
     const yearNum = parseInt(namedMatch[3], 10);
     if (mIdx !== -1) {
@@ -579,21 +588,43 @@ function formatWinnerBanner(str) {
   return splitEmoji(str);
 }
 
+// v0.66 DELTA [D-001]: Mobile WebKit Scroll-Anchor Lock Pattern
+let savedScrollY = 0;
 function toggleModalScrollLock(isActive) {
   if (isActive) {
-    document.body.classList.add('modal-open');
+    if (!document.body.classList.contains('modal-open')) {
+      savedScrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${savedScrollY}px`;
+      document.body.style.width = '100%';
+      document.body.classList.add('modal-open');
+    }
   } else {
     if (datepickerPopoverEl) datepickerPopoverEl.classList.remove('active');
     const openModals = document.querySelectorAll('.modal-overlay.active');
-    if (openModals.length === 0) document.body.classList.remove('modal-open');
+    if (openModals.length === 0 && document.body.classList.contains('modal-open')) {
+      document.body.classList.remove('modal-open');
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      window.scrollTo(0, savedScrollY);
+    }
   }
 }
 
 function init() {
+  // v0.66 DELTA [X-005]: Dynamic iOS Apple PWA Standalone Meta Quarantine
+  if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !document.querySelector('meta[name="apple-mobile-web-app-capable"]')) {
+    const appleCapableMeta = document.createElement('meta');
+    appleCapableMeta.name = 'apple-mobile-web-app-capable';
+    appleCapableMeta.content = 'yes';
+    document.head.appendChild(appleCapableMeta);
+  }
+
   applyDynamicAssets();
   const appleTitleMeta = document.getElementById('meta-apple-title');
   if (appleTitleMeta) {
-    appleTitleMeta.setAttribute('content', C.APP_SHORT_NAME || C.APP_NAME || "VGnomicon");
+    appleTitleMeta.setAttribute('content', C.APP_SHORT_NAME || C.APP_NAME || "NOMICON");
   }
   document.getElementById('html-title').innerText = `${C.APP_NAME} v${C.APP_VERSION}`;
   els.appTitle.innerText = C.APP_NAME;
@@ -929,6 +960,9 @@ function init() {
   els.btnClearCache.onclick = () => { els.mConfirmCache.classList.add('active'); };
   els.btnCancelClearCache.onclick = () => { els.mConfirmCache.classList.remove('active'); };
   els.btnConfirmClearCache.onclick = () => {
+    localStorage.removeItem('nomicon_db');
+    localStorage.removeItem('nomicon_settings');
+    sessionStorage.removeItem('nomicon_session_theme');
     localStorage.removeItem('vgnomicon_db');
     localStorage.removeItem('vgnomicon_settings');
     sessionStorage.removeItem('vgnomicon_session_theme');
@@ -1066,7 +1100,7 @@ async function removeDocFromCloud(id) {
 }
 
 function saveLocalAndRender() {
-  localStorage.setItem('vgnomicon_db', JSON.stringify(games));
+  localStorage.setItem('nomicon_db', JSON.stringify(games));
   updateStorageMeter();
   renderLibrary();
 }
@@ -1941,10 +1975,10 @@ function buildThemeGrid() {
   btnRand.innerHTML = splitEmoji(C.BTN_THEME_RANDOM);
   btnRand.onclick = () => {
     settings.theme = 'random';
-    localStorage.setItem('vgnomicon_settings', JSON.stringify(settings));
+    localStorage.setItem('nomicon_settings', JSON.stringify(settings));
     
     const newSessionTheme = themesList[Math.floor(Math.random() * themesList.length)].id;
-    sessionStorage.setItem('vgnomicon_session_theme', newSessionTheme);
+    sessionStorage.setItem('nomicon_session_theme', newSessionTheme);
     applyTheme(newSessionTheme);
     
     els.themeGrid.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
@@ -1958,12 +1992,12 @@ function buildThemeGrid() {
   themesList.slice().sort((a, b) => stripLeadingEmoji(a.name).localeCompare(stripLeadingEmoji(b.name))).forEach(t => {
     const btn = document.createElement('button');
     btn.id = `theme-btn-${t.id}`;
-    const currentActive = settings.theme === 'random' ? sessionStorage.getItem('vgnomicon_session_theme') : settings.theme;
+    const currentActive = settings.theme === 'random' ? (sessionStorage.getItem('nomicon_session_theme') || sessionStorage.getItem('vgnomicon_session_theme')) : settings.theme;
     btn.className = `theme-btn ${currentActive === t.id ? 'active' : ''}`;
     btn.innerHTML = splitEmoji(t.name);
     btn.onclick = () => {
       settings.theme = t.id;
-      localStorage.setItem('vgnomicon_settings', JSON.stringify(settings));
+      localStorage.setItem('nomicon_settings', JSON.stringify(settings));
       applyTheme(t.id);
       els.themeGrid.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
@@ -1973,7 +2007,7 @@ function buildThemeGrid() {
 }
 
 function updateStorageMeter() {
-  const str = localStorage.getItem('vgnomicon_db') || "{}";
+  const str = localStorage.getItem('nomicon_db') || localStorage.getItem('vgnomicon_db') || "{}";
   const bytes = new Blob([str]).size;
   const mb = (bytes / (1024*1024)).toFixed(2);
   const max = 5.00;

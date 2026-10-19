@@ -3,10 +3,10 @@
    ========================================================================== */
 window.CONFIG = {
   // 1. App Identity & Core Metadata
-  APP_ARCHITECTURE: "Single-File Offline PWAAS",
-  APP_NAME: "VGnomicon",
-  APP_SHORT_NAME: "VGnomicon",
-  APP_VERSION: "0.65",
+  APP_ARCHITECTURE: "Single-File Offline PWA",
+  APP_NAME: "NOMICON",
+  APP_SHORT_NAME: "NOMICON",
+  APP_VERSION: "0.66",
 
   // 2. API Credentials & Cloud Paths
   RAWG_API_KEY: "db9f18921e714a36bb784e65b5fd424b",
@@ -22,9 +22,9 @@ window.CONFIG = {
 
   // 3. Companion Brand Assets (Keep image files flat in the same directory as index.html!)
   ASSETS: {
-    FAVICON_DESKTOP: "Favi Dsk PNG 512 v1.png",
-    FAVICON_MOBILE: "Favi iP PNG 1024 v1.png",
-    LOGO_BRAND: "Logo PNG v1.png"
+    FAVICON_DESKTOP: "Favicon_Desktop_1024_v1.png",
+    FAVICON_MOBILE: "Favicon_iPhone_1024_v1.png",
+    LOGO_BRAND: "Logo_v1.png"
   },
 
   // 4. App Defaults
@@ -90,7 +90,7 @@ window.CONFIG = {
     RAWG_SYNCED: "Select Title...",
     RAWG_UPDATED: "Select Title...",
     RELEASE_DATE: "Select Title...",
-    SEARCH_PLACEHOLDER: "🔍 Search the Nomicon...",
+    SEARCH_PLACEHOLDER: "🔍 Search the NOMICON...",
     STATUS: "Select Title...",
     TBA_LABEL: "To Be Announced...",
     THUMBNAIL: "Select Title...",

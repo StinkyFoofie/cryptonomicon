@@ -635,8 +635,7 @@ function formatWinnerBanner(str) {
   return splitEmoji(str);
 }
 
-// v0.70 DELTA [D-001]: Synchronize <meta name="color-scheme"> and inline scroll-container colorScheme
-// to force iOS WebKit WKChildScrollView to render dark-charcoal floating scrollbars on Light themes
+// v0.71 DELTA [D-001]: Synchronize <meta name="theme-color"> with active theme's explicit hex background
 function syncModalColorScheme(theme) {
   const active = theme || document.body.getAttribute('data-theme') || 'modern-dark';
   const isLight = ['minimalist-light', 'modern-light', 'cozy-village'].includes(active);
@@ -644,6 +643,11 @@ function syncModalColorScheme(theme) {
 
   const metaScheme = document.getElementById('meta-color-scheme');
   if (metaScheme) metaScheme.setAttribute('content', scheme);
+  
+  const metaThemeColor = document.getElementById('meta-theme-color');
+  if (metaThemeColor && C.THEME_BG_COLORS && C.THEME_BG_COLORS[active]) {
+    metaThemeColor.setAttribute('content', C.THEME_BG_COLORS[active]);
+  }
 
   document.documentElement.style.colorScheme = scheme;
   document.body.style.colorScheme = scheme;
@@ -2042,11 +2046,30 @@ function renderStatsDashboard() {
   `;
 }
 
-// v0.70 DELTA [D-001]: Sync data-theme & color-scheme across document, meta, and modal sub-scrollers
+// v0.71 DELTA [D-001]: Synchronize <meta name="theme-color"> with active theme's explicit hex background
 function applyTheme(theme) { 
   document.documentElement.setAttribute('data-theme', theme);
   document.body.setAttribute('data-theme', theme); 
-  syncModalColorScheme(theme);
+  
+  const active = theme || document.body.getAttribute('data-theme') || 'modern-dark';
+  const isLight = ['minimalist-light', 'modern-light', 'cozy-village'].includes(active);
+  const scheme = isLight ? 'light' : 'dark';
+
+  const metaScheme = document.getElementById('meta-color-scheme');
+  if (metaScheme) metaScheme.setAttribute('content', scheme);
+  
+  const metaThemeColor = document.getElementById('meta-theme-color');
+  if (metaThemeColor && C.THEME_BG_COLORS && C.THEME_BG_COLORS[active]) {
+    metaThemeColor.setAttribute('content', C.THEME_BG_COLORS[active]);
+  }
+
+  document.documentElement.style.colorScheme = scheme;
+  document.body.style.colorScheme = scheme;
+
+  document.querySelectorAll('.modal-overlay, .modal-content, .modal-body, .custom-options-container, .autocomplete-results').forEach(el => {
+    el.style.colorScheme = scheme;
+  });
+  
   if(Object.keys(games).length > 0) renderLibrary();
 }
 

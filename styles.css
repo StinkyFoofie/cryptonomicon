@@ -3,7 +3,6 @@
    ========================================================================== */
 /* --- 1. MODERN DARK (Default) --- */
 :root, [data-theme="modern-dark"] {
-  color-scheme: dark;
   --bg-base: #121212; --bg-surface: #1e1e1e; --bg-surface-hover: #2a2a2a; --bg-input: #2d2d2d; --bg-placeholder: #333333; --bg-backdrop: rgba(0, 0, 0, 0.75);
   --text-main: #ffffff; --text-muted: #a0a0a0; --text-inverse: #000000; --text-disabled: #666666;
   --border: #333333; --border-hover: #555555; --border-focus: #4da6ff; --accent: #4da6ff; --accent-hover: #3388ff;
@@ -12,6 +11,7 @@
   --shadow: 0 4px 16px rgba(0, 0, 0, 0.5); --font-main: 'Inter', -apple-system, sans-serif; --font-heading: 'Inter', sans-serif;
   --radius: 8px; --scrollbar-thumb: #555555; --scrollbar-track: #1e1e1e;
 }
+[data-theme="modern-dark"] { color-scheme: dark; }
 [data-theme="modern-dark"] .list-view .card-meta { font-size: 11px; }
 
 /* --- 2. MINIMALIST LIGHT --- */
@@ -23,7 +23,7 @@
   --accent-beat: #7e22ce;
   --success: #34c759; --warning: #ff9f0a; --danger: #ff3b30; --bg-badge: #e5e5ea; --text-badge: #1d1d1f;
   --shadow: 0 4px 16px rgba(0, 0, 0, 0.08); --font-main: system-ui, -apple-system, sans-serif; --font-heading: system-ui, -apple-system, sans-serif;
-  --radius: 8px; --scrollbar-thumb: #86868b; --scrollbar-track: #f5f5f7;
+  --radius: 8px; --scrollbar-thumb: #6e6e73; --scrollbar-track: #f5f5f7;
 }
 [data-theme="minimalist-light"] .list-view .card-meta { font-size: 11px; }
 
@@ -36,7 +36,7 @@
   --accent-beat: #4f46e5;
   --success: #10b981; --warning: #f59e0b; --danger: #ef4444; --bg-badge: #e0f2fe; --text-badge: #0369a1;
   --shadow: 0 4px 16px rgba(15, 23, 42, 0.08); --font-main: 'Plus Jakarta Sans', 'Inter', sans-serif; --font-heading: 'Plus Jakarta Sans', sans-serif;
-  --radius: 10px; --scrollbar-thumb: #94a3b8; --scrollbar-track: #f8fafc;
+  --radius: 10px; --scrollbar-thumb: #64748b; --scrollbar-track: #f8fafc;
 }
 [data-theme="modern-light"] .list-view .card-meta { font-size: 11px; }
 
@@ -184,11 +184,11 @@
   --accent-beat: #b86948;
   --success: #78a874; --warning: #d99a4e; --danger: #c75c5c; --bg-badge: #e2ede0; --text-badge: #4d694a;
   --shadow: 0 4px 14px rgba(74, 62, 53, 0.08); --font-main: 'Nunito', sans-serif; --font-heading: 'Quicksand', sans-serif;
-  --radius: 12px; --scrollbar-thumb: #9c8976; --scrollbar-track: #f5f0eb;
+  --radius: 12px; --scrollbar-thumb: #7d6b5c; --scrollbar-track: #f5f0eb;
 }
 [data-theme="cozy-village"] .list-view .card-meta { font-size: 11px; }
 
-/* v0.70 DELTA [D-001]: Explicit Modal & Sub-Scroller Color-Scheme Enforcement for iOS WebKit Floating Scrollbars */
+/* v0.71 DELTA [D-001]: Explicit Root, Modal & Sub-Scroller Color-Scheme Enforcement for iOS WebKit Floating Scrollbars */
 [data-theme="minimalist-light"],
 [data-theme="minimalist-light"] body,
 [data-theme="minimalist-light"] .modal-overlay,
@@ -258,7 +258,22 @@
   color-scheme: dark !important;
 }
 
-/* v0.70 DELTA [D-001]: Scope Custom WebKit Scrollbars Strictly to Desktop Fine-Pointer Devices so iOS Native Color-Scheme Scrollbars Render Unobstructed */
+/* v0.71 DELTA [D-001]: Scoped Light-Theme Touch Scrollbar Color Enforcement for iOS Safari & PWA */
+@media (hover: none), (pointer: coarse) {
+  [data-theme="minimalist-light"] .modal-body,
+  [data-theme="minimalist-light"] .custom-options-container,
+  [data-theme="minimalist-light"] .autocomplete-results,
+  [data-theme="modern-light"] .modal-body,
+  [data-theme="modern-light"] .custom-options-container,
+  [data-theme="modern-light"] .autocomplete-results,
+  [data-theme="cozy-village"] .modal-body,
+  [data-theme="cozy-village"] .custom-options-container,
+  [data-theme="cozy-village"] .autocomplete-results {
+    scrollbar-color: var(--scrollbar-thumb) transparent;
+  }
+}
+
+/* Scope Custom WebKit Scrollbars Strictly to Desktop Fine-Pointer Devices */
 @media (hover: hover) and (pointer: fine) {
   ::-webkit-scrollbar { width: 8px; height: 8px; }
   ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
@@ -267,10 +282,10 @@
 }
 
 /* ==========================================================================
-   STICKY COMMAND DOCK CLIPPING REMEDIATION
+   STICKY COMMAND DOCK CLIPPING & ROOT VIEWPORT LUMINANCE REMEDIATION
    ========================================================================== */
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { width: 100%; overflow-x: clip; overflow-y: scroll; scrollbar-gutter: stable; }
+html { width: 100%; overflow-x: clip; overflow-y: scroll; scrollbar-gutter: stable; background-color: var(--bg-base); color: var(--text-main); }
 body { width: 100%; overflow-x: clip; background-color: var(--bg-base); color: var(--text-main); font-family: var(--font-main); -webkit-font-smoothing: antialiased; }
 
 /* v0.67 DELTA [D-002]: Modal Open Scroll & Pull-to-Refresh Quarantine */
@@ -1007,7 +1022,7 @@ main { padding: 20px; min-height: calc(100vh - 140px); }
 .close-btn { background: none; border: none; font-size: 20px; color: var(--text-muted); padding: 0; width: auto; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; }
 .close-btn:hover { color: var(--text-main); }
 
-/* v0.66 DELTA [F-001] + v0.70 [D-001]: Mobile Modal Scroll Boundary Vignettes & Native WebKit Light/Dark Scrollbar Contrast */
+/* v0.71 DELTA [D-001]: Pure Solid Background on .modal-body for Unobstructed iOS WebKit Luminance & Scrollbar Contrast Detection */
 .modal-body {
   padding: 20px;
   overflow-y: auto;
@@ -1021,15 +1036,8 @@ main { padding: 20px; min-height: calc(100vh - 140px); }
   -webkit-overflow-scrolling: touch;
   touch-action: pan-y;
   color-scheme: inherit;
-  background:
-    linear-gradient(var(--bg-surface) 30%, rgba(0, 0, 0, 0)),
-    linear-gradient(rgba(0, 0, 0, 0), var(--bg-surface) 70%) 0 100%,
-    radial-gradient(farthest-side at 50% 0, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0)),
-    radial-gradient(farthest-side at 50% 100%, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0)) 0 100%;
-  background-repeat: no-repeat;
-  background-size: 100% 36px, 100% 36px, 100% 14px, 100% 14px;
-  background-attachment: local, local, scroll, scroll;
   background-color: var(--bg-surface);
+  background-image: none;
 }
 .modal-footer { padding: 15px 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; gap: 10px; background: var(--bg-surface); z-index: 2; touch-action: none; flex-shrink: 0; }
 

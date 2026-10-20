@@ -23,7 +23,7 @@
   --accent-beat: #7e22ce;
   --success: #34c759; --warning: #ff9f0a; --danger: #ff3b30; --bg-badge: #e5e5ea; --text-badge: #1d1d1f;
   --shadow: 0 4px 16px rgba(0, 0, 0, 0.08); --font-main: system-ui, -apple-system, sans-serif; --font-heading: system-ui, -apple-system, sans-serif;
-  --radius: 8px; --scrollbar-thumb: #c7c7cc; --scrollbar-track: #f5f5f7;
+  --radius: 8px; --scrollbar-thumb: #86868b; --scrollbar-track: #f5f5f7;
 }
 [data-theme="minimalist-light"] .list-view .card-meta { font-size: 11px; }
 
@@ -36,7 +36,7 @@
   --accent-beat: #4f46e5;
   --success: #10b981; --warning: #f59e0b; --danger: #ef4444; --bg-badge: #e0f2fe; --text-badge: #0369a1;
   --shadow: 0 4px 16px rgba(15, 23, 42, 0.08); --font-main: 'Plus Jakarta Sans', 'Inter', sans-serif; --font-heading: 'Plus Jakarta Sans', sans-serif;
-  --radius: 10px; --scrollbar-thumb: #cbd5e1; --scrollbar-track: #f8fafc;
+  --radius: 10px; --scrollbar-thumb: #94a3b8; --scrollbar-track: #f8fafc;
 }
 [data-theme="modern-light"] .list-view .card-meta { font-size: 11px; }
 
@@ -184,14 +184,87 @@
   --accent-beat: #b86948;
   --success: #78a874; --warning: #d99a4e; --danger: #c75c5c; --bg-badge: #e2ede0; --text-badge: #4d694a;
   --shadow: 0 4px 14px rgba(74, 62, 53, 0.08); --font-main: 'Nunito', sans-serif; --font-heading: 'Quicksand', sans-serif;
-  --radius: 12px; --scrollbar-thumb: #c2b2a1; --scrollbar-track: #f5f0eb;
+  --radius: 12px; --scrollbar-thumb: #9c8976; --scrollbar-track: #f5f0eb;
 }
 [data-theme="cozy-village"] .list-view .card-meta { font-size: 11px; }
 
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: var(--scrollbar-track); }
-::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: var(--radius); }
-::-webkit-scrollbar-thumb:hover { background: var(--border-hover); }
+/* v0.70 DELTA [D-001]: Explicit Modal & Sub-Scroller Color-Scheme Enforcement for iOS WebKit Floating Scrollbars */
+[data-theme="minimalist-light"],
+[data-theme="minimalist-light"] body,
+[data-theme="minimalist-light"] .modal-overlay,
+[data-theme="minimalist-light"] .modal-content,
+[data-theme="minimalist-light"] .modal-body,
+[data-theme="minimalist-light"] .custom-options-container,
+[data-theme="minimalist-light"] .autocomplete-results,
+[data-theme="modern-light"],
+[data-theme="modern-light"] body,
+[data-theme="modern-light"] .modal-overlay,
+[data-theme="modern-light"] .modal-content,
+[data-theme="modern-light"] .modal-body,
+[data-theme="modern-light"] .custom-options-container,
+[data-theme="modern-light"] .autocomplete-results,
+[data-theme="cozy-village"],
+[data-theme="cozy-village"] body,
+[data-theme="cozy-village"] .modal-overlay,
+[data-theme="cozy-village"] .modal-content,
+[data-theme="cozy-village"] .modal-body,
+[data-theme="cozy-village"] .custom-options-container,
+[data-theme="cozy-village"] .autocomplete-results {
+  color-scheme: light !important;
+}
+
+[data-theme="modern-dark"],
+[data-theme="modern-dark"] body,
+[data-theme="modern-dark"] .modal-overlay,
+[data-theme="modern-dark"] .modal-content,
+[data-theme="modern-dark"] .modal-body,
+[data-theme="modern-dark"] .custom-options-container,
+[data-theme="modern-dark"] .autocomplete-results,
+[data-theme="retro-arcade"],
+[data-theme="retro-arcade"] body,
+[data-theme="retro-arcade"] .modal-overlay,
+[data-theme="retro-arcade"] .modal-content,
+[data-theme="retro-arcade"] .modal-body,
+[data-theme="retro-arcade"] .custom-options-container,
+[data-theme="retro-arcade"] .autocomplete-results,
+[data-theme="synthwave-sunset"],
+[data-theme="synthwave-sunset"] body,
+[data-theme="synthwave-sunset"] .modal-overlay,
+[data-theme="synthwave-sunset"] .modal-content,
+[data-theme="synthwave-sunset"] .modal-body,
+[data-theme="synthwave-sunset"] .custom-options-container,
+[data-theme="synthwave-sunset"] .autocomplete-results,
+[data-theme="cyberpunk"],
+[data-theme="cyberpunk"] body,
+[data-theme="cyberpunk"] .modal-overlay,
+[data-theme="cyberpunk"] .modal-content,
+[data-theme="cyberpunk"] .modal-body,
+[data-theme="cyberpunk"] .custom-options-container,
+[data-theme="cyberpunk"] .autocomplete-results,
+[data-theme="gothic-crimson"],
+[data-theme="gothic-crimson"] body,
+[data-theme="gothic-crimson"] .modal-overlay,
+[data-theme="gothic-crimson"] .modal-content,
+[data-theme="gothic-crimson"] .modal-body,
+[data-theme="gothic-crimson"] .custom-options-container,
+[data-theme="gothic-crimson"] .autocomplete-results,
+[data-theme="wasteland-terminal"],
+[data-theme="wasteland-terminal"] body,
+[data-theme="wasteland-terminal"] .modal-overlay,
+[data-theme="wasteland-terminal"] .modal-content,
+[data-theme="wasteland-terminal"] .modal-body,
+[data-theme="wasteland-terminal"] .custom-options-container,
+[data-theme="wasteland-terminal"] .autocomplete-results {
+  color-scheme: dark !important;
+}
+
+/* v0.70 DELTA [D-001]: Scope Custom WebKit Scrollbars Strictly to Desktop Fine-Pointer Devices so iOS Native Color-Scheme Scrollbars Render Unobstructed */
+@media (hover: hover) and (pointer: fine) {
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+  ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: var(--radius); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--border-hover); }
+}
 
 /* ==========================================================================
    STICKY COMMAND DOCK CLIPPING REMEDIATION
@@ -934,7 +1007,7 @@ main { padding: 20px; min-height: calc(100vh - 140px); }
 .close-btn { background: none; border: none; font-size: 20px; color: var(--text-muted); padding: 0; width: auto; display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; }
 .close-btn:hover { color: var(--text-main); }
 
-/* v0.66 DELTA [F-001] + v0.69 [D-001]: Mobile Modal Scroll Boundary Vignettes & Native WebKit Scrollbar Restoration */
+/* v0.66 DELTA [F-001] + v0.70 [D-001]: Mobile Modal Scroll Boundary Vignettes & Native WebKit Light/Dark Scrollbar Contrast */
 .modal-body {
   padding: 20px;
   overflow-y: auto;
@@ -947,6 +1020,7 @@ main { padding: 20px; min-height: calc(100vh - 140px); }
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-y;
+  color-scheme: inherit;
   background:
     linear-gradient(var(--bg-surface) 30%, rgba(0, 0, 0, 0)),
     linear-gradient(rgba(0, 0, 0, 0), var(--bg-surface) 70%) 0 100%,

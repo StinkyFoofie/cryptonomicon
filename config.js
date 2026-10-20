@@ -6,7 +6,7 @@ window.CONFIG = {
   APP_ARCHITECTURE: "Single-File Offline PWAAS",
   APP_NAME: "NOMICON",
   APP_SHORT_NAME: "NOMICON",
-  APP_VERSION: "0.69",
+  APP_VERSION: "0.70",
 
   // 2. API Credentials & Cloud Paths
   RAWG_API_KEY: "db9f18921e714a36bb784e65b5fd424b",
@@ -20,11 +20,11 @@ window.CONFIG = {
     appId: "1:63649233927:web:c2717ba5797c3cf4243ea2"
   },
 
-  // 3. Companion Brand Assets (Keep image files flat in the same directory as index.html!)
+  // 3. Companion Brand Assets (Located in root /assets/ directory)
   ASSETS: {
-    FAVICON_DESKTOP: "Favicon_Desktop_1024_v1.png",
-    FAVICON_MOBILE: "Favicon_iPhone_1024_v1.png",
-    LOGO_BRAND: "Logo_v1.png"
+    FAVICON_DESKTOP: "assets/Favicon_Desktop_1024_v1.png",
+    FAVICON_MOBILE: "assets/Favicon_iPhone_1024_v1.png",
+    LOGO_BRAND: "assets/Logo_v1.png"
   },
 
   // 4. App Defaults

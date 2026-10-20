@@ -420,7 +420,7 @@ function initCustomDatePicker() {
   });
 }
 
-// --- Dynamic Asset Engine (with v0.69 [X-001] Transparent Margin Auto-Trimming) ---
+// --- Dynamic Asset Engine (with v0.70 [F-001] /assets/ Subdirectory Resolution & [X-001] Margin Auto-Trimming) ---
 function applyDynamicAssets() {
   if(!C.ASSETS) return;
   
@@ -432,23 +432,31 @@ function applyDynamicAssets() {
     return '';
   };
 
+  const resolveAssetPath = (rawPath) => {
+    if (!rawPath) return '';
+    const cleaned = String(rawPath).trim().replace(/^\.?\//, '');
+    return `./${cleaned}`;
+  };
+
   if(C.ASSETS.FAVICON_DESKTOP) {
     const el = document.getElementById('favicon-desktop');
-    if(el) { el.setAttribute('href', `./${C.ASSETS.FAVICON_DESKTOP}`); el.type = getMime(C.ASSETS.FAVICON_DESKTOP); }
+    const deskPath = resolveAssetPath(C.ASSETS.FAVICON_DESKTOP);
+    if(el) { el.setAttribute('href', deskPath); el.type = getMime(deskPath); }
   }
   
   if(C.ASSETS.FAVICON_MOBILE) {
     const el1 = document.getElementById('favicon-mobile-1');
     const el2 = document.getElementById('favicon-mobile-2');
-    const mime = getMime(C.ASSETS.FAVICON_MOBILE);
-    if(el1) { el1.setAttribute('href', `./${C.ASSETS.FAVICON_MOBILE}`); if(mime) el1.type = mime; }
-    if(el2) { el2.setAttribute('href', `./${C.ASSETS.FAVICON_MOBILE}`); if(mime) el2.type = mime; }
+    const mobPath = resolveAssetPath(C.ASSETS.FAVICON_MOBILE);
+    const mime = getMime(mobPath);
+    if(el1) { el1.setAttribute('href', mobPath); if(mime) el1.type = mime; }
+    if(el2) { el2.setAttribute('href', mobPath); if(mime) el2.type = mime; }
   }
   
   if(C.ASSETS.LOGO_BRAND) {
     const img = document.getElementById('brand-logo-img');
     if(img) {
-      const logoSrc = `./${C.ASSETS.LOGO_BRAND}`;
+      const logoSrc = resolveAssetPath(C.ASSETS.LOGO_BRAND);
       img.setAttribute('src', logoSrc);
       img.style.display = 'block';
 
@@ -627,10 +635,29 @@ function formatWinnerBanner(str) {
   return splitEmoji(str);
 }
 
+// v0.70 DELTA [D-001]: Synchronize <meta name="color-scheme"> and inline scroll-container colorScheme
+// to force iOS WebKit WKChildScrollView to render dark-charcoal floating scrollbars on Light themes
+function syncModalColorScheme(theme) {
+  const active = theme || document.body.getAttribute('data-theme') || 'modern-dark';
+  const isLight = ['minimalist-light', 'modern-light', 'cozy-village'].includes(active);
+  const scheme = isLight ? 'light' : 'dark';
+
+  const metaScheme = document.getElementById('meta-color-scheme');
+  if (metaScheme) metaScheme.setAttribute('content', scheme);
+
+  document.documentElement.style.colorScheme = scheme;
+  document.body.style.colorScheme = scheme;
+
+  document.querySelectorAll('.modal-overlay, .modal-content, .modal-body, .custom-options-container, .autocomplete-results').forEach(el => {
+    el.style.colorScheme = scheme;
+  });
+}
+
 // v0.66 DELTA [D-001]: Mobile WebKit Scroll-Anchor Lock Pattern
 let savedScrollY = 0;
 function toggleModalScrollLock(isActive) {
   if (isActive) {
+    syncModalColorScheme();
     if (!document.body.classList.contains('modal-open')) {
       savedScrollY = window.scrollY;
       document.body.style.position = 'fixed';
@@ -905,7 +932,7 @@ function init() {
   }
 
   els.btnSave.onclick = (e) => { e.preventDefault(); saveGameData(); };
-  els.btnDelPrompt.onclick = (e) => { e.preventDefault(); els.mDelete.classList.add('active'); };
+  els.btnDelPrompt.onclick = (e) => { e.preventDefault(); els.mDelete.classList.add('active'); syncModalColorScheme(); };
   els.btnCancelDel.onclick = () => els.mDelete.classList.remove('active');
   els.btnConfirmDel.onclick = deleteGame;
   
@@ -1014,7 +1041,7 @@ function init() {
     }
   };
 
-  els.btnClearCache.onclick = () => { els.mConfirmCache.classList.add('active'); };
+  els.btnClearCache.onclick = () => { els.mConfirmCache.classList.add('active'); syncModalColorScheme(); };
   els.btnCancelClearCache.onclick = () => { els.mConfirmCache.classList.remove('active'); };
   els.btnConfirmClearCache.onclick = () => {
     localStorage.removeItem('nomicon_db');
@@ -2015,10 +2042,11 @@ function renderStatsDashboard() {
   `;
 }
 
-// v0.69 DELTA [D-001]: Sync data-theme on both documentElement (html) and body for native iOS Safari color-scheme scrollbar contrast
+// v0.70 DELTA [D-001]: Sync data-theme & color-scheme across document, meta, and modal sub-scrollers
 function applyTheme(theme) { 
   document.documentElement.setAttribute('data-theme', theme);
   document.body.setAttribute('data-theme', theme); 
+  syncModalColorScheme(theme);
   if(Object.keys(games).length > 0) renderLibrary();
 }
 

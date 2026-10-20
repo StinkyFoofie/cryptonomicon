@@ -420,7 +420,7 @@ function initCustomDatePicker() {
   });
 }
 
-// --- Dynamic Asset Engine ---
+// --- Dynamic Asset Engine (with v0.69 [X-001] Transparent Margin Auto-Trimming) ---
 function applyDynamicAssets() {
   if(!C.ASSETS) return;
   
@@ -448,8 +448,54 @@ function applyDynamicAssets() {
   if(C.ASSETS.LOGO_BRAND) {
     const img = document.getElementById('brand-logo-img');
     if(img) {
-        img.setAttribute('src', `./${C.ASSETS.LOGO_BRAND}`);
-        img.style.display = 'block';
+      const logoSrc = `./${C.ASSETS.LOGO_BRAND}`;
+      img.setAttribute('src', logoSrc);
+      img.style.display = 'block';
+
+      // v0.69 DELTA [X-001]: Auto-trim transparent canvas margins from brand logo so version exponent hugs visible artwork
+      const rawImg = new Image();
+      rawImg.crossOrigin = 'anonymous';
+      rawImg.onload = () => {
+        try {
+          const w = rawImg.naturalWidth;
+          const h = rawImg.naturalHeight;
+          if (!w || !h) return;
+          const c = document.createElement('canvas');
+          c.width = w;
+          c.height = h;
+          const ctx = c.getContext('2d');
+          ctx.drawImage(rawImg, 0, 0);
+          const data = ctx.getImageData(0, 0, w, h).data;
+          let top = h, left = w, right = 0, bottom = 0;
+          let found = false;
+          for (let y = 0; y < h; y++) {
+            for (let x = 0; x < w; x++) {
+              const alpha = data[(y * w + x) * 4 + 3];
+              if (alpha > 16) {
+                if (x < left) left = x;
+                if (x > right) right = x;
+                if (y < top) top = y;
+                if (y > bottom) bottom = y;
+                found = true;
+              }
+            }
+          }
+          if (found && right >= left && bottom >= top) {
+            const trimW = right - left + 1;
+            const trimH = bottom - top + 1;
+            if (trimW < w || trimH < h) {
+              const out = document.createElement('canvas');
+              out.width = trimW;
+              out.height = trimH;
+              out.getContext('2d').drawImage(c, left, top, trimW, trimH, 0, 0, trimW, trimH);
+              img.src = out.toDataURL('image/png');
+            }
+          }
+        } catch (err) {
+          // Graceful fallback: keep raw img.src if canvas pixel read is restricted
+        }
+      };
+      rawImg.src = logoSrc;
     }
   }
 }
@@ -1969,7 +2015,9 @@ function renderStatsDashboard() {
   `;
 }
 
+// v0.69 DELTA [D-001]: Sync data-theme on both documentElement (html) and body for native iOS Safari color-scheme scrollbar contrast
 function applyTheme(theme) { 
+  document.documentElement.setAttribute('data-theme', theme);
   document.body.setAttribute('data-theme', theme); 
   if(Object.keys(games).length > 0) renderLibrary();
 }

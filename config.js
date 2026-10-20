@@ -6,7 +6,7 @@ window.CONFIG = {
   APP_ARCHITECTURE: "Single-File Offline PWAAS",
   APP_NAME: "NOMICON",
   APP_SHORT_NAME: "NOMICON",
-  APP_VERSION: "0.68",
+  APP_VERSION: "0.69",
 
   // 2. API Credentials & Cloud Paths
   RAWG_API_KEY: "db9f18921e714a36bb784e65b5fd424b",
